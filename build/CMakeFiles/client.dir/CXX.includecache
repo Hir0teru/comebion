@@ -1,0 +1,28 @@
+#IncludeRegexLine: ^[ 	]*#[ 	]*(include|import)[ 	]*[<"]([^">]+)([">])
+
+#IncludeRegexScan: ^.*$
+
+#IncludeRegexComplain: ^$
+
+#IncludeRegexTransform: 
+
+../src/shared/state.h
+state/Exemple.h
+../src/shared/state/Exemple.h
+
+../src/shared/state/Exemple.h
+
+/home/hiroteru/Documents/plt/src/client/main.cpp
+iostream
+-
+SFML/Graphics.hpp
+-
+state.h
+/home/hiroteru/Documents/plt/src/client/state.h
+
+/home/hiroteru/Documents/plt/src/shared/state/Exemple.cpp
+Exemple.h
+/home/hiroteru/Documents/plt/src/shared/state/Exemple.h
+
+/home/hiroteru/Documents/plt/src/shared/state/Exemple.h
+
