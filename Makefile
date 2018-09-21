@@ -18,10 +18,10 @@ bin/dia2code:
 	@make -s -j4 -C extern dia2code
 
 configure:
-	@mkdir -p build 
+	@mkdir -p build
 	@cd build && cmake ..
 
-build: bin/client 
+build: bin/client
 
 bin/client:
 	@make -s -j4 -C build client
@@ -61,4 +61,4 @@ rapport/module.pdf: src/module.dia
 	ps2pdf rapport/module.ps $@
 	rm -f rapport/module.ps
 
-.PHONY: configure build clean extern test 
+.PHONY: configure build clean extern test

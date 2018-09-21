@@ -8,8 +8,8 @@ file(REMOVE_RECURSE
   "CMakeFiles/dia2code.dir/src/parse_diagram.c.o"
   "CMakeFiles/dia2code.dir/src/includes.c.o"
   "CMakeFiles/dia2code.dir/src/main.c.o"
-  "/home/hiroteru/Documents/plt/bin/dia2code.pdb"
-  "/home/hiroteru/Documents/plt/bin/dia2code"
+  "/home/hiroteru/Documents/comebion/bin/dia2code.pdb"
+  "/home/hiroteru/Documents/comebion/bin/dia2code"
 )
 
 # Per-language clean rules from dependency scanning.

@@ -1,5 +1,5 @@
 cmake_minimum_required (VERSION 2.8)
-project (plt)
+project (comebion)
 
 # Directories
 include_directories ("${PROJECT_SOURCE_DIR}/src/client")
@@ -68,4 +68,3 @@ find_library(
 	DOC "microhttpd library"
 )
 #target_link_libraries(server ${MHD_LIBRARY})
-
