@@ -12,17 +12,17 @@ state/Exemple.h
 
 ../src/shared/state/Exemple.h
 
-/home/hiroteru/Documents/comebion/src/client/main.cpp
+/home/ombre/Documents/Projet/comebion/src/client/main.cpp
 iostream
 -
 SFML/Graphics.hpp
 -
 state.h
-/home/hiroteru/Documents/comebion/src/client/state.h
+/home/ombre/Documents/Projet/comebion/src/client/state.h
 
-/home/hiroteru/Documents/comebion/src/shared/state/Exemple.cpp
+/home/ombre/Documents/Projet/comebion/src/shared/state/Exemple.cpp
 Exemple.h
-/home/hiroteru/Documents/comebion/src/shared/state/Exemple.h
+/home/ombre/Documents/Projet/comebion/src/shared/state/Exemple.h
 
-/home/hiroteru/Documents/comebion/src/shared/state/Exemple.h
+/home/ombre/Documents/Projet/comebion/src/shared/state/Exemple.h
 

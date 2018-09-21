@@ -6,5 +6,5 @@ CXX_FLAGS =  -Wall -std=c++11 -pthread -g -O3 -DNDEBUG   -std=gnu++11
 
 CXX_DEFINES = 
 
-CXX_INCLUDES = -I/home/hiroteru/Documents/comebion/src/client -I/home/hiroteru/Documents/comebion/src/server -I/home/hiroteru/Documents/comebion/src/shared 
+CXX_INCLUDES = -I/home/ombre/Documents/Projet/comebion/src/client -I/home/ombre/Documents/Projet/comebion/src/server -I/home/ombre/Documents/Projet/comebion/src/shared 
 
