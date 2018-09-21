@@ -1,3 +1,0 @@
-/home/ombre/Documents/Projet/comebion/build/CMakeFiles/rebuild_cache.dir
-/home/ombre/Documents/Projet/comebion/build/CMakeFiles/edit_cache.dir
-/home/ombre/Documents/Projet/comebion/build/CMakeFiles/client.dir
