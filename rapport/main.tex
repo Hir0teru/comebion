@@ -1,0 +1,80 @@
+\documentclass[a4paper,12pt]{article}
+\usepackage{times}
+\usepackage[francais]{babel}
+\usepackage[utf8x]{inputenc}
+\setlength{\parindent}{4em}
+\setlength{\parskip}{1em}
+\usepackage[T1]{fontenc}
+\usepackage{amsmath}
+\usepackage{amssymb}
+\usepackage{graphicx}
+\usepackage{pdfpages}
+\usepackage{pdflscape}
+\usepackage{listings}
+\usepackage{longtable}
+\usepackage{indentfirst}
+\usepackage{subfigure}
+
+
+% -------- Sources externes ------------------
+\usepackage{graphicx}
+\usepackage{caption}
+\usepackage{rotating}
+\usepackage{pdflscape}
+\graphicspath{{images/}}
+\newcommand*{\sourcedir}{source/}
+\newcommand*{\annexedir}{annexes/}
+
+% -------- Insertion de tex ------------------
+\usepackage{import}
+
+\lstset{literate=
+{é}{{\'e}}1
+{è}{{\`e}}1
+{ê}{{\^e}}1
+{à}{{\`a}}1
+{â}{{\^a}}1
+}
+\lstset{language=C++,
+                basicstyle=\footnotesize,
+                keywordstyle=\footnotesize\color{blue},
+                otherkeywords={override,nullptr}
+}
+\definecolor{orange}{rgb}{0.8,0.4,0.0}
+\definecolor{darkblue}{rgb}{0.0,0.0,0.6}
+\definecolor{cyan}{rgb}{0.0,0.6,0.6}
+\lstdefinelanguage{JSON}
+{
+  basicstyle=\normalsize,
+  columns=fullflexible,
+  showstringspaces=false,
+  commentstyle=\color{gray}\upshape,
+  morestring=[b]",
+  morestring=[s]{>}{<},
+  morecomment=[s]{<?}{?>},
+  stringstyle=\color{orange},
+  identifierstyle=\color{darkblue},
+  keywordstyle=\color{blue},
+  morekeywords={string,number,array,object}% list your attributes here
+}
+
+\sloppy
+
+\setlength{\topmargin}{0cm}
+\setlength{\headsep}{0.in}
+\setlength{\headheight}{0.in}
+\setlength{\evensidemargin}{0cm}
+\setlength{\oddsidemargin}{-1cm}
+\textwidth 18cm
+\textheight 25cm
+\graphicspath{{image/}}
+
+\begin{document}
+\import{\sourcedir}{garde.tex}
+\import{\sourcedir}{presentation.tex}
+\import{\sourcedir}{etats.tex}
+\import{\sourcedir}{rendu.tex}
+\import{\sourcedir}{regles.tex}
+\import{\sourcedir}{IA.tex}
+\import{\sourcedir}{modularisation.tex}
+\end{document}
