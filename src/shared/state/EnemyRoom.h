@@ -30,8 +30,8 @@ namespace state {
   private:
     std::vector<std::shared_ptr<Enemy>> enemies;
     std::vector<std::shared_ptr<DrawPile>> drawPiles;
-    std::vector<std::shared_ptr<Hand>> hand;
-    std::vector<std::shared_ptr<DiscardPile>> discardPile;
+    std::vector<std::shared_ptr<Hand>> hands;
+    std::vector<std::shared_ptr<DiscardPile>> discardPiles;
     int turn;
     int EntityTurn;
     bool isGameLost;

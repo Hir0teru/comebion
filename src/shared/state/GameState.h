@@ -17,7 +17,7 @@ namespace state {
 
 namespace state {
 
-  /// class GameState -
+  /// class GameState - 
   class GameState {
     // Associations
     // Attributes
@@ -27,12 +27,7 @@ namespace state {
     std::shared_ptr<Rules> rules;
     // Operations
   public:
-    GameState (){
-      rules = Rules();
-      map = Map();
-      player1 = Player();
-      players = [player1];
-    };
+    GameState ();
     std::vector<std::shared_ptr<Player>> GetPlayers ();
     std::shared_ptr<Map> GetMap ();
     std::shared_ptr<Rules> GetRules ();
