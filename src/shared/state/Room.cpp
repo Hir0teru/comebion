@@ -3,26 +3,26 @@
 using namespace state;
 
   /// class Room -
-Room::Room (int roomNumber, string element, bool isSpecialTrainingRoom, bool isEnemyRoom, bool isSleepRoom) {
+Room::Room (int roomNb, std::string elem, bool isSTR, bool isER, bool isSR) {
     // Attributes
-    roomNumber = roomNumber;
-    element = element;
-    if isSleepRoom{
-      imageMapRoom = "/home/ombre/Documents/Projet/comebion/res/textures/background/elements.jpg"
-      imageInsideRoom = "/home/ombre/Documents/Projet/comebion/res/textures/background/air/sleep room.png"
+    roomNumber = roomNb;
+    element = elem;
+    if (isSR) {
+      imageMapRoom = "/home/ombre/Documents/Projet/comebion/res/textures/background/elements.jpg";
+      imageInsideRoom = "/home/ombre/Documents/Projet/comebion/res/textures/background/air/sleep room.png";
     }
-    if isEnemyRoom{
-      imageMapRoom = "/home/ombre/Documents/Projet/comebion/res/textures/background/elements.jpg"
-      imageInsideRoom = "/home/ombre/Documents/Projet/comebion/res/textures/background/air/airtemple1.jpg"
+    if (isER) {
+      imageMapRoom = "/home/ombre/Documents/Projet/comebion/res/textures/background/elements.jpg";
+      imageInsideRoom = "/home/ombre/Documents/Projet/comebion/res/textures/background/air/airtemple1.jpg";
     }
-    if isEnemyRoom{
-      imageMapRoom = "/home/ombre/Documents/Projet/comebion/res/textures/background/elements.jpg"
-      imageInsideRoom = "/home/ombre/Documents/Projet/comebion/res/textures/background/air/air_temple.jpg"
+    if (isSTR) {
+      imageMapRoom = "/home/ombre/Documents/Projet/comebion/res/textures/background/elements.jpg";
+      imageInsideRoom = "/home/ombre/Documents/Projet/comebion/res/textures/background/air/air_temple.jpg";
     }
 
-    isSpecialTrainingRoom = isSpecialTrainingRoom;
-    isEnemyRoom = isEnemyRoom;
-    isSleepRoom = isEnemyRoom;
+    isSpecialTrainingRoom = isSTR;
+    isEnemyRoom = isER;
+    isSleepRoom = isSR;
     // Operations
 }
 
@@ -33,7 +33,7 @@ Room::Room (int roomNumber, string element, bool isSpecialTrainingRoom, bool isE
       return imageInsideRoom;
     }
     bool Room::GetIsSpecialTrainingRoom (){
-      return GetIsSpecialTrainingRoom;
+      return isSpecialTrainingRoom;
     }
     bool Room::GetIsEnemyRoom (){
       return isEnemyRoom;

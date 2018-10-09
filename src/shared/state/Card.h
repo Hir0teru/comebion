@@ -47,8 +47,7 @@ namespace state {
     std::vector<std::shared_ptr<Buff>> buffs;
     // Operations
   public:
-    Card ();
-    Card (std::string type, std::string element);
+    Card (std::string , std::string );
     int GetCost ();
     void SetCost (int );
     int GetTarget ();
