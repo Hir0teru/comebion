@@ -3,7 +3,7 @@
 using namespace state;
 
   /// class Room -
-Room::Room (int roomNumber, string element, bool isSpecialTrainingRoom, bool isEnemyRoom, bool isSleepRoom) {
+Room::Room (int roomNumber, std::string element, bool isSpecialTrainingRoom, bool isEnemyRoom, bool isSleepRoom) {
     // Attributes
     roomNumber = roomNumber;
     element = element;
