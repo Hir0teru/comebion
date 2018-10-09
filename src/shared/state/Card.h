@@ -48,6 +48,7 @@ namespace state {
     // Operations
   public:
     Card ();
+    Card (std::string type, std::string element);
     int GetCost ();
     void SetCost (int );
     int GetTarget ();
