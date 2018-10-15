@@ -25,10 +25,10 @@ namespace state {
   public:
     Map ();
     std::vector<std::shared_ptr<Floor>> GetFloors ();
-    int GetCurrentFloorNb ();
-    int GetCurrentRoomNb ();
-    void SetCurrentFloorNb (int );
-    void SetCurrentRoomNb (int );
+    int GetCurrentFloor ();
+    int GetCurrentRoom ();
+    void SetCurrentFloor (int newFloor);
+    void SetCurrentRoom (int newRoom);
     // Setters and Getters
   };
 

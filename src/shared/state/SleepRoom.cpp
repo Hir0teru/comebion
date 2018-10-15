@@ -2,9 +2,9 @@
 
 using namespace state;
 
-SleepRoom::SleepRoom(int heal_amount){
-  heal = heal_amount;
-}
+// SleepRoom::SleepRoom(int heal_amount){
+//   heal = heal_amount;
+// }
 
 int SleepRoom::GetHeal(){
   return heal;

@@ -10,15 +10,15 @@ namespace state {
   class InitPlayer {
     // Attributes
   private:
-    std::string BaseElement;
-    bool playerControlledByIA     = false;
+    std::string firstElement;
+    bool playerControlledByAI     = false;
     // Operations
   public:
     InitPlayer ();
     std::string GetFirstElement ();
-    void SetFirstElement (std::string );
-    bool GetPlayerControlledByIA ();
-    void SetPlayerControlledByIA (bool );
+    void SetFirstElement (std::string firstElem);
+    bool GetPlayerControlledByAI ();
+    void SetPlayerControlledByAI (bool controlledByAI);
     // Setters and Getters
   };
 

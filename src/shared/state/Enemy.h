@@ -8,10 +8,12 @@
 namespace state {
   class EnemySkill;
   class Entity;
+  class Card;
 }
 
 #include "EnemySkill.h"
 #include "Entity.h"
+#include "Card.h"
 
 namespace state {
 
@@ -20,16 +22,16 @@ namespace state {
     // Associations
     // Attributes
   public:
-    std::vector<std::shared_ptr<Card>> Reward;
+    std::vector<std::shared_ptr<Card>> reward;
     std::vector<std::shared_ptr<EnemySkill>> skills;
     std::shared_ptr<EnemySkill> intent;
     // Operations
   public:
     Enemy ();
     std::vector<std::shared_ptr<EnemySkill>> GetSkills ();
-    void SetSkills (std::vector<std::shared_ptr<EnemySkill>> );
+    void SetSkills (std::vector<std::shared_ptr<EnemySkill>> newSkills);
     std::shared_ptr<EnemySkill> GetIntent ();
-    void SetIntent (std::shared_ptr<EnemySkill> );
+    void SetIntent (std::shared_ptr<EnemySkill> newIntent);
     // Setters and Getters
   };
 

@@ -29,7 +29,7 @@ namespace state {
     std::string GetElement ();
     std::string GetFloorImage ();
     std::vector<std::shared_ptr<Room>> GetRooms ();
-    void SetRooms (std::vector<std::shared_ptr<Room>> );
+    void SetRooms (std::vector<std::shared_ptr<Room>> newRooms);
     // Setters and Getters
   };
 

@@ -18,8 +18,8 @@ namespace state {
     // Associations
     // Attributes
   private:
-    bool IsGameLost;
-    bool IsGameOver;
+    bool isGameLost;
+    bool isGameOver;
     int nbPlayers;
     std::vector<std::shared_ptr<InitPlayer>> initPlayer;
     // Operations
@@ -27,12 +27,12 @@ namespace state {
     Rules ();
     bool GetIsGameLost ();
     bool GetIsGameOver ();
-    void SetIsGameLost (bool );
-    void SetIsGameOver (bool );
+    void SetIsGameLost (bool lost);
+    void SetIsGameOver (bool over);
     int GetNbPlayers ();
-    void SetNbPlayers (int );
-    InitPlayer GetInitPlayer ();
-    void SetInitPlayer (InitPlayer );
+    void SetNbPlayers (int newNbPlayers);
+    std::vector<std::shared_ptr<InitPlayer>> GetInitPlayer ();
+    void SetInitPlayer (std::vector<std::shared_ptr<InitPlayer>> newInitPlayer);
     // Setters and Getters
   };
 
