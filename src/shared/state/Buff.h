@@ -10,7 +10,7 @@ namespace state {
   class Buff {
     // Attributes
   public:
-    std::string nom;
+    std::string name;
     int nbTurn;
     // Operations
   public:
