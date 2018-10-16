@@ -3,7 +3,7 @@
 using namespace state;
 
 
-Player::Player() : Entity(){}
+//Player::Player() : Entity(){}
 // int energy;
 // std::shared_ptr<Deck> deck;
 
