@@ -13,7 +13,7 @@ Deck::Deck (std::string element, int size){
   for (int i = 5; i < 10; i++){
     cards[i].reset (new Card("basic defense", element));
   }
-  size = 10;
+  this -> size = size;
   sizeMax = 15;
 }
 
