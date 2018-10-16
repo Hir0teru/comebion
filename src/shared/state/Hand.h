@@ -2,14 +2,11 @@
 #ifndef STATE__HAND__H
 #define STATE__HAND__H
 
-#include <memory>
 
 namespace state {
-  class Player;
   class DeckParts;
 }
 
-#include "Player.h"
 #include "DeckParts.h"
 
 namespace state {
@@ -21,7 +18,7 @@ namespace state {
     int sizeMax     = 7;
     // Operations
   public:
-    Hand (std::shared_ptr<Player> );
+    Hand ();
     int GetSizeMax ();
     // Setters and Getters
   };

@@ -6,9 +6,11 @@
 #include <memory>
 
 namespace state {
+  class Player;
   class Card;
 }
 
+#include "Player.h"
 #include "Card.h"
 
 namespace state {
@@ -27,6 +29,7 @@ namespace state {
     // Operations
   public:
     DeckParts ();
+    DeckParts (std::shared_ptr<Player> player);
     int GetPlayerId ();
     bool GetIsDiscardPile ();
     bool GetIsDrawPile ();
