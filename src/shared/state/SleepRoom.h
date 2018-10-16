@@ -18,6 +18,7 @@ namespace state {
     int heal;
     // Operations
   public:
+    SleepRoom ();
     SleepRoom (int heal_amount);
     int GetHeal ();
     void SetHeal (int );

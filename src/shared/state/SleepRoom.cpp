@@ -3,7 +3,7 @@
 using namespace state;
 
 // SleepRoom::SleepRoom(int heal_amount){
-//   heal = heal_amount;
+//   this->heal = heal_amount;
 // }
 
 int SleepRoom::GetHeal(){
