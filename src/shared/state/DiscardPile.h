@@ -2,11 +2,14 @@
 #ifndef STATE__DISCARDPILE__H
 #define STATE__DISCARDPILE__H
 
+#include <memory>
 
 namespace state {
+  class Player;
   class DeckParts;
 }
 
+#include "Player.h"
 #include "DeckParts.h"
 
 namespace state {
@@ -15,7 +18,7 @@ namespace state {
   class DiscardPile : public state::DeckParts {
     // Operations
   public:
-    DiscardPile ();
+    DiscardPile (std::shared_ptr<Player> player);
     // Setters and Getters
   };
 

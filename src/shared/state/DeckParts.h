@@ -29,7 +29,7 @@ namespace state {
     // Operations
   public:
     DeckParts ();
-    DeckParts (std::shared_ptr<Player> player);
+    DeckParts (std::shared_ptr<Player> player, bool isHand, bool isDiscardPile, bool isDrawPile);
     int GetPlayerId ();
     bool GetIsDiscardPile ();
     bool GetIsDrawPile ();

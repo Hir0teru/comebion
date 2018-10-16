@@ -13,3 +13,11 @@ std::shared_ptr<Map> GameState::GetMap(){
 std::shared_ptr<Rules> GameState::GetRules(){
   return rules;
 }
+
+bool GameState::GetIsInsideRoom (){
+  return isInsideRoom;
+}
+
+void GameState::SetIsInsideRoom (bool newIsInsideRoom){
+  this->isInsideRoom = newIsInsideRoom;
+}

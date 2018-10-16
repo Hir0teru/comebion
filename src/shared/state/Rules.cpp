@@ -10,12 +10,12 @@ bool Rules::GetIsGameOver (){
   return isGameOver;
 }
 
-void Rules::SetIsGameLost (bool lost){
-  this->isGameLost = lost;
+void Rules::SetIsGameLost (bool newIsGamesLost){
+  this->isGameLost = newIsGamesLost;
 }
 
-void Rules::SetIsGameOver (bool over){
-  this->isGameOver = over;
+void Rules::SetIsGameOver (bool newIsGameOver){
+  this->isGameOver = newIsGameOver;
 }
 
 int Rules::GetNbPlayers (){
