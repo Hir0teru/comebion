@@ -17,3 +17,11 @@ std::shared_ptr<EnemySkill> Enemy::GetIntent (){
 void Enemy::SetIntent (std::shared_ptr<EnemySkill> newIntent){
   this->intent = newIntent;
 }
+
+std::vector<std::shared_ptr<Card>> Enemy::GetReward (){
+  return reward;
+}
+
+void Enemy::SetReward (std::vector<std::shared_ptr<Card>> newReward){
+  this->reward = newReward;
+}

@@ -40,37 +40,49 @@ Card::Card (std::string type, std::string element){
 int Card::GetCost (){
   return cost;
 };
+
 void Card::SetCost (int cost){
   cost = cost;
 };
+
 int Card::GetTarget (){
   return target;
 };
+
 std::string Card::GetImage (){
   return image;
 };
+
 std::string Card::GetElement (){
   return element;
 };
+
 int Card::GetAttack (){
   return attack;
 };
+
 int Card::GetBlock (){
   return block;
 };
+
 int Card::GetDraw (){
   return draw;
 };
+
 int Card::GetDiscard (){
   return discard;
 };
+
 int Card::GetHeal (){
   return heal;
 };
+
 std::vector<std::shared_ptr<Debuff>> Card::GetDebuffs (){
   return debuffs;
 };
+
 std::vector<std::shared_ptr<Buff>> Card::GetBuffs (){
   return buffs;
 };
+
 // Setters and Getters

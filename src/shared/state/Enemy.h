@@ -21,8 +21,8 @@ namespace state {
   class Enemy : public state::Entity {
     // Associations
     // Attributes
-  public:
-    std::vector<std::shared_ptr<Card>> Reward;
+  private:
+    std::vector<std::shared_ptr<Card>> reward;
     std::vector<std::shared_ptr<EnemySkill>> skills;
     std::shared_ptr<EnemySkill> intent;
     // Operations
