@@ -38,6 +38,6 @@ void EnemyRoom::SetDiscardPiles (std::vector<std::shared_ptr<DiscardPile>> disca
   this->discardPiles = discardPileVector;
 }
 
-void EnemyRoom::SetHand (std::vector<std::shared_ptr<Hand>> handVector){
+void EnemyRoom::SetHands (std::vector<std::shared_ptr<Hand>> handVector){
   this->hands = handVector;
 }

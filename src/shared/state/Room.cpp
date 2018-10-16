@@ -3,28 +3,28 @@
 using namespace state;
 
   /// class Room -
-Room::Room (int roomNb, std::string elem, bool isSTR, bool isER, bool isSR) {
-    // Attributes
-    roomNumber = roomNb;
-    element = elem;
-    if (isSR) {
-      imageMapRoom = "/home/ombre/Documents/Projet/comebion/res/textures/background/elements.jpg";
-      imageInsideRoom = "/home/ombre/Documents/Projet/comebion/res/textures/background/air/sleep room.png";
-    }
-    if (isER) {
-      imageMapRoom = "/home/ombre/Documents/Projet/comebion/res/textures/background/elements.jpg";
-      imageInsideRoom = "/home/ombre/Documents/Projet/comebion/res/textures/background/air/airtemple1.jpg";
-    }
-    if (isSTR) {
-      imageMapRoom = "/home/ombre/Documents/Projet/comebion/res/textures/background/elements.jpg";
-      imageInsideRoom = "/home/ombre/Documents/Projet/comebion/res/textures/background/air/air_temple.jpg";
-    }
-
-    isSpecialTrainingRoom = isSTR;
-    isEnemyRoom = isER;
-    isSleepRoom = isSR;
-    // Operations
-}
+// Room::Room (int roomNb, std::string elem, bool isSTR, bool isER, bool isSR) {
+//     // Attributes
+//     roomNumber = roomNb;
+//     element = elem;
+//     if (isSR) {
+//       imageMapRoom = "/home/ombre/Documents/Projet/comebion/res/textures/background/elements.jpg";
+//       imageInsideRoom = "/home/ombre/Documents/Projet/comebion/res/textures/background/air/sleep room.png";
+//     }
+//     if (isER) {
+//       imageMapRoom = "/home/ombre/Documents/Projet/comebion/res/textures/background/elements.jpg";
+//       imageInsideRoom = "/home/ombre/Documents/Projet/comebion/res/textures/background/air/airtemple1.jpg";
+//     }
+//     if (isSTR) {
+//       imageMapRoom = "/home/ombre/Documents/Projet/comebion/res/textures/background/elements.jpg";
+//       imageInsideRoom = "/home/ombre/Documents/Projet/comebion/res/textures/background/air/air_temple.jpg";
+//     }
+//
+//     isSpecialTrainingRoom = isSTR;
+//     isEnemyRoom = isER;
+//     isSleepRoom = isSR;
+//     // Operations
+// }
 
     std::string Room::GetImageMapRoom (){
       return imageMapRoom;
