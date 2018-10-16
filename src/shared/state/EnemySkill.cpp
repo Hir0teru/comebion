@@ -2,6 +2,20 @@
 #include "EnemyRoom.h"
 using namespace state;
 
+EnemySkill::EnemySkill (){}
+EnemySkill::EnemySkill (int attack, int block, std::vector<std::shared_ptr<Buff>> buffs,
+   std::vector<std::shared_ptr<Debuff>> debuffs, std::string intentimage, int cooldown){
+     this -> attack = attack;
+     this -> block = block;
+     this -> buffs = buffs;
+     this -> debuffs = debuffs;
+     this -> intentImage = intentimage;
+     this -> cooldown = cooldown;
+     turnsBeforeUse = 0;
+   }
+
+
+
 //enemySkill();
 int EnemySkill::GetAttack (){
   return attack;
