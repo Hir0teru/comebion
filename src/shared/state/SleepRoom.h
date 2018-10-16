@@ -2,6 +2,7 @@
 #ifndef STATE__SLEEPROOM__H
 #define STATE__SLEEPROOM__H
 
+#include <string>
 
 namespace state {
   class Room;
@@ -19,7 +20,7 @@ namespace state {
     // Operations
   public:
     SleepRoom ();
-    SleepRoom (int heal_amount);
+    SleepRoom (int roomNumber, std::string element, int heal_amount);
     int GetHeal ();
     void SetHeal (int );
     // Setters and Getters

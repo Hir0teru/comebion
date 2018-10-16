@@ -20,8 +20,6 @@ namespace state {
   class Entity {
     // Associations
     // Attributes
-  public:
-    int block;
   private:
     std::string name;
     int life;
@@ -33,14 +31,15 @@ namespace state {
     int statAttack;
     /// la stat de block s'ajoute à la valeur de block de la carte/skill jouée/réalisé
     int statBlock;
+    int block;
     std::vector<std::shared_ptr<Buff>> buffs;
     std::vector<std::shared_ptr<Debuff>> debuffs;
     bool isPlayer;
-    bool isEnemy;
     bool isEntityAlive;
     // Operations
   public:
     Entity ();
+    Entity (std::string name, std::string element, std::string image, int statAttack, int statBlock, bool isPlayer);
     int GetLife ();
     void SetLife (int );
     int GetId ();
@@ -59,8 +58,6 @@ namespace state {
     void SetDebuffs (std::vector<std::shared_ptr<Debuff>> );
     bool GetIsPlayer ();
     void SetIsPlayer (bool );
-    bool GetIsEnemy ();
-    void SetIsEnemy (bool );
     int GetBlock ();
     void SetBlock (int );
     // Setters and Getters

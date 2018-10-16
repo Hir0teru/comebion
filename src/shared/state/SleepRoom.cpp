@@ -3,9 +3,15 @@
 using namespace state;
 
 
-// SleepRoom::SleepRoom(int heal_amount){
-//   this->heal = heal_amount;
-// }
+SleepRoom::SleepRoom(): Room(0, "air", false, false, true), heal(10)
+{
+
+}
+
+SleepRoom::SleepRoom(int roomNumber, std::string element, int heal_amount): Room(roomNumber, element, false, false, true), heal(heal_amount)
+{
+
+}
 
 int SleepRoom::GetHeal(){
   return heal;

@@ -74,14 +74,6 @@ void Entity::SetIsPlayer (bool newIsPlayer){
   this->isPlayer = newIsPlayer;
 }
 
-bool Entity::GetIsEnemy (){
-  return isEnemy;
-}
-
-void Entity::SetIsEnemy (bool newIsEnemy){
-  this->isEnemy = newIsEnemy;
-}
-
 int Entity::GetBlock (){
   return block;
 }
