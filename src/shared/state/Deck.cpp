@@ -2,6 +2,21 @@
 
 using namespace state;
 
+
+
+Deck::Deck (){}
+Deck::Deck (std::string element, int size){
+  cards.reserve(15);
+  for (int i = 0; i < 5 ; i++){
+    cards[i].reset( new Card("basic attack", element));
+  }
+  for (int i = 5; i < 10; i++){
+    cards[i].reset (new Card("basic defense", element));
+  }
+  size = 10;
+  sizeMax = 15;
+}
+
 std::vector<std::shared_ptr<Card>> Deck::GetCards (){
   return cards;
 }
