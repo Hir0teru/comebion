@@ -2,6 +2,25 @@
 
 using namespace state;
 
+DeckParts::DeckParts(){
+
+}
+DeckParts::DeckParts(std::shared_ptr<Player> player, bool isHand, bool isDiscardPile, bool isDrawPile){
+  this -> isHand = isHand;
+  this -> isDiscardPile = isDiscardPile;
+  this -> isDrawPile = isDrawPile;
+  if (isDrawPile) {
+    cards = player->GetDeck()->GetCards();
+    size = player->GetDeck()->GetSize();
+
+  }
+  else{
+    size = 0;
+  }
+  playerId = player->GetId();
+  // int size;
+}
+
 int DeckParts::GetPlayerId (){
   return playerId;
 }
