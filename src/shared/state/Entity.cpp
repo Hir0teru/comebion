@@ -2,6 +2,21 @@
 
 using namespace state;
 
+
+Entity::Entity (){}
+Entity::Entity (std::string name, std::string element, std::string image, int statAttack, int statBlock, bool isPlayer, int life, int id){
+  this->name = name;
+  this -> id = id;
+  this -> isPlayer = isPlayer;
+  this -> element = element;
+  this -> image = image;
+  this -> statAttack = statAttack;
+  this -> statBlock = statBlock;
+  this -> life = life;
+  block = 0;
+  isEntityAlive = true;
+}
+
 int Entity::GetLife (){
   return life;
 }
