@@ -17,7 +17,7 @@ namespace state {
     Buff ();
     std::string GetName ();
     int GetNbTurn ();
-    void SetNbTurn (int );
+    void SetNbTurn (int newNbTurn);
     // Setters and Getters
   };
 

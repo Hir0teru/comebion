@@ -25,7 +25,7 @@ namespace state {
   public:
     Deck ();
     std::vector<std::shared_ptr<Card>> GetCards ();
-    void SetCards (std::vector<std::shared_ptr<Card>> newCards);
+    void SetCards (std::vector<std::shared_ptr<Card>> newDeck);
     int GetSize ();
     void SetSize (int newSize);
     int GetSizeMax ();

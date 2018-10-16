@@ -18,12 +18,16 @@ namespace state {
   class Player : public state::Entity {
     // Associations
     // Attributes
-  public:
+  private:
     int energy;
     std::shared_ptr<Deck> deck;
     // Operations
   public:
     Player ();
+    int GetEnergy ();
+    void SetEnergy (int newEnergy);
+    std::shared_ptr<Deck> GetDeck ();
+    void SetDeck (std::shared_ptr<Deck> newDeck);
     // Setters and Getters
   };
 

@@ -16,9 +16,9 @@ namespace state {
   public:
     InitPlayer ();
     std::string GetFirstElement ();
-    void SetFirstElement (std::string firstElem);
+    void SetFirstElement (std::string newFirstElement);
     bool GetPlayerControlledByAI ();
-    void SetPlayerControlledByAI (bool controlledByAI);
+    void SetPlayerControlledByAI (bool newPlayerCBIA);
     // Setters and Getters
   };
 

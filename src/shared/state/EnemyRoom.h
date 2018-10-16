@@ -47,7 +47,7 @@ namespace state {
     std::vector<std::shared_ptr<Hand>> GetHands ();
     void SetDrawPiles (std::vector<std::shared_ptr<DrawPile>> );
     void SetDiscardPiles (std::vector<std::shared_ptr<DiscardPile>> );
-    void SetHand (std::vector<std::shared_ptr<Hand>> );
+    void SetHands (std::vector<std::shared_ptr<Hand>> );
     // Setters and Getters
   };
 

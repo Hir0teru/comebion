@@ -27,8 +27,8 @@ namespace state {
     std::vector<std::shared_ptr<Floor>> GetFloors ();
     int GetCurrentFloor ();
     int GetCurrentRoom ();
-    void SetCurrentFloor (int newFloor);
-    void SetCurrentRoom (int newRoom);
+    void SetCurrentFloor (int );
+    void SetCurrentRoom (int );
     // Setters and Getters
   };
 

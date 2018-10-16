@@ -22,7 +22,6 @@ namespace state {
     // Attributes
   public:
     int block;
-    bool isEntityAlive;
   private:
     std::string name;
     int life;
@@ -38,31 +37,32 @@ namespace state {
     std::vector<std::shared_ptr<Debuff>> debuffs;
     bool isPlayer;
     bool isEnemy;
+    bool isEntityAlive;
     // Operations
   public:
     Entity ();
     int GetLife ();
-    void SetLife (int newLife);
+    void SetLife (int );
     int GetId ();
-    void SetId (int newId);
+    void SetId (int );
     std::string GetElement ();
-    void SetElement (std::string newElement);
+    void SetElement (std::string );
     std::string GetImage ();
-    void SetImage (std::string newImage);
+    void SetImage (std::string );
     int GetStatAttack ();
-    void SetStatAttack (int newStatAttack);
+    void SetStatAttack (int );
     int GetStatBlock ();
-    void SetStatBlock (int newStatBlock);
+    void SetStatBlock (int );
     std::vector<std::shared_ptr<Buff>> GetBuffs ();
-    void SetBuffs (std::vector<std::shared_ptr<Buff>> newBuffs);
+    void SetBuffs (std::vector<std::shared_ptr<Buff>> );
     std::vector<std::shared_ptr<Debuff>> GetDebuffs ();
-    void SetDebuffs (std::vector<std::shared_ptr<Debuff>> newDebuffs);
+    void SetDebuffs (std::vector<std::shared_ptr<Debuff>> );
     bool GetIsPlayer ();
-    void SetIsPlayer (bool newIsPlayer);
+    void SetIsPlayer (bool );
     bool GetIsEnemy ();
-    void SetIsEnemy (bool newIsEnemy);
+    void SetIsEnemy (bool );
     int GetBlock ();
-    void SetBlock (int newBlock);
+    void SetBlock (int );
     // Setters and Getters
   };
 

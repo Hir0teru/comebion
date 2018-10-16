@@ -27,8 +27,8 @@ namespace state {
     Rules ();
     bool GetIsGameLost ();
     bool GetIsGameOver ();
-    void SetIsGameLost (bool lost);
-    void SetIsGameOver (bool over);
+    void SetIsGameLost (bool newIsGamesLost);
+    void SetIsGameOver (bool newIsGameOver);
     int GetNbPlayers ();
     void SetNbPlayers (int newNbPlayers);
     std::vector<std::shared_ptr<InitPlayer>> GetInitPlayer ();

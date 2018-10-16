@@ -25,13 +25,15 @@ namespace state {
     std::vector<std::shared_ptr<Player>> players;
     std::shared_ptr<Map> map;
     std::shared_ptr<Rules> rules;
+    bool isInsideRoom     = false;
     // Operations
   public:
     GameState ();
     std::vector<std::shared_ptr<Player>> GetPlayers ();
     std::shared_ptr<Map> GetMap ();
     std::shared_ptr<Rules> GetRules ();
-    int GetId ();
+    bool GetIsInsideRoom ();
+    void SetIsInsideRoom (bool newIsInsideRoom);
     // Setters and Getters
   };
 

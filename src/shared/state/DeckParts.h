@@ -32,9 +32,9 @@ namespace state {
     bool GetIsDrawPile ();
     bool GetIsHand ();
     std::vector<std::shared_ptr<Card>> GetCards ();
-    void SetCards (std::vector<std::shared_ptr<Card>> newCards);
+    void SetCards (std::vector<std::shared_ptr<Card>> );
     int GetSize ();
-    void SetSize (int newSize);
+    void SetSize (int );
     // Setters and Getters
   };
 

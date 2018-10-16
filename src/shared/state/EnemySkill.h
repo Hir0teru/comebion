@@ -32,15 +32,15 @@ namespace state {
   public:
     EnemySkill ();
     int GetAttack ();
-    void SetAttack (int );
+    void SetAttack (int newAttack);
     int GetBlock ();
-    void SetBlock (int );
+    void SetBlock (int newBlock);
     std::vector<std::shared_ptr<Buff>> GetBuffs ();
     std::vector<std::shared_ptr<Debuff>> GetDebuffs ();
     std::string GetIntentImage ();
     int GetCooldown ();
     int GetTurnsBeforeUse ();
-    void SetTurnsBeforeUse (int );
+    void SetTurnsBeforeUse (int newTurnsBU);
     // Setters and Getters
   };
 

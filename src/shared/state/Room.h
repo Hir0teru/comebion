@@ -19,7 +19,7 @@ namespace state {
     bool isSleepRoom;
     // Operations
   public:
-    Room (int , std::string , bool , bool , bool );
+    Room ();
     std::string GetImageMapRoom ();
     std::string GetImageInsideRoom ();
     bool GetIsSpecialTrainingRoom ();
