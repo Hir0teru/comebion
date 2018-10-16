@@ -4,6 +4,7 @@
 
 #include <vector>
 #include <memory>
+#include <string>
 
 namespace state {
   class Card;
@@ -24,6 +25,7 @@ namespace state {
     // Operations
   public:
     Deck ();
+    Deck (std::string element, int size);
     std::vector<std::shared_ptr<Card>> GetCards ();
     void SetCards (std::vector<std::shared_ptr<Card>> newDeck);
     int GetSize ();

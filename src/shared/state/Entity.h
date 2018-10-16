@@ -39,7 +39,7 @@ namespace state {
     // Operations
   public:
     Entity ();
-    Entity (std::string name, std::string element, std::string image, int statAttack, int statBlock, bool isPlayer);
+    Entity (std::string name, std::string element, std::string image, int statAttack, int statBlock, bool isPlayer, int life, int id);
     int GetLife ();
     void SetLife (int );
     int GetId ();

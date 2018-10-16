@@ -4,11 +4,14 @@
 
 #include <vector>
 #include <memory>
+#include <string>
 
 namespace state {
+  class Card;
   class Room;
 }
 
+#include "Card.h"
 #include "Room.h"
 
 namespace state {
@@ -21,6 +24,7 @@ namespace state {
     // Operations
   public:
     SpecialTrainingRoom ();
+    SpecialTrainingRoom (int roomNumber, std::string element, std::vector<std::shared_ptr<Card>> cardReward);
     std::vector<std::shared_ptr<Card>> GetCardReward ();
     // Setters and Getters
   };
