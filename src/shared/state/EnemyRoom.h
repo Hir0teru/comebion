@@ -4,22 +4,23 @@
 
 #include <vector>
 #include <memory>
+#include <string>
 
 namespace state {
+  class Enemy;
   class DrawPile;
   class DiscardPile;
   class Hand;
   class Room;
   class DeckParts;
-  class Enemy;
 }
 
+#include "Enemy.h"
 #include "DrawPile.h"
 #include "DiscardPile.h"
 #include "Hand.h"
 #include "Room.h"
 #include "DeckParts.h"
-#include "Enemy.h"
 
 namespace state {
 
@@ -33,11 +34,12 @@ namespace state {
     std::vector<std::shared_ptr<Hand>> hands;
     std::vector<std::shared_ptr<DiscardPile>> discardPiles;
     int turn;
-    int EntityTurn;
+    int entityTurn;
     bool isGameLost;
     // Operations
   public:
     EnemyRoom ();
+    EnemyRoom (int roomNumber, std::string element, std::vector<std::shared_ptr<Enemy>> enemies, std::vector<std::shared_ptr<DrawPile>> drawPiles);
     int GetTurn ();
     int GetEntityTurn ();
     bool GetIsGameLost ();

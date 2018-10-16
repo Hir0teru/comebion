@@ -2,12 +2,18 @@
 
 using namespace state;
 
+EnemyRoom::EnemyRoom (int roomNumber, std::string element, std::vector<std::shared_ptr<Enemy>> enemies, std::vector<std::shared_ptr<DrawPile>> drawPiles): Room(roomNumber, element, false, true, false), enemies(enemies), drawPiles(drawPiles), turn(0), entityTurn(0), isGameLost(false)
+{
+  hands.reserve(2);
+  discardPiles.reserve(2);
+}
+
 int EnemyRoom::GetTurn (){
   return turn;
 }
 
 int EnemyRoom::GetEntityTurn (){
-  return EntityTurn;
+  return entityTurn;
 }
 
 bool EnemyRoom::GetIsGameLost (){
