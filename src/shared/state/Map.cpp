@@ -6,11 +6,10 @@ Map::Map(){
   floors.reserve(4);
   floors[0].reset(new Floor(0, 1)); //floor number, floor element
   floors[1].reset(new Floor(1, 2));
-  floors[2].reset(new Floor(2,3));
-  floors[3].reset(new Floor(3,4));
+  floors[2].reset(new Floor(2, 3));
+  floors[3].reset(new Floor(3, 4));
   currentFloor = 0;
 }
-
 
 Map::~Map()
 {
