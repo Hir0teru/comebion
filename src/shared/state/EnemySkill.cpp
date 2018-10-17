@@ -14,8 +14,8 @@ EnemySkill::~EnemySkill ()
 
 }
 
-EnemySkill::EnemySkill (int attack, int block, Buff buffs,
-   Debuff debuffs, std::string intentimage, int cooldown){
+EnemySkill::EnemySkill (int attack, int heal, int block, Buff buffs,
+   Debuff debuffs, std::string intentimage, int cooldown, int target){
      if (attack < 0) {
        std::cout << "Attack cannot be negative, setting to 0." <<std::endl;
        this -> attack = 0;
@@ -29,6 +29,12 @@ EnemySkill::EnemySkill (int attack, int block, Buff buffs,
      } else{
        this -> block = block;
      }
+     if (heal < 0){
+       std::cout << "heal cannot be negative, setting to 0." << std::endl;
+       this -> heal = 0;
+     } else{
+       this -> heal = heal;
+     }
      this -> buff = buffs;
      this -> debuff = debuffs;
      this -> intentImage = intentimage;
@@ -38,6 +44,12 @@ EnemySkill::EnemySkill (int attack, int block, Buff buffs,
      }
      else {
        this -> cooldown = cooldown;
+     }
+
+     if (target < 0 or target > 3){
+       throw "Invalid target";
+     } else {
+       this->target = target;
      }
      turnsBeforeUse = 0;
    }

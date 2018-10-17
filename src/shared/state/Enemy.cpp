@@ -12,12 +12,12 @@ Enemy::Enemy (){
     card.reset(new Card("reward", 4));
   }
   skills.reserve(3);
-  Buff* buff1 = new Buff(0, 0,0, 0, 0);
+  Buff* buff1 = new Buff(0, 0, 0, 0, 0);
   Debuff* debuff1 = new Debuff (0, 0);
   Debuff* debuff2 = new Debuff (2, 0);
-  skills[0].reset(new EnemySkill (15, 0, *buff1, *debuff1, "imageIntent.jpg", 2));
-  skills[1].reset(new EnemySkill( 0, 10, *buff1, *debuff1, "imageIntent.jpg", 0));
-  skills[2].reset(new EnemySkill(5, 0, *buff1, *debuff2, "imageIntent.jpg0", 1));
+  skills[0].reset(new EnemySkill (15, 0, 0, *buff1, *debuff1, "imageIntent.jpg", 2, 0));
+  skills[1].reset(new EnemySkill(0, 0, 10, *buff1, *debuff1, "imageIntent.jpg", 0, 0));
+  skills[2].reset(new EnemySkill(5, 0, 0, *buff1, *debuff2, "imageIntent.jpg0", 1, 0));
   delete(buff1);
   delete(debuff1);
   delete(debuff2);

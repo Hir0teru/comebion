@@ -16,7 +16,7 @@ int InfoPlayer::GetFirstElement (){
 }
 
 void InfoPlayer::SetFirstElement (int firstElem){
-  if (firstElem < 0 || firstElem > 4) {
+  if (firstElem < 1 || firstElem > 4) {
     std::cout << "First element unvalid : valid are '0'(none), '1'(air), '2'(water), '3'(earth), '4'(fire)." << std::endl;
     this -> firstElement = 1;
   }

@@ -18,8 +18,12 @@ Rules::Rules(int nbPlayers, std::vector<std::shared_ptr<InfoPlayer>> infoPlayer)
     this->nbPlayers = 1;
   } else if (nbPlayers > 2) {
     this->nbPlayers = 2;
-  } else{
+  } else {
     this->nbPlayers = nbPlayers;
+  }
+
+  if ((int) infoPlayer.size() < this->nbPlayers ){
+    throw "Not enough rules for the number of players";
   }
 }
 
