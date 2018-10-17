@@ -2,6 +2,11 @@
 
 using namespace state;
 
+Floor::~Floor()
+{
+  
+}
+
 std::string Floor::GetElement (){
   return element;
 }

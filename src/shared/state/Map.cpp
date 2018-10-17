@@ -2,6 +2,11 @@
 
 using namespace state;
 
+Map::~Map()
+{
+  
+}
+
 std::vector<std::shared_ptr<Floor>> Map::GetFloors(){
   return floors;
 }

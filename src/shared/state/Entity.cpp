@@ -3,7 +3,16 @@
 using namespace state;
 
 
-Entity::Entity (){}
+Entity::Entity ()
+{
+
+}
+
+Entity::~Entity()
+{
+
+}
+
 Entity::Entity (std::string name, std::string element, std::string image, int statAttack, int statBlock, bool isPlayer, int life, int id){
   this->name = name;
   this -> id = id;

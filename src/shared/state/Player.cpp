@@ -7,6 +7,11 @@ Player::Player() : Entity(){}
 // int energy;
 // std::shared_ptr<Deck> deck;
 
+Player::~Player()
+{
+
+}
+
 Player::Player(std::string name, std::string element, std::string image, int statAttack,
   int statBlock, int life, int id) : Entity(name, element, image,
    statAttack, statBlock, true,  life,  id){

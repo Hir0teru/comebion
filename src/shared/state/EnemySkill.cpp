@@ -2,7 +2,16 @@
 #include "EnemyRoom.h"
 using namespace state;
 
-EnemySkill::EnemySkill (){}
+EnemySkill::EnemySkill ()
+{
+
+}
+
+EnemySkill::~EnemySkill ()
+{
+
+}
+
 EnemySkill::EnemySkill (int attack, int block, Buff buffs,
    Debuff debuffs, std::string intentimage, int cooldown){
      this -> attack = attack;

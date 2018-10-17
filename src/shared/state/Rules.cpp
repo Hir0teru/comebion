@@ -6,6 +6,11 @@ Rules::Rules():isGameLost(false), isGameOver(false), nbPlayers(1){
   infoPlayer.reserve(1);
 }
 
+Rules::~Rules()
+{
+
+}
+
 Rules::Rules(int nbPlayers, std::vector<std::shared_ptr<InfoPlayer>> infoPlayer):isGameLost(false), isGameOver(false), nbPlayers(nbPlayers), infoPlayer(infoPlayer)
 {
 

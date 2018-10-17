@@ -2,6 +2,11 @@
 
 using namespace state;
 
+GameState::~GameState()
+{
+
+}
+
 std::vector<std::shared_ptr<Player>> GameState::GetPlayers(){
   return players;
 }

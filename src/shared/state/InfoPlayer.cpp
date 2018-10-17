@@ -2,6 +2,11 @@
 
 using namespace state;
 
+InfoPlayer::~InfoPlayer()
+{
+  
+}
+
 // std::string InitPlayer::GetFirstElement (){
 //   return firstElement;
 // }

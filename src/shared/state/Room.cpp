@@ -2,6 +2,11 @@
 
 using namespace state;
 
+Room::~Room()
+{
+  
+}
+
 Room::Room (int roomNb, std::string elem, bool isSTR, bool isER, bool isSR) {
     // Attributes
     roomNumber = roomNb;
