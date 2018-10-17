@@ -76,13 +76,13 @@
 // int Card::GetHeal (){
 //   return heal;
 // };
-// //
-// // std::vector<std::shared_ptr<Debuff>> Card::GetDebuffs (){
-// //   return debuffs;
-// // };
-// //
-// // std::vector<std::shared_ptr<Buff>> Card::GetBuffs (){
-// //   return buffs;
-// // };
+//
+// Debuff Card::GetDebuff (){
+//   return debuff;
+// };
+//
+// Buff Card::GetBuff (){
+//   return buff;
+// };
 //
 // // Setters and Getters

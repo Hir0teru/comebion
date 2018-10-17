@@ -3,10 +3,10 @@
 using namespace state;
 
 Rules::Rules():isGameLost(false), isGameOver(false), nbPlayers(1){
-  initPlayer.reserve(1);
+  infoPlayer.reserve(1);
 }
 
-Rules::Rules(int nbPlayers, std::vector<std::shared_ptr<InitPlayer>> initPlayer):isGameLost(false), isGameOver(false), nbPlayers(nbPlayers), initPlayer(initPlayer)
+Rules::Rules(int nbPlayers, std::vector<std::shared_ptr<InfoPlayer>> infoPlayer):isGameLost(false), isGameOver(false), nbPlayers(nbPlayers), infoPlayer(infoPlayer)
 {
 
 }
@@ -35,10 +35,10 @@ void Rules::SetNbPlayers (int newNbPlayers){
   this->nbPlayers = newNbPlayers;
 }
 
-// std::vector<std::shared_ptr<InitPlayer>> Rules::GetInitPlayer (){
-//   return initPlayer;
-// }
-//
-// void Rules::SetInitPlayer (std::vector<std::shared_ptr<InitPlayer>> newInitPlayer){
-//   this->initPlayer = newInitPlayer;
-// }
+std::vector<std::shared_ptr<InfoPlayer>> Rules::GetInfoPlayer (){
+  return infoPlayer;
+}
+
+void Rules::SetInfoPlayer (std::vector<std::shared_ptr<InfoPlayer>> newInfoPlayer){
+  this->infoPlayer = newInfoPlayer;
+}
