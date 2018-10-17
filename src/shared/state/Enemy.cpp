@@ -14,7 +14,6 @@ Enemy::Enemy (std::string name, std::string element, std::string image,
       intent = this-> skills[0];
   }
 
-
 Enemy::~Enemy(){}
 
 std::vector<std::shared_ptr<EnemySkill>> Enemy::GetSkills (){

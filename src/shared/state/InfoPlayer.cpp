@@ -4,21 +4,21 @@ using namespace state;
 
 InfoPlayer::~InfoPlayer()
 {
-  
+
 }
 
-// std::string InitPlayer::GetFirstElement (){
-//   return firstElement;
-// }
-//
-// void InitPlayer::SetFirstElement (std::string firstElem){
-//   this->firstElement = firstElem;
-// }
-//
-// bool InitPlayer::GetPlayerControlledByAI (){
-//   return playerControlledByAI;
-// }
-//
-// void InitPlayer::SetPlayerControlledByAI (bool controlledByAI){
-//   this->playerControlledByAI = controlledByAI;
-// }
+std::string InfoPlayer::GetFirstElement (){
+  return firstElement;
+}
+
+void InfoPlayer::SetFirstElement (std::string firstElem){
+  this->firstElement = firstElem;
+}
+
+bool InfoPlayer::GetPlayerControlledByAI (){
+  return playerControlledByAI;
+}
+
+void InfoPlayer::SetPlayerControlledByAI (bool controlledByAI){
+  this->playerControlledByAI = controlledByAI;
+}
