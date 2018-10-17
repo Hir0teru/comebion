@@ -18,20 +18,18 @@ void Buff::SetBlockPlus (int newBlockPlus){
   blockPlus = newBlockPlus;
 }
 int Buff::GetAttackPlus (){return attackPlus;}
-void Buff::SetAttackPlus (int newAttackPlus);
-int GetHeal (){return heal;}
-void SetHeal (int newHeal){
+void Buff::SetAttackPlus (int newAttackPlus){
+  attackPlus = newAttackPlus;
+}
+int Buff::GetHeal (){return heal;}
+void Buff::SetHeal (int newHeal){
   heal = newHeal;
 }
-int GetEvade (){return evade;}
-void SetEvade (int newEvade){
+int Buff::GetEvade (){return evade;}
+void Buff::SetEvade (int newEvade){
   evade = newEvade;
 }
-int GetRetaliate (){return retaliate;}
-void SetRetaliate (int newRetaliate){
+int Buff::GetRetaliate (){return retaliate;}
+void Buff::SetRetaliate (int newRetaliate){
   retaliate = newRetaliate;
 }
-// Setters and Getters
-};
-
-};
