@@ -8,10 +8,9 @@ EnemyRoom::~EnemyRoom()
 
 }
 
-EnemyRoom::EnemyRoom (int element, std::vector<std::shared_ptr<Enemy>> enemies, std::vector<std::shared_ptr<DeckParts>> drawPiles): Room(element, false, true, false), enemies(enemies), drawPiles(drawPiles), turn(0), entityTurn(0), isGameLost(false)
+EnemyRoom::EnemyRoom (int element, std::vector<std::shared_ptr<Enemy>> enemies): Room(element, false, true, false), enemies(enemies), turn(0), entityTurn(0), isGameLost(false)
 {
-  hands.reserve(2);
-  discardPiles.reserve(2);
+
 }
 
 int EnemyRoom::GetTurn (){
