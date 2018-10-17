@@ -17,6 +17,8 @@ Deck::Deck (std::string element, int size){
   sizeMax = 15;
 }
 
+Deck::~Deck(){}
+
 std::vector<std::shared_ptr<Card>> Deck::GetCards (){
   return cards;
 }

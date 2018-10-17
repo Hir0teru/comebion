@@ -21,6 +21,8 @@ DeckParts::DeckParts(std::shared_ptr<Player> player, bool isHand, bool isDiscard
   // int size;
 }
 
+DeckParts::~DeckParts(){}
+
 int DeckParts::GetPlayerId (){
   return playerId;
 }

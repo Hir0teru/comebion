@@ -15,6 +15,8 @@ Enemy::Enemy (std::string name, std::string element, std::string image,
   }
 
 
+Enemy::~Enemy(){}
+
 std::vector<std::shared_ptr<EnemySkill>> Enemy::GetSkills (){
   return skills;
 }
