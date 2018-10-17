@@ -3,7 +3,7 @@
 using namespace state;
 
 Enemy::Enemy (){}
-Enemy::Enemy (std::string name, std::string element, std::string image,
+Enemy::Enemy (std::string name, int element, std::string image,
   int statAttack, int statBlock, int life, int id, std::vector<std::shared_ptr<EnemySkill>> skills) : Entity(name, element,
     image,statAttack, statBlock, false,  life,  id){
       reward.reserve(3);
@@ -11,7 +11,7 @@ Enemy::Enemy (std::string name, std::string element, std::string image,
         reward[i].reset(new Card("reward", element));
       }
       this -> skills = skills;
-      intent = this-> skills[0];
+      intent = 0;
   }
 
 Enemy::~Enemy(){}
@@ -24,11 +24,11 @@ void Enemy::SetSkills (std::vector<std::shared_ptr<EnemySkill>> newSkills){
   this->skills = newSkills;
 }
 
-std::shared_ptr<EnemySkill> Enemy::GetIntent (){
+int Enemy::GetIntent (){
   return intent;
 }
 
-void Enemy::SetIntent (std::shared_ptr<EnemySkill> newIntent){
+void Enemy::SetIntent (int newIntent){
   this->intent = newIntent;
 }
 
