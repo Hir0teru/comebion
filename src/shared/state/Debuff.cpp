@@ -1,5 +1,5 @@
 #include "Debuff.h"
-
+#include <iostream>
 using namespace state;
 
 
