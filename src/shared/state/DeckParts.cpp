@@ -1,4 +1,6 @@
 #include "DeckParts.h"
+#include <iostream>
+#include<stdexcept>
 
 using namespace state;
 
@@ -6,19 +8,35 @@ DeckParts::DeckParts(){
 
 }
 DeckParts::DeckParts(std::shared_ptr<Player> player, bool isHand, bool isDiscardPile, bool isDrawPile){
-  this -> isHand = isHand;
-  this -> isDiscardPile = isDiscardPile;
-  this -> isDrawPile = isDrawPile;
-  if (isDrawPile) {
-    cards = player->GetDeck()->GetCards();
-    size = player->GetDeck()->GetSize();
-
+  if(!((isHand && !isDiscardPile && !isDrawPile) || (!isHand && isDiscardPile && !isDrawPile) ||
+  (!isHand && !isDiscardPile && isDrawPile))){
+    throw std::invalid_argument("Can only be a hand OR a discardPile OR a drawPile");
   }
   else{
-    size = 0;
-  }
-  playerId = player->GetId();
+    this -> isHand = isHand;
+    this -> isDiscardPile = isDiscardPile;
+    this -> isDrawPile = isDrawPile;
+    if (isDrawPile) {
+      sizeMax = player->GetDeck()->GetSizeMax() + 10;
+      cards.reserve(sizeMax);
+      cards = player->GetDeck()->GetCards();
+      size = player->GetDeck()->GetSize();
+    }
+    else{
+      if (isDiscardPile){
+        sizeMax = player->GetDeck()->GetSizeMax() + 10;
+        cards.reserve(sizeMax);
+        size = 0;
+      }
+      else{
+        cards.reserve(7);
+        size = 0;
+        sizeMax = 7;
+      }
+    }
+    playerId = player->GetId();
   // int size;
+  }
 }
 
 DeckParts::~DeckParts(){}
@@ -44,7 +62,14 @@ std::vector<std::shared_ptr<Card>> DeckParts::GetCards (){
 }
 
 void DeckParts::SetCards (std::vector<std::shared_ptr<Card>> newCards){
-  this->cards = newCards;
+  int newsize = newCards.size();
+  if (newsize > sizeMax){
+    throw std::invalid_argument("Error : too much cards to add");
+  }
+  else{
+    this -> cards = newCards;
+    this -> size = newsize;
+  }
 }
 
 int DeckParts::GetSize (){
@@ -52,5 +77,11 @@ int DeckParts::GetSize (){
 }
 
 void DeckParts::SetSize (int newSize){
-  this->size = newSize;
+  if (newSize > sizeMax){
+    std::cout << "size too big with" << newSize << std::endl;
+    this -> size = this -> sizeMax;
+  }
+  else{
+    this->size = newSize;
+  }
 }

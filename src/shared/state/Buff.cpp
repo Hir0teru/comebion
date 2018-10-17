@@ -5,7 +5,13 @@ using namespace state;
 
 
 
-Buff::Buff (){}
+Buff::Buff (){
+  blockPlus = 0;
+  attackPlus = 0;
+  heal = 0;
+  evade = 0;
+  retaliate = 0;
+}
 Buff::Buff (int blockPlus, int attackPlus, int heal, int evade, int retaliate){
   if (blockPlus < 0){
     std::cout<<"error with blockPlus "<< blockPlus <<std::endl;

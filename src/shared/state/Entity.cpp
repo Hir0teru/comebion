@@ -1,4 +1,6 @@
 #include "Entity.h"
+#include <iostream>
+#include <stdexcept>
 
 using namespace state;
 
@@ -13,15 +15,44 @@ Entity::~Entity()
 
 }
 
-Entity::Entity (std::string name, std::string element, std::string image, int statAttack, int statBlock, bool isPlayer, int life, int id){
+Entity::Entity (std::string name, int element, std::string image, int statAttack, int statBlock, bool isPlayer, int life, int id){
   this->name = name;
-  this -> id = id;
+  if (id < 0){
+    std::invalid_argument("Id cannot be negative");
+  }
+  else{
+    this -> id = id;
+  }
   this -> isPlayer = isPlayer;
-  this -> element = element;
+  if (element < 0 || element > 4){
+    std::cout << "Error with element. Accepted elements are '0' (None), '1' (Air), '2' (Water), '3' (Earth), '4' (Fire)" << std::endl;
+    this -> element = 0;
+  }
+  else{
+    this -> element = element;
+  }
   this -> image = image;
-  this -> statAttack = statAttack;
-  this -> statBlock = statBlock;
-  this -> life = life;
+  if (statAttack < 0 ){
+    std::cout << "SetAttack cannot be negative " << std::endl;
+    this -> statAttack = 0;
+  }
+  else{
+    this -> statAttack = statAttack;
+  }
+  if (statBlock < 0) {
+    std::cout << "StatBlock cannot be negative" << std::endl;
+    this -> statBlock = 0;
+  }
+  else{
+    this -> statBlock = statBlock;
+  }
+  if (life < 0) {
+    std::cout << "Life cannot be negative - default 60" << std::endl;
+    this -> life = 60;
+  }
+  else {
+    this -> life = life;
+  }
   block = 0;
   isEntityAlive = true;
 }
@@ -31,7 +62,13 @@ int Entity::GetLife (){
 }
 
 void Entity::SetLife (int newLife){
-  this->life = newLife;
+  if (newLife < 0) {
+    std::cout << "Life cannot be negative - default 60" << std::endl;
+    this -> life = 60;
+  }
+  else {
+    this -> life = newLife;
+  }
 }
 
 int Entity::GetId (){
@@ -39,14 +76,19 @@ int Entity::GetId (){
 }
 
 void Entity::SetId (int newId){
-  this->id = newId;
+  if (newId < 0){
+    std::invalid_argument("Id cannot be negative");
+  }
+  else{
+    this -> id = newId;
+  }
 }
 
-std::string Entity::GetElement (){
+int Entity::GetElement (){
   return element;
 }
 
-void Entity::SetElement (std::string newElement){
+void Entity::SetElement (int newElement){
   this->element = newElement;
 }
 

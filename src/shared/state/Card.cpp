@@ -3,7 +3,8 @@
 
 using namespace state;
 
-Card::Card (std::string type, std::string element){
+
+Card::Card (std::string type, int element){
   name = type;
   /// Coût de la carte en energie
   cost = 1;
@@ -11,8 +12,14 @@ Card::Card (std::string type, std::string element){
   target = 1;
   /// Image représentant la carte
 
-  /// Element de la carte (air, eau, terre, feu, pas d'element)
-  element = element;
+  /// Element de la carte: 0 none,1 air, 2 water, 3 earth, 4 fire
+  if (element < 0 || element > 4){
+    std::cout << "Error with element. Accepted elements are '0' (None), '1' (Air), '2' (Water), '3' (Earth), '4' (Fire)" << std::endl;
+    this -> element = 0;
+  }
+  else {
+    this -> element = element;
+  }
   /// Dégats de la carte
   if (type == "basic attack"){
     attack = 5;
@@ -38,7 +45,7 @@ Card::Card (std::string type, std::string element){
   // buffs = std::vector<std::shared_ptr<Buff>> ();
 };
 
-Card::Card (  std::string name, int cost, int target, std::string image, std::string element,
+Card::Card (  std::string name, int cost, int target, std::string image, int element,
   int attack, int block, int draw, int discard,  int heal, Debuff debuff, Buff buff){
 
   this -> name = name;
@@ -61,10 +68,9 @@ Card::Card (  std::string name, int cost, int target, std::string image, std::st
   /// Image représentant la carte
   this -> image = image;
   /// Element de la carte (air, eau, terre, feu, pas d'element)
-  if (element != "Air" and element != "Water" and element != "Earth" and element != "Fire" and element != "None"){
-    std::cout<<"error with element "<< element <<std::endl;
-    std::cout << "Acceptable elements are: Air - Water - Earth - Fire - None";
-    this -> element = "Air";
+  if (element < 0 || element > 4){
+    std::cout << "Error with element. Accepted elements are '0' (None), '1' (Air), '2' (Water), '3' (Earth), '4' (Fire)" << std::endl;
+    this -> element = 0;
   }
   else{
     this -> element = element;
@@ -141,7 +147,7 @@ std::string Card::GetImage (){
   return image;
 };
 
-std::string Card::GetElement (){
+int Card::GetElement (){
   return element;
 };
 
