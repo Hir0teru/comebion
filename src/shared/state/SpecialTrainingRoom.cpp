@@ -2,7 +2,7 @@
 
 using namespace state;
 
-SpecialTrainingRoom::SpecialTrainingRoom (): Room(0, "air", true, false, false)
+SpecialTrainingRoom::SpecialTrainingRoom (): Room(0, true, false, false)
 {
 
 }
@@ -12,7 +12,7 @@ SpecialTrainingRoom::~SpecialTrainingRoom()
 
 }
 
-SpecialTrainingRoom::SpecialTrainingRoom (int roomNumber, std::string element, std::vector<std::shared_ptr<Card>> cardReward): Room(roomNumber, element, true, false, false), cardReward(cardReward)
+SpecialTrainingRoom::SpecialTrainingRoom (int element, std::vector<std::shared_ptr<Card>> cardReward): Room(element, true, false, false), cardReward(cardReward)
 {
 
 }

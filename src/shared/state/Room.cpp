@@ -7,9 +7,8 @@ Room::~Room()
 
 }
 
-Room::Room (int roomNb, std::string elem, bool isSTR, bool isER, bool isSR) {
+Room::Room (int elem, bool isSTR, bool isER, bool isSR) {
     // Attributes
-    roomNumber = roomNb;
     element = elem;
     if (isSR) {
       imageMapRoom = "/home/ombre/Documents/Projet/comebion/res/textures/background/elements.jpg";
@@ -24,13 +23,15 @@ Room::Room (int roomNb, std::string elem, bool isSTR, bool isER, bool isSR) {
       imageInsideRoom = "/home/ombre/Documents/Projet/comebion/res/textures/background/air/air_temple.jpg";
     }
 
-    if (isSTR ^ isER ^ isSR){
+    if ((isSTR && !isER && !isSR) || (!isSTR && isER && !isSR) || (!isSTR && !isER && isSR)){
       isSpecialTrainingRoom = isSTR;
       isEnemyRoom = isER;
       isSleepRoom = isSR;
     } else {
-      throw "Room has to be SpecialTrainingRoom XOR EnemyRoom XOR SleepRoom";
+      throw "Room has to be either SpecialTrainingRoom or EnemyRoom or SleepRoom";
     }
+
+    nextRoom = nullptr;
     // Operations
 }
 
@@ -56,5 +57,21 @@ Room::Room (int roomNb, std::string elem, bool isSTR, bool isER, bool isSR) {
 
     std::string Room::GetElement (){
       return element;
+    }
+
+    std::shared_ptr<Room> Room::GetNextRoom(){
+      return nextRoom;
+    }
+
+    void Room::SetNextRoom(std::shared_ptr<Room> newNextRoom){
+      std::shared_ptr<Room> next = newNextRoom;
+      while (next != this && next){
+        next = next->nextRoom;
+      }
+      if (next){
+        throw "Loop Detected"
+      } else {
+        this->nextRoom = newNextRoom;
+      }
     }
     // Setters and Getters

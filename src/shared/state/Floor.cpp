@@ -4,7 +4,7 @@ using namespace state;
 
 Floor::~Floor()
 {
-  
+
 }
 
 std::string Floor::GetElement (){
@@ -15,10 +15,10 @@ std::string Floor::GetFloorImage (){
   return floorImage;
 }
 
-std::vector<std::shared_ptr<Room>> Floor::GetRooms (){
-  return rooms;
+std::vector<std::shared_ptr<Room>> Floor::GetFirstRoom (){
+  return firstRoom;
 }
 
-void Floor::SetRooms (std::vector<std::shared_ptr<Room>> newRooms){
-  this->rooms = newRooms;
+void Floor::SetFirstRoom (std::shared_ptr<Room> newFirstRoom){
+  this->rooms = newFirstRoom;
 }
