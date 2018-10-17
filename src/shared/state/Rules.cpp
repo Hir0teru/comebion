@@ -2,6 +2,15 @@
 
 using namespace state;
 
+Rules::Rules():isGameLost(false), isGameOver(false), nbPlayers(1){
+  initPlayer.reserve(1);
+}
+
+Rules::Rules(int nbPlayers, std::vector<std::shared_ptr<InitPlayer>> initPlayer):isGameLost(false), isGameOver(false), nbPlayers(nbPlayers), initPlayer(initPlayer)
+{
+
+}
+
 bool Rules::GetIsGameLost (){
   return isGameLost;
 }
