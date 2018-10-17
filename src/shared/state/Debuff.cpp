@@ -1,15 +1,21 @@
 #include "Debuff.h"
 
 using namespace state;
-// 
-// std::string Debuff::GetName (){
-//   return name;
-// }
-//
-// int Debuff::GetNbTurn (){
-//   return nbTurn;
-// }
-//
-// void Debuff::SetNbTurn (int newNbTurn){
-//   this->nbTurn = newNbTurn;
-// }
+
+
+
+Debuff::Debuff(){}
+
+Debuff::Debuff(int blockMinus, int attackMinus){
+  this -> blockMinus = blockMinus;
+  this -> attackMinus = attackMinus;
+}
+
+  int Debuff::GetBlockMinus (){return blockMinus;}
+  void Debuff::SetBlockMinus (int newBlockMinus){
+    blockMinus = newBlockMinus;
+  }
+  int Debuff::GetAttackMinus (){return attackMinus;}
+  void Debuff::SetAttackMinus (int newAttackMinus){
+    attackMinus = newAttackMinus;
+  }
