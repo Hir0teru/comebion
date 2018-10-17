@@ -55,7 +55,7 @@ Room::Room (int elem, bool isSTR, bool isER, bool isSR) {
       return isSleepRoom;
     }
 
-    std::string Room::GetElement (){
+    int Room::GetElement (){
       return element;
     }
 
@@ -65,11 +65,13 @@ Room::Room (int elem, bool isSTR, bool isER, bool isSR) {
 
     void Room::SetNextRoom(std::shared_ptr<Room> newNextRoom){
       std::shared_ptr<Room> next = newNextRoom;
-      while (next != this && next){
+      std::shared_ptr<Room> currentRoom;
+      currentRoom.reset(this);
+      while (next != currentRoom && next){
         next = next->nextRoom;
       }
       if (next){
-        throw "Loop Detected"
+        throw "Loop Detected";
       } else {
         this->nextRoom = newNextRoom;
       }
