@@ -32,6 +32,7 @@ Entity::Entity (std::string name, int element, std::string image, int statAttack
     this -> element = element;
   }
   this -> image = image;
+
   if (statAttack < 0 ){
     std::cout << "SetAttack cannot be negative " << std::endl;
     this -> statAttack = 0;
@@ -39,6 +40,7 @@ Entity::Entity (std::string name, int element, std::string image, int statAttack
   else{
     this -> statAttack = statAttack;
   }
+
   if (statBlock < 0) {
     std::cout << "StatBlock cannot be negative" << std::endl;
     this -> statBlock = 0;
@@ -77,7 +79,7 @@ int Entity::GetId (){
 
 void Entity::SetId (int newId){
   if (newId < 0){
-    std::invalid_argument("Id cannot be negative");
+    std::invalid_argument("Id cannot be negative.");
   }
   else{
     this -> id = newId;
@@ -89,7 +91,12 @@ int Entity::GetElement (){
 }
 
 void Entity::SetElement (int newElement){
-  this->element = newElement;
+  if (newElement < 0 || newElement > 4){
+    std::cout << "Invalid element: acceptable elements are '0' (None), '1' (Air), '2' (Water), '3' (Earth), '4' (Fire)" << std::endl;
+  }
+  else{
+    this->element = newElement;
+  }
 }
 
 std::string Entity::GetImage (){
@@ -105,7 +112,13 @@ int Entity::GetStatAttack (){
 }
 
 void Entity::SetStatAttack (int newStatAttack){
-  this->statAttack = newStatAttack;
+  if (newStatAttack < 0 ){
+    std::cout << "SetAttack cannot be negative, set to 0 instead." << std::endl;
+    this -> statAttack = 0;
+  }
+  else{
+    this -> statAttack = newStatAttack;
+  }
 }
 
 int Entity::GetStatBlock (){
@@ -113,7 +126,13 @@ int Entity::GetStatBlock (){
 }
 
 void Entity::SetStatBlock (int newStatBlock){
-  this->statBlock = newStatBlock;
+  if (newStatBlock < 0) {
+    std::cout << "StatBlock cannot be negative - set to 0 instead" << std::endl;
+    this -> statBlock = 0;
+  }
+  else{
+    this -> statBlock = newStatBlock;
+  }
 }
 
 Buff Entity::GetBuffs (){
@@ -145,5 +164,11 @@ int Entity::GetBlock (){
 }
 
 void Entity::SetBlock (int newBlock){
-  this->block = newBlock;
+  if (newBlock < 0) {
+    std::cout << "Block cannot be negative" << std::endl;
+    this -> block = 0;
+  }
+  else{
+    this -> block = newBlock;
+  }
 }

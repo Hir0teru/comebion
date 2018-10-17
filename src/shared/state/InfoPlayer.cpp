@@ -7,11 +7,11 @@ InfoPlayer::~InfoPlayer()
 
 }
 
-std::string InfoPlayer::GetFirstElement (){
+int InfoPlayer::GetFirstElement (){
   return firstElement;
 }
 
-void InfoPlayer::SetFirstElement (std::string firstElem){
+void InfoPlayer::SetFirstElement (int firstElem){
   this->firstElement = firstElem;
 }
 
