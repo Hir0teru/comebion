@@ -2,6 +2,8 @@
 
 using namespace state;
 
+Map::Map(){}
+
 Map::~Map()
 {
 
