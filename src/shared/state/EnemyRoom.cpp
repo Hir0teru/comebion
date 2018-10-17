@@ -42,43 +42,39 @@ std::vector<std::shared_ptr<DeckParts>> EnemyRoom::GetHands (){
 }
 
 void EnemyRoom::SetDrawPiles (std::vector<std::shared_ptr<DeckParts>> drawPileVector){
-  bool res = true;
-  int i = 0;
-  while (res && i < int( drawPileVector.size())){
+  for(int i = 0; i < int( drawPileVector.size()); i++){
+    if (!drawPileVector[i]->GetIsDrawPile()){
+      throw "Not a drawpile";
+    }
     if (drawPileVector[i]->GetSize() > this->drawPiles[i]->GetSizeMax()){
           throw "DeckParts too big";
-          res = false;
         }
     }
-  if (res){
     this->drawPiles = drawPileVector;
-  }
 }
 
 void EnemyRoom::SetDiscardPiles (std::vector<std::shared_ptr<DeckParts>> discardPileVector){
-  bool res = true;
-  int i = 0;
-  while (res && i < int(discardPileVector.size())){
+  for(int i = 0; i < int(discardPileVector.size()); i++){
+    if (!discardPileVector[i]->GetIsDiscardPile()){
+       throw "Not a discard pile";
+     }
     if (discardPileVector[i]->GetSize() > this->drawPiles[i]->GetSizeMax()){
           throw "DeckParts too big";
-          res = false;
         }
     }
-  if (res){
+
     this->discardPiles = discardPileVector;
-  }
+
 }
 
 void EnemyRoom::SetHands (std::vector<std::shared_ptr<DeckParts>> handVector){
-  bool res = true;
-  int i = 0;
-  while (res && i < int(handVector.size())){
+  for ( int i = 0; i< int(handVector.size()); i++){
+    if (!handVector[i]->GetIsHand()){
+      throw "Not a hand";
+    }
     if (handVector[i]->GetSize() > this->hands[i]->GetSizeMax()){
           throw "DeckParts too big";
-          res = false;
         }
     }
-  if (res){
     this->hands = handVector;
-  }
 }
