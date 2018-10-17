@@ -85,3 +85,16 @@ void DeckParts::SetSize (int newSize){
     this->size = newSize;
   }
 }
+
+int DeckParts::GetSizeMax (){
+  return sizeMax;
+}
+
+void DeckParts::SetSizeMax (int newSizeMax){
+  if (newSizeMax < size){
+    throw "Too much elements in deckPart to change sizeMax now";
+  }
+  else{
+    this->sizeMax = newSizeMax;
+  }
+}

@@ -42,13 +42,43 @@ std::vector<std::shared_ptr<DeckParts>> EnemyRoom::GetHands (){
 }
 
 void EnemyRoom::SetDrawPiles (std::vector<std::shared_ptr<DeckParts>> drawPileVector){
-  this->drawPiles = drawPileVector;
+  bool res = true;
+  int i = 0;
+  while (res && i < int( drawPileVector.size())){
+    if (drawPileVector[i]->GetSize() > this->drawPiles[i]->GetSizeMax()){
+          throw "DeckParts too big";
+          res = false;
+        }
+    }
+  if (res){
+    this->drawPiles = drawPileVector;
+  }
 }
 
 void EnemyRoom::SetDiscardPiles (std::vector<std::shared_ptr<DeckParts>> discardPileVector){
-  this->discardPiles = discardPileVector;
+  bool res = true;
+  int i = 0;
+  while (res && i < int(discardPileVector.size())){
+    if (discardPileVector[i]->GetSize() > this->drawPiles[i]->GetSizeMax()){
+          throw "DeckParts too big";
+          res = false;
+        }
+    }
+  if (res){
+    this->discardPiles = discardPileVector;
+  }
 }
 
 void EnemyRoom::SetHands (std::vector<std::shared_ptr<DeckParts>> handVector){
-  this->hands = handVector;
+  bool res = true;
+  int i = 0;
+  while (res && i < int(handVector.size())){
+    if (handVector[i]->GetSize() > this->hands[i]->GetSizeMax()){
+          throw "DeckParts too big";
+          res = false;
+        }
+    }
+  if (res){
+    this->hands = handVector;
+  }
 }
