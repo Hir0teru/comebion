@@ -22,12 +22,19 @@ Player::Player(std::string name, std::string element, std::string image, int sta
 int Player::GetEnergy (){
   return energy;
 }
+
 void Player::SetEnergy (int newEnergy){
-  energy = newEnergy;
+  if (newEnergy < 0){
+    throw "Energy should be positive";
+  } else {
+    energy = newEnergy;
+  }
 }
+
 std::shared_ptr<Deck> Player::GetDeck (){
   return deck;
 }
+
 void Player::SetDeck (std::shared_ptr<Deck> newDeck){
   deck = newDeck;
 }

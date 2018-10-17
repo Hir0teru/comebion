@@ -11,9 +11,16 @@ Rules::~Rules()
 
 }
 
-Rules::Rules(int nbPlayers, std::vector<std::shared_ptr<InfoPlayer>> infoPlayer):isGameLost(false), isGameOver(false), nbPlayers(nbPlayers), infoPlayer(infoPlayer)
+Rules::Rules(int nbPlayers, std::vector<std::shared_ptr<InfoPlayer>> infoPlayer):isGameLost(false), isGameOver(false), infoPlayer(infoPlayer)
 {
-
+  // Only 1 or 2 player(s)
+  if (nbPlayers < 1) {
+    this->nbPlayers = 1;
+  } else if (nbPlayers > 2) {
+    this->nbPlayers = 2;
+  } else{
+    this->nbPlayers = nbPlayers;
+  }
 }
 
 bool Rules::GetIsGameLost (){
@@ -24,8 +31,11 @@ bool Rules::GetIsGameOver (){
   return isGameOver;
 }
 
-void Rules::SetIsGameLost (bool newIsGamesLost){
-  this->isGameLost = newIsGamesLost;
+void Rules::SetIsGameLost (bool newIsGameLost){
+  if (newIsGameLost){
+    this->isGameOver = true;
+  }
+  this->isGameLost = newIsGameLost;
 }
 
 void Rules::SetIsGameOver (bool newIsGameOver){
@@ -37,7 +47,13 @@ int Rules::GetNbPlayers (){
 }
 
 void Rules::SetNbPlayers (int newNbPlayers){
-  this->nbPlayers = newNbPlayers;
+  if (newNbPlayers < 1) {
+    this->nbPlayers = 1;
+  } else if (newNbPlayers > 2) {
+    this->nbPlayers = 2;
+  } else{
+    this->nbPlayers = newNbPlayers;
+  }
 }
 
 std::vector<std::shared_ptr<InfoPlayer>> Rules::GetInfoPlayer (){

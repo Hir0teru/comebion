@@ -4,7 +4,7 @@ using namespace state;
 
 Room::~Room()
 {
-  
+
 }
 
 Room::Room (int roomNb, std::string elem, bool isSTR, bool isER, bool isSR) {
@@ -24,27 +24,36 @@ Room::Room (int roomNb, std::string elem, bool isSTR, bool isER, bool isSR) {
       imageInsideRoom = "/home/ombre/Documents/Projet/comebion/res/textures/background/air/air_temple.jpg";
     }
 
-    isSpecialTrainingRoom = isSTR;
-    isEnemyRoom = isER;
-    isSleepRoom = isSR;
+    if (isSTR ^ isER ^ isSR){
+      isSpecialTrainingRoom = isSTR;
+      isEnemyRoom = isER;
+      isSleepRoom = isSR;
+    } else {
+      throw "Room has to be SpecialTrainingRoom XOR EnemyRoom XOR SleepRoom";
+    }
     // Operations
 }
 
     std::string Room::GetImageMapRoom (){
       return imageMapRoom;
     }
+
     std::string Room::GetImageInsideRoom (){
       return imageInsideRoom;
     }
+
     bool Room::GetIsSpecialTrainingRoom (){
       return isSpecialTrainingRoom;
     }
+
     bool Room::GetIsEnemyRoom (){
       return isEnemyRoom;
     }
+
     bool Room::GetIsSleepRoom (){
       return isSleepRoom;
     }
+
     std::string Room::GetElement (){
       return element;
     }
