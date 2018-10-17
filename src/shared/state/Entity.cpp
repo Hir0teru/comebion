@@ -65,21 +65,21 @@ void Entity::SetStatBlock (int newStatBlock){
   this->statBlock = newStatBlock;
 }
 
-// std::vector<std::shared_ptr<Buff>> Entity::GetBuffs (){
-//   return buffs;
-// }
-//
-// void Entity::SetBuffs (std::vector<std::shared_ptr<Buff>> newBuffs){
-//   this->buffs = newBuffs;
-// }
-//
-// std::vector<std::shared_ptr<Debuff>> Entity::GetDebuffs (){
-//   return debuffs;
-// }
-//
-// void Entity::SetDebuffs (std::vector<std::shared_ptr<Debuff>> newDebuffs){
-//   this->debuffs = newDebuffs;
-// }
+Buff Entity::GetBuffs (){
+  return buff;
+}
+
+void Entity::SetBuffs (Buff newBuff){
+  this->buff = newBuff;
+}
+
+Debuff Entity::GetDebuffs (){
+  return debuff;
+}
+
+void Entity::SetDebuffs (Debuff newDebuff){
+  this->debuff = newDebuff;
+}
 
 bool Entity::GetIsPlayer (){
   return isPlayer;
