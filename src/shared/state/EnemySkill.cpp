@@ -1,7 +1,6 @@
 
 #include "EnemyRoom.h"
 #include <iostream>
-#include <stdexcept>
 
 using namespace state;
 

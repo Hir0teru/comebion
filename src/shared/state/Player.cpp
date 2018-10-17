@@ -1,4 +1,5 @@
 #include "Player.h"
+#include <stdexcept>
 
 using namespace state;
 
@@ -25,7 +26,7 @@ int Player::GetEnergy (){
 
 void Player::SetEnergy (int newEnergy){
   if (newEnergy < 0){
-    throw "Energy should be positive";
+    throw std::invalid_argument("Energy should be positive");
   } else {
     energy = newEnergy;
   }
@@ -36,5 +37,10 @@ std::shared_ptr<Deck> Player::GetDeck (){
 }
 
 void Player::SetDeck (std::shared_ptr<Deck> newDeck){
-  deck = newDeck;
+  if (newDeck->GetSize() > deck->GetSizeMax()){
+    throw std::invalid_argument("new Deck too big");
+  }
+  else{
+    deck = newDeck;
+  }
 }
