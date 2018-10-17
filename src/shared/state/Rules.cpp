@@ -26,10 +26,10 @@ void Rules::SetNbPlayers (int newNbPlayers){
   this->nbPlayers = newNbPlayers;
 }
 
-std::vector<std::shared_ptr<InitPlayer>> Rules::GetInitPlayer (){
-  return initPlayer;
-}
-
-void Rules::SetInitPlayer (std::vector<std::shared_ptr<InitPlayer>> newInitPlayer){
-  this->initPlayer = newInitPlayer;
-}
+// std::vector<std::shared_ptr<InitPlayer>> Rules::GetInitPlayer (){
+//   return initPlayer;
+// }
+//
+// void Rules::SetInitPlayer (std::vector<std::shared_ptr<InitPlayer>> newInitPlayer){
+//   this->initPlayer = newInitPlayer;
+// }

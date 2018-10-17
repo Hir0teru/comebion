@@ -2,8 +2,8 @@
 #ifndef __STATE__H
 #define __STATE__H
 
-#include "state/Buff.h"
 #include "state/Debuff.h"
+#include "state/Buff.h"
 #include "state/Card.h"
 #include "state/Deck.h"
 #include "state/Entity.h"
@@ -13,13 +13,10 @@
 #include "state/Room.h"
 #include "state/Floor.h"
 #include "state/Map.h"
-#include "state/InitPlayer.h"
+#include "state/InfoPlayer.h"
 #include "state/Rules.h"
 #include "state/GameState.h"
 #include "state/DeckParts.h"
-#include "state/DrawPile.h"
-#include "state/DiscardPile.h"
-#include "state/Hand.h"
 #include "state/EnemyRoom.h"
 #include "state/SpecialTrainingRoom.h"
 #include "state/SleepRoom.h"
