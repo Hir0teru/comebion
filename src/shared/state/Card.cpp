@@ -45,8 +45,8 @@ Card::Card (std::string type, int element){
   // buffs = std::vector<std::shared_ptr<Buff>> ();
 };
 
-Card::Card (  std::string name, int cost, int target, std::string image, int element,
-  int attack, int block, int draw, int discard,  int heal, Debuff debuff, Buff buff){
+Card::Card (std::string name, int cost, int target, std::string image, int element,
+  int attack, int block, int draw, int discard,  int heal, Debuff* debuff, Buff* buff){
 
   this -> name = name;
   /// Coût de la carte en energie
@@ -171,11 +171,11 @@ int Card::GetHeal (){
   return heal;
 };
 
-Debuff Card::GetDebuff (){
+Debuff* Card::GetDebuff (){
   return debuff;
 };
 
-Buff Card::GetBuff (){
+Buff* Card::GetBuff (){
   return buff;
 };
 

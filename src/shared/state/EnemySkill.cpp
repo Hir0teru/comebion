@@ -14,8 +14,8 @@ EnemySkill::~EnemySkill ()
 
 }
 
-EnemySkill::EnemySkill (int attack, int heal, int block, Buff buffs,
-   Debuff debuffs, std::string intentimage, int cooldown, int target){
+EnemySkill::EnemySkill (int attack, int heal, int block, Buff* buffs,
+   Debuff* debuffs, std::string intentimage, int cooldown, int target){
      if (attack < 0) {
        std::cout << "Attack cannot be negative, setting to 0." <<std::endl;
        this -> attack = 0;
@@ -47,7 +47,7 @@ EnemySkill::EnemySkill (int attack, int heal, int block, Buff buffs,
      }
 
      if (target < 0 or target > 3){
-       throw "Invalid target";
+       throw std::invalid_argument("Invalid target");
      } else {
        this->target = target;
      }
@@ -80,10 +80,10 @@ void EnemySkill::SetBlock (int newBlock){
     this -> block = newBlock;
   }
 }
-Buff EnemySkill::GetBuffs (){
+Buff* EnemySkill::GetBuffs (){
   return buff;
 }
-Debuff EnemySkill::GetDebuffs (){
+Debuff* EnemySkill::GetDebuffs (){
   return debuff;
 }
 std::string EnemySkill::GetIntentImage (){
@@ -97,4 +97,12 @@ int EnemySkill::GetTurnsBeforeUse (){
 }
 void EnemySkill::SetTurnsBeforeUse (int newTurnsBU){
   turnsBeforeUse = newTurnsBU;
+}
+
+int EnemySkill::GetTarget(){
+  return target;
+}
+
+int EnemySkill::GetHeal(){
+  return heal;
 }

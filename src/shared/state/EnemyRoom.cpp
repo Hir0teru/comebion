@@ -8,9 +8,15 @@ EnemyRoom::~EnemyRoom()
 
 }
 
-EnemyRoom::EnemyRoom (int element, std::vector<std::shared_ptr<Enemy>> enemies): Room(element, false, true, false), enemies(enemies), turn(0), entityTurn(0), isGameLost(false)
+EnemyRoom::EnemyRoom (int element, std::vector<std::shared_ptr<Enemy>> enemies): Room(element, false, true, false), turn(0), entityTurn(0), isGameLost(false)
 {
-
+  if (enemies.size() <= 0) {
+    throw std::invalid_argument("not enough enemies");
+  } else if (enemies.size() > 3) {
+    throw std::invalid_argument("too many enemies");
+  } else {
+    this->enemies = enemies;
+  }
 }
 
 int EnemyRoom::GetTurn (){

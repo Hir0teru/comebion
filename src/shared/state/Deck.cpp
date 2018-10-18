@@ -20,17 +20,13 @@ Deck::Deck (int element, int size){
     sizeMax = 15;
   }
   cards.reserve(sizeMax);
-  Buff* buff = new Buff();
-  Debuff* debuff = new Debuff();
+
   for (int i = 0; i < size/2 ; i++){
-    cards[i].reset( new Card("basic attack", 1, 1, "None", element, 6, 0, 0, 0, 0, *debuff, *buff ));
+    cards[i].reset( new Card("basic attack", 1, 1, "None", element, 6, 0, 0, 0, 0, new Debuff(), new Buff() ));
   }
   for (int i = int(size/2); i < size; i++){
-    cards[i].reset (new Card("basic defense", 1, 0, "None", element, 5, 0, 0, 0, 0, *debuff, *buff));
+    cards[i].reset (new Card("basic defense", 1, 0, "None", element, 5, 0, 0, 0, 0, new Debuff(), new Buff()));
   }
-
-  delete(buff);
-  delete(buff);
 }
 
 Deck::~Deck(){
