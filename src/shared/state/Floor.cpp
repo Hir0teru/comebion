@@ -73,3 +73,13 @@ std::shared_ptr<Room> Floor::GetFirstRoom (){
 void Floor::SetFirstRoom (std::shared_ptr<Room> newFirstRoom){
   this->firstRoom = newFirstRoom;
 }
+
+int Floor::GetFloorNumber (){
+  return floorNumber;
+}
+
+void Floor::SetFloorNumber (int newFloorNumber){
+  if (newFloorNumber >= 0 && newFloorNumber <=3) {
+    this->floorNumber = newFloorNumber;
+  }
+}

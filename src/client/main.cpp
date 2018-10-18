@@ -44,8 +44,8 @@ void testBuff(){
 
 void testCard(){
   std::cout << "#### Test of class Card ####" << std::endl;
-  Card* card1 = new Card((std::string) "test", -1, -1,(std::string) "", -1, -1, -1, -1, -1, -1, new Debuff(), new Buff());
-  Card* card2 = new Card((std::string)"test", -1, 4,(std::string) "", 5, -1, -1, -1, -1, -1, new Debuff(), new Buff());
+  Card* card1 = new Card((std::string) "test", -1, -1,(std::string) "", -1, -1, -1, -1, -1, -1, (std::shared_ptr<Debuff>) new Debuff(), (std::shared_ptr<Buff>) new Buff());
+  Card* card2 = new Card((std::string)"test", -1, 4,(std::string) "", 5, -1, -1, -1, -1, -1, (std::shared_ptr<Debuff>) new Debuff(), (std::shared_ptr<Buff>) new Buff());
   if (card1->GetCost() < 0){
     delete card1;
     delete card2;
@@ -177,20 +177,20 @@ void testEnemySkill(){
   EnemySkill* enemyskill1;
   EnemySkill* enemyskill2;
   try{
-    enemyskill1 = new EnemySkill(-1, -1, -1, new Buff(), new Debuff(),(std::string) "", -1, -1);
+    enemyskill1 = new EnemySkill(-1, -1, -1, (std::shared_ptr<Buff>) new Buff(), (std::shared_ptr<Debuff>) new Debuff(),(std::string) "", -1, -1);
     throw std::invalid_argument("Invalid Target");
   } catch (std::out_of_range){
-    enemyskill1 = new EnemySkill(-1, -1, -1, new Buff(), new Debuff(),(std::string) "", -1, 2);
+    enemyskill1 = new EnemySkill(-1, -1, -1, (std::shared_ptr<Buff>) new Buff(), (std::shared_ptr<Debuff>) new Debuff(),(std::string) "", -1, 2);
   } catch (std::invalid_argument){
     std::cout << "invalid_target_minus"<<std::endl;
     throw "Invalid target";
   }
 
   try{
-    enemyskill2 = new EnemySkill(-1, -1, -1, new Buff(), new Debuff(),(std::string) "", -1, 4);
+    enemyskill2 = new EnemySkill(-1, -1, -1, (std::shared_ptr<Buff>) new Buff(), (std::shared_ptr<Debuff>) new Debuff(),(std::string) "", -1, 4);
     throw std::invalid_argument("Invalid Target");
   } catch (std::out_of_range){
-    enemyskill2 = new EnemySkill(-1, -1, -1, new Buff(), new Debuff(),(std::string) "", -1, 2);
+    enemyskill2 = new EnemySkill(-1, -1, -1, (std::shared_ptr<Buff>) new Buff(), (std::shared_ptr<Debuff>) new Debuff(),(std::string) "", -1, 2);
   } catch (std::invalid_argument){
     std::cout << "invalid_target_plus"<<std::endl;
     throw "Invalid target";
@@ -364,20 +364,93 @@ void testMap(){
   std::cout << "#### End test of class Map ####" << std::endl;
 }
 
+void testRoom(){
+  std::cout << "#### Test of class Room ####" << std::endl;
+  Room* room;
+
+  try{
+    delete new Room(0, true, true, true);
+    throw std::invalid_argument("error: room is STR ant SR and ER");
+  } catch (std::out_of_range) {
+  } catch (std::invalid_argument) {
+    throw "error: room is STR ant SR and ER";
+  }
+
+  room = new Room(-1, true, false, false);
+
+  if (room->GetElement() < 0 or room->GetElement() > 4) {
+    delete room;
+    std::cout << room->GetElement()<<std::endl;
+    throw "Element of Room not defined";
+  }
+  delete room;
+  std::cout << "#### End test of class Room ####" << std::endl;
+}
+
+void testRules(){
+  std::cout << "#### Test of class Rules ####" << std::endl;
+  Rules* rules;
+  std::vector<std::shared_ptr<InfoPlayer>> infos;
+  infos.push_back((std::shared_ptr<InfoPlayer>) new InfoPlayer());
+
+  try{
+    delete new Rules(2, infos);
+    throw std::invalid_argument("not enough rules");
+  } catch (std::out_of_range){
+  } catch (std::invalid_argument){
+    throw "not enough rules";
+  }
+
+  rules = new Rules(-1, infos);
+  if (rules->GetNbPlayers()< 1 || rules->GetNbPlayers()>2){
+    throw "invalid Rules.nbPlayer";
+  }
+  delete rules;
+  std::cout << "#### End test of class Rules ####" << std::endl;
+}
+
+void testSleepRoom(){
+  std::cout << "#### Test of class SleepRoom ####" << std::endl;
+  SleepRoom* sleeproom = new SleepRoom(0,-1);
+
+  if (sleeproom->GetHeal() < 0){
+    throw "Heal < 0";
+  }
+  delete sleeproom;
+  std::cout << "#### End test of class SleepRoom ####" << std::endl;
+}
+
+
+void testSpecialTrainingRoom(){
+  std::cout << "#### Test of class SpecialTrainingRoom ####" << std::endl;
+  std::vector<std::shared_ptr<Card>> cardreward;
+
+  try{
+    delete new SpecialTrainingRoom(1, cardreward);
+    throw std::invalid_argument("The reward should be 3 cards");
+  } catch (std::out_of_range){
+  } catch (std::invalid_argument){
+    throw "The reward should be 3 cards";
+  }
+  std::cout << "#### End test of class SpecialTrainingRoom ####" << std::endl;
+}
+
 void testState(){
   testBuff();
   testCard();
   testDebuff();
   testDeck();
   testDeckParts();
-  //no test for Enemy
   testEnemyRoom();
   testEnemySkill();
   testEntity();
   testFloor();
-  //no test for GameState
   testInfoPlayer();
-  testMap();
+  // testMap();
+  testRoom();
+  testRules();
+  testSleepRoom();
+  testSpecialTrainingRoom();
 }
 
 int main(int argc,char* argv[])

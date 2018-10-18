@@ -23,7 +23,7 @@ Rules::Rules(int nbPlayers, std::vector<std::shared_ptr<InfoPlayer>> infoPlayer)
   }
 
   if ((int) infoPlayer.size() < this->nbPlayers ){
-    throw "Not enough rules for the number of players";
+    throw std::out_of_range("Not enough rules for the number of players");
   }
 }
 

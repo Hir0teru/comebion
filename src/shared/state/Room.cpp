@@ -9,7 +9,12 @@ Room::~Room()
 
 Room::Room (int elem, bool isSTR, bool isER, bool isSR) {
     // Attributes
-    element = elem;
+    if (elem < 0 || elem > 4) {
+      element = 0;
+    } else {
+      element = elem;
+    }
+
     if (isSR) {
       imageMapRoom = "imageRoom.jpg";
       imageInsideRoom = "imageInsideRoom.png";
@@ -28,7 +33,7 @@ Room::Room (int elem, bool isSTR, bool isER, bool isSR) {
       isEnemyRoom = isER;
       isSleepRoom = isSR;
     } else {
-      throw "Room has to be either SpecialTrainingRoom or EnemyRoom or SleepRoom";
+      throw std::out_of_range("Room has to be either SpecialTrainingRoom or EnemyRoom or SleepRoom");
     }
 
     nextRoom = nullptr;

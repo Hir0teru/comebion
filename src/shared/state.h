@@ -2,8 +2,8 @@
 #ifndef __STATE__H
 #define __STATE__H
 
-#include "state/Buff.h"
 #include "state/Debuff.h"
+#include "state/Buff.h"
 #include "state/Card.h"
 #include "state/Deck.h"
 #include "state/Entity.h"
