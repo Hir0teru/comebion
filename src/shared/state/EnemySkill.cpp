@@ -47,7 +47,7 @@ EnemySkill::EnemySkill (int attack, int heal, int block, Buff* buffs,
      }
 
      if (target < 0 or target > 3){
-       throw std::invalid_argument("Invalid target");
+       throw std::out_of_range("Invalid target");
      } else {
        this->target = target;
      }

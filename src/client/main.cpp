@@ -123,9 +123,13 @@ void testDeckParts(){
   try{
     DeckParts* deckpart = new DeckParts((std::shared_ptr<Player>) new Player(), true, true, true);
     delete deckpart;
+    throw std::invalid_argument("no exception detected. Deckpart should be either hand, discardPile or drawPile");
+  }
+  catch(std::out_of_range){}
+  catch(std::invalid_argument){
+    std::cout << "no exception detected. Deckpart should be either hand, discardPile or drawPile"<<std::endl;
     throw "no exception detected. Deckpart should be either hand, discardPile or drawPile";
   }
-  catch(std::invalid_argument){}
 }
 
 void testEnemyRoom(){
@@ -139,48 +143,96 @@ void testEnemyRoom(){
 
   try{
     delete new EnemyRoom(1, noEnemies);
+    throw std::invalid_argument("No enemies in the room exception not detected");
+  } catch (std::out_of_range) {}
+  catch(std::invalid_argument){
+    std::cout << "No enemies in the room exception not detected"<<std::endl;
     throw "No enemies in the room exception not detected";
-  } catch (std::invalid_argument) {}
+  }
 
   try{
     delete new EnemyRoom(1, tooManyEnemies);
+    throw std::invalid_argument("Too many enemies in the room exception not detected");
+  } catch(std::out_of_range){}
+  catch(std::invalid_argument){
+    std::cout << "Too many enemies in the room exception not detected"<<std::endl;
     throw "Too many enemies in the room exception not detected";
-  } catch(std::invalid_argument){}
+  }
 }
 
 void testEnemySkill(){
+  EnemySkill* enemyskill1;
+  EnemySkill* enemyskill2;
   try{
-    EnemySkill* enemyskill1 = new EnemySkill(-1, -1, -1, new Buff(), new Debuff(),(std::string) "", -1, -1);
+    enemyskill1 = new EnemySkill(-1, -1, -1, new Buff(), new Debuff(),(std::string) "", -1, -1);
+    throw std::invalid_argument("Invalid Target");
+  } catch (std::out_of_range){
+    enemyskill1 = new EnemySkill(-1, -1, -1, new Buff(), new Debuff(),(std::string) "", -1, 2);
+  } catch (std::invalid_argument){
+    std::cout << "invalid_target_minus"<<std::endl;
+    throw "Invalid target";
   }
-  EnemySkill* enemyskill1 = new EnemySkill(-1, -1, -1, new Buff(), new Debuff(),(std::string) "", -1, -1);
-  EnemySkill* enemyskill2 = new EnemySkill(-1, -1, -1, new Buff(), new Debuff(),(std::string) "", -1, 4);
+
+  try{
+    enemyskill2 = new EnemySkill(-1, -1, -1, new Buff(), new Debuff(),(std::string) "", -1, 4);
+    throw std::invalid_argument("Invalid Target");
+  } catch (std::out_of_range){
+    enemyskill2 = new EnemySkill(-1, -1, -1, new Buff(), new Debuff(),(std::string) "", -1, 2);
+  } catch (std::invalid_argument){
+    std::cout << "invalid_target_plus"<<std::endl;
+    throw "Invalid target";
+  }
 
   if (enemyskill1->GetAttack() < 0){
     delete enemyskill1;
     delete enemyskill2;
+    std::cout << "EnemySkill.Attack can not be <0"<<std::endl;
     throw "EnemySkill.Attack can not be <0";
   }
 
   if (enemyskill1->GetHeal() < 0){
     delete enemyskill1;
     delete enemyskill2;
+    std::cout << "EnemySkill.Heal can not be <0"<<std::endl;
     throw "EnemySkill.Heal can not be <0";
   }
 
   if (enemyskill1->GetBlock() < 0){
     delete enemyskill1;
     delete enemyskill2;
+    std::cout << "EnemySkill.Block can not be <0"<<std::endl;
     throw "EnemySkill.Block can not be <0";
   }
 
   if (enemyskill1->GetCooldown() < 0){
     delete enemyskill1;
     delete enemyskill2;
+    std::cout << "EnemySkill.Cooldown can not be <0"<<std::endl;
     throw "EnemySkill.Cooldown can not be <0";
   }
 
   delete enemyskill1;
   delete enemyskill2;
+}
+
+void testEntity(){
+  Entity* entity1;
+  Entity* entity2;
+
+  try {
+    entity1 = new Entity((std::string) "entity1", 1, (std::string) "", -1, -1, true, -1, -1);
+    throw std::invalid_argument("id should not be negative");
+  } catch (std::out_of_range){
+    entity1 = new Entity((std::string) "entity1", 1, (std::string) "", -1, -1, true, -1, 1);
+  }
+  catch(std::invalid_argument){
+    std::cout << "Entity.id should not be negative" << std::endl;
+    throw "Entity.id should not be negative";
+  }
+
+  //TODO: FINISH ENTITY
+
+
 }
 
 void testState(){

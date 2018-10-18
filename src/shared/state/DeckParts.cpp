@@ -10,7 +10,7 @@ DeckParts::DeckParts(){
 DeckParts::DeckParts(std::shared_ptr<Player> player, bool isHand, bool isDiscardPile, bool isDrawPile){
   if(!((isHand && !isDiscardPile && !isDrawPile) || (!isHand && isDiscardPile && !isDrawPile) ||
   (!isHand && !isDiscardPile && isDrawPile))){
-    throw std::invalid_argument("Can only be a hand OR a discardPile OR a drawPile");
+    throw std::out_of_range("Can only be a hand OR a discardPile OR a drawPile");
   }
   else{
     this -> isHand = isHand;

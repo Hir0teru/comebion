@@ -18,7 +18,7 @@ Entity::~Entity()
 Entity::Entity (std::string name, int element, std::string image, int statAttack, int statBlock, bool isPlayer, int life, int id){
   this->name = name;
   if (id < 0){
-    std::invalid_argument("Id cannot be negative");
+    throw std::out_of_range("Id cannot be negative");
   }
   else{
     this -> id = id;
