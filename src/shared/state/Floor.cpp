@@ -19,11 +19,11 @@ Floor::Floor()
 
 Floor::Floor (int floorNumber, int element){
   if (floorNumber < 0 || floorNumber > 3){
-    throw "Not a valid floor number. Value must be between 0 and 3";
+    throw std::out_of_range("Not a valid floor number. Value must be between 0 and 3");
   }
   else{
     if (element < 0 || element > 4){
-      throw "Not a valid element. Value must be between 0 and 4.";
+      throw std::out_of_range("Not a valid element. Value must be between 0 and 4.");
     }
     else{
       this -> floorNumber = floorNumber;

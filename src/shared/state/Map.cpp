@@ -26,7 +26,7 @@ int Map::GetCurrentFloor(){
 
 void Map::SetCurrentFloor (int newFloor){
   if (newFloor<0 || newFloor > 3){
-    throw "Not a valid value for floor";
+    throw std::out_of_range("Not a valid value for floor");
   }
   this->currentFloor = newFloor;
 }

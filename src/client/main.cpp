@@ -16,6 +16,7 @@ using namespace std;
 using namespace state;
 
 void testBuff(){
+  std::cout << "#### Test of class Buff ####" << std::endl;
   Buff* buff= new Buff(-1, -1, -1, -1, -1);
   if (buff->GetBlockPlus() < 0){
     delete buff;
@@ -38,9 +39,11 @@ void testBuff(){
     throw "Buff.blockPlus should be > 0";
   }
   delete buff;
+  std::cout << "#### End test of class Buff ####" << std::endl;
 }
 
 void testCard(){
+  std::cout << "#### Test of class Card ####" << std::endl;
   Card* card1 = new Card((std::string) "test", -1, -1,(std::string) "", -1, -1, -1, -1, -1, -1, new Debuff(), new Buff());
   Card* card2 = new Card((std::string)"test", -1, 4,(std::string) "", 5, -1, -1, -1, -1, -1, new Debuff(), new Buff());
   if (card1->GetCost() < 0){
@@ -93,9 +96,11 @@ void testCard(){
 
   delete card1;
   delete card2;
+  std::cout << "#### End test of class Card ####" << std::endl;
 }
 
 void testDebuff(){
+  std::cout << "#### Test of class Debuff ####" << std::endl;
   Debuff* debuff = new Debuff(-1, -1);
 
   if (debuff->GetBlockMinus() < 0){
@@ -108,18 +113,22 @@ void testDebuff(){
     throw "Debuff.AttackMinus should be > 0";
   }
   delete debuff;
+  std::cout << "#### End test of class Debuff ####" << std::endl;
 }
 
 void testDeck(){
+  std::cout << "#### Test of class Deck ####" << std::endl;
   Deck* deck = new Deck(1, 18);
   if (deck->GetSizeMax() < deck->GetSize()){
     delete deck;
     throw "Deck.sizeMax should be > to Deck.size";
   }
   delete deck;
+  std::cout << "#### End test of class Deck ####" << std::endl;
 }
 
 void testDeckParts(){
+  std::cout << "#### Test of class DeckParts ####" << std::endl;
   try{
     DeckParts* deckpart = new DeckParts((std::shared_ptr<Player>) new Player(), true, true, true);
     delete deckpart;
@@ -130,9 +139,11 @@ void testDeckParts(){
     std::cout << "no exception detected. Deckpart should be either hand, discardPile or drawPile"<<std::endl;
     throw "no exception detected. Deckpart should be either hand, discardPile or drawPile";
   }
+  std::cout << "#### End test of class DeckParts ####" << std::endl;
 }
 
 void testEnemyRoom(){
+  std::cout << "#### Test of class EnemyRoom ####" << std::endl;
   std::vector<std::shared_ptr<Enemy>> noEnemies;
   std::vector<std::shared_ptr<Enemy>> tooManyEnemies;
 
@@ -158,11 +169,11 @@ void testEnemyRoom(){
     std::cout << "Too many enemies in the room exception not detected"<<std::endl;
     throw "Too many enemies in the room exception not detected";
   }
+  std::cout << "#### End test of class EnemyRoom ####" << std::endl;
 }
 
-EnemySkill* enemyskill1;
-EnemySkill* enemyskill2;
 void testEnemySkill(){
+  std::cout << "#### Test of class EnemySkill ####" << std::endl;
   EnemySkill* enemyskill1;
   EnemySkill* enemyskill2;
   try{
@@ -215,26 +226,142 @@ void testEnemySkill(){
 
   delete enemyskill1;
   delete enemyskill2;
+  std::cout << "#### End Test of class EnemySkill ####" << std::endl;
 }
 
 void testEntity(){
+  std::cout << "#### Test of class Entity ####" << std::endl;
   Entity* entity1;
-  Entity* entity2;
+  Entity* entity2 = new Entity((std::string) "entity1", 4, (std::string) "", -1, -1, true, -1, 1);
 
   try {
-    entity1 = new Entity((std::string) "entity1", 1, (std::string) "", -1, -1, true, -1, -1);
+    entity1 = new Entity((std::string) "entity1", -1, (std::string) "", -1, -1, true, -1, -1);
     throw std::invalid_argument("id should not be negative");
   } catch (std::out_of_range){
-    entity1 = new Entity((std::string) "entity1", 1, (std::string) "", -1, -1, true, -1, 1);
+    entity1 = new Entity((std::string) "entity1", -1, (std::string) "", -1, -1, true, -1, 1);
   }
   catch(std::invalid_argument){
     std::cout << "Entity.id should not be negative" << std::endl;
     throw "Entity.id should not be negative";
   }
 
-  //TODO: FINISH ENTITY
+  if (entity1->GetElement() < 0){
+    delete entity1;
+    delete entity2;
+    throw "Entity.Element should be between 0 and 4";
+  }
 
+  if (entity2->GetElement() >4){
+    delete entity1;
+    delete entity2;
+    throw "Entity.Element should be between 0 and 4";
+  }
 
+  if (entity1->GetStatAttack() < 0){
+    delete entity1;
+    delete entity2;
+    throw "Entity.StatAttack should be > 0";
+  }
+
+  if (entity1->GetStatBlock() < 0){
+    delete entity1;
+    delete entity2;
+    throw "Entity.StatBlock should be > 0";
+  }
+
+  if (entity1->GetLife() < 0){
+    delete entity1;
+    delete entity2;
+    throw "Entity.life should be > 0";
+  }
+  delete entity1;
+  delete entity2;
+  std::cout << "#### End test of class Entity ####" << std::endl;
+}
+
+void testFloor(){
+  std::cout << "#### Test of class Floor ####" << std::endl;
+  try{
+    delete new Floor(-1, 1);
+    throw std::invalid_argument("Floor.floorNumber should be between 0 and 3");
+  } catch (std::out_of_range) {}
+  catch(std::invalid_argument){
+    std::cout << "Floor.floorNumber should be between 0 and 3" << std::endl;
+    throw "Floor.floorNumber should be between 0 and 3";
+  }
+
+  try{
+    delete new Floor(4, 1);
+    throw std::invalid_argument("Floor.floorNumber should be between 0 and 3");
+  } catch (std::out_of_range) {}
+  catch(std::invalid_argument){
+    std::cout << "Floor.floorNumber should be between 0 and 3" << std::endl;
+    throw "Floor.floorNumber should be between 0 and 3";
+  }
+
+  try{
+    delete new Floor(1, -1);
+    throw std::invalid_argument("Floor.element should be between 0 and 4");
+  } catch (std::out_of_range) {}
+  catch(std::invalid_argument){
+    std::cout << "Floor.element should be between 0 and 4" << std::endl;
+    throw "Floor.element should be between 0 and 4";
+  }
+
+  try{
+    delete new Floor(1, 5);
+    throw std::invalid_argument("Floor.element should be between 0 and 4");
+  } catch (std::out_of_range) {}
+  catch(std::invalid_argument){
+    std::cout << "Floor.element should be between 0 and 4" << std::endl;
+    throw "Floor.element should be between 0 and 4";
+  }
+  std::cout << "#### End test of class Floor ####" << std::endl;
+}
+
+void testInfoPlayer(){
+  std::cout << "#### Test of class InfoPlayer ####" << std::endl;
+
+  try{
+    delete new InfoPlayer(0, true);;
+    throw std::invalid_argument("Element not valid");
+  } catch (std::out_of_range) {}
+  catch (std::invalid_argument){
+    throw "Element not valid";
+  }
+
+  try{
+    delete new InfoPlayer(5, true);
+    throw std::invalid_argument("Element not valid");
+  } catch (std::out_of_range) {}
+  catch (std::invalid_argument){
+    throw "Element not valid";
+  }
+
+  std::cout << "#### End test of class InfoPlayer ####" << std::endl;
+}
+
+void testMap(){
+  std::cout << "#### Test of class Map ####" << std::endl;
+
+  Map* map = new Map();
+  try{
+    map->SetCurrentFloor(-1);
+    throw std::invalid_argument("Invalid value of floor");
+  } catch (std::out_of_range) {}
+  catch (std::invalid_argument) {
+    throw "Invalid value of floor";
+  }
+
+  try{
+    map->SetCurrentFloor(4);
+    throw std::invalid_argument("Invalid value of floor");
+  } catch (std::out_of_range) {}
+  catch (std::invalid_argument) {
+    throw "Invalid value of floor";
+  }
+
+  std::cout << "#### End test of class Map ####" << std::endl;
 }
 
 void testState(){
@@ -243,10 +370,14 @@ void testState(){
   testDebuff();
   testDeck();
   testDeckParts();
-  //no test for enemy
+  //no test for Enemy
   testEnemyRoom();
   testEnemySkill();
-
+  testEntity();
+  testFloor();
+  //no test for GameState
+  testInfoPlayer();
+  testMap();
 }
 
 int main(int argc,char* argv[])

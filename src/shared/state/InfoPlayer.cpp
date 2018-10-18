@@ -12,7 +12,7 @@ InfoPlayer::~InfoPlayer(){}
 
 InfoPlayer::InfoPlayer (int firstElement, bool playerControlledByAI){
   if (firstElement < 1 or firstElement > 4) {
-    throw "Element not valid";
+    throw std::out_of_range("Element not valid");
   } else {
     this->firstElement = firstElement;
   }
