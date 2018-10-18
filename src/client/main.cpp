@@ -160,6 +160,8 @@ void testEnemyRoom(){
   }
 }
 
+EnemySkill* enemyskill1;
+EnemySkill* enemyskill2;
 void testEnemySkill(){
   EnemySkill* enemyskill1;
   EnemySkill* enemyskill2;
