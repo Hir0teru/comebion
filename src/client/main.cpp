@@ -148,12 +148,19 @@ void testEnemyRoom(){
   } catch(std::invalid_argument){}
 }
 
+EnemySkill* enemyskill1;
+EnemySkill* enemyskill2;
 void testEnemySkill(){
   try{
-    EnemySkill* enemyskill1 = new EnemySkill(-1, -1, -1, new Buff(), new Debuff(),(std::string) "", -1, -1);
-  }
-  EnemySkill* enemyskill1 = new EnemySkill(-1, -1, -1, new Buff(), new Debuff(),(std::string) "", -1, -1);
-  EnemySkill* enemyskill2 = new EnemySkill(-1, -1, -1, new Buff(), new Debuff(),(std::string) "", -1, 4);
+    enemyskill1 = new EnemySkill(-1, -1, -1, new Buff(), new Debuff(),(std::string) "", -1, -1);
+
+  } catch(std::invalid_argument){}
+
+  try{
+    enemyskill2 = new EnemySkill(-1, -1, -1, new Buff(), new Debuff(),(std::string) "", -1, 4);
+  } catch(std::invalid_argument){}
+
+
 
   if (enemyskill1->GetAttack() < 0){
     delete enemyskill1;
