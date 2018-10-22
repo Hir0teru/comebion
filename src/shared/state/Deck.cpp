@@ -22,7 +22,7 @@ Deck::Deck (int element, int size){
   cards.reserve(sizeMax);
 
   for (int i = 0; i < size/2 ; i++){
-    cards[i].reset( new Card("basic attack", 1, 1, "None", element, 6, 0, 0, 0, 0, (std::shared_ptr<Debuff>) new Debuff(), (std::shared_ptr<Buff>) new Buff() ));
+    cards[i].reset(new Card("basic attack", 1, 1, "None", element, 6, 0, 0, 0, 0, std::make_shared<Debuff>(), std::make_shared<Buff>()));
   }
   for (int i = int(size/2); i < size; i++){
     cards[i].reset (new Card("basic defense", 1, 0, "None", element, 5, 0, 0, 0, 0, (std::shared_ptr<Debuff>) new Debuff(), (std::shared_ptr<Buff>) new Buff()));

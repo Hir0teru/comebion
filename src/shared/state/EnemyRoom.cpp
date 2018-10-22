@@ -1,5 +1,5 @@
 #include "EnemyRoom.h"
-
+#include <iostream>
 using namespace state;
 
 
@@ -50,9 +50,11 @@ std::vector<std::shared_ptr<DeckParts>> EnemyRoom::GetHands (){
 void EnemyRoom::SetDrawPiles (std::vector<std::shared_ptr<DeckParts>> drawPileVector){
   for(int i = 0; i < int( drawPileVector.size()); i++){
     if (!drawPileVector[i]->GetIsDrawPile()){
+      std::cout<<"Not a drawpile"<<std::endl;
       throw "Not a drawpile";
     }
     if (drawPileVector[i]->GetSize() > this->drawPiles[i]->GetSizeMax()){
+      std::cout<<"DeckParts too big"<<std::endl;
           throw "DeckParts too big";
         }
     }
@@ -62,9 +64,11 @@ void EnemyRoom::SetDrawPiles (std::vector<std::shared_ptr<DeckParts>> drawPileVe
 void EnemyRoom::SetDiscardPiles (std::vector<std::shared_ptr<DeckParts>> discardPileVector){
   for(int i = 0; i < int(discardPileVector.size()); i++){
     if (!discardPileVector[i]->GetIsDiscardPile()){
+      std::cout<<"Not a discardPile"<<std::endl;
        throw "Not a discard pile";
      }
     if (discardPileVector[i]->GetSize() > this->drawPiles[i]->GetSizeMax()){
+      std::cout<<"DeckParts too big"<<std::endl;
           throw "DeckParts too big";
         }
     }
@@ -76,10 +80,12 @@ void EnemyRoom::SetDiscardPiles (std::vector<std::shared_ptr<DeckParts>> discard
 void EnemyRoom::SetHands (std::vector<std::shared_ptr<DeckParts>> handVector){
   for ( int i = 0; i< int(handVector.size()); i++){
     if (!handVector[i]->GetIsHand()){
+      std::cout<<"Not a hand"<<std::endl;
       throw "Not a hand";
     }
     if (handVector[i]->GetSize() > this->hands[i]->GetSizeMax()){
-          throw "DeckParts too big";
+      std::cout<<"DeckParts too big"<<std::endl;
+      throw "DeckParts too big";
         }
     }
     this->hands = handVector;

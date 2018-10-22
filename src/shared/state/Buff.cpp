@@ -12,35 +12,35 @@ Buff::Buff (){
 
 Buff::Buff (int blockPlus, int attackPlus, int heal, int evade, int retaliate){
   if (blockPlus < 0){
-    std::cout<<"error with blockPlus "<< blockPlus <<std::endl;
+    std::cout << "error with blockPlus "<< blockPlus <<std::endl;
     this -> blockPlus = 0;
   }
   else{
     this -> blockPlus = blockPlus;
   }
   if (attackPlus < 0){
-    std::cout<<"error with attackPlus "<< attackPlus <<std::endl;
+    std::cout << "error with attackPlus "<< attackPlus <<std::endl;
     this -> attackPlus = 0;
   }
   else{
     this -> attackPlus = attackPlus;
   }
   if (heal < 0){
-    std::cout<<"error with heal "<< heal <<std::endl;
+    std::cout << "error with heal "<< heal <<std::endl;
     this -> heal = 0;
   }
   else{
     this -> heal = heal;
   }
   if (evade < 0){
-    std::cout<<"error with evade "<< evade <<std::endl;
+    std::cout << "error with evade "<< evade <<std::endl;
     this -> evade = 0;
   }
   else{
     this -> evade = evade;
   }
   if (retaliate < 0){
-    std::cout<<"error with retaliate "<< retaliate <<std::endl;
+    std::cout << "error with retaliate "<< retaliate <<std::endl;
     this -> retaliate = 0;
   }
   else{
@@ -48,7 +48,7 @@ Buff::Buff (int blockPlus, int attackPlus, int heal, int evade, int retaliate){
   }
 }
 Buff::~Buff(){
-  std::cout<<"Buff destroyed"<<std::endl;
+  std::cout << "Buff destroyed" << std::endl;
 }
 int Buff::GetBlockPlus (){return blockPlus;}
 

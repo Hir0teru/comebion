@@ -2,8 +2,11 @@
 #include "EnemyRoom.h"
 #include "SleepRoom.h"
 #include "SpecialTrainingRoom.h"
+
 #include <cstdlib>
 #include <vector>
+#include <iostream>
+#include <memory>
 
 using namespace state;
 
@@ -31,28 +34,35 @@ Floor::Floor (int floorNumber, int element){
       int randomNumber;
       Room* room;
       std::vector<std::shared_ptr<Enemy>> enemies;
-      enemies.push_back((std::shared_ptr<Enemy>) new Enemy());
+      enemies.push_back(std::make_shared<Enemy>());
       room = new EnemyRoom(element, enemies);
       this->firstRoom.reset(room);
       this->currentRoom.reset(room);
+
       for (int i = 1; i<9; i++){
         randomNumber = rand() % 100;
         if (randomNumber < 60){
+          std::cout<<"enemy"<<std::endl;
           std::vector<std::shared_ptr<Enemy>> enemies;
-          enemies.push_back((std::shared_ptr<Enemy>) new Enemy());
-          room = new EnemyRoom(element, enemies);
+          enemies.push_back(std::make_shared<Enemy>());
+          currentRoom->SetNextRoom(std::make_shared<EnemyRoom>(element, enemies));
         } else if (randomNumber < 80){
-          room = new SleepRoom(element, randomNumber-60);
+          std::cout<<"sleep"<<std::endl;
+          currentRoom->SetNextRoom(std::make_shared<SleepRoom>(element, randomNumber-60));
         } else {
+          std::cout<<"str"<<std::endl;
           std::vector<std::shared_ptr<Card>> reward;
-          reward.push_back((std::shared_ptr<Card>) new Card("reward1", 0));
-          reward.push_back((std::shared_ptr<Card>) new Card("reward2", 0));
-          reward.push_back((std::shared_ptr<Card>) new Card("reward3", 0));
-          room = new SpecialTrainingRoom(element, reward);
+          reward.push_back(std::make_shared<Card>("reward1", 0));
+          reward.push_back(std::make_shared<Card>("reward2", 0));
+          reward.push_back(std::make_shared<Card>("reward3", 0));
+          currentRoom->SetNextRoom(std::make_shared<SpecialTrainingRoom>(element, reward));
         }
-        currentRoom->SetNextRoom((std::shared_ptr<Room>) room);
-        currentRoom.reset(room);
+        std::cout << currentRoom << " --- " << currentRoom->GetNextRoom() << std::endl;
+        currentRoom = currentRoom->GetNextRoom();
+        std::cout << "bug" << std::endl;
+        room = nullptr;
       }
+      this->currentRoom = this->firstRoom;
     }
   }
 }

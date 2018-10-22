@@ -44,8 +44,8 @@ void testBuff(){
 
 void testCard(){
   std::cout << "#### Test of class Card ####" << std::endl;
-  Card* card1 = new Card((std::string) "test", -1, -1,(std::string) "", -1, -1, -1, -1, -1, -1, (std::shared_ptr<Debuff>) new Debuff(), (std::shared_ptr<Buff>) new Buff());
-  Card* card2 = new Card((std::string)"test", -1, 4,(std::string) "", 5, -1, -1, -1, -1, -1, (std::shared_ptr<Debuff>) new Debuff(), (std::shared_ptr<Buff>) new Buff());
+  Card* card1 = new Card((std::string) "test", -1, -1,(std::string) "", -1, -1, -1, -1, -1, -1, std::make_shared<Debuff>(), std::make_shared<Buff>());
+  Card* card2 = new Card((std::string)"test", -1, 4,(std::string) "", 5, -1, -1, -1, -1, -1, std::make_shared<Debuff>(), std::make_shared<Buff>());
   if (card1->GetCost() < 0){
     delete card1;
     delete card2;
@@ -130,7 +130,7 @@ void testDeck(){
 void testDeckParts(){
   std::cout << "#### Test of class DeckParts ####" << std::endl;
   try{
-    DeckParts* deckpart = new DeckParts((std::shared_ptr<Player>) new Player(), true, true, true);
+    DeckParts* deckpart = new DeckParts(std::make_shared<Player>(), true, true, true);
     delete deckpart;
     throw std::invalid_argument("no exception detected. Deckpart should be either hand, discardPile or drawPile");
   }
@@ -147,10 +147,10 @@ void testEnemyRoom(){
   std::vector<std::shared_ptr<Enemy>> noEnemies;
   std::vector<std::shared_ptr<Enemy>> tooManyEnemies;
 
-  tooManyEnemies.push_back((std::shared_ptr<Enemy>) new Enemy());
-  tooManyEnemies.push_back((std::shared_ptr<Enemy>) new Enemy());
-  tooManyEnemies.push_back((std::shared_ptr<Enemy>) new Enemy());
-  tooManyEnemies.push_back((std::shared_ptr<Enemy>) new Enemy());
+  tooManyEnemies.push_back(std::make_shared<Enemy>());
+  tooManyEnemies.push_back(std::make_shared<Enemy>());
+  tooManyEnemies.push_back(std::make_shared<Enemy>());
+  tooManyEnemies.push_back(std::make_shared<Enemy>());
 
   try{
     delete new EnemyRoom(1, noEnemies);
@@ -177,20 +177,20 @@ void testEnemySkill(){
   EnemySkill* enemyskill1;
   EnemySkill* enemyskill2;
   try{
-    enemyskill1 = new EnemySkill(-1, -1, -1, (std::shared_ptr<Buff>) new Buff(), (std::shared_ptr<Debuff>) new Debuff(),(std::string) "", -1, -1);
+    enemyskill1 = new EnemySkill(-1, -1, -1, std::make_shared<Buff>(), std::make_shared<Debuff>(),(std::string) "", -1, -1);
     throw std::invalid_argument("Invalid Target");
   } catch (std::out_of_range){
-    enemyskill1 = new EnemySkill(-1, -1, -1, (std::shared_ptr<Buff>) new Buff(), (std::shared_ptr<Debuff>) new Debuff(),(std::string) "", -1, 2);
+    enemyskill1 = new EnemySkill(-1, -1, -1, std::make_shared<Buff>(), std::make_shared<Debuff>(),(std::string) "", -1, 2);
   } catch (std::invalid_argument){
     std::cout << "invalid_target_minus"<<std::endl;
     throw "Invalid target";
   }
 
   try{
-    enemyskill2 = new EnemySkill(-1, -1, -1, (std::shared_ptr<Buff>) new Buff(), (std::shared_ptr<Debuff>) new Debuff(),(std::string) "", -1, 4);
+    enemyskill2 = new EnemySkill(-1, -1, -1, std::make_shared<Buff>(), std::make_shared<Debuff>(),(std::string) "", -1, 4);
     throw std::invalid_argument("Invalid Target");
   } catch (std::out_of_range){
-    enemyskill2 = new EnemySkill(-1, -1, -1, (std::shared_ptr<Buff>) new Buff(), (std::shared_ptr<Debuff>) new Debuff(),(std::string) "", -1, 2);
+    enemyskill2 = new EnemySkill(-1, -1, -1, std::make_shared<Buff>(), std::make_shared<Debuff>(),(std::string) "", -1, 2);
   } catch (std::invalid_argument){
     std::cout << "invalid_target_plus"<<std::endl;
     throw "Invalid target";
@@ -350,6 +350,7 @@ void testMap(){
     throw std::invalid_argument("Invalid value of floor");
   } catch (std::out_of_range) {}
   catch (std::invalid_argument) {
+    std::cout<<"Invalid value of floor <0" << std::endl;
     throw "Invalid value of floor";
   }
 
@@ -358,6 +359,7 @@ void testMap(){
     throw std::invalid_argument("Invalid value of floor");
   } catch (std::out_of_range) {}
   catch (std::invalid_argument) {
+    std::cout<<"Invalid value of floor >3" << std::endl;
     throw "Invalid value of floor";
   }
 
@@ -391,7 +393,7 @@ void testRules(){
   std::cout << "#### Test of class Rules ####" << std::endl;
   Rules* rules;
   std::vector<std::shared_ptr<InfoPlayer>> infos;
-  infos.push_back((std::shared_ptr<InfoPlayer>) new InfoPlayer());
+  infos.push_back(std::make_shared<InfoPlayer>());
 
   try{
     delete new Rules(2, infos);
@@ -436,21 +438,22 @@ void testSpecialTrainingRoom(){
 }
 
 void testState(){
-  testBuff();
-  testCard();
-  testDebuff();
-  testDeck();
-  testDeckParts();
-  testEnemyRoom();
-  testEnemySkill();
-  testEntity();
-  testFloor();
-  testInfoPlayer();
-  // testMap();
-  testRoom();
-  testRules();
-  testSleepRoom();
-  testSpecialTrainingRoom();
+  // testBuff();
+  // testCard();
+  // testDebuff();
+  // testDeck();
+  // testDeckParts();
+  // testEnemyRoom();
+  // testEnemySkill();
+  // testEntity();
+  // testFloor();
+  // testInfoPlayer();
+  testMap();
+  // testRoom();
+  // testRules();
+  // testSleepRoom();
+  // testSpecialTrainingRoom();
+
 }
 
 int main(int argc,char* argv[])

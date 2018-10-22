@@ -1,5 +1,5 @@
 #include "Room.h"
-
+#include <iostream>
 using namespace state;
 
 Room::~Room()
@@ -69,13 +69,21 @@ Room::Room (int elem, bool isSTR, bool isER, bool isSR) {
     }
 
     void Room::SetNextRoom(std::shared_ptr<Room> newNextRoom){
+      std::cout<<"setnextroom"<<std::endl;
       std::shared_ptr<Room> next = newNextRoom;
       std::shared_ptr<Room> currentRoom;
       currentRoom.reset(this);
-      while (next != currentRoom && next){
-        next = next->nextRoom;
+
+      while (next && next != currentRoom){
+        // std::cout << "1 " <<currentRoom << " --- " << next << std::endl;
+        next = next->GetNextRoom();
+        // std::cout << "2 " <<currentRoom << " --- " << next << std::endl;
       }
+
+      std::cout<< next <<std::endl;
+
       if (next){
+        std::cout<<"loop"<<std::endl;
         throw "Loop Detected";
       } else {
         this->nextRoom = newNextRoom;

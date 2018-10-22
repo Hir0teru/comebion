@@ -1,10 +1,12 @@
 #include "Map.h"
+#include <iostream>
 
 using namespace state;
 
 Map::Map(){
-  floors.reserve(4);
-  floors[0].reset(new Floor(0, 1)); //floor number, floor element
+  floors.push_back(std::make_shared<Floor>(0, 1)); //floor number, floor element
+  std::cout << "Bug3" << std::endl;
+
   floors[1].reset(new Floor(1, 2));
   floors[2].reset(new Floor(2, 3));
   floors[3].reset(new Floor(3, 4));

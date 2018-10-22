@@ -92,6 +92,7 @@ int DeckParts::GetSizeMax (){
 
 void DeckParts::SetSizeMax (int newSizeMax){
   if (newSizeMax < size){
+    std::cout<<"Too much elements in deckPart to change sizeMax now"<<std::endl;
     throw "Too much elements in deckPart to change sizeMax now";
   }
   else{
