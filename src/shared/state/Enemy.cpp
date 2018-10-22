@@ -1,20 +1,27 @@
 #include "Enemy.h"
 #include <iostream>
 #include <stdexcept>
+#include <memory>
 
 using namespace state;
 
 
 //basic ennemy for testing
 Enemy::Enemy (){
-  reward.reserve(3);
-  for (std::shared_ptr<Card> card : reward){
-    card.reset(new Card("reward", 4));
+  std::cout<<"1"<<std::endl;
+  for (int i = 0; i<3; i++){
+    reward.push_back(std::make_shared<Card>("reward", 4));
   }
-  skills.reserve(3);
-  skills[0].reset(new EnemySkill (15, 0, 0, std::make_shared<Buff>(0, 0, 0, 0, 0), std::make_shared<Debuff>(0, 0), "imageIntent.jpg", 2, 0));
-  skills[1].reset(new EnemySkill(0, 0, 10, std::make_shared<Buff>(0, 0, 0, 0, 0), std::make_shared<Debuff>(0, 0), "imageIntent.jpg", 0, 0));
-  skills[2].reset(new EnemySkill(5, 0, 0, std::make_shared<Buff>(0, 0, 0, 0, 0), std::make_shared<Debuff>(2, 0), "imageIntent.jpg0", 1, 0));
+  std::cout<<"2"<<std::endl;
+  skills.push_back(std::make_shared<EnemySkill>(15, 0, 0, std::make_shared<Buff>(0, 0, 0, 0, 0), std::make_shared<Debuff>(0, 0), "imageIntent.jpg", 2, 0));
+  std::cout<<"3"<<std::endl;
+  std::shared_ptr<EnemySkill> test = std::make_shared<EnemySkill>(0, 0, 10, std::make_shared<Buff>(0, 0, 0, 0, 0), std::make_shared<Debuff>(0, 0), "imageIntent.jpg", 0, 0);
+  std::cout<<"3.1"<<std::endl;
+  std::cout<<test<<std::endl;
+  skills.push_back(test);
+  std::cout<<"4"<<std::endl;
+  skills.push_back(std::make_shared<EnemySkill>(5, 0, 0, std::make_shared<Buff>(0, 0, 0, 0, 0), std::make_shared<Debuff>(2, 0), "imageIntent.jpg0", 1, 0));
+  std::cout<<"5"<<std::endl;
   intent = 0;
 }
 
@@ -22,9 +29,8 @@ Enemy::Enemy (){
 Enemy::Enemy (std::string name, int element, std::string image,
   int statAttack, int statBlock, int life, int id, std::vector<std::shared_ptr<EnemySkill>> skills) : Entity(name, element,
     image,statAttack, statBlock, false,  life,  id){
-      reward.reserve(3);
       for (int i = 0; i<3; i++){
-        reward[i].reset(new Card("reward", element));
+        reward.push_back(std::make_shared<Card>("reward", element));
       }
       this -> skills = skills;
       intent = 0;

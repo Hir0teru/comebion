@@ -15,7 +15,7 @@ EnemySkill::~EnemySkill ()
 }
 
 EnemySkill::EnemySkill (int attack, int heal, int block, std::shared_ptr<Buff> buffs,
-   std::shared_ptr<Debuff> debuffs, std::string intentimage, int cooldown, int target){
+   std::shared_ptr<Debuff> debuffs, std::string intentimage, int cooldown, int target) : buff(buffs), debuff(debuffs){
      if (attack < 0) {
        std::cout << "Attack cannot be negative, setting to 0." <<std::endl;
        this -> attack = 0;
@@ -35,8 +35,8 @@ EnemySkill::EnemySkill (int attack, int heal, int block, std::shared_ptr<Buff> b
      } else{
        this -> heal = heal;
      }
-     this->buff = buffs;
-     this -> debuff = debuffs;
+     // this->buff = buffs;
+     // this -> debuff = debuffs;
      this -> intentImage = intentimage;
      if (cooldown < 0){
        std::cout << "Cooldown cannot be negative, setting to 0;" << std::endl;

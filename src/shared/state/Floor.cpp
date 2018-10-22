@@ -44,7 +44,11 @@ Floor::Floor (int floorNumber, int element){
         if (randomNumber < 60){
           std::cout<<"enemy"<<std::endl;
           std::vector<std::shared_ptr<Enemy>> enemies;
+          std::cout<<"enemy2"<<std::endl;
+          std::shared_ptr<Enemy> test = std::make_shared<Enemy>();
+          std::cout<<"lolilol"<<std::endl;
           enemies.push_back(std::make_shared<Enemy>());
+          std::cout<<"enemy3"<<std::endl;
           currentRoom->SetNextRoom(std::make_shared<EnemyRoom>(element, enemies));
         } else if (randomNumber < 80){
           std::cout<<"sleep"<<std::endl;
@@ -58,9 +62,9 @@ Floor::Floor (int floorNumber, int element){
           currentRoom->SetNextRoom(std::make_shared<SpecialTrainingRoom>(element, reward));
         }
         std::cout << currentRoom << " --- " << currentRoom->GetNextRoom() << std::endl;
-        currentRoom = currentRoom->GetNextRoom();
+        std::cout << currentRoom->GetNextRoom() << std::endl;
         std::cout << "bug" << std::endl;
-        room = nullptr;
+        // room = nullptr;
       }
       this->currentRoom = this->firstRoom;
     }

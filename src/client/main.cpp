@@ -45,7 +45,7 @@ void testBuff(){
 void testCard(){
   std::cout << "#### Test of class Card ####" << std::endl;
   Card* card1 = new Card((std::string) "test", -1, -1,(std::string) "", -1, -1, -1, -1, -1, -1, std::make_shared<Debuff>(), std::make_shared<Buff>());
-  Card* card2 = new Card((std::string)"test", -1, 4,(std::string) "", 5, -1, -1, -1, -1, -1, std::make_shared<Debuff>(), std::make_shared<Buff>());
+  Card* card2 = new Card((std::string) "test", -1, 4,(std::string) "", 5, -1, -1, -1, -1, -1, std::make_shared<Debuff>(), std::make_shared<Buff>());
   if (card1->GetCost() < 0){
     delete card1;
     delete card2;

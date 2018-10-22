@@ -64,7 +64,7 @@ Room::Room (int elem, bool isSTR, bool isER, bool isSR) {
       return element;
     }
 
-    std::shared_ptr<Room> Room::GetNextRoom(){
+    std::shared_ptr<Room>& Room::GetNextRoom(){
       return nextRoom;
     }
 
