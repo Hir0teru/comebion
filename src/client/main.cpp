@@ -11,6 +11,7 @@ void testSFML() {
 // Fin test SFML
 
 #include "state.h"
+// #include "render.h"
 
 using namespace std;
 using namespace state;
