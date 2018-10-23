@@ -178,4 +178,7 @@ std::shared_ptr<Buff> Card::GetBuff (){
   return buff;
 };
 
+std::string Card::GetName(){
+  return name;
+}
 // Setters and Getters

@@ -1,20 +1,50 @@
 #include <iostream>
 #include <string>
+#include <vector>
+#include <memory>
 
 // Les lignes suivantes ne servent qu'à vérifier que la compilation avec SFML fonctionne
 #include <SFML/Graphics.hpp>
 
+#include "state.h"
+#include "render.h"
+
+using namespace std;
+using namespace state;
+using namespace render;
+
 void testSFML() {
-    sf::Texture texture;
+  std::shared_ptr<Buff> buff = make_shared<Buff>(0,0,0,0,0);
+  std::shared_ptr<Debuff> debuff = make_shared<Debuff>(0,0);
+  std::shared_ptr<Card> card = std::make_shared<Card>("Attack Test", 2 , 1, "image.png", 2, 9, 0, 0,0,0, debuff, buff);
+  Editeur* editeur = new Editeur( 10, 10, 500, 500,  card);
+
+
+  sf::RenderWindow window(sf::VideoMode(800, 600), "Test image");
+  while(window.isOpen()){
+    sf::Event event;
+    while (window.pollEvent(event)){
+      if (event.type == sf::Event::Closed){
+        window.close();
+      }
+    }
+
+
+    window.clear(sf::Color::Transparent);
+    sf::Sprite sprite;
+    sprite.setTexture(editeur -> GetTexture().getTexture());
+    window.draw(sprite);
+    // sf::CircleShape shape(100.f);
+    // shape.setFillColor(sf::Color::Blue);
+    // window.draw(shape);
+    window.display();
+  }
+
 }
 
 // Fin test SFML
 
-#include "state.h"
-// #include "render.h"
 
-using namespace std;
-using namespace state;
 
 void testBuff(){
   std::cout << "#### Test of class Buff ####" << std::endl;
@@ -468,6 +498,10 @@ int main(int argc,char* argv[])
 
     if (argc == 2 and std::string(argv[1]) == "state"){
         testState();
+    }
+
+    if (argc == 2 and std::string(argv[1] )== "render"){
+      testSFML();
     }
 
     return 0;
