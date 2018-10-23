@@ -54,7 +54,7 @@ int is_scalar_type(char* name) {
     }
     if (strcmp(name,"double") == 0) {
         return 1;
-    }    
+    }
     umlclassnode *ref = find_by_name (gb->classlist, name);
     if (ref && is_enum_stereo(ref->key->stereotype)) {
         return 1;
@@ -216,7 +216,7 @@ check_visibility (int *curr_vis, int new_vis)
     indentlevel++;
 }
 
-static void 
+static void
 add_setter_getter(umlclassnode *node, char* typename,char* varname)
 {
     int foundGetter = 0;
@@ -234,10 +234,10 @@ add_setter_getter(umlclassnode *node, char* typename,char* varname)
         while (umlo != NULL) {
             if (strcmp(umlo->key.attr.name,getter) == 0) {
                 foundGetter = 1;
-            }                        
+            }
             if (strcmp(umlo->key.attr.name,setter) == 0) {
                 foundSetter = 1;
-            }                        
+            }
             umlo = umlo->next;
         }
     }
@@ -260,7 +260,7 @@ add_setter_getter(umlclassnode *node, char* typename,char* varname)
             emit ("void %s(const %s& %s);\n", setter, typename, varname);
         }
     }
-    
+
 }
 
 static void
@@ -494,13 +494,13 @@ gen_class (umlclassnode *node)
                     continue;
                 }
                 add_setter_getter(node,umla->key.type,umla->key.name);
-                
+
                 umla = umla->next;
             }
         }
     }
-    
-    
+
+
     if (node->key->attributes != NULL && is_valuetype) {
         umlattrlist umla = node->key->attributes;
         emit ("\n");
@@ -689,7 +689,7 @@ struct stdlib_includes {
    int unordered_set;
    int stack;
    int queue;
-   int array;   
+   int array;
    int thread;
    int mutex;
    int random;
@@ -699,7 +699,7 @@ struct stdlib_includes {
 
 void print_include_stdlib(struct stdlib_includes* si,char* name) {
     if ( strlen(name) > 0 ) {
-       if (!si->stdint 
+       if (!si->stdint
        && (strstr(name,"int8_t")
        ||  strstr(name,"uint8_t")
        ||  strstr(name,"int16_t")
@@ -755,7 +755,7 @@ void print_include_stdlib(struct stdlib_includes* si,char* name) {
            print ("#include <thread>\n");
            si->thread = 1;
        }
-       if (!si->memory 
+       if (!si->memory
        && (strstr(name,"std::queue")
        ||  strstr(name,"std::priority_queue"))) {
            print ("#include <queue>\n");
@@ -769,32 +769,33 @@ void print_include_stdlib(struct stdlib_includes* si,char* name) {
            print ("#include <unordered_set>\n");
            si->unordered_set = 1;
        }
-       if (!si->memory 
+       if (!si->memory
        && (strstr(name,"std::unique_ptr")
        ||  strstr(name,"std::shared_ptr")
        ||  strstr(name,"std::weak_ptr"))) {
            print ("#include <memory>\n");
            si->memory = 1;
        }
-       if (!si->random 
+       if (!si->random
        && (strstr(name,"std::mt19937")
        ||  strstr(name,"std::random_device")
        ||  strstr(name,"std::uniform_int_distribution"))) {
            print ("#include <random>\n");
            si->random = 1;
        }
-       if (!si->sfmlGraphics 
+       if (!si->sfmlGraphics
        && (strstr(name,"sf::RenderWindow")
        ||  strstr(name,"sf::VertexArray")
-       ||  strstr(name,"sf::Texture"))) {
+       ||  strstr(name,"sf::Texture")
+     ||  strstr(name,"sf::RenderTexture")))) {
            print ("#include <SFML/Graphics.hpp>\n");
            si->sfmlGraphics = 1;
-       }       
+       }
        if (!si->jsoncpp
        && (strstr(name,"Json::") == name)) {
            print ("#include <json/json.h>\n");
            si->jsoncpp = 1;
-       }       
+       }
     }
 }
 
@@ -813,10 +814,10 @@ gen_namespace(batch *b, declaration *nsd) {
         } else { /* dk_class */
             name = d->u.this_class->key->name;
         }
-        
+
         /////////////////////////////////////
         // Header file
-        
+
 #ifdef ENABLE_FILE_UPDATE_ON_CHANGE
         sprintf(filename, "%s/%s.%s~", nsname, name, file_ext);
 #else
@@ -889,7 +890,7 @@ gen_namespace(batch *b, declaration *nsd) {
             namelist incfile = includes;
             char* curnsname = NULL;
             while (incfile != NULL) {
-                
+
                 if (!incfile->package) {
                     if (curnsname) {
                         curnsname = NULL;
@@ -958,7 +959,7 @@ gen_namespace(batch *b, declaration *nsd) {
 
         /////////////////////////////////////
         // Source file
-        
+
         sprintf(filename, "%s/%s.cpp", nsname, name);
         char newfilename[1024];
         sprintf (newfilename, "%s/%s", b->outdir, filename);
@@ -968,7 +969,7 @@ gen_namespace(batch *b, declaration *nsd) {
             exists = 1;
             fclose(sourceFile);
         }
-        
+
         /////////////////////////////////////
         // Source file (generate new)
         if (!exists) {
@@ -983,9 +984,9 @@ gen_namespace(batch *b, declaration *nsd) {
         /////////////////////////////////////
         // Source file (update existing)
         else {
-            
+
         }
-        
+
         d = d->next;
     }
 }
@@ -1045,7 +1046,7 @@ generate_code_cpp (batch *b)
             /* Do not generate headers for classes without a namespace (unsupported) */
             if (b->namespaces) {
                 d = d->next;
-                continue;                
+                continue;
             }
 #if VERBOSE_LEVEL >= 1
             printf("generate_code_cpp(): file '%s'",name);
@@ -1057,7 +1058,7 @@ generate_code_cpp (batch *b)
         sprintf (filename, "%s.%s", name, file_ext);
         printf("Create '%s'\n",filename);
 #endif
-        
+
         spec = open_outfile (filename, b);
         if (spec == NULL) {
             d = d->next;
@@ -1109,8 +1110,7 @@ generate_code_cpp (batch *b)
 #ifdef ENABLE_FILE_UPDATE_ON_CHANGE
         update_file_if_changed(b,filename);
 #endif
-        
+
         d = d->next;
     }
 }
-
