@@ -6,13 +6,12 @@ using namespace state;
 
 // constructor for test
 GameState::GameState (){
-  players.reserve(1);
-  players[0].reset (new Player("Aang", 1, "image.jpg", 0, 0, 60, 0, 60));
-  map.reset(new Map());
-  std::vector<std::shared_ptr<InfoPlayer>> infoPlayers;
-  infoPlayers.reserve(1);
-  infoPlayers[0].reset(new InfoPlayer);
-  rules.reset(new Rules(1, infoPlayers));
+
+  players.push_back(std::move(std::make_unique<Player>("Aang", 1, "image.jpg", 0, 0, 60, 0, 60)));
+  map = std::move(std::make_unique<Map>());
+  std::vector<std::unique_ptr<InfoPlayer>> infoPlayers;
+  infoPlayers.push_back(std::move(std::make_unique<InfoPlayer>()));
+  rules = std::move(std::make_unique<Rules>(1, std::move(infoPlayers)));
   isInsideRoom = false;
 
 }
@@ -22,16 +21,21 @@ GameState::~GameState()
 
 }
 
-std::vector<std::shared_ptr<Player>> GameState::GetPlayers(){
-  return players;
+std::vector<Player*> GameState::GetPlayers(){
+  std::vector<Player*> vectorPlayer;
+  vectorPlayer.push_back(this->players[0].get());
+  if (players.size() == 2){
+    vectorPlayer.push_back(this->players[1].get());
+  }
+  return vectorPlayer;
 }
 
-std::shared_ptr<Map> GameState::GetMap(){
-  return map;
+Map* GameState::GetMap(){
+  return map.get();
 }
 
-std::shared_ptr<Rules> GameState::GetRules(){
-  return rules;
+Rules* GameState::GetRules(){
+  return rules.get();
 }
 
 bool GameState::GetIsInsideRoom (){

@@ -11,7 +11,7 @@ Rules::~Rules()
 
 }
 
-Rules::Rules(int nbPlayers, std::vector<std::shared_ptr<InfoPlayer>> infoPlayer):isGameLost(false), isGameOver(false), infoPlayer(infoPlayer)
+Rules::Rules(int nbPlayers, std::vector<std::unique_ptr<InfoPlayer>> newInfoPlayer):isGameLost(false), isGameOver(false)
 {
   // Only 1 or 2 player(s)
   if (nbPlayers < 1) {
@@ -22,9 +22,12 @@ Rules::Rules(int nbPlayers, std::vector<std::shared_ptr<InfoPlayer>> infoPlayer)
     this->nbPlayers = nbPlayers;
   }
 
+  this->infoPlayer = std::move(newInfoPlayer);
   if ((int) infoPlayer.size() < this->nbPlayers ){
     throw std::out_of_range("Not enough rules for the number of players");
   }
+
+  this->infoPlayer = std::move(newInfoPlayer);
 }
 
 bool Rules::GetIsGameLost (){
@@ -60,10 +63,15 @@ void Rules::SetNbPlayers (int newNbPlayers){
   }
 }
 
-std::vector<std::shared_ptr<InfoPlayer>> Rules::GetInfoPlayer (){
-  return infoPlayer;
+std::vector<InfoPlayer*> Rules::GetInfoPlayer (){
+  std::vector<InfoPlayer*> vectorInfoPlayer;
+  vectorInfoPlayer.push_back(this->infoPlayer[0].get());
+  if (infoPlayer.size() == 2){
+    vectorInfoPlayer.push_back(this->infoPlayer[1].get());
+  }
+  return vectorInfoPlayer;
 }
 
-void Rules::SetInfoPlayer (std::vector<std::shared_ptr<InfoPlayer>> newInfoPlayer){
-  this->infoPlayer = newInfoPlayer;
+void Rules::SetInfoPlayer (std::vector<std::unique_ptr<InfoPlayer>> newInfoPlayer){
+  this->infoPlayer = std::move(newInfoPlayer);
 }

@@ -423,18 +423,19 @@ void testRoom(){
 void testRules(){
   std::cout << "#### Test of class Rules ####" << std::endl;
   Rules* rules;
-  std::vector<std::shared_ptr<InfoPlayer>> infos;
-  infos.push_back(std::make_shared<InfoPlayer>());
+  std::vector<std::unique_ptr<InfoPlayer>> infos;
+  infos.push_back(std::move(std::make_unique<InfoPlayer>()));
 
   try{
-    delete new Rules(2, infos);
+    delete new Rules(2, std::move(infos));
     throw std::invalid_argument("not enough rules");
   } catch (std::out_of_range){
   } catch (std::invalid_argument){
     throw "not enough rules";
   }
-
-  rules = new Rules(-1, infos);
+  infos.clear();
+  infos.push_back(std::move(std::make_unique<InfoPlayer>()));
+  rules = new Rules(-1, std::move(infos));
   if (rules->GetNbPlayers()< 1 || rules->GetNbPlayers()>2){
     throw "invalid Rules.nbPlayer";
   }
