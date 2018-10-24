@@ -1,3 +1,4 @@
+#include "CardManager.h"
 #include "Enemy.h"
 #include <iostream>
 #include <stdexcept>
@@ -10,28 +11,28 @@ using namespace state;
 
 //basic ennemy for testing
 Enemy::Enemy (){
+  CardManager* CM = CardManager::instance();
+
   for (int i = 0; i<3; i++){
-    reward.push_back(std::make_shared<Card>("reward", 4));
+    reward.push_back((*CM)[0]);
   }
   SkillManager* SM = SkillManager::instance();
-  //TODO: SET ENEMY SKILLS
   skills.push_back((*SM)[0]);
   skills.push_back((*SM)[1]);
   skills.push_back((*SM)[2]);
   intent = 0;
 }
 
-
 Enemy::Enemy (std::string name, int element, std::string image,
   int statAttack, int statBlock, int life, int id, std::vector<EnemySkill*> skills, int maxLife) : Entity(name, element,
     image,statAttack, statBlock, false,  life,  id, maxLife){
+      CardManager* CM = CardManager::instance();
       for (int i = 0; i<3; i++){
-        reward.push_back(std::make_shared<Card>("reward", element));
+        reward.push_back((*CM)[0]);
       }
       this -> skills = skills;
       intent = 0;
   }
-
 
 Enemy::~Enemy(){}
 
@@ -58,11 +59,11 @@ void Enemy::SetIntent (int newIntent){
   }
 }
 
-std::vector<std::shared_ptr<Card>> Enemy::GetReward (){
+std::vector<Card*> Enemy::GetReward (){
   return reward;
 }
 
-void Enemy::SetReward (std::vector<std::shared_ptr<Card>> newReward){
+void Enemy::SetReward (std::vector<Card*> newReward){
   int size = newReward.size();
   if (size != 3){
     throw std::invalid_argument("There must be 3 reward cards");

@@ -1,3 +1,4 @@
+#include "CardManager.h"
 #include "Floor.h"
 #include "EnemyRoom.h"
 #include "SleepRoom.h"
@@ -21,6 +22,7 @@ Floor::Floor()
 }
 
 Floor::Floor (int floorNumber, int element){
+  CardManager* CM = CardManager::instance();
   if (floorNumber < 0 || floorNumber > 3){
     throw std::out_of_range("Not a valid floor number. Value must be between 0 and 3");
   }
@@ -33,33 +35,29 @@ Floor::Floor (int floorNumber, int element){
       this -> element = element;
       int randomNumber;
       Room* room;
-      std::vector<std::shared_ptr<Enemy>> enemies;
-      enemies.push_back(std::make_shared<Enemy>());
-      room = new EnemyRoom(element, enemies);
+      std::vector<std::unique_ptr<Enemy>> enemies;
+      enemies.push_back(std::move(std::make_unique<Enemy>()));
+      room = new EnemyRoom(element, std::move(enemies));
       this->firstRoom.reset(room);
       this->currentRoom.reset(room);
 
       for (int i = 1; i<9; i++){
-        std::cout<<"room "<<i<<":"<<std::endl;
         randomNumber = rand() % 100;
         if (randomNumber < 60){
-          std::cout<<"  enemyRoom:"<<std::endl;
+          std::cout<<"room "<<i<<": enemyRoom"<<std::endl;
           enemies.clear();
-          enemies.push_back(std::make_shared<Enemy>());
-          std::cout<<"    enemy pushed"<<std::endl;
-          std::shared_ptr<EnemyRoom> ER = std::make_shared<EnemyRoom>(element, enemies);
-          std::cout<<"    enemyroom created"<<std::endl;
+          enemies.push_back(std::move(std::make_unique<Enemy>()));
+          std::shared_ptr<EnemyRoom> ER = std::make_shared<EnemyRoom>(element, std::move(enemies));
           currentRoom->SetNextRoom(ER);
-          std::cout<<"    anamyRoom added as next room"<<std::endl;
         } else if (randomNumber < 80){
-          std::cout<<"  sleeproom"<<std::endl;
+          std::cout<<"room "<<i<<": sleepRoom"<<std::endl;
           currentRoom->SetNextRoom(std::make_shared<SleepRoom>(element, randomNumber-60));
         } else {
-          std::cout<<"  specialtrainingroom"<<std::endl;
-          std::vector<std::shared_ptr<Card>> reward;
-          reward.push_back(std::make_shared<Card>("reward1", 0));
-          reward.push_back(std::make_shared<Card>("reward2", 0));
-          reward.push_back(std::make_shared<Card>("reward3", 0));
+          std::cout<<"room "<<i<<": specialTrainingRoom"<<std::endl;
+          std::vector<Card*> reward;
+          reward.push_back((*CM)[0]);
+          reward.push_back((*CM)[0]);
+          reward.push_back((*CM)[0]);
           currentRoom->SetNextRoom(std::make_shared<SpecialTrainingRoom>(element, reward));
         }
         // room = nullptr;

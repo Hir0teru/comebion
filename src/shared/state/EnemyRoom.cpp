@@ -8,7 +8,7 @@ EnemyRoom::~EnemyRoom()
 
 }
 
-EnemyRoom::EnemyRoom (int element, std::vector<std::shared_ptr<Enemy>> enemies): Room(element, false, true, false), turn(0), entityTurn(0), isGameLost(false)
+EnemyRoom::EnemyRoom (int element, std::vector<std::unique_ptr<Enemy>> enemies): Room(element, false, true, false), turn(0), entityTurn(0), isGameLost(false)
 {
   if (enemies.size() <= 0) {
     throw std::out_of_range("not enough enemies");
@@ -16,7 +16,7 @@ EnemyRoom::EnemyRoom (int element, std::vector<std::shared_ptr<Enemy>> enemies):
     std::cout<<"too many enemies "<< enemies.size()<<std::endl;
     throw std::out_of_range("too many enemies");
   } else {
-    this->enemies = enemies;
+    this->enemies = std::move(enemies);
   }
 }
 
@@ -36,19 +36,34 @@ void EnemyRoom::SetIsGameLost (bool lost){
   this->isGameLost = lost;
 }
 
-std::vector<std::shared_ptr<DeckParts>> EnemyRoom::GetDrawPiles (){
-  return drawPiles;
+std::vector<DeckParts*> EnemyRoom::GetDrawPiles (){
+  std::vector<DeckParts*> vectorDrawPiles;
+  vectorDrawPiles.push_back(this->drawPiles[0].get());
+  if (drawPiles.size() == 2){
+    vectorDrawPiles.push_back(this->drawPiles[1].get());
+  }
+  return vectorDrawPiles;
 }
 
-std::vector<std::shared_ptr<DeckParts>> EnemyRoom::GetDiscardPiles (){
-  return discardPiles;
+std::vector<DeckParts*> EnemyRoom::GetDiscardPiles (){
+  std::vector<DeckParts*> vectorDiscardPiles;
+  vectorDiscardPiles.push_back(this->discardPiles[0].get());
+  if (discardPiles.size() == 2){
+    vectorDiscardPiles.push_back(this->discardPiles[1].get());
+  }
+  return vectorDiscardPiles;
 }
 
-std::vector<std::shared_ptr<DeckParts>> EnemyRoom::GetHands (){
-  return hands;
+std::vector<DeckParts*> EnemyRoom::GetHands (){
+  std::vector<DeckParts*> vectorHands;
+  vectorHands.push_back(this->hands[0].get());
+  if (hands.size() == 2){
+    vectorHands.push_back(this->hands[1].get());
+  }
+  return vectorHands;
 }
 
-void EnemyRoom::SetDrawPiles (std::vector<std::shared_ptr<DeckParts>> drawPileVector){
+void EnemyRoom::SetDrawPiles (std::vector<std::unique_ptr<DeckParts>> drawPileVector){
   for(int i = 0; i < int( drawPileVector.size()); i++){
     if (!drawPileVector[i]->GetIsDrawPile()){
       std::cout<<"Not a drawpile"<<std::endl;
@@ -59,10 +74,10 @@ void EnemyRoom::SetDrawPiles (std::vector<std::shared_ptr<DeckParts>> drawPileVe
           throw "DeckParts too big";
         }
     }
-    this->drawPiles = drawPileVector;
+    this->drawPiles = std::move(drawPileVector);
 }
 
-void EnemyRoom::SetDiscardPiles (std::vector<std::shared_ptr<DeckParts>> discardPileVector){
+void EnemyRoom::SetDiscardPiles (std::vector<std::unique_ptr<DeckParts>> discardPileVector){
   for(int i = 0; i < int(discardPileVector.size()); i++){
     if (!discardPileVector[i]->GetIsDiscardPile()){
       std::cout<<"Not a discardPile"<<std::endl;
@@ -73,10 +88,10 @@ void EnemyRoom::SetDiscardPiles (std::vector<std::shared_ptr<DeckParts>> discard
       throw "DeckParts too big";
     }
   }
-    this->discardPiles = discardPileVector;
+    this->discardPiles = std::move(discardPileVector);
 }
 
-void EnemyRoom::SetHands (std::vector<std::shared_ptr<DeckParts>> handVector){
+void EnemyRoom::SetHands (std::vector<std::unique_ptr<DeckParts>> handVector){
   for ( int i = 0; i< int(handVector.size()); i++){
     if (!handVector[i]->GetIsHand()){
       std::cout<<"Not a hand"<<std::endl;
@@ -87,5 +102,5 @@ void EnemyRoom::SetHands (std::vector<std::shared_ptr<DeckParts>> handVector){
       throw "DeckParts too big";
     }
   }
-    this->hands = handVector;
+    this->hands = std::move(handVector);
 }

@@ -9,32 +9,32 @@ EnemySkill::EnemySkill ()
 
 }
 
-EnemySkill::EnemySkill (int attack, int heal, int block, std::shared_ptr<Buff> buffs,
-   std::shared_ptr<Debuff> debuffs, std::string intentimage, int cooldown, int target) : buff(buffs), debuff(debuffs){
+EnemySkill::EnemySkill (int attack, int heal, int block, std::unique_ptr<Buff> buff,
+   std::unique_ptr<Debuff> debuff, std::string intentimage, int cooldown, int target){
      if (attack < 0) {
-       this -> attack = 0;
+       this->attack = 0;
      }
      else{
-       this -> attack = attack;
+       this->attack = attack;
      }
      if (block < 0){
-       this -> block = 0;
+       this->block = 0;
      } else{
-       this -> block = block;
+       this->block = block;
      }
      if (heal < 0){
-       this -> heal = 0;
+       this->heal = 0;
      } else{
-       this -> heal = heal;
+       this->heal = heal;
      }
-     // this->buff = buffs;
-     // this -> debuff = debuffs;
-     this -> intentImage = intentimage;
+     this->buff = std::move(buff);
+     this->debuff = std::move(debuff);
+     this->intentImage = intentimage;
      if (cooldown < 0){
-       this-> cooldown = 0;
+       this->cooldown = 0;
      }
      else {
-       this -> cooldown = cooldown;
+       this->cooldown = cooldown;
      }
 
      if (target < 0 or target > 3){
@@ -53,10 +53,10 @@ int EnemySkill::GetAttack (){
 }
 void EnemySkill::SetAttack (int newAttack){
   if (newAttack < 0) {
-    this -> attack = 0;
+    this->attack = 0;
   }
   else{
-    this -> attack = newAttack;
+    this->attack = newAttack;
   }
 }
 int EnemySkill::GetBlock (){
@@ -64,17 +64,17 @@ int EnemySkill::GetBlock (){
 }
 void EnemySkill::SetBlock (int newBlock){
   if (newBlock < 0){
-    this -> block = 0;
+    this->block = 0;
   } else{
-    this -> block = newBlock;
+    this->block = newBlock;
   }
 }
-std::shared_ptr<Buff> EnemySkill::GetBuffs (){
-  return buff;
+Buff* EnemySkill::GetBuff (){
+  return buff.get();
 }
 
-std::shared_ptr<Debuff> EnemySkill::GetDebuffs (){
-  return debuff;
+Debuff* EnemySkill::GetDebuff (){
+  return debuff.get();
 }
 std::string EnemySkill::GetIntentImage (){
   return intentImage;

@@ -4,7 +4,9 @@ using namespace state;
 
 Room::~Room()
 {
-
+ if (nextRoom){
+   nextRoom.reset();
+ }
 }
 
 Room::Room (int elem, bool isSTR, bool isER, bool isSR) {

@@ -57,11 +57,11 @@ bool DeckParts::GetIsHand (){
   return isHand;
 }
 
-std::vector<std::shared_ptr<Card>> DeckParts::GetCards (){
+std::vector<Card*> DeckParts::GetCards (){
   return cards;
 }
 
-void DeckParts::SetCards (std::vector<std::shared_ptr<Card>> newCards){
+void DeckParts::SetCards (std::vector<Card*> newCards){
   int newsize = newCards.size();
   if (newsize > sizeMax){
     throw std::invalid_argument("Error : too much cards to add");
@@ -97,4 +97,8 @@ void DeckParts::SetSizeMax (int newSizeMax){
   else{
     this->sizeMax = newSizeMax;
   }
+}
+
+void DeckParts::AddCard(Card* card){
+  this->cards.push_back(card);
 }

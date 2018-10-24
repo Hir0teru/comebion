@@ -17,7 +17,7 @@ Player::Player(std::string name, int element, std::string image, int statAttack,
   int statBlock, int life, int id, int maxLife) : Entity(name, element, image,
    statAttack, statBlock, true,  life,  id, maxLife){
       energy = 3;
-      deck.reset(new Deck(element, 10));
+      deck = std::move(std::make_unique<Deck>(element, 10));
     }
 
 int Player::GetEnergy (){
@@ -32,15 +32,15 @@ void Player::SetEnergy (int newEnergy){
   }
 }
 
-std::shared_ptr<Deck> Player::GetDeck (){
-  return deck;
+Deck* Player::GetDeck (){
+  return deck.get();
 }
 
-void Player::SetDeck (std::shared_ptr<Deck> newDeck){
+void Player::SetDeck (std::unique_ptr<Deck> newDeck){
   if (newDeck->GetSize() > deck->GetSizeMax()){
     throw std::invalid_argument("new Deck too big");
   }
   else{
-    deck = newDeck;
+    deck=std::move(newDeck);
   }
 }

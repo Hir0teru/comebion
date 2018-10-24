@@ -13,34 +13,34 @@ using namespace std;
 using namespace state;
 using namespace render;
 
-void testSFML() {
-  std::shared_ptr<Buff> buff = make_shared<Buff>(0,0,0,0,0);
-  std::shared_ptr<Debuff> debuff = make_shared<Debuff>(0,0);
-  std::shared_ptr<Card> card = std::make_shared<Card>("Attack Test", 2 , 1, "image.png", 2, 9, 0, 0,0,0, debuff, buff);
-  Editeur* editeur = new Editeur( 10, 10, 500, 500,  card);
-
-
-  sf::RenderWindow window(sf::VideoMode(800, 600), "Test image");
-  while(window.isOpen()){
-    sf::Event event;
-    while (window.pollEvent(event)){
-      if (event.type == sf::Event::Closed){
-        window.close();
-      }
-    }
-
-
-    window.clear(sf::Color::Transparent);
-    sf::Sprite sprite;
-    sprite.setTexture(editeur -> GetTexture().getTexture());
-    window.draw(sprite);
-    // sf::CircleShape shape(100.f);
-    // shape.setFillColor(sf::Color::Blue);
-    // window.draw(shape);
-    window.display();
-  }
-
-}
+// void testSFML() {
+//   std::shared_ptr<Buff> buff = make_shared<Buff>(0,0,0,0,0);
+//   std::shared_ptr<Debuff> debuff = make_shared<Debuff>(0,0);
+//   std::shared_ptr<Card> card = std::make_shared<Card>("Attack Test", 2 , 1, "image.png", 2, 9, 0, 0,0,0, debuff, buff);
+//   Editeur* editeur = new Editeur( 10, 10, 500, 500,  card);
+//
+//
+//   sf::RenderWindow window(sf::VideoMode(800, 600), "Test image");
+//   while(window.isOpen()){
+//     sf::Event event;
+//     while (window.pollEvent(event)){
+//       if (event.type == sf::Event::Closed){
+//         window.close();
+//       }
+//     }
+//
+//
+//     window.clear(sf::Color::Transparent);
+//     sf::Sprite sprite;
+//     sprite.setTexture(editeur -> GetTexture().getTexture());
+//     window.draw(sprite);
+//     // sf::CircleShape shape(100.f);
+//     // shape.setFillColor(sf::Color::Blue);
+//     // window.draw(shape);
+//     window.display();
+//   }
+//
+// }
 
 // Fin test SFML
 
@@ -75,8 +75,8 @@ void testBuff(){
 
 void testCard(){
   std::cout << "#### Test of class Card ####" << std::endl;
-  Card* card1 = new Card((std::string) "test", -1, -1,(std::string) "", -1, -1, -1, -1, -1, -1, std::make_shared<Debuff>(), std::make_shared<Buff>());
-  Card* card2 = new Card((std::string) "test", -1, 4,(std::string) "", 5, -1, -1, -1, -1, -1, std::make_shared<Debuff>(), std::make_shared<Buff>());
+  Card* card1 = new Card((std::string) "test", -1, -1,(std::string) "", -1, -1, -1, -1, -1, -1, std::make_unique<Debuff>(), std::make_unique<Buff>());
+  Card* card2 = new Card((std::string) "test", -1, 4,(std::string) "", 5, -1, -1, -1, -1, -1, std::make_unique<Debuff>(), std::make_unique<Buff>());
   if (card1->GetCost() < 0){
     delete card1;
     delete card2;
@@ -175,16 +175,16 @@ void testDeckParts(){
 
 void testEnemyRoom(){
   std::cout << "#### Test of class EnemyRoom ####" << std::endl;
-  std::vector<std::shared_ptr<Enemy>> noEnemies;
-  std::vector<std::shared_ptr<Enemy>> tooManyEnemies;
+  std::vector<std::unique_ptr<Enemy>> noEnemies;
+  std::vector<std::unique_ptr<Enemy>> tooManyEnemies;
 
-  tooManyEnemies.push_back(std::make_shared<Enemy>());
-  tooManyEnemies.push_back(std::make_shared<Enemy>());
-  tooManyEnemies.push_back(std::make_shared<Enemy>());
-  tooManyEnemies.push_back(std::make_shared<Enemy>());
+  tooManyEnemies.push_back(std::move(std::make_unique<Enemy>()));
+  tooManyEnemies.push_back(std::move(std::make_unique<Enemy>()));
+  tooManyEnemies.push_back(std::move(std::make_unique<Enemy>()));
+  tooManyEnemies.push_back(std::move(std::make_unique<Enemy>()));
 
   try{
-    delete new EnemyRoom(1, noEnemies);
+    delete new EnemyRoom(1, std::move(noEnemies));
     throw std::invalid_argument("No enemies in the room exception not detected");
   } catch (std::out_of_range) {}
   catch(std::invalid_argument){
@@ -193,7 +193,7 @@ void testEnemyRoom(){
   }
 
   try{
-    delete new EnemyRoom(1, tooManyEnemies);
+    delete new EnemyRoom(1, std::move(tooManyEnemies));
     throw std::invalid_argument("Too many enemies in the room exception not detected");
   } catch(std::out_of_range){}
   catch(std::invalid_argument){
@@ -208,20 +208,20 @@ void testEnemySkill(){
   EnemySkill* enemyskill1;
   EnemySkill* enemyskill2;
   try{
-    enemyskill1 = new EnemySkill(-1, -1, -1, std::make_shared<Buff>(), std::make_shared<Debuff>(),(std::string) "", -1, -1);
+    enemyskill1 = new EnemySkill(-1, -1, -1, std::make_unique<Buff>(), std::make_unique<Debuff>(),(std::string) "", -1, -1);
     throw std::invalid_argument("Invalid Target");
   } catch (std::out_of_range){
-    enemyskill1 = new EnemySkill(-1, -1, -1, std::make_shared<Buff>(), std::make_shared<Debuff>(),(std::string) "", -1, 2);
+    enemyskill1 = new EnemySkill(-1, -1, -1, std::make_unique<Buff>(), std::make_unique<Debuff>(),(std::string) "", -1, 2);
   } catch (std::invalid_argument){
     std::cout << "invalid_target_minus"<<std::endl;
     throw "Invalid target";
   }
 
   try{
-    enemyskill2 = new EnemySkill(-1, -1, -1, std::make_shared<Buff>(), std::make_shared<Debuff>(),(std::string) "", -1, 4);
+    enemyskill2 = new EnemySkill(-1, -1, -1, std::make_unique<Buff>(), std::make_unique<Debuff>(),(std::string) "", -1, 4);
     throw std::invalid_argument("Invalid Target");
   } catch (std::out_of_range){
-    enemyskill2 = new EnemySkill(-1, -1, -1, std::make_shared<Buff>(), std::make_shared<Debuff>(),(std::string) "", -1, 2);
+    enemyskill2 = new EnemySkill(-1, -1, -1, std::make_unique<Buff>(), std::make_unique<Debuff>(),(std::string) "", -1, 2);
   } catch (std::invalid_argument){
     std::cout << "invalid_target_plus"<<std::endl;
     throw "Invalid target";
@@ -456,7 +456,7 @@ void testSleepRoom(){
 
 void testSpecialTrainingRoom(){
   std::cout << "#### Test of class SpecialTrainingRoom ####" << std::endl;
-  std::vector<std::shared_ptr<Card>> cardreward;
+  std::vector<Card*> cardreward;
 
   try{
     delete new SpecialTrainingRoom(1, cardreward);
@@ -490,6 +490,7 @@ void testState(){
 int main(int argc,char* argv[])
 {
     SkillManager::instance();
+    CardManager::instance();
     //Exemple exemple;
     //exemple.setX(53);
 
@@ -503,9 +504,10 @@ int main(int argc,char* argv[])
 
 
     if (argc == 2 and std::string(argv[1] )== "render"){
-      testSFML();
+      // testSFML();
     }
 
     delete SkillManager::instance();
+    delete CardManager::instance();
     return 0;
 }

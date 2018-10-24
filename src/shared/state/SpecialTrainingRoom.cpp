@@ -12,7 +12,7 @@ SpecialTrainingRoom::~SpecialTrainingRoom()
 
 }
 
-SpecialTrainingRoom::SpecialTrainingRoom (int element, std::vector<std::shared_ptr<Card>> cardReward): Room(element, true, false, false)
+SpecialTrainingRoom::SpecialTrainingRoom (int element, std::vector<Card*> cardReward): Room(element, true, false, false)
 {
   if (cardReward.size() != 3) {
     throw std::out_of_range("CardReward length should be 3");
@@ -21,6 +21,6 @@ SpecialTrainingRoom::SpecialTrainingRoom (int element, std::vector<std::shared_p
   }
 }
 
-std::vector<std::shared_ptr<Card>> SpecialTrainingRoom::GetCardReward (){
+std::vector<Card*> SpecialTrainingRoom::GetCardReward (){
   return cardReward;
 }
