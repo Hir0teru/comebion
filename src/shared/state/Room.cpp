@@ -20,8 +20,8 @@ Room::Room (int elem, bool isSTR, bool isER, bool isSR) {
       imageInsideRoom = "imageInsideRoom.png";
     }
     if (isER) {
-      imageMapRoom = "imageRoom.jpg";
-      imageInsideRoom = "imageInsideRoom.jpg";
+      imageMapRoom = (std::string) "imageRoom.jpg";
+      imageInsideRoom = (std::string) "imageInsideRoom.jpg";
     }
     if (isSTR) {
       imageMapRoom = "imageRoom.jpg";
@@ -69,21 +69,15 @@ Room::Room (int elem, bool isSTR, bool isER, bool isSR) {
     }
 
     void Room::SetNextRoom(std::shared_ptr<Room> newNextRoom){
-      std::cout<<"setnextroom"<<std::endl;
-      std::shared_ptr<Room> next = newNextRoom;
-      std::shared_ptr<Room> currentRoom;
-      currentRoom.reset(this);
+      auto next(newNextRoom);
+      Room* currentRoom;
+      currentRoom = this;
 
-      while (next && next != currentRoom){
-        // std::cout << "1 " <<currentRoom << " --- " << next << std::endl;
+      while (next && next.get() != currentRoom){
         next = next->GetNextRoom();
-        // std::cout << "2 " <<currentRoom << " --- " << next << std::endl;
       }
 
-      std::cout<< next <<std::endl;
-
       if (next){
-        std::cout<<"loop"<<std::endl;
         throw "Loop Detected";
       } else {
         this->nextRoom = newNextRoom;

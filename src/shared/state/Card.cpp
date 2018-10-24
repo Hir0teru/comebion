@@ -14,7 +14,6 @@ Card::Card (std::string type, int element){
 
   /// Element de la carte: 0 none,1 air, 2 water, 3 earth, 4 fire
   if (element < 0 || element > 4){
-    std::cout << "Error with element. Accepted elements are '0' (None), '1' (Air), '2' (Water), '3' (Earth), '4' (Fire)" << std::endl;
     this -> element = 0;
   }
   else {
@@ -50,7 +49,6 @@ Card::Card (std::string name, int cost, int target, std::string image, int eleme
   this -> name = name;
   /// Coût de la carte en energie
   if (cost < 0){
-    std::cout<<"error with cost "<< cost <<std::endl;
     this -> cost = 1;
   }
   else{
@@ -58,7 +56,6 @@ Card::Card (std::string name, int cost, int target, std::string image, int eleme
   }
   /// Type de cible visée (0: joueur, 1: monstre, 2: tous les monstres, 3: tous les joueurs)
   if (target < 0 or target > 3){
-    std::cout<<"error with target "<< target <<std::endl;
     this -> target = 1;
   }
   else{
@@ -68,7 +65,6 @@ Card::Card (std::string name, int cost, int target, std::string image, int eleme
   this -> image = image;
   /// Element de la carte (air, eau, terre, feu, pas d'element)
   if (element < 0 || element > 4){
-    std::cout << "Error with element. Accepted elements are '0' (None), '1' (Air), '2' (Water), '3' (Earth), '4' (Fire)" << std::endl;
     this -> element = 0;
   }
   else{
@@ -76,7 +72,6 @@ Card::Card (std::string name, int cost, int target, std::string image, int eleme
   }
   /// Dégats de la carte
   if (attack < 0){
-    std::cout<<"error with attack "<< attack <<std::endl;
     this -> attack = 0;
   }
   else{
@@ -84,7 +79,6 @@ Card::Card (std::string name, int cost, int target, std::string image, int eleme
   }
   /// Nombre de block créé par la carte (à destination du joueur)
   if (block < 0){
-    std::cout<<"error with block "<< block <<std::endl;
     this -> block = 0;
   }
   else{
@@ -93,7 +87,6 @@ Card::Card (std::string name, int cost, int target, std::string image, int eleme
 
   /// Nombre de cartes piochées
   if (draw < 0){
-    std::cout<<"error with draw "<< draw <<std::endl;
     this -> draw = 0;
   }
   else{
@@ -101,7 +94,6 @@ Card::Card (std::string name, int cost, int target, std::string image, int eleme
   }
   /// Nombre de cartes défaussées
   if (discard < 0){
-    std::cout<<"error with discard "<< discard <<std::endl;
     this -> discard = 0;
   }
   else{
@@ -109,7 +101,6 @@ Card::Card (std::string name, int cost, int target, std::string image, int eleme
   }
   /// nombre de point de vie du joueur soignés
   if (heal < 0){
-    std::cout<<"error with heal "<< heal <<std::endl;
     this -> heal = 0;
   }
   else{
@@ -130,7 +121,6 @@ int Card::GetCost (){
 
 void Card::SetCost (int cost){
   if (cost < 0){
-    std::cout<<"error with cost "<< cost <<std::endl;
     this -> cost = 1;
   }
   else{

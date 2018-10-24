@@ -40,30 +40,28 @@ Floor::Floor (int floorNumber, int element){
       this->currentRoom.reset(room);
 
       for (int i = 1; i<9; i++){
+        std::cout<<"room "<<i<<":"<<std::endl;
         randomNumber = rand() % 100;
         if (randomNumber < 60){
-          std::cout<<"enemy"<<std::endl;
-          std::vector<std::shared_ptr<Enemy>> enemies;
-          std::cout<<"enemy2"<<std::endl;
-          std::shared_ptr<Enemy> test = std::make_shared<Enemy>();
-          std::cout<<"lolilol"<<std::endl;
+          std::cout<<"  enemyRoom:"<<std::endl;
+          enemies.clear();
           enemies.push_back(std::make_shared<Enemy>());
-          std::cout<<"enemy3"<<std::endl;
-          currentRoom->SetNextRoom(std::make_shared<EnemyRoom>(element, enemies));
+          std::cout<<"    enemy pushed"<<std::endl;
+          std::shared_ptr<EnemyRoom> ER = std::make_shared<EnemyRoom>(element, enemies);
+          std::cout<<"    enemyroom created"<<std::endl;
+          currentRoom->SetNextRoom(ER);
+          std::cout<<"    anamyRoom added as next room"<<std::endl;
         } else if (randomNumber < 80){
-          std::cout<<"sleep"<<std::endl;
+          std::cout<<"  sleeproom"<<std::endl;
           currentRoom->SetNextRoom(std::make_shared<SleepRoom>(element, randomNumber-60));
         } else {
-          std::cout<<"str"<<std::endl;
+          std::cout<<"  specialtrainingroom"<<std::endl;
           std::vector<std::shared_ptr<Card>> reward;
           reward.push_back(std::make_shared<Card>("reward1", 0));
           reward.push_back(std::make_shared<Card>("reward2", 0));
           reward.push_back(std::make_shared<Card>("reward3", 0));
           currentRoom->SetNextRoom(std::make_shared<SpecialTrainingRoom>(element, reward));
         }
-        std::cout << currentRoom << " --- " << currentRoom->GetNextRoom() << std::endl;
-        std::cout << currentRoom->GetNextRoom() << std::endl;
-        std::cout << "bug" << std::endl;
         // room = nullptr;
       }
       this->currentRoom = this->firstRoom;

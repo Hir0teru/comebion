@@ -54,7 +54,6 @@ int Deck::GetSize(){
 
 void Deck::SetSize (int newSize){
   if (newSize > sizeMax){
-    std::cout << "error with size " << newSize << std::endl;
     size = sizeMax;
   }
   else{

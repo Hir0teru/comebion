@@ -232,13 +232,13 @@ void testEnemySkill(){
 void testEntity(){
   std::cout << "#### Test of class Entity ####" << std::endl;
   Entity* entity1;
-  Entity* entity2 = new Entity((std::string) "entity1", 4, (std::string) "", -1, -1, true, -1, 1);
+  Entity* entity2 = new Entity((std::string) "entity1", 4, (std::string) "", -1, -1, true, -1, 1, 60);
 
   try {
-    entity1 = new Entity((std::string) "entity1", -1, (std::string) "", -1, -1, true, -1, -1);
+    entity1 = new Entity((std::string) "entity1", -1, (std::string) "", -1, -1, true, -1, -1, 60);
     throw std::invalid_argument("id should not be negative");
   } catch (std::out_of_range){
-    entity1 = new Entity((std::string) "entity1", -1, (std::string) "", -1, -1, true, -1, 1);
+    entity1 = new Entity((std::string) "entity1", -1, (std::string) "", -1, -1, true, -1, 1, 60);
   }
   catch(std::invalid_argument){
     std::cout << "Entity.id should not be negative" << std::endl;
@@ -438,26 +438,27 @@ void testSpecialTrainingRoom(){
 }
 
 void testState(){
-  // testBuff();
-  // testCard();
-  // testDebuff();
-  // testDeck();
-  // testDeckParts();
-  // testEnemyRoom();
-  // testEnemySkill();
-  // testEntity();
-  // testFloor();
-  // testInfoPlayer();
+  testBuff();
+  testCard();
+  testDebuff();
+  testDeck();
+  testDeckParts();
+  testEnemyRoom();
+  testEnemySkill();
+  testEntity();
+  testFloor();
+  testInfoPlayer();
   testMap();
-  // testRoom();
-  // testRules();
-  // testSleepRoom();
-  // testSpecialTrainingRoom();
+  testRoom();
+  testRules();
+  testSleepRoom();
+  testSpecialTrainingRoom();
 
 }
 
 int main(int argc,char* argv[])
 {
+    SkillManager::instance();
     //Exemple exemple;
     //exemple.setX(53);
 
@@ -469,5 +470,6 @@ int main(int argc,char* argv[])
         testState();
     }
 
+    delete SkillManager::instance();
     return 0;
 }

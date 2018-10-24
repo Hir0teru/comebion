@@ -15,7 +15,7 @@ Entity::~Entity()
 
 }
 
-Entity::Entity (std::string name, int element, std::string image, int statAttack, int statBlock, bool isPlayer, int life, int id){
+Entity::Entity (std::string name, int element, std::string image, int statAttack, int statBlock, bool isPlayer, int life, int id, int maxLife){
   this->name = name;
   if (id < 0){
     throw std::out_of_range("Id cannot be negative");
@@ -25,7 +25,6 @@ Entity::Entity (std::string name, int element, std::string image, int statAttack
   }
   this -> isPlayer = isPlayer;
   if (element < 0 || element > 4){
-    std::cout << "Error with element. Accepted elements are '0' (None), '1' (Air), '2' (Water), '3' (Earth), '4' (Fire)" << std::endl;
     this -> element = 0;
   }
   else{
@@ -34,7 +33,6 @@ Entity::Entity (std::string name, int element, std::string image, int statAttack
   this -> image = image;
 
   if (statAttack < 0 ){
-    std::cout << "SetAttack cannot be negative " << std::endl;
     this -> statAttack = 0;
   }
   else{
@@ -42,14 +40,12 @@ Entity::Entity (std::string name, int element, std::string image, int statAttack
   }
 
   if (statBlock < 0) {
-    std::cout << "StatBlock cannot be negative" << std::endl;
     this -> statBlock = 0;
   }
   else{
     this -> statBlock = statBlock;
   }
   if (life < 0) {
-    std::cout << "Life cannot be negative - default 60" << std::endl;
     this -> life = 60;
   }
   else {
@@ -57,6 +53,12 @@ Entity::Entity (std::string name, int element, std::string image, int statAttack
   }
   block = 0;
   isEntityAlive = true;
+
+  if (maxLife < 0){
+    this->maxLife = 60;
+  } else {
+    this->maxLife = maxLife;
+  }
 }
 
 int Entity::GetLife (){
@@ -65,7 +67,6 @@ int Entity::GetLife (){
 
 void Entity::SetLife (int newLife){
   if (newLife < 0) {
-    std::cout << "Life cannot be negative - default 60" << std::endl;
     this -> life = 60;
   }
   else {
@@ -92,7 +93,7 @@ int Entity::GetElement (){
 
 void Entity::SetElement (int newElement){
   if (newElement < 0 || newElement > 4){
-    std::cout << "Invalid element: acceptable elements are '0' (None), '1' (Air), '2' (Water), '3' (Earth), '4' (Fire)" << std::endl;
+    this->element = 0;
   }
   else{
     this->element = newElement;
@@ -113,7 +114,6 @@ int Entity::GetStatAttack (){
 
 void Entity::SetStatAttack (int newStatAttack){
   if (newStatAttack < 0 ){
-    std::cout << "SetAttack cannot be negative, set to 0 instead." << std::endl;
     this -> statAttack = 0;
   }
   else{
@@ -127,7 +127,6 @@ int Entity::GetStatBlock (){
 
 void Entity::SetStatBlock (int newStatBlock){
   if (newStatBlock < 0) {
-    std::cout << "StatBlock cannot be negative - set to 0 instead" << std::endl;
     this -> statBlock = 0;
   }
   else{
@@ -165,10 +164,17 @@ int Entity::GetBlock (){
 
 void Entity::SetBlock (int newBlock){
   if (newBlock < 0) {
-    std::cout << "Block cannot be negative" << std::endl;
     this -> block = 0;
   }
   else{
     this -> block = newBlock;
   }
+}
+
+std::string Entity::GetName(){
+  return name;
+}
+
+void Entity::SetName(std::string name){
+  this->name = name;
 }

@@ -2,55 +2,29 @@
 #include <iostream>
 #include <stdexcept>
 #include <memory>
+#include "SkillManager.h"
+
 
 using namespace state;
 
 
 //basic ennemy for testing
 Enemy::Enemy (){
-  std::cout<<"1"<<std::endl;
   for (int i = 0; i<3; i++){
     reward.push_back(std::make_shared<Card>("reward", 4));
   }
-  std::cout<<"2"<<std::endl;
-  std::shared_ptr<EnemySkill> test1 = std::make_shared<EnemySkill>(15, 0, 0, std::make_shared<Buff>(0, 0, 0, 0, 0), std::make_shared<Debuff>(0, 0), "imageIntent.jpg", 2, 0);
-  std::cout<<"2.1"<<std::endl;
-  skills.push_back(test1);
-  std::cout<<"2.2"<<std::endl;
-  skills.push_back(test1);
-  std::cout<<"2.3"<<std::endl;
-  skills.push_back(test1);
-
-  std::cout<<"3"<<std::endl;
-  std::shared_ptr<EnemySkill> test2 = std::make_shared<EnemySkill>(0, 0, 10, std::make_shared<Buff>(0, 0, 0, 0, 0), std::make_shared<Debuff>(0, 0), "imageIntent.jpg", 0, 0);
-  skills.push_back(test1);
-
-  std::cout<<"#######TEST2#######"<<std::endl;
-  std::cout<<"attack "<<test2->GetAttack()<<std::endl;
-  std::cout<<"Block "<<test2->GetBlock()<<std::endl;
-  std::cout<<"Heal "<<test2->GetHeal()<<std::endl;
-  std::cout<<"Cooldown "<<test2->GetCooldown()<<std::endl;
-  std::cout<<"TurnsBeforeUse "<<test2->GetTurnsBeforeUse()<<std::endl;
-  std::cout<<"Target "<<test2->GetTarget()<<std::endl;
-  std::cout<<"Buff "<<test2->GetBuffs()<<std::endl;
-  std::cout<<"Debuff "<<test2->GetDebuffs()<<std::endl;
-  std::cout<<"IntentImage "<<test2->GetIntentImage()<<std::endl;
-
-
-  std::cout<<"3.1"<<std::endl;
-  std::cout<<test2<<std::endl;
-  skills.push_back(test2);
-  skills.push_back(test2);
-  std::cout<<"4"<<std::endl;
-  skills.push_back(std::make_shared<EnemySkill>(5, 0, 0, std::make_shared<Buff>(0, 0, 0, 0, 0), std::make_shared<Debuff>(2, 0), "imageIntent.jpg", 1, 0));
-  std::cout<<"5"<<std::endl;
+  SkillManager* SM = SkillManager::instance();
+  //TODO: SET ENEMY SKILLS
+  skills.push_back((*SM)[0]);
+  skills.push_back((*SM)[1]);
+  skills.push_back((*SM)[2]);
   intent = 0;
 }
 
 
 Enemy::Enemy (std::string name, int element, std::string image,
-  int statAttack, int statBlock, int life, int id, std::vector<std::shared_ptr<EnemySkill>> skills) : Entity(name, element,
-    image,statAttack, statBlock, false,  life,  id){
+  int statAttack, int statBlock, int life, int id, std::vector<EnemySkill*> skills, int maxLife) : Entity(name, element,
+    image,statAttack, statBlock, false,  life,  id, maxLife){
       for (int i = 0; i<3; i++){
         reward.push_back(std::make_shared<Card>("reward", element));
       }
@@ -61,11 +35,11 @@ Enemy::Enemy (std::string name, int element, std::string image,
 
 Enemy::~Enemy(){}
 
-std::vector<std::shared_ptr<EnemySkill>> Enemy::GetSkills (){
+std::vector<EnemySkill*> Enemy::GetSkills (){
   return skills;
 }
 
-void Enemy::SetSkills (std::vector<std::shared_ptr<EnemySkill>> newSkills){
+void Enemy::SetSkills (std::vector<EnemySkill*> newSkills){
   this->skills = newSkills;
 }
 
@@ -76,7 +50,6 @@ int Enemy::GetIntent (){
 void Enemy::SetIntent (int newIntent){
   int size = skills.size();
   if (newIntent >= size || newIntent < 0){
-    std::cout << "error with newIntent - set to 0" << std::endl;
     this -> intent = 0;
 
   }

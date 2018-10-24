@@ -13,6 +13,7 @@ EnemyRoom::EnemyRoom (int element, std::vector<std::shared_ptr<Enemy>> enemies):
   if (enemies.size() <= 0) {
     throw std::out_of_range("not enough enemies");
   } else if (enemies.size() > 3) {
+    std::cout<<"too many enemies "<< enemies.size()<<std::endl;
     throw std::out_of_range("too many enemies");
   } else {
     this->enemies = enemies;
@@ -65,16 +66,14 @@ void EnemyRoom::SetDiscardPiles (std::vector<std::shared_ptr<DeckParts>> discard
   for(int i = 0; i < int(discardPileVector.size()); i++){
     if (!discardPileVector[i]->GetIsDiscardPile()){
       std::cout<<"Not a discardPile"<<std::endl;
-       throw "Not a discard pile";
-     }
+      throw "Not a discard pile";
+    }
     if (discardPileVector[i]->GetSize() > this->drawPiles[i]->GetSizeMax()){
       std::cout<<"DeckParts too big"<<std::endl;
-          throw "DeckParts too big";
-        }
+      throw "DeckParts too big";
     }
-
+  }
     this->discardPiles = discardPileVector;
-
 }
 
 void EnemyRoom::SetHands (std::vector<std::shared_ptr<DeckParts>> handVector){
@@ -86,7 +85,7 @@ void EnemyRoom::SetHands (std::vector<std::shared_ptr<DeckParts>> handVector){
     if (handVector[i]->GetSize() > this->hands[i]->GetSizeMax()){
       std::cout<<"DeckParts too big"<<std::endl;
       throw "DeckParts too big";
-        }
     }
+  }
     this->hands = handVector;
 }

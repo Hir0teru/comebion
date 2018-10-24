@@ -4,11 +4,13 @@
 using namespace state;
 
 Map::Map(){
+  std::cout<<"creation floor 1"<<std::endl;
   floors.push_back(std::make_shared<Floor>(0, 1)); //floor number, floor element
-  std::cout << "Bug3" << std::endl;
-
+  std::cout<<"creation floor 2"<<std::endl;
   floors.push_back(std::make_shared<Floor>(1, 2));
+  std::cout<<"creation floor 3"<<std::endl;
   floors.push_back(std::make_shared<Floor>(2, 3));
+  std::cout<<"creation floor 4"<<std::endl;
   floors.push_back(std::make_shared<Floor>(3, 4));
   currentFloor = 0;
 }

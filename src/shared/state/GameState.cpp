@@ -7,7 +7,7 @@ using namespace state;
 // constructor for test
 GameState::GameState (){
   players.reserve(1);
-  players[0].reset (new Player("Aang", 1, "image.jpg", 0, 0, 60, 0));
+  players[0].reset (new Player("Aang", 1, "image.jpg", 0, 0, 60, 0, 60));
   map.reset(new Map());
   std::vector<std::shared_ptr<InfoPlayer>> infoPlayers;
   infoPlayers.reserve(1);

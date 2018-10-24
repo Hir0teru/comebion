@@ -78,7 +78,6 @@ int DeckParts::GetSize (){
 
 void DeckParts::SetSize (int newSize){
   if (newSize > sizeMax){
-    std::cout << "size too big with" << newSize << std::endl;
     this -> size = this -> sizeMax;
   }
   else{

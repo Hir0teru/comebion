@@ -20,4 +20,6 @@
 #include "state/EnemyRoom.h"
 #include "state/SpecialTrainingRoom.h"
 #include "state/SleepRoom.h"
+#include "state/SkillManager.h"
+#include "state/CardManager.h"
 #endif

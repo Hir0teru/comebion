@@ -14,8 +14,8 @@ Player::~Player()
 }
 
 Player::Player(std::string name, int element, std::string image, int statAttack,
-  int statBlock, int life, int id) : Entity(name, element, image,
-   statAttack, statBlock, true,  life,  id){
+  int statBlock, int life, int id, int maxLife) : Entity(name, element, image,
+   statAttack, statBlock, true,  life,  id, maxLife){
       energy = 3;
       deck.reset(new Deck(element, 10));
     }
