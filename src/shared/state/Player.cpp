@@ -4,21 +4,19 @@
 using namespace state;
 
 
-Player::Player() : Entity(){}
-// int energy;
-// std::shared_ptr<Deck> deck;
-
-Player::~Player()
-{
-
+Player::Player() : Entity("Aang", 1, "image.jpg", 0, 0, true, 60, 0, 60){
+  energy = 3;
+  deck = std::move(std::make_unique<Deck>(1, 10));
 }
+
+Player::~Player(){}
 
 Player::Player(std::string name, int element, std::string image, int statAttack,
   int statBlock, int life, int id, int maxLife) : Entity(name, element, image,
    statAttack, statBlock, true,  life,  id, maxLife){
       energy = 3;
       deck = std::move(std::make_unique<Deck>(element, 10));
-    }
+}
 
 int Player::GetEnergy (){
   return energy;

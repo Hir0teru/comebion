@@ -1,15 +1,13 @@
 #include "EnemyRoom.h"
+#include "PlayerManager.h"
 #include <iostream>
 using namespace state;
 
-
-EnemyRoom::~EnemyRoom()
-{
-
-}
+EnemyRoom::~EnemyRoom(){}
 
 EnemyRoom::EnemyRoom (int element, std::vector<std::unique_ptr<Enemy>> enemies): Room(element, false, true, false), turn(0), entityTurn(0), isGameLost(false)
 {
+  PlayerManager* PM = PlayerManager::instance();
   if (enemies.size() <= 0) {
     throw std::out_of_range("not enough enemies");
   } else if (enemies.size() > 3) {
@@ -17,6 +15,16 @@ EnemyRoom::EnemyRoom (int element, std::vector<std::unique_ptr<Enemy>> enemies):
     throw std::out_of_range("too many enemies");
   } else {
     this->enemies = std::move(enemies);
+  }
+
+  hands.push_back(std::move(std::make_unique<DeckParts>((*PM)[0], true, false, false)));
+  discardPiles.push_back(std::move(std::make_unique<DeckParts>((*PM)[0], false, true, false)));
+  drawPiles.push_back(std::move(std::make_unique<DeckParts>((*PM)[0], false, false, true)));
+
+  if (PM->GetNbPlayers() > 1){
+    hands.push_back(std::move(std::make_unique<DeckParts>((*PM)[1], true, false, false)));
+    discardPiles.push_back(std::move(std::make_unique<DeckParts>((*PM)[1], false, true, false)));
+    drawPiles.push_back(std::move(std::make_unique<DeckParts>((*PM)[1], false, false, true)));
   }
 }
 

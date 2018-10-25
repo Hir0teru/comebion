@@ -22,7 +22,6 @@ Deck::Deck (int element, int size){
     sizeMax = 15;
   }
 
-
   for (int i = 0; i < size/2 ; i++){
     cards.push_back((*CM)[0]);
   }

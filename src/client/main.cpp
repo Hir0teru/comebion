@@ -159,9 +159,10 @@ void testDeck(){
 }
 
 void testDeckParts(){
+  PlayerManager* PM = PlayerManager::instance();
   std::cout << "#### Test of class DeckParts ####" << std::endl;
   try{
-    DeckParts* deckpart = new DeckParts(std::make_shared<Player>(), true, true, true);
+    DeckParts* deckpart = new DeckParts((*PM)[0], true, true, true);
     delete deckpart;
     throw std::invalid_argument("no exception detected. Deckpart should be either hand, discardPile or drawPile");
   }

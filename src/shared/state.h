@@ -22,4 +22,5 @@
 #include "state/SleepRoom.h"
 #include "state/SkillManager.h"
 #include "state/CardManager.h"
+#include "state/PlayerManager.h"
 #endif

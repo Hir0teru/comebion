@@ -1,31 +1,30 @@
 #include "DeckParts.h"
 #include <iostream>
-#include<stdexcept>
+#include <stdexcept>
 
 using namespace state;
 
 DeckParts::DeckParts(){
 
 }
-DeckParts::DeckParts(std::shared_ptr<Player> player, bool isHand, bool isDiscardPile, bool isDrawPile){
+DeckParts::DeckParts(Player* player, bool isHand, bool isDiscardPile, bool isDrawPile){
   if(!((isHand && !isDiscardPile && !isDrawPile) || (!isHand && isDiscardPile && !isDrawPile) ||
   (!isHand && !isDiscardPile && isDrawPile))){
     throw std::out_of_range("Can only be a hand OR a discardPile OR a drawPile");
   }
   else{
-    this -> isHand = isHand;
-    this -> isDiscardPile = isDiscardPile;
-    this -> isDrawPile = isDrawPile;
+    this->player = player;
+    this->isHand = isHand;
+    this->isDiscardPile = isDiscardPile;
+    this->isDrawPile = isDrawPile;
     if (isDrawPile) {
       sizeMax = player->GetDeck()->GetSizeMax() + 10;
-      cards.reserve(sizeMax);
       cards = player->GetDeck()->GetCards();
       size = player->GetDeck()->GetSize();
     }
     else{
       if (isDiscardPile){
         sizeMax = player->GetDeck()->GetSizeMax() + 10;
-        cards.reserve(sizeMax);
         size = 0;
       }
       else{
@@ -34,15 +33,13 @@ DeckParts::DeckParts(std::shared_ptr<Player> player, bool isHand, bool isDiscard
         sizeMax = 7;
       }
     }
-    playerId = player->GetId();
-  // int size;
   }
 }
 
 DeckParts::~DeckParts(){}
 
-int DeckParts::GetPlayerId (){
-  return playerId;
+Player* DeckParts::GetPlayer (){
+  return player;
 }
 
 bool DeckParts::GetIsDiscardPile (){
@@ -67,8 +64,8 @@ void DeckParts::SetCards (std::vector<Card*> newCards){
     throw std::invalid_argument("Error : too much cards to add");
   }
   else{
-    this -> cards = newCards;
-    this -> size = newsize;
+    this->cards = newCards;
+    this->size = newsize;
   }
 }
 
@@ -78,7 +75,7 @@ int DeckParts::GetSize (){
 
 void DeckParts::SetSize (int newSize){
   if (newSize > sizeMax){
-    this -> size = this -> sizeMax;
+    this->size = this->sizeMax;
   }
   else{
     this->size = newSize;
