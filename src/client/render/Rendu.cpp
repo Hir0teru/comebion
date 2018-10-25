@@ -9,7 +9,6 @@ using namespace state;
       dimensionX = 640;
       dimensionY = 360;
       gamestate =std::make_shared<GameState>();
-      // background = "../../res/textures/background/WorldMap.png";
     }
     Rendu::~Rendu (){}
     void Rendu::Click (int x, int y){
@@ -31,5 +30,5 @@ using namespace state;
 
     }
     void Rendu::DrawGame (int dimensionX, int dimensionY){
-      
+
     }

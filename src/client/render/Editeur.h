@@ -7,9 +7,15 @@
 
 namespace state {
   class Card;
+  class Player;
+  class Enemy;
+  class Entity;
 }
 
 #include "state/Card.h"
+#include "state/Player.h"
+#include "state/Enemy.h"
+#include "state/Entity.h"
 
 namespace render {
 
@@ -20,20 +26,23 @@ namespace render {
   private:
     int x;
     int y;
-    int width;
-    int height;
     sf::RenderTexture  texture;
     // Operations
   public:
     Editeur ();
     ~Editeur ();
-    Editeur (int x, int y, int width, int height, std::shared_ptr<state::Card>& card);
+    Editeur (int x, int y, float scale, std::shared_ptr<state::Card>& card, int statAttack, int statBlock);
+    Editeur (int x, int y, float scale, std::shared_ptr<state::Player>& player);
+    Editeur (int x, int y, float scale, std::shared_ptr<state::Enemy>& enemy);
     void Click (int x, int y);
     int const GetX ();
+    void SetX (int x);
     int const GetY ();
-    int const GetWidth ();
-    int const GetHeight ();
+    void SetY (int y);
     sf::RenderTexture& GetTexture ();
+    void SetEditeurPlayer (float scale, std::shared_ptr<state::Player>& player);
+    void SetEditeurCard (float scale, std::shared_ptr<state::Card>& card, int statAttack, int statBlock);
+    void SetEditeurEnemy (std::shared_ptr<state::Enemy>& enemy);
     // Setters and Getters
   };
 

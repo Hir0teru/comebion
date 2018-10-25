@@ -20,11 +20,10 @@ namespace render {
   class Rendu {
     // Associations
     // Attributes
-  public:
-    std::shared_ptr<state::GameState> gamestate;
   private:
     int dimensionX;
     int dimensionY;
+    std::shared_ptr<state::GameState> gamestate;
     // Operations
   public:
     Rendu ();
