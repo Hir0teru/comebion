@@ -3,11 +3,11 @@
 #define RENDER__RENDU__H
 
 
-namespace render {
-  class Editeur;
-};
 namespace state {
   class GameState;
+};
+namespace render {
+  class Editeur;
 }
 
 #include "Editeur.h"
@@ -19,6 +19,8 @@ namespace render {
   class Rendu {
     // Associations
     // Attributes
+  public:
+    state::GameState * gamestate;
   private:
     int dimensionX;
     int dimensionY;

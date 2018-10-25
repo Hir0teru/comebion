@@ -49,6 +49,7 @@ void testSFML() {
   enemy2 -> SetIntent(2);
   enemy1 -> SetDebuffs(*debuff3);
   enemy2 -> SetBuffs(*buff3);
+  enemy2 -> SetBlock(15);
 
   Editeur* editeur = new Editeur( 10, 10, 1,  (*CM)[0], 5, 5);
 
