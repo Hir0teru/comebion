@@ -2,17 +2,16 @@
 #ifndef RENDER__RENDU__H
 #define RENDER__RENDU__H
 
-#include <memory>
 
-namespace state {
-  class GameState;
-};
 namespace render {
   class Editeur;
+};
+namespace state {
+  class GameState;
 }
 
-#include "state/GameState.h"
 #include "Editeur.h"
+#include "state/GameState.h"
 
 namespace render {
 
@@ -23,7 +22,6 @@ namespace render {
   private:
     int dimensionX;
     int dimensionY;
-    std::shared_ptr<state::GameState> gamestate;
     // Operations
   public:
     Rendu ();

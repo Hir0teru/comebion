@@ -15,7 +15,7 @@ Editeur::Editeur(){
 
 }
 
-Editeur::Editeur( int x, int y, float scale, std::shared_ptr<Card>& card, int statAttack, int statBlock){
+Editeur::Editeur( int x, int y, float scale,state::Card* card, int statAttack, int statBlock){
   this -> x = x;
   this -> y = y;
 
@@ -577,7 +577,7 @@ Editeur::Editeur( int x, int y, float scale, std::shared_ptr<Card>& card, int st
 }
 
 
-Editeur::Editeur (int x, int y, float scale, std::shared_ptr<state::Player>& player){
+Editeur::Editeur (int x, int y, float scale, state::Player* player){
   this -> x = x;
   this -> y = y;
 
@@ -984,7 +984,7 @@ if (player -> GetBuffs().GetAttackPlus() > 0){
 }
 
 
-Editeur::Editeur(int x, int y, float scale, std::shared_ptr<Enemy>& enemy){
+Editeur::Editeur(int x, int y, float scale, std::unique_ptr<state::Enemy>& enemy){
 
   this -> x = x;
   this -> y = y;
@@ -1416,7 +1416,7 @@ sf::RenderTexture&  Editeur::GetTexture(){
   return texture;
 }
 
-void Editeur::SetEditeurCard( float scale, std::shared_ptr<Card>& card, int statAttack , int statBlock){
+void Editeur::SetEditeurCard( float scale, state::Card* card, int statAttack , int statBlock){
 
 
   sf::Font font;
@@ -1977,7 +1977,7 @@ void Editeur::SetEditeurCard( float scale, std::shared_ptr<Card>& card, int stat
 }
 
 
-void Editeur::SetEditeurPlayer(float scale, std::shared_ptr<Player>& player){
+void Editeur::SetEditeurPlayer(float scale, state::Player* player){
 
   if (!texture.create(int(500*scale), int(800*scale))){
     std::cout<<"RenderTexture error"<<std::endl;
@@ -2356,6 +2356,417 @@ void Editeur::SetEditeurPlayer(float scale, std::shared_ptr<Player>& player){
                 //text for value of attack/buff/debuff/block
                 sf::Text tmptext;
                 tmptext.setString(std::to_string(player -> GetDebuffs(). GetBlockMinus()));
+                tmptext.setFont(lifefont);
+                tmptext.setStyle(1);
+                tmptext.setCharacterSize(18 * scale);
+                tmptext.setColor(sf::Color::Black);
+                tmptext.move((positionX + 10) * scale, (positionY + 15) * scale);
+                texture.draw(tmptext);
+                tmptext.setCharacterSize(15 * scale);
+                tmptext.setColor(sf::Color::White);
+                tmptext.move(0,2 * scale);
+                texture.draw(tmptext);
+
+                if (positionX +40 > 200){
+                  positionX = 10;
+                  positionY +=35;
+                }
+                else{
+                  positionX += 40;  //200 = limit
+                }
+              }
+
+
+  texture.display();
+
+}
+
+void Editeur::SetEditeurEnemy(float scale, std::unique_ptr<Enemy>& enemy){
+  if (!texture.create(int(500*scale), int(800*scale))){
+    std::cout<<"RenderTexture error"<<std::endl;
+    throw std::invalid_argument("error with argument");
+  }
+  texture.clear(sf::Color::Transparent);
+
+  sf::Texture enemyTexture;
+  if (!enemyTexture.loadFromFile(enemy -> GetImage())){
+    std::cout << "error with enemy image" << std::endl;
+    throw std::invalid_argument("error with argument");
+  }
+
+  sf::Sprite enemySprite;
+  enemySprite.setTexture(enemyTexture);
+  enemySprite.move(0, 40 * scale);
+  enemySprite.scale(0.3 * scale, 0.3 * scale);
+
+  texture.draw(enemySprite);
+
+  sf::Font font;
+  // name of the enemy:
+  if (!font.loadFromFile("res/text_fonts/attack of the cucumbers.ttf")){
+    std::cout <<"error with font name" << std::endl;
+    throw std::invalid_argument("error with argument");
+  }
+
+//name
+  sf::Text name;
+  name.setFont(font);
+  name.setString(enemy -> GetName());
+  name.setColor(sf::Color::White);
+  name.setCharacterSize(15.5 * scale);
+  name.move(10 * scale, 280 * scale);
+
+  texture.draw(name);
+
+  name.setColor(sf::Color::Black);
+  name.setCharacterSize(15 * scale);
+
+  texture.draw(name);
+
+// Element:
+
+  sf::Texture elementTexture;
+  if (enemy -> GetElement() == 1 && !elementTexture.loadFromFile("res/textures/icons/air.png")){
+    throw std::invalid_argument("error with image air");
+  }
+  else{
+    if (enemy -> GetElement() == 2 && !elementTexture.loadFromFile("res/textures/icons/water.png")){
+      throw std::invalid_argument("error with image air");
+    }
+    else{
+      if (enemy -> GetElement() == 3 && !elementTexture.loadFromFile("res/textures/icons/earth.png")){
+        throw std::invalid_argument("error with image air");
+      }
+      else{
+        if (enemy -> GetElement() == 4 && !elementTexture.loadFromFile("res/textures/icons/fire.png")){
+          throw std::invalid_argument("error with image air");
+        }
+      }
+    }
+  }
+  sf::Sprite elementSprite;
+  elementSprite.setTexture(elementTexture);
+  elementSprite.move(170 * scale, 275 * scale);
+  elementSprite.scale(scale/6, scale/6);
+
+  texture.draw(elementSprite);
+
+
+//life:
+  sf::RectangleShape backgroundLife(sf::Vector2f(200 * scale , 10 * scale));
+  backgroundLife.setOutlineThickness(2);
+  backgroundLife.setOutlineColor(sf::Color::White);
+  backgroundLife.setFillColor(sf::Color::Black);
+  backgroundLife.move(10, 310 * scale);
+
+
+
+  sf::RectangleShape life(sf::Vector2f(200 * scale *(((float) enemy -> GetLife()/(float) enemy -> GetMaxLife())) , 10 * scale));
+  life.setOutlineThickness(2);
+  life.setOutlineColor(sf::Color::Transparent);
+  life.setFillColor(sf::Color::Red);
+  life.move(10, 310 * scale);
+
+  texture.draw(backgroundLife);
+  texture.draw(life);
+
+  sf::Text lifetxt;
+  sf::Font lifefont;
+  // life of the enemy:
+  if (!lifefont.loadFromFile("res/text_fonts/Upon Request.ttf")){
+    std::cout << "error with life font" << std::endl;
+    throw std::invalid_argument("argument invalide");
+  }
+  lifetxt.setFont(lifefont);
+  lifetxt.setString(std::to_string(enemy -> GetLife()) + " / " + std::to_string(enemy -> GetMaxLife()));
+  lifetxt.move(80 * scale,310*scale);
+  lifetxt.setColor(sf::Color::Black);
+  lifetxt.setCharacterSize(10.5 * scale);
+  texture.draw(lifetxt);
+  lifetxt.setColor(sf::Color::White);
+  lifetxt.setCharacterSize(10 * scale);
+  texture.draw(lifetxt);
+
+//Block:
+
+if (enemy -> GetBlock() > 0){
+    sf::Texture tmptexture;
+    if(!tmptexture.loadFromFile("res/textures/icons/block.png")){
+      std::cout << "error with attack up"<<std::endl;
+      throw std::invalid_argument("error with argument");
+    }
+    sf::Sprite tmpsprite;
+    tmpsprite.setTexture(tmptexture);
+    tmpsprite.move(0, 295 *scale);
+    tmpsprite.scale(scale/8, scale/8);
+    texture.draw(tmpsprite);
+    //text for value of attack/buff/debuff/block
+    sf::Text tmptext;
+    tmptext.setString(std::to_string(enemy -> GetBlock()));
+    tmptext.setFont(lifefont);
+    tmptext.setStyle(1);
+    tmptext.setCharacterSize(18 * scale);
+    tmptext.setColor(sf::Color::Black);
+    tmptext.move((15) * scale, (315) * scale);
+    texture.draw(tmptext);
+    tmptext.setCharacterSize(15 * scale);
+    tmptext.setColor(sf::Color::White);
+    tmptext.move(0,2 * scale);
+    texture.draw(tmptext);
+
+  }
+
+//Intent:
+
+sf::Texture intenttext;
+if(!intenttext.loadFromFile(enemy -> GetSkills()[enemy -> GetIntent()] -> GetIntentImage())){
+  throw std::invalid_argument("error with intentImage");
+}
+sf::Sprite intentSprite;
+intentSprite.setTexture(intenttext);
+intentSprite.scale(scale/6, scale/6);
+intentSprite.move(80 * scale, 10 * scale);
+texture.draw(intentSprite);
+
+if(enemy -> GetSkills()[enemy -> GetIntent()] -> GetAttack() > 0){
+  sf::Text tmptext;
+  tmptext.setString(std::to_string(enemy -> GetSkills()[enemy -> GetIntent()] -> GetAttack()));
+  tmptext.setFont(lifefont);
+  tmptext.setStyle(1);
+  tmptext.setCharacterSize(18 * scale);
+  tmptext.setColor(sf::Color::Black);
+  tmptext.move((95) * scale, (25) * scale);
+  texture.draw(tmptext);
+  tmptext.setCharacterSize(15 * scale);
+  tmptext.setColor(sf::Color::White);
+  tmptext.move(0,2 * scale);
+  texture.draw(tmptext);
+}
+
+
+
+// Buffs:
+int positionX = 10;
+int positionY = 330;
+
+if (enemy -> GetBuffs().GetAttackPlus() > 0){
+    sf::Texture tmptexture;
+    if(!tmptexture.loadFromFile("res/textures/icons/attack_up.png")){
+      std::cout << "error with attack up"<<std::endl;
+      throw std::invalid_argument("error with argument");
+    }
+    sf::Sprite tmpsprite;
+    tmpsprite.setTexture(tmptexture);
+    tmpsprite.move(positionX*scale, positionY*scale);
+    tmpsprite.scale(scale/8, scale/8);
+    texture.draw(tmpsprite);
+    //text for value of attack/buff/debuff/block
+    sf::Text tmptext;
+    tmptext.setString(std::to_string(enemy -> GetBuffs(). GetAttackPlus()));
+    tmptext.setFont(lifefont);
+    tmptext.setStyle(1);
+    tmptext.setCharacterSize(18 * scale);
+    tmptext.setColor(sf::Color::Black);
+    tmptext.move((positionX + 10) * scale, (positionY + 15) * scale);
+    texture.draw(tmptext);
+    tmptext.setCharacterSize(15 * scale);
+    tmptext.setColor(sf::Color::White);
+    tmptext.move(0,2 * scale);
+    texture.draw(tmptext);
+
+    if (positionX +40 > 200){
+      positionX = 10;
+      positionY +=35;
+    }
+    else{
+      positionX += 40;  //200 = limit
+    }
+  }
+
+  if (enemy -> GetBuffs().GetBlockPlus() > 0){
+      sf::Texture tmptexture;
+      if(!tmptexture.loadFromFile("res/textures/icons/block_up.png")){
+        std::cout << "error with attack up"<<std::endl;
+        throw std::invalid_argument("error with argument");
+      }
+      sf::Sprite tmpsprite;
+      tmpsprite.setTexture(tmptexture);
+      tmpsprite.move(positionX*scale, positionY*scale);
+      tmpsprite.scale(scale/8, scale/8);
+      texture.draw(tmpsprite);
+      //text for value of attack/buff/debuff/block
+      sf::Text tmptext;
+      tmptext.setString(std::to_string(enemy -> GetBuffs(). GetBlockPlus()));
+      tmptext.setFont(lifefont);
+      tmptext.setStyle(1);
+      tmptext.setCharacterSize(18 * scale);
+      tmptext.setColor(sf::Color::Black);
+      tmptext.move((positionX + 10) * scale, (positionY + 15) * scale);
+      texture.draw(tmptext);
+      tmptext.setCharacterSize(15 * scale);
+      tmptext.setColor(sf::Color::White);
+      tmptext.move(0,2 * scale);
+      texture.draw(tmptext);
+
+      if (positionX +40 > 200){
+        positionX = 10;
+        positionY +=35;
+      }
+      else{
+        positionX += 40;  //200 = limit
+      }
+    }
+
+    if (enemy -> GetBuffs().GetEvade() > 0){
+        sf::Texture tmptexture;
+        if(!tmptexture.loadFromFile("res/textures/icons/evade.png")){
+          std::cout << "error with attack up"<<std::endl;
+          throw std::invalid_argument("error with argument");
+        }
+        sf::Sprite tmpsprite;
+        tmpsprite.setTexture(tmptexture);
+        tmpsprite.move(positionX*scale, positionY*scale);
+        tmpsprite.scale(scale/8, scale/8);
+        texture.draw(tmpsprite);
+        //text for value of attack/buff/debuff/block
+        sf::Text tmptext;
+        tmptext.setString(std::to_string(enemy -> GetBuffs(). GetEvade()));
+        tmptext.setFont(lifefont);
+        tmptext.setStyle(1);
+        tmptext.setCharacterSize(18 * scale);
+        tmptext.setColor(sf::Color::Black);
+        tmptext.move((positionX + 10) * scale, (positionY + 15) * scale);
+        texture.draw(tmptext);
+        tmptext.setCharacterSize(15 * scale);
+        tmptext.setColor(sf::Color::White);
+        tmptext.move(0,2 * scale);
+        texture.draw(tmptext);
+
+        if (positionX +40 > 200){
+          positionX = 10;
+          positionY +=35;
+        }
+        else{
+          positionX += 40;  //200 = limit
+        }
+      }
+
+      if (enemy -> GetBuffs().GetHeal() > 0){
+          sf::Texture tmptexture;
+          if(!tmptexture.loadFromFile("res/textures/icons/heal.png")){
+            std::cout << "error with attack up"<<std::endl;
+            throw std::invalid_argument("error with argument");
+          }
+          sf::Sprite tmpsprite;
+          tmpsprite.setTexture(tmptexture);
+          tmpsprite.move(positionX *scale, ( positionY -10 )*scale);
+          tmpsprite.scale(scale/8, scale/8);
+          texture.draw(tmpsprite);
+          //text for value of attack/buff/debuff/block
+          sf::Text tmptext;
+          tmptext.setString(std::to_string(enemy -> GetBuffs(). GetHeal()));
+          tmptext.setFont(lifefont);
+          tmptext.setStyle(1);
+          tmptext.setCharacterSize(18 * scale);
+          tmptext.setColor(sf::Color::Black);
+          tmptext.move((positionX + 10) * scale, (positionY + 15) * scale);
+          texture.draw(tmptext);
+          tmptext.setCharacterSize(15 * scale);
+          tmptext.setColor(sf::Color::White);
+          tmptext.move(0,2 * scale);
+          texture.draw(tmptext);
+
+          if (positionX +40 > 200){
+            positionX = 10;
+            positionY +=35;
+          }
+          else{
+            positionX += 40;  //200 = limit
+          }
+        }
+
+        if (enemy -> GetBuffs().GetRetaliate() > 0){
+            sf::Texture tmptexture;
+            if(!tmptexture.loadFromFile("res/textures/icons/retaliate.png")){
+              std::cout << "error with attack up"<<std::endl;
+              throw std::invalid_argument("error with argument");
+            }
+            sf::Sprite tmpsprite;
+            tmpsprite.setTexture(tmptexture);
+            tmpsprite.move(positionX*scale, ( positionY - 10) *scale);
+            tmpsprite.scale(scale/8, scale/8);
+            texture.draw(tmpsprite);
+            //text for value of attack/buff/debuff/block
+            sf::Text tmptext;
+            tmptext.setString(std::to_string(enemy -> GetBuffs(). GetRetaliate()));
+            tmptext.setFont(lifefont);
+            tmptext.setStyle(1);
+            tmptext.setCharacterSize(18 * scale);
+            tmptext.setColor(sf::Color::Black);
+            tmptext.move((positionX + 10) * scale, (positionY + 15) * scale);
+            texture.draw(tmptext);
+            tmptext.setCharacterSize(15 * scale);
+            tmptext.setColor(sf::Color::White);
+            tmptext.move(0,2 * scale);
+            texture.draw(tmptext);
+
+            if (positionX +40 > 200){
+              positionX = 10;
+              positionY +=35;
+            }
+            else{
+              positionX += 40;  //200 = limit
+            }
+          }
+
+          if (enemy -> GetDebuffs().GetBlockMinus() > 0){
+              sf::Texture tmptexture;
+              if(!tmptexture.loadFromFile("res/textures/icons/block_down.png")){
+                // std::cout << "error with attack up"<<std::endl;
+                throw std::invalid_argument("error with argument");
+              }
+              sf::Sprite tmpsprite;
+              tmpsprite.setTexture(tmptexture);
+              tmpsprite.move(positionX*scale, positionY*scale);
+              tmpsprite.scale(scale/8, scale/8);
+              texture.draw(tmpsprite);
+              //text for value of attack/buff/debuff/block
+              sf::Text tmptext;
+              tmptext.setString(std::to_string(enemy -> GetDebuffs(). GetBlockMinus()));
+              tmptext.setFont(lifefont);
+              tmptext.setStyle(1);
+              tmptext.setCharacterSize(18 * scale);
+              tmptext.setColor(sf::Color::Black);
+              tmptext.move((positionX + 10) * scale, (positionY + 15) * scale);
+              texture.draw(tmptext);
+              tmptext.setCharacterSize(15 * scale);
+              tmptext.setColor(sf::Color::White);
+              tmptext.move(0,2 * scale);
+              texture.draw(tmptext);
+
+              if (positionX +40 > 200){
+                positionX = 10;
+                positionY +=35;
+              }
+              else{
+                positionX += 40;  //200 = limit
+              }
+            }
+
+            if (enemy -> GetDebuffs().GetBlockMinus() > 0){
+                sf::Texture tmptexture;
+                if(!tmptexture.loadFromFile("res/textures/icons/attack_down.png")){
+                  std::cout << "error with attack up"<<std::endl;
+                  throw std::invalid_argument("error with argument");
+                }
+                sf::Sprite tmpsprite;
+                tmpsprite.setTexture(tmptexture);
+                tmpsprite.move(positionX*scale, positionY*scale);
+                tmpsprite.scale(scale/8, scale/8);
+                texture.draw(tmpsprite);
+                //text for value of attack/buff/debuff/block
+                sf::Text tmptext;
+                tmptext.setString(std::to_string(enemy -> GetDebuffs(). GetBlockMinus()));
                 tmptext.setFont(lifefont);
                 tmptext.setStyle(1);
                 tmptext.setCharacterSize(18 * scale);

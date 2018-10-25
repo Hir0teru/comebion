@@ -178,3 +178,7 @@ std::string Entity::GetName(){
 void Entity::SetName(std::string name){
   this->name = name;
 }
+
+int Entity::GetMaxLife(){
+  return maxLife;
+}

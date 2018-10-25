@@ -8,7 +8,6 @@ using namespace state;
     Rendu::Rendu(){
       dimensionX = 640;
       dimensionY = 360;
-      gamestate =std::make_shared<GameState>();
     }
     Rendu::~Rendu (){}
     void Rendu::Click (int x, int y){

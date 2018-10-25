@@ -2,6 +2,8 @@
 #include <string>
 #include <vector>
 #include <memory>
+#include <unistd.h>
+#include <cstdlib>
 
 // Les lignes suivantes ne servent qu'à vérifier que la compilation avec SFML fonctionne
 #include <SFML/Graphics.hpp>
@@ -13,34 +15,98 @@ using namespace std;
 using namespace state;
 using namespace render;
 
-// void testSFML() {
-//   std::shared_ptr<Buff> buff = make_shared<Buff>(0,0,0,0,0);
-//   std::shared_ptr<Debuff> debuff = make_shared<Debuff>(0,0);
-//   std::shared_ptr<Card> card = std::make_shared<Card>("Attack Test", 2 , 1, "image.png", 2, 9, 0, 0,0,0, debuff, buff);
-//   Editeur* editeur = new Editeur( 10, 10, 500, 500,  card);
-//
-//
-//   sf::RenderWindow window(sf::VideoMode(800, 600), "Test image");
-//   while(window.isOpen()){
-//     sf::Event event;
-//     while (window.pollEvent(event)){
-//       if (event.type == sf::Event::Closed){
-//         window.close();
-//       }
-//     }
-//
-//
-//     window.clear(sf::Color::Transparent);
-//     sf::Sprite sprite;
-//     sprite.setTexture(editeur -> GetTexture().getTexture());
-//     window.draw(sprite);
-//     // sf::CircleShape shape(100.f);
-//     // shape.setFillColor(sf::Color::Blue);
-//     // window.draw(shape);
-//     window.display();
-//   }
-//
-// }
+void testSFML() {
+  CardManager* CM = CardManager::instance();
+  PlayerManager* PM = PlayerManager::instance();
+  SkillManager* SM = SkillManager::instance();
+  Buff* buff1 = new Buff(1,0,2,0,3);
+  Debuff* debuff1 = new Debuff(0,4);
+
+  Buff* buff2 = new Buff(0,5,0,6,0);
+  Debuff* debuff2 = new Debuff(7,0);
+
+  Buff* buff3 = new Buff(4,5,0,0,9);
+  Debuff* debuff3 = new Debuff(1,0);
+
+  Player* aang = (*PM)[0];
+  aang -> SetBuffs(*buff1);
+  aang -> SetDebuffs(*debuff1);
+  aang -> SetLife(42);
+  aang -> SetDebuffs(*debuff2);
+
+  Player* korra = (*PM)[1];
+  korra -> SetBuffs(*buff2);
+  korra -> SetLife(42);
+  korra -> SetDebuffs(*debuff2);
+
+  std::vector<EnemySkill*> skills;
+  skills.push_back((*SM)[0]);
+  skills.push_back((*SM)[1]);
+  skills.push_back((*SM)[2]);
+
+  std::unique_ptr<Enemy> enemy1 = std::make_unique<Enemy>( "La", 2, "res/textures/Enemy/Lu2.png", 5, 2, 502, 1, skills, 800);
+  std::unique_ptr<Enemy> enemy2 = std::make_unique<Enemy>("Vaatu", 3, "res/textures/Enemy/Vaatu.png", 10, 0, 450, 2, skills, 900);
+  enemy2 -> SetIntent(2);
+  enemy1 -> SetDebuffs(*debuff3);
+  enemy2 -> SetBuffs(*buff3);
+
+  Editeur* editeur = new Editeur( 10, 10, 1,  (*CM)[0], 5, 5);
+
+  int a;
+
+
+  sf::RenderWindow window(sf::VideoMode(800, 600), "Test image");
+  while(window.isOpen()){
+    sf::Event event;
+    while (window.pollEvent(event)){
+      if (event.type == sf::Event::Closed){
+
+        window.close();
+      }
+    }
+
+
+    window.clear(sf::Color::White);
+    sf::Sprite sprite;
+    sprite.setTexture(editeur -> GetTexture().getTexture());
+    window.draw(sprite);
+    // sf::CircleShape shape(100.f);
+    // shape.setFillColor(sf::Color::Blue);
+    // window.draw(shape);
+    window.display();
+
+    sleep(1);
+
+    a = rand() % 100;
+
+    if(a < 30){
+      a = rand()%4;
+      editeur -> SetEditeurCard(1, (*CM)[a], 5, 9);
+
+    }
+    else{
+      if ( a < 45){
+        editeur -> SetEditeurPlayer(1, aang);
+      }
+      else{
+        if (a < 60){
+          editeur -> SetEditeurPlayer(1, korra);
+        }
+        else{
+          if (a < 80){
+            editeur -> SetEditeurEnemy(1, enemy1);
+          }
+          else{
+            editeur -> SetEditeurEnemy(1, enemy2);
+          }
+        }
+      }
+    }
+
+
+  }
+
+}
 
 // Fin test SFML
 
@@ -493,6 +559,7 @@ int main(int argc,char* argv[])
 {
     SkillManager::instance();
     CardManager::instance();
+    PlayerManager::instance();
     //Exemple exemple;
     //exemple.setX(53);
 
@@ -506,10 +573,11 @@ int main(int argc,char* argv[])
 
 
     if (argc == 2 and std::string(argv[1] )== "render"){
-      // testSFML();
+      testSFML();
     }
 
     delete SkillManager::instance();
     delete CardManager::instance();
+    delete PlayerManager::instance();
     return 0;
 }
