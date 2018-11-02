@@ -20,13 +20,14 @@ Map::~Map()
 
 }
 
-std::vector<Floor*> Map::GetFloors(){
-  std::vector<Floor*> vectorFloor;
-  vectorFloor.push_back(this->floors[0].get());
-  if (floors.size() == 2){
-    vectorFloor.push_back(this->floors[1].get());
-  }
-  return vectorFloor;
+std::vector<std::unique_ptr<Floor>>& Map::GetFloors(){
+  // std::vector<Floor*> vectorFloor;
+  // vectorFloor.push_back(this->floors[0].get());
+  // if (floors.size() == 2){
+  //   vectorFloor.push_back(this->floors[1].get());
+  // }
+  // return vectorFloor;
+  return floors;
 }
 
 int Map::GetCurrentFloor(){

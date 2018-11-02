@@ -182,3 +182,7 @@ void Entity::SetName(std::string name){
 int Entity::GetMaxLife(){
   return maxLife;
 }
+
+void Entity::SetMaxLife(int maxLife){
+  this -> maxLife = maxLife;
+}

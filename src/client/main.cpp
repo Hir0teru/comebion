@@ -15,7 +15,95 @@ using namespace std;
 using namespace state;
 using namespace render;
 
-void testSFML() {
+void testSFML(){
+  PlayerManager* PM = PlayerManager::instance();
+  CardManager* CM = CardManager::instance();
+
+  Rendu* rendu = new Rendu();
+  std::vector<Player*> players;
+  players.push_back((*PM)[0]);
+  players.push_back((*PM)[1]);
+
+  std::vector<Card*> cards;
+  for(int i = 0; i < 7; i++){
+    cards.push_back((*CM)[i]);
+  }
+  rendu -> GetGameState() -> SetPlayers(players);
+  int floorNb = rendu -> GetGameState() -> GetMap() -> GetCurrentFloor();
+  std::shared_ptr<Room>& room = rendu -> GetGameState() -> GetMap() -> GetFloors()[floorNb]-> GetCurrentRoom();
+  // if(room -> GetIsEnemyRoom()){
+  //   room -> GetHands()[0] ->  SetCards(cards);
+  //   room -> GetDrawPiles()[0] -> SetCards(cards);
+  //   room -> SetEntityTurn(0);
+  // }
+  //
+  // rendu -> SetTextureMap(1);
+  // //
+  // rendu -> SetTextureRoom();
+  // rendu -> DrawInsideRoom();
+
+  sf::RenderWindow window(sf::VideoMode(rendu -> GetDimensionX(), rendu -> GetDimensionY()), "Test image");
+  while(window.isOpen()){
+    sf::Event event;
+    while (window.pollEvent(event)){
+      if (event.type == sf::Event::Closed){
+
+        window.close();
+      }
+    }
+
+
+    room = rendu -> GetGameState() -> GetMap() -> GetFloors()[floorNb] -> GetCurrentRoom();
+    if(room -> GetIsEnemyRoom()){
+      room -> GetHands()[0] ->  SetCards(cards);
+      room -> GetDrawPiles()[0] -> SetCards(cards);
+      room -> SetEntityTurn(0);
+    }
+
+    rendu -> SetTextureRoom();
+    rendu -> DrawInsideRoom();
+
+    window.clear(sf::Color::White);
+    sf::Sprite sprite;
+    // sprite.setTexture(rendu -> GetTextureMap().getTexture());
+    sprite.setTexture(rendu -> GetTexture().getTexture());
+
+    window.draw(sprite);
+    // sf::CircleShape shape(100.f);
+    // shape.setFillColor(sf::Color::Blue);
+    // window.draw(shape);
+    window.display();
+    sleep(1);
+    // room = room -> GetNextRoom();
+    if(!room -> GetNextRoom()){
+      rendu -> SetTextureMap(1);
+      window.clear(sf::Color::White);
+      sprite.setTexture(rendu -> GetTextureMap().getTexture());
+      window.draw(sprite);
+      window.display();
+      sleep(0.5);
+      if(floorNb == 3){
+        rendu -> GetGameState() -> GetMap() -> SetCurrentFloor(0);
+        floorNb = rendu -> GetGameState() -> GetMap() -> GetCurrentFloor();
+        room = rendu -> GetGameState() -> GetMap() -> GetFloors()[floorNb] -> GetFirstRoom();
+        rendu -> GetGameState() -> GetMap() -> GetFloors()[floorNb] -> SetCurrentRoom(room);
+      }
+      else{
+        rendu -> GetGameState() -> GetMap() -> SetCurrentFloor(floorNb + 1);
+        floorNb = rendu -> GetGameState() -> GetMap() -> GetCurrentFloor();
+        room = rendu -> GetGameState() -> GetMap() -> GetFloors()[floorNb] -> GetFirstRoom();
+        rendu -> GetGameState() -> GetMap() -> GetFloors()[floorNb] -> SetCurrentRoom(room);
+      }
+    }
+    else{
+      rendu -> GetGameState() -> GetMap() -> GetFloors()[floorNb]-> SetCurrentRoom(room -> GetNextRoom());
+    }
+
+  }
+}
+
+
+void testSFML2() {
   CardManager* CM = CardManager::instance();
   PlayerManager* PM = PlayerManager::instance();
   SkillManager* SM = SkillManager::instance();
@@ -44,7 +132,7 @@ void testSFML() {
   skills.push_back((*SM)[1]);
   skills.push_back((*SM)[2]);
 
-  std::unique_ptr<Enemy> enemy1 = std::make_unique<Enemy>( "La", 2, "res/textures/Enemy/Lu2.png", 5, 2, 502, 1, skills, 800);
+  std::unique_ptr<Enemy> enemy1 = std::make_unique<Enemy>( "La", 2, "res/textures/Enemy/Water/La.png", 5, 2, 502, 1, skills, 800);
   std::unique_ptr<Enemy> enemy2 = std::make_unique<Enemy>("Vaatu", 3, "res/textures/Enemy/Vaatu.png", 10, 0, 450, 2, skills, 900);
   enemy2 -> SetIntent(2);
   enemy1 -> SetDebuffs(*debuff3);
@@ -575,6 +663,9 @@ int main(int argc,char* argv[])
 
     if (argc == 2 and std::string(argv[1] )== "render"){
       testSFML();
+    }
+    if (argc == 2 and std::string(argv[1] )== "render2"){
+      testSFML2();
     }
 
     delete SkillManager::instance();

@@ -112,3 +112,17 @@ void EnemyRoom::SetHands (std::vector<std::unique_ptr<DeckParts>> handVector){
   }
     this->hands = std::move(handVector);
 }
+
+
+std::vector<std::unique_ptr<Enemy>>& EnemyRoom::GetEnemies(){
+  return enemies;
+}
+
+
+void EnemyRoom::SetTurn(int turn){
+  this -> turn = turn;
+}
+
+void EnemyRoom::SetEntityTurn(int entityNb){
+  this -> entityTurn = entityNb;
+}

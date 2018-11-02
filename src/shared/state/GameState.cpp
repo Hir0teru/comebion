@@ -29,3 +29,11 @@ bool GameState::GetIsInsideRoom (){
 void GameState::SetIsInsideRoom (bool newIsInsideRoom){
   this->isInsideRoom = newIsInsideRoom;
 }
+
+std::vector<Player*>& GameState::GetPlayers(){
+  return players;
+}
+
+void GameState::SetPlayers(std::vector<Player*>& players){
+  this -> players = players;
+}

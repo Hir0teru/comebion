@@ -13,7 +13,7 @@ SleepRoom::~SleepRoom()
 
 }
 
-SleepRoom::SleepRoom(int element, int heal_amount): Room(element, false, false, true)
+SleepRoom::SleepRoom(int element, int heal): Room(element, false, false, true)
 {
   if (heal<0) {
     this->heal = 0;

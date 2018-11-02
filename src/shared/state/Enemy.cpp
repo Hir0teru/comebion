@@ -21,6 +21,7 @@ Enemy::Enemy (){
   skills.push_back((*SM)[1]);
   skills.push_back((*SM)[2]);
   intent = 0;
+
 }
 
 Enemy::Enemy (std::string name, int element, std::string image,

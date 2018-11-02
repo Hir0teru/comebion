@@ -15,6 +15,47 @@ Editeur::Editeur(){
 
 }
 
+Editeur::Editeur (int x, int y, float scale,  std::string image, int number){
+    this -> x = x;
+    this -> y = y;
+
+    if (!texture.create(int(500*scale), int(800*scale))){
+      std::cout<<"RenderTexture error"<<std::endl;
+      throw std::invalid_argument("error with argument");
+    }
+    texture.clear(sf::Color::Transparent);
+
+    sf::Sprite sprite;
+    sf::Texture texturePile;
+    if (!texturePile.loadFromFile(image)){
+      std::cout << "error with image" << std::endl;
+      throw std::invalid_argument("error with argument");
+    }
+    sprite.setTexture(texturePile);
+    sprite.scale(scale, scale);
+
+    sf::Font font;
+
+    if (!font.loadFromFile("res/text_fonts/attack of the cucumbers.ttf")){
+      std::cout <<"error with font name" << std::endl;
+      throw std::invalid_argument("error with argument");
+    }
+    sf::Text text;
+    text.setFont(font);
+    text.setString(std::to_string(number));
+    text.setColor(sf::Color::White);
+    text.setCharacterSize(50 * scale);
+    text.move(200 * scale, 500 * scale);
+    text.setStyle(sf::Text::Bold);
+
+    texture.draw(sprite);
+
+    texture.draw(text);
+    texture.display();
+
+
+  }
+
 Editeur::Editeur( int x, int y, float scale,state::Card* card, int statAttack, int statBlock){
   this -> x = x;
   this -> y = y;
@@ -106,7 +147,7 @@ Editeur::Editeur( int x, int y, float scale,state::Card* card, int statAttack, i
   }
   spriteImage.setTexture(imtexture);
   spriteImage.move(100*scale,120*scale);
-  spriteImage.scale(scale/2, scale/2);
+  spriteImage.scale(scale, scale);
 
   texture.draw(name);
   texture.draw(spriteImage);
@@ -125,7 +166,7 @@ Editeur::Editeur( int x, int y, float scale,state::Card* card, int statAttack, i
       sf::Sprite tmpsprite;
       tmpsprite.setTexture(tmptexture);
       tmpsprite.move(positionX*scale, positionY*scale);
-      tmpsprite.scale(scale/6, scale/6);
+      tmpsprite.scale(scale/4, scale/4);
       texture.draw(tmpsprite);
       //text for value of attack/buff/debuff/block
       sf::Text tmptext;
@@ -156,7 +197,7 @@ Editeur::Editeur( int x, int y, float scale,state::Card* card, int statAttack, i
     sf::Sprite tmpsprite;
     tmpsprite.setTexture(tmptexture);
     tmpsprite.move(positionX*scale, positionY*scale);
-    tmpsprite.scale(scale/6, scale/6);
+    tmpsprite.scale(scale/6, scale/4);
     texture.draw(tmpsprite);
     //text for value of attack/buff/debuff/block
     sf::Text tmptext;
@@ -188,7 +229,7 @@ Editeur::Editeur( int x, int y, float scale,state::Card* card, int statAttack, i
     sf::Sprite tmpsprite;
     tmpsprite.setTexture(tmptexture);
     tmpsprite.move(positionX*scale, positionY*scale);
-    tmpsprite.scale(scale/6, scale/6);
+    tmpsprite.scale(scale/4, scale/4);
     texture.draw(tmpsprite);
     //text for value of attack/buff/debuff/block
     sf::Text tmptext;
@@ -218,7 +259,7 @@ Editeur::Editeur( int x, int y, float scale,state::Card* card, int statAttack, i
     sf::Sprite tmpsprite;
     tmpsprite.setTexture(tmptexture);
     tmpsprite.move(positionX*scale, positionY*scale);
-    tmpsprite.scale(scale/6, scale/6);
+    tmpsprite.scale(scale/4, scale/4);
     texture.draw(tmpsprite);
     //text for value of attack/buff/debuff/block
     sf::Text tmptext;
@@ -249,7 +290,7 @@ Editeur::Editeur( int x, int y, float scale,state::Card* card, int statAttack, i
     sf::Sprite tmpsprite;
     tmpsprite.setTexture(tmptexture);
     tmpsprite.move(positionX*scale, positionY*scale);
-    tmpsprite.scale(scale/6, scale/6);
+    tmpsprite.scale(scale/4, scale/4);
     texture.draw(tmpsprite);
     //text for value of attack/buff/debuff/block
     sf::Text tmptext;
@@ -280,7 +321,7 @@ Editeur::Editeur( int x, int y, float scale,state::Card* card, int statAttack, i
     sf::Sprite tmpsprite;
     tmpsprite.setTexture(tmptexture);
     tmpsprite.move((positionX)*scale, (positionY) *scale);
-    tmpsprite.scale(scale/6, scale/6);
+    tmpsprite.scale(scale/4, scale/4);
     texture.draw(tmpsprite);
     //text for value of attack/buff/debuff/block
     sf::Text tmptext;
@@ -311,7 +352,7 @@ Editeur::Editeur( int x, int y, float scale,state::Card* card, int statAttack, i
     sf::Sprite tmpsprite;
     tmpsprite.setTexture(tmptexture);
     tmpsprite.move(positionX*scale, positionY*scale);
-    tmpsprite.scale(2 * scale/6, 2 * scale/6);
+    tmpsprite.scale(scale/4, scale/4);
     texture.draw(tmpsprite);
     //text for value of attack/buff/debuff/block
     sf::Text tmptext;
@@ -342,7 +383,7 @@ Editeur::Editeur( int x, int y, float scale,state::Card* card, int statAttack, i
     sf::Sprite tmpsprite;
     tmpsprite.setTexture(tmptexture);
     tmpsprite.move(positionX*scale, positionY*scale);
-    tmpsprite.scale(scale/6, scale/6);
+    tmpsprite.scale(scale/4, scale/4);
     texture.draw(tmpsprite);
     //text for value of attack/buff/debuff/block
     sf::Text tmptext;
@@ -373,7 +414,7 @@ Editeur::Editeur( int x, int y, float scale,state::Card* card, int statAttack, i
     sf::Sprite tmpsprite;
     tmpsprite.setTexture(tmptexture);
     tmpsprite.move(positionX*scale, positionY*scale);
-    tmpsprite.scale(scale/6, scale/6);
+    tmpsprite.scale(scale/4, scale/4);
     texture.draw(tmpsprite);
     //text for value of attack/buff/debuff/block
     sf::Text tmptext;
@@ -403,7 +444,7 @@ Editeur::Editeur( int x, int y, float scale,state::Card* card, int statAttack, i
     sf::Sprite tmpsprite;
     tmpsprite.setTexture(tmptexture);
     tmpsprite.move(positionX*scale, positionY*scale);
-    tmpsprite.scale(scale/7, scale/7);
+    tmpsprite.scale(scale/4, scale/4);
     texture.draw(tmpsprite);
     //text for value of attack/buff/debuff/block
     sf::Text tmptext;
@@ -434,7 +475,7 @@ Editeur::Editeur( int x, int y, float scale,state::Card* card, int statAttack, i
     sf::Sprite tmpsprite;
     tmpsprite.setTexture(tmptexture);
     tmpsprite.move(positionX*scale, positionY*scale);
-    tmpsprite.scale(scale/7, scale/7);
+    tmpsprite.scale(scale/4, scale/4);
     tmpsprite.setColor(sf::Color::Black);
     texture.draw(tmpsprite);
     //text for value of attack/buff/debuff/block
@@ -466,7 +507,7 @@ Editeur::Editeur( int x, int y, float scale,state::Card* card, int statAttack, i
     sf::Sprite tmpsprite;
     tmpsprite.setTexture(tmptexture);
     tmpsprite.move(positionX*scale, positionY*scale);
-    tmpsprite.scale(scale/6, scale/6);
+    tmpsprite.scale(scale/4, scale/4);
     texture.draw(tmpsprite);
     //text for value of attack/buff/debuff/block
     sf::Text tmptext;
@@ -595,8 +636,8 @@ Editeur::Editeur (int x, int y, float scale, state::Player* player){
 
   sf::Sprite playerSprite;
   playerSprite.setTexture(playerTexture);
-  playerSprite.move(20 * scale, 20 * scale);
-  playerSprite.scale(scale, scale);
+  playerSprite.move( scale,80* scale);
+  playerSprite.scale( scale/1.5, scale/1.5);
 
   texture.draw(playerSprite);
 
@@ -607,7 +648,7 @@ Editeur::Editeur (int x, int y, float scale, state::Player* player){
     throw std::invalid_argument("error with argument");
   }
 
-//name
+  //name
   sf::Text name;
   name.setFont(font);
   name.setString(player -> GetName());
@@ -622,7 +663,7 @@ Editeur::Editeur (int x, int y, float scale, state::Player* player){
 
   texture.draw(name);
 
-// Element:
+  // Element:
 
   sf::Texture elementTexture;
   if (player -> GetElement() == 1 && !elementTexture.loadFromFile("res/textures/icons/air.png")){
@@ -651,7 +692,7 @@ Editeur::Editeur (int x, int y, float scale, state::Player* player){
   texture.draw(elementSprite);
 
 
-//life:
+  //life:
   sf::RectangleShape backgroundLife(sf::Vector2f(200 * scale , 10 * scale));
   backgroundLife.setOutlineThickness(2);
   backgroundLife.setOutlineColor(sf::Color::White);
@@ -686,9 +727,9 @@ Editeur::Editeur (int x, int y, float scale, state::Player* player){
   lifetxt.setCharacterSize(10 * scale);
   texture.draw(lifetxt);
 
-//Block:
+  //Block:
 
-if (player -> GetBlock() > 0){
+  if (player -> GetBlock() > 0){
     sf::Texture tmptexture;
     if(!tmptexture.loadFromFile("res/textures/icons/block.png")){
       std::cout << "error with attack up"<<std::endl;
@@ -696,8 +737,8 @@ if (player -> GetBlock() > 0){
     }
     sf::Sprite tmpsprite;
     tmpsprite.setTexture(tmptexture);
-    tmpsprite.move(0, 295 *scale);
-    tmpsprite.scale(scale/8, scale/8);
+    tmpsprite.move(-15, 290 *scale);
+    tmpsprite.scale(scale/4, scale/4);
     texture.draw(tmpsprite);
     //text for value of attack/buff/debuff/block
     sf::Text tmptext;
@@ -706,7 +747,7 @@ if (player -> GetBlock() > 0){
     tmptext.setStyle(1);
     tmptext.setCharacterSize(18 * scale);
     tmptext.setColor(sf::Color::Black);
-    tmptext.move((15) * scale, (315) * scale);
+    tmptext.move((5) * scale, (315) * scale);
     texture.draw(tmptext);
     tmptext.setCharacterSize(15 * scale);
     tmptext.setColor(sf::Color::White);
@@ -736,11 +777,11 @@ if (player -> GetBlock() > 0){
   texture.draw(energytxt);
 
 
-// Buffs:
-int positionX = 10;
-int positionY = 330;
+  // Buffs:
+  int positionX = 10;
+  int positionY = 330;
 
-if (player -> GetBuffs().GetAttackPlus() > 0){
+  if (player -> GetBuffs().GetAttackPlus() > 0){
     sf::Texture tmptexture;
     if(!tmptexture.loadFromFile("res/textures/icons/attack_up.png")){
       std::cout << "error with attack up"<<std::endl;
@@ -749,7 +790,7 @@ if (player -> GetBuffs().GetAttackPlus() > 0){
     sf::Sprite tmpsprite;
     tmpsprite.setTexture(tmptexture);
     tmpsprite.move(positionX*scale, positionY*scale);
-    tmpsprite.scale(scale/8, scale/8);
+    tmpsprite.scale(scale/6, scale/6);
     texture.draw(tmpsprite);
     //text for value of attack/buff/debuff/block
     sf::Text tmptext;
@@ -783,7 +824,7 @@ if (player -> GetBuffs().GetAttackPlus() > 0){
       sf::Sprite tmpsprite;
       tmpsprite.setTexture(tmptexture);
       tmpsprite.move(positionX*scale, positionY*scale);
-      tmpsprite.scale(scale/8, scale/8);
+      tmpsprite.scale(scale/6, scale/6);
       texture.draw(tmpsprite);
       //text for value of attack/buff/debuff/block
       sf::Text tmptext;
@@ -817,7 +858,7 @@ if (player -> GetBuffs().GetAttackPlus() > 0){
         sf::Sprite tmpsprite;
         tmpsprite.setTexture(tmptexture);
         tmpsprite.move(positionX*scale, positionY*scale);
-        tmpsprite.scale(scale/8, scale/8);
+        tmpsprite.scale(scale/6, scale/6);
         texture.draw(tmpsprite);
         //text for value of attack/buff/debuff/block
         sf::Text tmptext;
@@ -850,8 +891,8 @@ if (player -> GetBuffs().GetAttackPlus() > 0){
           }
           sf::Sprite tmpsprite;
           tmpsprite.setTexture(tmptexture);
-          tmpsprite.move(positionX *scale, ( positionY -10 )*scale);
-          tmpsprite.scale(scale/8, scale/8);
+          tmpsprite.move(positionX *scale, positionY *scale);
+          tmpsprite.scale(scale/6, scale/6);
           texture.draw(tmpsprite);
           //text for value of attack/buff/debuff/block
           sf::Text tmptext;
@@ -884,8 +925,8 @@ if (player -> GetBuffs().GetAttackPlus() > 0){
             }
             sf::Sprite tmpsprite;
             tmpsprite.setTexture(tmptexture);
-            tmpsprite.move(positionX*scale, ( positionY - 10) *scale);
-            tmpsprite.scale(scale/8, scale/8);
+            tmpsprite.move(positionX*scale,  positionY  *scale);
+            tmpsprite.scale(scale/6, scale/6);
             texture.draw(tmpsprite);
             //text for value of attack/buff/debuff/block
             sf::Text tmptext;
@@ -919,7 +960,7 @@ if (player -> GetBuffs().GetAttackPlus() > 0){
               sf::Sprite tmpsprite;
               tmpsprite.setTexture(tmptexture);
               tmpsprite.move(positionX*scale, positionY*scale);
-              tmpsprite.scale(scale/8, scale/8);
+              tmpsprite.scale(scale/6, scale/6);
               texture.draw(tmpsprite);
               //text for value of attack/buff/debuff/block
               sf::Text tmptext;
@@ -953,7 +994,7 @@ if (player -> GetBuffs().GetAttackPlus() > 0){
                 sf::Sprite tmpsprite;
                 tmpsprite.setTexture(tmptexture);
                 tmpsprite.move(positionX*scale, positionY*scale);
-                tmpsprite.scale(scale/8, scale/8);
+                tmpsprite.scale(scale/6, scale/6);
                 texture.draw(tmpsprite);
                 //text for value of attack/buff/debuff/block
                 sf::Text tmptext;
@@ -1003,8 +1044,8 @@ Editeur::Editeur(int x, int y, float scale, std::unique_ptr<state::Enemy>& enemy
 
   sf::Sprite enemySprite;
   enemySprite.setTexture(enemyTexture);
-  enemySprite.move(0, 40 * scale);
-  enemySprite.scale(0.3 * scale, 0.3 * scale);
+  enemySprite.move(0, 80 *scale);
+  enemySprite.scale(  scale/1.5,  scale/1.5);
 
   texture.draw(enemySprite);
 
@@ -1104,8 +1145,8 @@ if (enemy -> GetBlock() > 0){
     }
     sf::Sprite tmpsprite;
     tmpsprite.setTexture(tmptexture);
-    tmpsprite.move(0, 295 *scale);
-    tmpsprite.scale(scale/8, scale/8);
+    tmpsprite.move(-15, 290 *scale);
+    tmpsprite.scale(scale/4, scale/4);
     texture.draw(tmpsprite);
     //text for value of attack/buff/debuff/block
     sf::Text tmptext;
@@ -1114,7 +1155,7 @@ if (enemy -> GetBlock() > 0){
     tmptext.setStyle(1);
     tmptext.setCharacterSize(18 * scale);
     tmptext.setColor(sf::Color::Black);
-    tmptext.move((15) * scale, (315) * scale);
+    tmptext.move((5) * scale, (315) * scale);
     texture.draw(tmptext);
     tmptext.setCharacterSize(15 * scale);
     tmptext.setColor(sf::Color::White);
@@ -1131,8 +1172,8 @@ if(!intenttext.loadFromFile(enemy -> GetSkills()[enemy -> GetIntent()] -> GetInt
 }
 sf::Sprite intentSprite;
 intentSprite.setTexture(intenttext);
-intentSprite.scale(scale/4, scale/4);
-intentSprite.move(80 * scale, 10 * scale);
+intentSprite.scale(scale/3, scale/3);
+intentSprite.move(70 * scale,250 * scale);
 texture.draw(intentSprite);
 
 if(enemy -> GetSkills()[enemy -> GetIntent()] -> GetAttack() > 0){
@@ -1142,7 +1183,7 @@ if(enemy -> GetSkills()[enemy -> GetIntent()] -> GetAttack() > 0){
   tmptext.setStyle(1);
   tmptext.setCharacterSize(18 * scale);
   tmptext.setColor(sf::Color::Black);
-  tmptext.move((95) * scale, (25) * scale);
+  tmptext.move((85) * scale, (270) * scale);
   texture.draw(tmptext);
   tmptext.setCharacterSize(15 * scale);
   tmptext.setColor(sf::Color::White);
@@ -1165,7 +1206,7 @@ if (enemy -> GetBuffs().GetAttackPlus() > 0){
     sf::Sprite tmpsprite;
     tmpsprite.setTexture(tmptexture);
     tmpsprite.move(positionX*scale, positionY*scale);
-    tmpsprite.scale(scale/8, scale/8);
+    tmpsprite.scale(scale/6, scale/6);
     texture.draw(tmpsprite);
     //text for value of attack/buff/debuff/block
     sf::Text tmptext;
@@ -1199,7 +1240,7 @@ if (enemy -> GetBuffs().GetAttackPlus() > 0){
       sf::Sprite tmpsprite;
       tmpsprite.setTexture(tmptexture);
       tmpsprite.move(positionX*scale, positionY*scale);
-      tmpsprite.scale(scale/8, scale/8);
+      tmpsprite.scale(scale/6, scale/6);
       texture.draw(tmpsprite);
       //text for value of attack/buff/debuff/block
       sf::Text tmptext;
@@ -1233,7 +1274,7 @@ if (enemy -> GetBuffs().GetAttackPlus() > 0){
         sf::Sprite tmpsprite;
         tmpsprite.setTexture(tmptexture);
         tmpsprite.move(positionX*scale, positionY*scale);
-        tmpsprite.scale(scale/8, scale/8);
+        tmpsprite.scale(scale/6, scale/6);
         texture.draw(tmpsprite);
         //text for value of attack/buff/debuff/block
         sf::Text tmptext;
@@ -1266,8 +1307,8 @@ if (enemy -> GetBuffs().GetAttackPlus() > 0){
           }
           sf::Sprite tmpsprite;
           tmpsprite.setTexture(tmptexture);
-          tmpsprite.move(positionX *scale, ( positionY -10 )*scale);
-          tmpsprite.scale(scale/8, scale/8);
+          tmpsprite.move(positionX *scale, positionY *scale);
+          tmpsprite.scale(scale/6, scale/6);
           texture.draw(tmpsprite);
           //text for value of attack/buff/debuff/block
           sf::Text tmptext;
@@ -1300,8 +1341,8 @@ if (enemy -> GetBuffs().GetAttackPlus() > 0){
             }
             sf::Sprite tmpsprite;
             tmpsprite.setTexture(tmptexture);
-            tmpsprite.move(positionX*scale, ( positionY - 10) *scale);
-            tmpsprite.scale(scale/8, scale/8);
+            tmpsprite.move(positionX*scale, positionY  *scale);
+            tmpsprite.scale(scale/6, scale/6);
             texture.draw(tmpsprite);
             //text for value of attack/buff/debuff/block
             sf::Text tmptext;
@@ -1335,7 +1376,7 @@ if (enemy -> GetBuffs().GetAttackPlus() > 0){
               sf::Sprite tmpsprite;
               tmpsprite.setTexture(tmptexture);
               tmpsprite.move(positionX*scale, positionY*scale);
-              tmpsprite.scale(scale/8, scale/8);
+              tmpsprite.scale(scale/6, scale/6);
               texture.draw(tmpsprite);
               //text for value of attack/buff/debuff/block
               sf::Text tmptext;
@@ -1369,7 +1410,7 @@ if (enemy -> GetBuffs().GetAttackPlus() > 0){
                 sf::Sprite tmpsprite;
                 tmpsprite.setTexture(tmptexture);
                 tmpsprite.move(positionX*scale, positionY*scale);
-                tmpsprite.scale(scale/8, scale/8);
+                tmpsprite.scale(scale/6, scale/6);
                 texture.draw(tmpsprite);
                 //text for value of attack/buff/debuff/block
                 sf::Text tmptext;
@@ -1406,6 +1447,7 @@ Editeur::~Editeur(){}
 void Editeur::Click(int x, int y){
 
 }
+
 int const Editeur::GetX(){
   return x;
 }
@@ -1414,6 +1456,14 @@ int const Editeur::GetY(){
 }
 sf::RenderTexture&  Editeur::GetTexture(){
   return texture;
+}
+
+void Editeur::SetX(int x){
+  this -> x = x;
+}
+
+void Editeur::SetY( int y){
+  this -> y = y;
 }
 
 void Editeur::SetEditeurCard( float scale, state::Card* card, int statAttack , int statBlock){
@@ -1506,7 +1556,7 @@ void Editeur::SetEditeurCard( float scale, state::Card* card, int statAttack , i
   }
   spriteImage.setTexture(imtexture);
   spriteImage.move(100*scale,120*scale);
-  spriteImage.scale(scale/2, scale/2);
+  spriteImage.scale(scale, scale);
 
   texture.draw(name);
   texture.draw(spriteImage);
@@ -1525,7 +1575,7 @@ void Editeur::SetEditeurCard( float scale, state::Card* card, int statAttack , i
       sf::Sprite tmpsprite;
       tmpsprite.setTexture(tmptexture);
       tmpsprite.move(positionX*scale, positionY*scale);
-      tmpsprite.scale(scale/6, scale/6);
+      tmpsprite.scale(scale/4, scale/4);
       texture.draw(tmpsprite);
       //text for value of attack/buff/debuff/block
       sf::Text tmptext;
@@ -1556,7 +1606,7 @@ void Editeur::SetEditeurCard( float scale, state::Card* card, int statAttack , i
     sf::Sprite tmpsprite;
     tmpsprite.setTexture(tmptexture);
     tmpsprite.move(positionX*scale, positionY*scale);
-    tmpsprite.scale(scale/6, scale/6);
+    tmpsprite.scale(scale/4, scale/4);
     texture.draw(tmpsprite);
     //text for value of attack/buff/debuff/block
     sf::Text tmptext;
@@ -1588,7 +1638,7 @@ void Editeur::SetEditeurCard( float scale, state::Card* card, int statAttack , i
     sf::Sprite tmpsprite;
     tmpsprite.setTexture(tmptexture);
     tmpsprite.move(positionX*scale, positionY*scale);
-    tmpsprite.scale(scale/6, scale/6);
+    tmpsprite.scale(scale/4, scale/4);
     texture.draw(tmpsprite);
     //text for value of attack/buff/debuff/block
     sf::Text tmptext;
@@ -1618,7 +1668,7 @@ void Editeur::SetEditeurCard( float scale, state::Card* card, int statAttack , i
     sf::Sprite tmpsprite;
     tmpsprite.setTexture(tmptexture);
     tmpsprite.move(positionX*scale, positionY*scale);
-    tmpsprite.scale(scale/6, scale/6);
+    tmpsprite.scale(scale/4, scale/4);
     texture.draw(tmpsprite);
     //text for value of attack/buff/debuff/block
     sf::Text tmptext;
@@ -1649,7 +1699,7 @@ void Editeur::SetEditeurCard( float scale, state::Card* card, int statAttack , i
     sf::Sprite tmpsprite;
     tmpsprite.setTexture(tmptexture);
     tmpsprite.move(positionX*scale, positionY*scale);
-    tmpsprite.scale(scale/6, scale/6);
+    tmpsprite.scale(scale/4, scale/4);
     texture.draw(tmpsprite);
     //text for value of attack/buff/debuff/block
     sf::Text tmptext;
@@ -1680,7 +1730,7 @@ void Editeur::SetEditeurCard( float scale, state::Card* card, int statAttack , i
     sf::Sprite tmpsprite;
     tmpsprite.setTexture(tmptexture);
     tmpsprite.move((positionX)*scale, (positionY) *scale);
-    tmpsprite.scale(scale/6, scale/6);
+    tmpsprite.scale(scale/4, scale/4);
     texture.draw(tmpsprite);
     //text for value of attack/buff/debuff/block
     sf::Text tmptext;
@@ -1711,7 +1761,7 @@ void Editeur::SetEditeurCard( float scale, state::Card* card, int statAttack , i
     sf::Sprite tmpsprite;
     tmpsprite.setTexture(tmptexture);
     tmpsprite.move(positionX*scale, positionY*scale);
-    tmpsprite.scale(2 * scale/6, 2 * scale/6);
+    tmpsprite.scale(scale/4, scale/4);
     texture.draw(tmpsprite);
     //text for value of attack/buff/debuff/block
     sf::Text tmptext;
@@ -1742,7 +1792,7 @@ void Editeur::SetEditeurCard( float scale, state::Card* card, int statAttack , i
     sf::Sprite tmpsprite;
     tmpsprite.setTexture(tmptexture);
     tmpsprite.move(positionX*scale, positionY*scale);
-    tmpsprite.scale(scale/6, scale/6);
+    tmpsprite.scale(scale/4, scale/4);
     texture.draw(tmpsprite);
     //text for value of attack/buff/debuff/block
     sf::Text tmptext;
@@ -1773,7 +1823,7 @@ void Editeur::SetEditeurCard( float scale, state::Card* card, int statAttack , i
     sf::Sprite tmpsprite;
     tmpsprite.setTexture(tmptexture);
     tmpsprite.move(positionX*scale, positionY*scale);
-    tmpsprite.scale(scale/6, scale/6);
+    tmpsprite.scale(scale/4, scale/4);
     texture.draw(tmpsprite);
     //text for value of attack/buff/debuff/block
     sf::Text tmptext;
@@ -1803,7 +1853,7 @@ void Editeur::SetEditeurCard( float scale, state::Card* card, int statAttack , i
     sf::Sprite tmpsprite;
     tmpsprite.setTexture(tmptexture);
     tmpsprite.move(positionX*scale, positionY*scale);
-    tmpsprite.scale(scale/7, scale/7);
+    tmpsprite.scale(scale/4, scale/4);
     texture.draw(tmpsprite);
     //text for value of attack/buff/debuff/block
     sf::Text tmptext;
@@ -1834,7 +1884,7 @@ void Editeur::SetEditeurCard( float scale, state::Card* card, int statAttack , i
     sf::Sprite tmpsprite;
     tmpsprite.setTexture(tmptexture);
     tmpsprite.move(positionX*scale, positionY*scale);
-    tmpsprite.scale(scale/7, scale/7);
+    tmpsprite.scale(scale/4, scale/4);
     tmpsprite.setColor(sf::Color::Black);
     texture.draw(tmpsprite);
     //text for value of attack/buff/debuff/block
@@ -1866,7 +1916,7 @@ void Editeur::SetEditeurCard( float scale, state::Card* card, int statAttack , i
     sf::Sprite tmpsprite;
     tmpsprite.setTexture(tmptexture);
     tmpsprite.move(positionX*scale, positionY*scale);
-    tmpsprite.scale(scale/6, scale/6);
+    tmpsprite.scale(scale/4, scale/4);
     texture.draw(tmpsprite);
     //text for value of attack/buff/debuff/block
     sf::Text tmptext;
@@ -1993,8 +2043,8 @@ void Editeur::SetEditeurPlayer(float scale, state::Player* player){
 
   sf::Sprite playerSprite;
   playerSprite.setTexture(playerTexture);
-  playerSprite.move(20 * scale, 20 * scale);
-  playerSprite.scale( scale, scale);
+  playerSprite.move( scale,80* scale);
+  playerSprite.scale( scale/1.5, scale/1.5);
 
   texture.draw(playerSprite);
 
@@ -2094,8 +2144,8 @@ void Editeur::SetEditeurPlayer(float scale, state::Player* player){
     }
     sf::Sprite tmpsprite;
     tmpsprite.setTexture(tmptexture);
-    tmpsprite.move(0, 295 *scale);
-    tmpsprite.scale(scale/8, scale/8);
+    tmpsprite.move(-15, 290 *scale);
+    tmpsprite.scale(scale/4, scale/4);
     texture.draw(tmpsprite);
     //text for value of attack/buff/debuff/block
     sf::Text tmptext;
@@ -2104,7 +2154,7 @@ void Editeur::SetEditeurPlayer(float scale, state::Player* player){
     tmptext.setStyle(1);
     tmptext.setCharacterSize(18 * scale);
     tmptext.setColor(sf::Color::Black);
-    tmptext.move((15) * scale, (315) * scale);
+    tmptext.move((5) * scale, (315) * scale);
     texture.draw(tmptext);
     tmptext.setCharacterSize(15 * scale);
     tmptext.setColor(sf::Color::White);
@@ -2147,7 +2197,7 @@ void Editeur::SetEditeurPlayer(float scale, state::Player* player){
     sf::Sprite tmpsprite;
     tmpsprite.setTexture(tmptexture);
     tmpsprite.move(positionX*scale, positionY*scale);
-    tmpsprite.scale(scale/8, scale/8);
+    tmpsprite.scale(scale/6, scale/6);
     texture.draw(tmpsprite);
     //text for value of attack/buff/debuff/block
     sf::Text tmptext;
@@ -2181,7 +2231,7 @@ void Editeur::SetEditeurPlayer(float scale, state::Player* player){
       sf::Sprite tmpsprite;
       tmpsprite.setTexture(tmptexture);
       tmpsprite.move(positionX*scale, positionY*scale);
-      tmpsprite.scale(scale/8, scale/8);
+      tmpsprite.scale(scale/6, scale/6);
       texture.draw(tmpsprite);
       //text for value of attack/buff/debuff/block
       sf::Text tmptext;
@@ -2215,7 +2265,7 @@ void Editeur::SetEditeurPlayer(float scale, state::Player* player){
         sf::Sprite tmpsprite;
         tmpsprite.setTexture(tmptexture);
         tmpsprite.move(positionX*scale, positionY*scale);
-        tmpsprite.scale(scale/8, scale/8);
+        tmpsprite.scale(scale/6, scale/6);
         texture.draw(tmpsprite);
         //text for value of attack/buff/debuff/block
         sf::Text tmptext;
@@ -2248,8 +2298,8 @@ void Editeur::SetEditeurPlayer(float scale, state::Player* player){
           }
           sf::Sprite tmpsprite;
           tmpsprite.setTexture(tmptexture);
-          tmpsprite.move(positionX *scale, ( positionY -10 )*scale);
-          tmpsprite.scale(scale/8, scale/8);
+          tmpsprite.move(positionX *scale, positionY *scale);
+          tmpsprite.scale(scale/6, scale/6);
           texture.draw(tmpsprite);
           //text for value of attack/buff/debuff/block
           sf::Text tmptext;
@@ -2282,8 +2332,8 @@ void Editeur::SetEditeurPlayer(float scale, state::Player* player){
             }
             sf::Sprite tmpsprite;
             tmpsprite.setTexture(tmptexture);
-            tmpsprite.move(positionX*scale, ( positionY - 10) *scale);
-            tmpsprite.scale(scale/8, scale/8);
+            tmpsprite.move(positionX*scale,  positionY  *scale);
+            tmpsprite.scale(scale/6, scale/6);
             texture.draw(tmpsprite);
             //text for value of attack/buff/debuff/block
             sf::Text tmptext;
@@ -2317,7 +2367,7 @@ void Editeur::SetEditeurPlayer(float scale, state::Player* player){
               sf::Sprite tmpsprite;
               tmpsprite.setTexture(tmptexture);
               tmpsprite.move(positionX*scale, positionY*scale);
-              tmpsprite.scale(scale/8, scale/8);
+              tmpsprite.scale(scale/6, scale/6);
               texture.draw(tmpsprite);
               //text for value of attack/buff/debuff/block
               sf::Text tmptext;
@@ -2351,7 +2401,7 @@ void Editeur::SetEditeurPlayer(float scale, state::Player* player){
                 sf::Sprite tmpsprite;
                 tmpsprite.setTexture(tmptexture);
                 tmpsprite.move(positionX*scale, positionY*scale);
-                tmpsprite.scale(scale/8, scale/8);
+                tmpsprite.scale(scale/6, scale/6);
                 texture.draw(tmpsprite);
                 //text for value of attack/buff/debuff/block
                 sf::Text tmptext;
@@ -2396,8 +2446,8 @@ void Editeur::SetEditeurEnemy(float scale, std::unique_ptr<Enemy>& enemy){
 
   sf::Sprite enemySprite;
   enemySprite.setTexture(enemyTexture);
-  enemySprite.move(0, 40 * scale);
-  enemySprite.scale(0.3 * scale, 0.3 * scale);
+  enemySprite.move(0, 80 *scale);
+  enemySprite.scale(  scale/1.5,  scale/1.5);
 
   texture.draw(enemySprite);
 
@@ -2497,8 +2547,8 @@ if (enemy -> GetBlock() > 0){
     }
     sf::Sprite tmpsprite;
     tmpsprite.setTexture(tmptexture);
-    tmpsprite.move(0, 295 *scale);
-    tmpsprite.scale(scale/8, scale/8);
+    tmpsprite.move(-15, 290 *scale);
+    tmpsprite.scale(scale/4, scale/4);
     texture.draw(tmpsprite);
     //text for value of attack/buff/debuff/block
     sf::Text tmptext;
@@ -2507,7 +2557,7 @@ if (enemy -> GetBlock() > 0){
     tmptext.setStyle(1);
     tmptext.setCharacterSize(18 * scale);
     tmptext.setColor(sf::Color::Black);
-    tmptext.move((15) * scale, (315) * scale);
+    tmptext.move((5) * scale, (315) * scale);
     texture.draw(tmptext);
     tmptext.setCharacterSize(15 * scale);
     tmptext.setColor(sf::Color::White);
@@ -2524,8 +2574,8 @@ if(!intenttext.loadFromFile(enemy -> GetSkills()[enemy -> GetIntent()] -> GetInt
 }
 sf::Sprite intentSprite;
 intentSprite.setTexture(intenttext);
-intentSprite.scale(scale/6, scale/6);
-intentSprite.move(80 * scale, 10 * scale);
+intentSprite.scale(scale/3, scale/3);
+intentSprite.move(70 * scale,250 * scale);
 texture.draw(intentSprite);
 
 if(enemy -> GetSkills()[enemy -> GetIntent()] -> GetAttack() > 0){
@@ -2535,7 +2585,7 @@ if(enemy -> GetSkills()[enemy -> GetIntent()] -> GetAttack() > 0){
   tmptext.setStyle(1);
   tmptext.setCharacterSize(18 * scale);
   tmptext.setColor(sf::Color::Black);
-  tmptext.move((95) * scale, (25) * scale);
+  tmptext.move((85) * scale, (270) * scale);
   texture.draw(tmptext);
   tmptext.setCharacterSize(15 * scale);
   tmptext.setColor(sf::Color::White);
@@ -2558,7 +2608,7 @@ if (enemy -> GetBuffs().GetAttackPlus() > 0){
     sf::Sprite tmpsprite;
     tmpsprite.setTexture(tmptexture);
     tmpsprite.move(positionX*scale, positionY*scale);
-    tmpsprite.scale(scale/8, scale/8);
+    tmpsprite.scale(scale/6, scale/6);
     texture.draw(tmpsprite);
     //text for value of attack/buff/debuff/block
     sf::Text tmptext;
@@ -2592,7 +2642,7 @@ if (enemy -> GetBuffs().GetAttackPlus() > 0){
       sf::Sprite tmpsprite;
       tmpsprite.setTexture(tmptexture);
       tmpsprite.move(positionX*scale, positionY*scale);
-      tmpsprite.scale(scale/8, scale/8);
+      tmpsprite.scale(scale/6, scale/6);
       texture.draw(tmpsprite);
       //text for value of attack/buff/debuff/block
       sf::Text tmptext;
@@ -2626,7 +2676,7 @@ if (enemy -> GetBuffs().GetAttackPlus() > 0){
         sf::Sprite tmpsprite;
         tmpsprite.setTexture(tmptexture);
         tmpsprite.move(positionX*scale, positionY*scale);
-        tmpsprite.scale(scale/8, scale/8);
+        tmpsprite.scale(scale/6, scale/6);
         texture.draw(tmpsprite);
         //text for value of attack/buff/debuff/block
         sf::Text tmptext;
@@ -2659,8 +2709,8 @@ if (enemy -> GetBuffs().GetAttackPlus() > 0){
           }
           sf::Sprite tmpsprite;
           tmpsprite.setTexture(tmptexture);
-          tmpsprite.move(positionX *scale, ( positionY -10 )*scale);
-          tmpsprite.scale(scale/8, scale/8);
+          tmpsprite.move(positionX *scale, positionY *scale);
+          tmpsprite.scale(scale/6, scale/6);
           texture.draw(tmpsprite);
           //text for value of attack/buff/debuff/block
           sf::Text tmptext;
@@ -2693,8 +2743,8 @@ if (enemy -> GetBuffs().GetAttackPlus() > 0){
             }
             sf::Sprite tmpsprite;
             tmpsprite.setTexture(tmptexture);
-            tmpsprite.move(positionX*scale, ( positionY - 10) *scale);
-            tmpsprite.scale(scale/8, scale/8);
+            tmpsprite.move(positionX*scale, positionY  *scale);
+            tmpsprite.scale(scale/6, scale/6);
             texture.draw(tmpsprite);
             //text for value of attack/buff/debuff/block
             sf::Text tmptext;
@@ -2728,7 +2778,7 @@ if (enemy -> GetBuffs().GetAttackPlus() > 0){
               sf::Sprite tmpsprite;
               tmpsprite.setTexture(tmptexture);
               tmpsprite.move(positionX*scale, positionY*scale);
-              tmpsprite.scale(scale/8, scale/8);
+              tmpsprite.scale(scale/6, scale/6);
               texture.draw(tmpsprite);
               //text for value of attack/buff/debuff/block
               sf::Text tmptext;
@@ -2762,7 +2812,7 @@ if (enemy -> GetBuffs().GetAttackPlus() > 0){
                 sf::Sprite tmpsprite;
                 tmpsprite.setTexture(tmptexture);
                 tmpsprite.move(positionX*scale, positionY*scale);
-                tmpsprite.scale(scale/8, scale/8);
+                tmpsprite.scale(scale/6, scale/6);
                 texture.draw(tmpsprite);
                 //text for value of attack/buff/debuff/block
                 sf::Text tmptext;
@@ -2791,3 +2841,40 @@ if (enemy -> GetBuffs().GetAttackPlus() > 0){
   texture.display();
 
 }
+
+void Editeur::SetEditeurPile ( float scale,  std::string image, int number){
+
+    if (!texture.create(int(500*scale), int(800*scale))){
+      std::cout<<"RenderTexture error"<<std::endl;
+      throw std::invalid_argument("error with argument");
+    }
+    texture.clear(sf::Color::Transparent);
+
+    sf::Sprite sprite;
+    sf::Texture texturePile;
+    if (!texturePile.loadFromFile(image)){
+      std::cout << "error with image" << std::endl;
+      throw std::invalid_argument("error with argument");
+    }
+    sprite.setTexture(texturePile);
+    sprite.scale(scale, scale);
+
+    sf::Font font;
+
+    if (!font.loadFromFile("res/text_fonts/attack of the cucumbers.ttf")){
+      std::cout <<"error with font name" << std::endl;
+      throw std::invalid_argument("error with argument");
+    }
+    sf::Text text;
+    text.setFont(font);
+    text.setString(std::to_string(number));
+    text.setColor(sf::Color::White);
+    text.setCharacterSize(20 * scale);
+    text.move(50 * scale, 250 * scale);
+
+    texture.draw(sprite);
+
+    texture.draw(text);
+    texture.display();
+
+  }

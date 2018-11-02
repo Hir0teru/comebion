@@ -13,16 +13,52 @@ Room::Room (int elem, bool isSTR, bool isER, bool isSR) {
     }
 
     if (isSR) {
-      imageMapRoom = "imageRoom.jpg";
-      imageInsideRoom = "imageInsideRoom.png";
+      imageMapRoom = "res/textures/Map/sleep.png";
+      imageInsideRoom = "res/textures/background/sleep room.png";
     }
     if (isER) {
-      imageMapRoom = (std::string) "imageRoom.jpg";
-      imageInsideRoom = (std::string) "imageInsideRoom.jpg";
+      if(elem == 1){
+        imageMapRoom = "res/textures/Map/air_enemy.png";
+        imageInsideRoom = "res/textures/background/air_battle_room.png";
+      }
+      else{
+        if(elem == 2){
+          imageMapRoom = "res/textures/Map/water_enemy.png";
+          imageInsideRoom = "res/textures/background/water_enemy_room.png";
+        }
+        else{
+          if(elem == 3){
+            imageMapRoom = "res/textures/Map/earth_enemy.png";
+            imageInsideRoom = "res/textures/background/earth_enemy_room.png";
+          }
+          else{
+            imageMapRoom = "res/textures/Map/fire_enemy.png";
+            imageInsideRoom = "res/textures/background/fire_enemy_room.png";
+
+          }
+        }
+      }
     }
     if (isSTR) {
-      imageMapRoom = "imageRoom.jpg";
-      imageInsideRoom = "imageInsideRoom.jpg";
+      imageMapRoom = "res/textures/Map/special_training.png";
+
+      if(elem == 1){
+        imageInsideRoom = "res/textures/background/air_battle_room.png";
+      }
+      else{
+        if(elem == 2){
+          imageInsideRoom = "res/textures/background/water_enemy_room.png";
+        }
+        else{
+          if(elem == 3){
+            imageInsideRoom = "res/textures/background/earth_enemy_room.png";
+          }
+          else{
+            imageInsideRoom = "res/textures/background/fire_enemy_room.png";
+
+          }
+        }
+      }
     }
 
     if ((isSTR && !isER && !isSR) || (!isSTR && isER && !isSR) || (!isSTR && !isER && isSR)){
@@ -41,8 +77,16 @@ Room::Room (int elem, bool isSTR, bool isER, bool isSR) {
       return imageMapRoom;
     }
 
+    void Room::SetImageMapRoom(std::string image){
+      imageMapRoom = image;
+    }
+
     std::string Room::GetImageInsideRoom (){
       return imageInsideRoom;
+    }
+
+    void Room::SetImageInsideRoom(std::string image){
+      imageInsideRoom = image;
     }
 
     bool Room::GetIsSpecialTrainingRoom (){
@@ -81,3 +125,34 @@ Room::Room (int elem, bool isSTR, bool isER, bool isSR) {
       }
     }
     // Setters and Getters
+
+    //virtual classes
+
+    int Room::GetHeal(){
+      std::cout << "methode mère" << std::endl;
+      return 0;}
+    int Room::GetEntityTurn(){
+      std::cout << "methode mère" << std::endl;
+      return 0;}
+    std::vector<std::unique_ptr<Enemy>>& Room::GetEnemies(){
+           std::cout << "methode mère" << std::endl;
+      std::vector<std::unique_ptr<Enemy>> enemy; //this will never be used
+      return enemy;}
+    std::vector<DeckParts*> Room::GetHands(){
+      std::cout << "methode mère" << std::endl;
+      return std::vector<DeckParts*>();}
+    std::vector<DeckParts*> Room::GetDrawPiles(){
+      std::cout << "methode mère" << std::endl;
+      return std::vector<DeckParts*>();}
+    std::vector<DeckParts*> Room::GetDiscardPiles(){
+      std::cout << "methode mère" << std::endl;
+      return std::vector<DeckParts*>();}
+    std::vector<Card*> Room::GetCardReward(){
+      std::cout << "methode mère" << std::endl;
+      return std::vector<Card*>();}
+    void Room::SetHands(std::vector<DeckParts*> hands){}
+    void Room::SetDiscardPiles(std::vector<DeckParts*> discardPiles){}
+    void Room::SetDrawPiles(std::vector<DeckParts*> drawPiles){}
+
+    void Room::SetEntityTurn(int entityNb){}
+    void Room::SetTurn(int entityNb){}
