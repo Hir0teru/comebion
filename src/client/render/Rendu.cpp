@@ -11,12 +11,12 @@ using namespace state;
     Rendu::Rendu(){
       dimensionX = 1080;
       dimensionY = 720;
-      gamestate = new GameState();
+      gamestate = std::make_shared<state::GameState>();
 
 
     }
     Rendu::~Rendu (){
-      if(gamestate) delete(gamestate);
+
     }
 
 
@@ -65,7 +65,7 @@ using namespace state;
         texture.display();
 
     }
-    state::GameState*& Rendu::GetGameState (){
+    std::shared_ptr<state::GameState>& Rendu::GetGameState (){
       return gamestate;
     }
     void Rendu::SetTextureCards (std::vector<std::unique_ptr<Editeur>>& textureCards){

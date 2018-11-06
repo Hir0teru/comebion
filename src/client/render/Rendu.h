@@ -2,8 +2,8 @@
 #ifndef RENDER__RENDU__H
 #define RENDER__RENDU__H
 
-#include <vector>
 #include <memory>
+#include <vector>
 #include <SFML/Graphics.hpp>
 #include <string>
 
@@ -22,12 +22,12 @@ namespace state {
   class EnemyRoom;
 }
 
+#include "state/GameState.h"
 #include "Editeur.h"
 #include "state/Enemy.h"
 #include "state/SpecialTrainingRoom.h"
 #include "state/SleepRoom.h"
 #include "state/EnemyRoom.h"
-#include "state/GameState.h"
 
 namespace render {
 
@@ -38,7 +38,7 @@ namespace render {
   private:
     int dimensionX;
     int dimensionY;
-    state::GameState * gamestate;
+    std::shared_ptr<state::GameState> gamestate;
     std::vector<std::unique_ptr<Editeur>> textureCards;
     std::vector<std::unique_ptr<Editeur>> texturePiles;
     std::vector<std::unique_ptr<Editeur>> textureEnemies;
@@ -53,7 +53,7 @@ namespace render {
     ~Rendu ();
     void Click (int x, int y);
     void DrawInsideRoom ();
-    state::GameState*& GetGameState ();
+    std::shared_ptr<state::GameState>& GetGameState ();
     void SetTextureCards (std::vector<std::unique_ptr<Editeur>>& textureCards);
     void SetTextureEnemies (std::vector<std::unique_ptr<Editeur>>& textureEnemies);
     /// 	
