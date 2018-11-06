@@ -43,24 +43,32 @@ using namespace state;
         texture.draw(sprite);
 
         for (auto& player : texturePlayers){
-          sprite.setTexture(player -> GetTexture().getTexture());
-          sprite.setPosition(player -> GetX(), player -> GetY());
-          texture.draw(sprite);
+          if(player){
+            sprite.setTexture(player -> GetTexture().getTexture());
+            sprite.setPosition(player -> GetX(), player -> GetY());
+            texture.draw(sprite);
+          }
         }
         for (auto& enemy : textureEnemies){
-          sprite.setTexture(enemy -> GetTexture().getTexture());
-          sprite.setPosition(enemy -> GetX(), enemy -> GetY());
-          texture.draw(sprite);
+          if(enemy){
+            sprite.setTexture(enemy -> GetTexture().getTexture());
+            sprite.setPosition(enemy -> GetX(), enemy -> GetY());
+            texture.draw(sprite);
+          }
         }
         for (auto& pile : texturePiles){
-          sprite.setTexture(pile -> GetTexture().getTexture());
-          sprite.setPosition(pile -> GetX(), pile -> GetY());
-          texture.draw(sprite);
+          if(pile){
+            sprite.setTexture(pile -> GetTexture().getTexture());
+            sprite.setPosition(pile -> GetX(), pile -> GetY());
+            texture.draw(sprite);
+          }
         }
         for (auto& card : textureCards){
-          sprite.setTexture(card -> GetTexture().getTexture());
-          sprite.setPosition(card -> GetX(), card -> GetY());
-          texture.draw(sprite);
+          if(card){
+            sprite.setTexture(card -> GetTexture().getTexture());
+            sprite.setPosition(card -> GetX(), card -> GetY());
+            texture.draw(sprite);
+          }
         }
         texture.display();
 
@@ -172,10 +180,7 @@ using namespace state;
         std::cout << "index not in range" << std::endl;
         throw std::invalid_argument("error with index");
       }
-      for (int i = index +1; i < (int) textureEnemies.size() - 1; i++){
-        textureEnemies[i] = std::move(textureEnemies[i + 1]);
-      }
-      textureEnemies[textureEnemies.size() - 1] = std::move(nullptr);
+      textureEnemies[index] = std::move(nullptr);
     }
 
 
@@ -184,10 +189,7 @@ using namespace state;
         std::cout << "index not in range" << std::endl;
         throw std::invalid_argument("error with index");
       }
-      for (int i = index +1; i < (int) texturePlayers.size() - 1; i++){
-        texturePlayers[i] = std::move(texturePlayers[i + 1]);
-      }
-      texturePlayers[texturePlayers.size() - 1] = std::move(nullptr);
+      texturePlayers[index] = std::move(nullptr);
     }
 
 
@@ -196,10 +198,7 @@ using namespace state;
         std::cout << "index not in range" << std::endl;
         throw std::invalid_argument("error with index");
       }
-      for (int i = index +1; i < (int) textureCards.size() - 1; i++){
-        textureCards[i] = std::move(textureCards[i + 1]);
-      }
-      textureCards[textureCards.size() - 1] = std::move(nullptr);
+      textureCards[index] = std::move(nullptr);
     }
 
 
@@ -208,10 +207,8 @@ using namespace state;
         std::cout << "index not in range" << std::endl;
         throw std::invalid_argument("error with index");
       }
-      for (int i = index +1; i < (int) texturePiles.size() - 1; i++){
-        texturePiles[i] = std::move(texturePiles[i + 1]);
-      }
-      texturePiles[texturePiles.size() - 1] = std::move(nullptr);
+
+      texturePiles[index] = std::move(nullptr);
 
     }
 
