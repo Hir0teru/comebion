@@ -131,25 +131,32 @@ Room::Room (int elem, bool isSTR, bool isER, bool isSR) {
     int Room::GetHeal(){
       std::cout << "methode mère" << std::endl;
       return 0;}
+
     int Room::GetEntityTurn(){
       std::cout << "methode mère" << std::endl;
       return 0;}
+
     std::vector<std::unique_ptr<Enemy>>& Room::GetEnemies(){
-           std::cout << "methode mère" << std::endl;
+      std::cout << "methode mère" << std::endl;
       std::vector<std::unique_ptr<Enemy>> enemy; //this will never be used
       return enemy;}
+
     std::vector<DeckParts*> Room::GetHands(){
       std::cout << "methode mère" << std::endl;
       return std::vector<DeckParts*>();}
+
     std::vector<DeckParts*> Room::GetDrawPiles(){
       std::cout << "methode mère" << std::endl;
       return std::vector<DeckParts*>();}
+
     std::vector<DeckParts*> Room::GetDiscardPiles(){
       std::cout << "methode mère" << std::endl;
       return std::vector<DeckParts*>();}
+
     std::vector<Card*> Room::GetCardReward(){
       std::cout << "methode mère" << std::endl;
       return std::vector<Card*>();}
+
     void Room::SetHands(std::vector<DeckParts*> hands){}
     void Room::SetDiscardPiles(std::vector<DeckParts*> discardPiles){}
     void Room::SetDrawPiles(std::vector<DeckParts*> drawPiles){}

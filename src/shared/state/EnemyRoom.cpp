@@ -126,3 +126,11 @@ void EnemyRoom::SetTurn(int turn){
 void EnemyRoom::SetEntityTurn(int entityNb){
   this -> entityTurn = entityNb;
 }
+
+bool EnemyRoom::GetIsFightWon(){
+  return isFightWon;
+}
+
+void EnemyRoom::SetIsFightWon(bool isFightWon){
+  this->isFightWon = isFightWon;
+}

@@ -37,29 +37,12 @@ Floor::Floor (int floorNumber, int element){
       throw std::out_of_range("Not a valid element. Value must be between 0 and 4.");
     }
     else{
-      this -> floorNumber = floorNumber;
-      this -> element = element;
+      this->floorNumber = floorNumber;
+      this->element = element;
       int randomNumber;
       std::vector<std::unique_ptr<Enemy>> enemies;
-      std::unique_ptr<Enemy> enemy= std::make_unique<Enemy>("Enemy", element, "image",
-        0, 0, 80, 2, skills, 80);
-      enemy -> SetElement(element);
-      if (element == 1){
-        enemy -> SetImage("res/textures/Enemy/Air/30.png");
-        }
-      else{
-        if (element == 2){
-          enemy -> SetImage("res/textures/Enemy/Water/14.png");
-        }
-        else{
-          if (element == 3){
-            enemy -> SetImage("res/textures/Enemy/Earth/22.png");
-          }
-          else{
-            enemy -> SetImage("res/textures/Enemy/Fire/8.png");
-          }
-        }
-      }
+      std::unique_ptr<Enemy> enemy= std::make_unique<Enemy>(element, 2);
+
       enemies.push_back(std::move(enemy));
       std::shared_ptr<Room> room = std::make_shared<EnemyRoom>(element, std::move(enemies));
       this->firstRoom = room;
@@ -70,27 +53,7 @@ Floor::Floor (int floorNumber, int element){
         if (randomNumber < 60){
           std::cout<<"room "<<i<<": enemyRoom"<<std::endl;
           enemies.clear();
-
-          std::unique_ptr<Enemy> enemy2= std::make_unique<Enemy>("Enemy", element, "image",
-            0, 0, 80, 2, skills, 80);
-          enemy2 -> SetElement(element);
-          if (element == 1){
-            enemy2 -> SetImage("res/textures/Enemy/Air/30.png");
-          }
-          else{
-            if (element == 2){
-              enemy2 -> SetImage("res/textures/Enemy/Water/14.png");
-            }
-            else{
-              if (element == 3){
-                enemy2 -> SetImage("res/textures/Enemy/Earth/22.png");
-              }
-              else{
-                enemy2 -> SetImage("res/textures/Enemy/Fire/8.png");
-              }
-            }
-          }
-
+          std::unique_ptr<Enemy> enemy2= std::make_unique<Enemy>(element, 3);
 
           enemies.push_back(std::move(enemy2));
           std::shared_ptr<EnemyRoom> ER = std::make_shared<EnemyRoom>(element, std::move(enemies));
@@ -98,7 +61,7 @@ Floor::Floor (int floorNumber, int element){
         } else if (randomNumber < 80){
           std::cout<<"room "<<i<<": sleepRoom"<<std::endl;
           currentRoom->SetNextRoom(std::make_shared<SleepRoom>(element, randomNumber-50));
-          std::cout << currentRoom -> GetNextRoom() -> GetHeal() << std::endl;
+          std::cout << currentRoom->GetNextRoom()->GetHeal() << std::endl;
         } else {
           std::cout<<"room "<<i<<": specialTrainingRoom"<<std::endl;
           std::vector<Card*> reward;
@@ -107,68 +70,40 @@ Floor::Floor (int floorNumber, int element){
           reward.push_back((*CM)[0]);
           currentRoom->SetNextRoom(std::make_shared<SpecialTrainingRoom>(element, reward));
         }
-        currentRoom = currentRoom -> GetNextRoom();
+        currentRoom = currentRoom->GetNextRoom();
         // room = nullptr;
       }
       // final room
       enemies.clear();
 
-      std::unique_ptr<Enemy> enemy2= std::make_unique<Enemy>();
-      enemy2 -> SetElement(element);
+      std::unique_ptr<Enemy> enemy2 = std::make_unique<Enemy>(element, 0);
+      enemies.push_back(std::move(enemy2));
       if (element == 1){
-        enemy2 -> SetImage("res/textures/Enemy/Air/bison.png");
-        enemy2 -> SetName("Flying Bison");
-        enemy2 -> SetMaxLife(300);
-        enemy2 -> SetLife(300);
-        enemies.push_back(std::move(enemy2));
-
         std::shared_ptr<EnemyRoom> ER = std::make_shared<EnemyRoom>(element, std::move(enemies));
-        ER -> SetImageMapRoom("res/textures/Map/air_bison.png");
+        ER->SetImageMapRoom("res/textures/Map/air_bison.png");
         std::cout << "final room" << std::endl;
         currentRoom->SetNextRoom(ER);
       }
       else{
         if (element == 2){
-          enemy2 -> SetImage("res/textures/Enemy/Water/La.png");
-          enemy2 -> SetName("La");
-          enemy2 -> SetMaxLife(500);
-          enemy2 -> SetLife(500);
-          enemies.push_back(std::move(enemy2));
-
           std::shared_ptr<EnemyRoom> ER = std::make_shared<EnemyRoom>(element, std::move(enemies));
-          ER -> SetImageMapRoom("res/textures/Map/water.png");
+          ER->SetImageMapRoom("res/textures/Map/water.png");
           std::cout << "final room" << std::endl;
           currentRoom->SetNextRoom(ER);
         }
         else{
           if (element == 3){
-            enemy2 -> SetImage("res/textures/Enemy/Earth/badgermole.png");
-            enemy2 -> SetName("Badgermole");
-            enemy2 -> SetMaxLife(300);
-            enemy2 -> SetLife(300);
-            enemies.push_back(std::move(enemy2));
-
             std::shared_ptr<EnemyRoom> ER = std::make_shared<EnemyRoom>(element, std::move(enemies));
-            ER -> SetImageMapRoom("res/textures/Map/badgermole.png");
+            ER->SetImageMapRoom("res/textures/Map/badgermole.png");
             std::cout << "final room" << std::endl;
             currentRoom->SetNextRoom(ER);
           }
           else{
-            enemy2 -> SetImage("res/textures/Enemy/Fire/blue_dragon.png");
-            enemy2 -> SetName("Blue Dragon");
-            enemy2 -> SetMaxLife(250);
-            enemy2 -> SetLife(250);
-            enemies.push_back(std::move(enemy2));
-            std::unique_ptr<Enemy> enemy3= std::make_unique<Enemy>();
-            enemy3 -> SetElement(element);
-            enemy3 -> SetImage("res/textures/Enemy/Fire/red_dragon.png");
-            enemy3 -> SetName("Red Dragon");
-            enemy3 -> SetMaxLife(250);
-            enemy3 -> SetLife(250);
+            std::unique_ptr<Enemy> enemy3= std::make_unique<Enemy>(element, -1);
             enemies.push_back(std::move(enemy3));
 
             std::shared_ptr<EnemyRoom> ER = std::make_shared<EnemyRoom>(element, std::move(enemies));
-            ER -> SetImageMapRoom("res/textures/Map/dragon.png");
+            ER->SetImageMapRoom("res/textures/Map/dragon.png");
             std::cout << "final room" << std::endl;
             currentRoom->SetNextRoom(ER);
           }
@@ -213,5 +148,5 @@ std::shared_ptr<Room>& Floor::GetCurrentRoom(){
 }
 
 void Floor::SetCurrentRoom(std::shared_ptr<Room>& currentRoom){
-  this -> currentRoom = currentRoom;
+  this->currentRoom = currentRoom;
 }

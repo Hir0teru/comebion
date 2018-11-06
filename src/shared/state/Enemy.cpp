@@ -4,25 +4,88 @@
 #include <stdexcept>
 #include <memory>
 #include "SkillManager.h"
+#include <string>
 
 
 using namespace state;
+using namespace std;
 
 
 //basic ennemy for testing
 Enemy::Enemy (){
   CardManager* CM = CardManager::instance();
+  SkillManager* SM = SkillManager::instance();
 
   for (int i = 0; i<3; i++){
     reward.push_back((*CM)[0]);
+    skills.push_back((*SM)[i]);
   }
-  SkillManager* SM = SkillManager::instance();
-  skills.push_back((*SM)[0]);
-  skills.push_back((*SM)[1]);
-  skills.push_back((*SM)[2]);
   intent = 0;
-
 }
+
+Enemy::Enemy(int element, int nb):Enemy(){
+  this->SetElement(element);
+  switch (element) {
+    case 1:
+      if (nb == 0) {
+        this->SetImage("res/textures/Enemy/Air/bison.png");
+        this->SetName("Flying Bison");
+        this->SetMaxLife(300);
+        this->SetLife(300);
+      } else {
+        this->SetImage("res/textures/Enemy/Air/" + to_string(nb) +".png");
+        this->SetName("air thing");
+        this->SetMaxLife(60);
+        this->SetLife(60);
+      }
+      break;
+    case 2:
+      if (nb == 0) {
+        this->SetImage("res/textures/Enemy/Water/La.png");
+        this->SetName("La");
+        this->SetMaxLife(500);
+        this->SetLife(500);
+      } else {
+        this->SetImage("res/textures/Enemy/Water/" + to_string(nb) +".png");
+        this->SetName("water thing");
+        this->SetMaxLife(60);
+        this->SetLife(60);
+      }
+      break;
+    case 3:
+      if (nb == 0) {
+        this->SetImage("res/textures/Enemy/Earth/badgermole.png");
+        this->SetName("Badgermole");
+        this->SetMaxLife(300);
+        this->SetLife(300);
+      } else {
+        this->SetImage("res/textures/Enemy/Earth/" + to_string(nb) +".png");
+        this->SetName("earth thing");
+        this->SetMaxLife(60);
+        this->SetLife(60);
+      }
+      break;
+    case 4:
+      if (nb == 0) {
+        this->SetImage("res/textures/Enemy/Fire/blue_dragon.png");
+        this->SetName("Blue Dragon");
+        this->SetMaxLife(250);
+        this->SetLife(250);
+      } else if (nb == -1) {
+        this->SetImage("res/textures/Enemy/Fire/red_dragon.png");
+        this->SetName("Red Dragon");
+        this->SetMaxLife(250);
+        this->SetLife(250);
+      } else {
+        this->SetImage("res/textures/Enemy/Fire/" + to_string(nb) +".png");
+        this->SetName("fire thing");
+        this->SetMaxLife(60);
+        this->SetLife(60);
+      }
+      break;
+  }
+}
+
 
 Enemy::Enemy (std::string name, int element, std::string image,
   int statAttack, int statBlock, int life, int id, std::vector<EnemySkill*> skills, int maxLife) : Entity(name, element,
