@@ -13,20 +13,16 @@ CommandUseEnergy::CommandUseEnergy(int energyAmount, int playerId){
   this -> entityID = playerId;
   this -> energyAmount = energyAmount;
 }
-void CommandUseEnergy::Execute(std::shared_ptr<state::GameState> gamestate){
+void CommandUseEnergy::Execute(std::shared_ptr<state::GameState>& gameState){
   if(entityID >=0 && entityID < 2){
-    Player * player = gamestate -> GetPlayers()[entityID];
-    if( player -> GetEnergy() < energyAmount){
-      player -> SetEnergy(0);
-    } else player -> SetEnergy(energyAmount);
+    if( gameState -> GetPlayers()[entityID] -> GetEnergy() < energyAmount){
+       gameState -> GetPlayers()[entityID]-> SetEnergy(0);
+    } else  gameState -> GetPlayers()[entityID] -> SetEnergy(energyAmount);
   }
 }
 
 void CommandUseEnergy::Undo (std::shared_ptr<state::GameState>& gameState){
   if(entityID >=0 && entityID < 2){
-    Player * player = gamestate -> GetPlayers()[entityID];
-    player -> SetEnergy(player -> GetEnergy() + energyAmount);
+     gameState -> GetPlayers()[entityID] -> SetEnergy(gameState -> GetPlayers()[entityID] -> GetEnergy() + energyAmount);
   }
 }
-Json::Value CommandUseEnergy::Serialize () const {}
-static Command* Engine::Deserialize (const Json::Value& track) {}
