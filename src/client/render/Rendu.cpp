@@ -349,10 +349,19 @@ using namespace state;
         sprite.setPosition(positionX * scale, positionY * scale);
         sprite.scale(scale/4, scale/4);
         textureMap.draw(sprite);
+        if(currentRoom == floor -> GetCurrentRoom()){
+          sf::CircleShape shape(50 * scale);
+          shape.setFillColor(sf::Color::Transparent);
+          shape.setOutlineThickness(2);
+          shape.setOutlineColor(sf::Color::Red);
+          shape.setPosition((positionX - 10) * scale, (positionY-10) * scale);
+          textureMap.draw(shape);
+        }
         positionX += 100 ;
         currentRoom = currentRoom -> GetNextRoom();
 
       }
+
       textureMap.display();
     }
 
@@ -444,7 +453,7 @@ void Rendu::SetTextureRoom(){
       text.setColor(sf::Color::White);
       text.setCharacterSize(30 * scale);
       text.setStyle(sf::Text::Bold);
-      text.move(339 * scale, 219 * scale);
+      text.setPosition(339 * scale, 219 * scale);
       background.draw(text);
       text.move(0 , 2 );
       background.draw(text);
@@ -463,11 +472,77 @@ void Rendu::SetTextureRoom(){
         AddTextureCard(x * scale, y* scale, scale/3, card, 0, 0);
         x += 150;
       }
+      sf::Texture tmptexture;
+      if(!tmptexture.loadFromFile("res/textures/other/button1.png")){
+        throw std::invalid_argument("error with texture button");
+      }
+      sf::Sprite sprite;
+      sprite.setTexture(tmptexture);
+      sprite.scale(scale, scale);
+      sprite.setPosition(480 * scale, 450 * scale);
+      background.draw(sprite);
+      if (!font.loadFromFile("res/text_fonts/attack of the cucumbers.ttf")){
+        std::cout <<"error with font name" << std::endl;
+        throw std::invalid_argument("error with argument");
+      }
+      text.setFont(font);
+      text.setString("Pass");
+      text.setColor(sf::Color::Black);
+      text.setCharacterSize(15 * scale);
+      text.setStyle(sf::Text::Bold);
+      text.setPosition(515 * scale, 460 * scale);
+      background.draw(text);
+      text.move(0 , 2 );
+      background.draw(text);
+      text.move(2 , 0 );
+      background.draw(text);
+      text.move(0 , -2 );
+      background.draw(text);
+      text.setColor(sf::Color::White);
+      text.move(-1, 1);
+      background.draw(text);
+
+
       background.display();
     }
     else{
       // batlle room
+
+      sf::Texture tmptexture;
+      if(!tmptexture.loadFromFile("res/textures/other/button1.png")){
+        throw std::invalid_argument("error with texture button");
+      }
+      sf::Sprite sprite;
+      sprite.setTexture(tmptexture);
+      sprite.scale(scale, scale);
+      sprite.move(910 * scale, 440 * scale);
+      background.draw(sprite);
+      sf::Text text;
+      sf::Font font;
+      if (!font.loadFromFile("res/text_fonts/attack of the cucumbers.ttf")){
+        std::cout <<"error with font name" << std::endl;
+        throw std::invalid_argument("error with argument");
+      }
+      text.setFont(font);
+      text.setString("End turn");
+      text.setColor(sf::Color::Black);
+      text.setCharacterSize(15 * scale);
+      text.setStyle(sf::Text::Bold);
+      text.move(930 * scale, 450 * scale);
+      background.draw(text);
+      text.move(0 , 2 );
+      background.draw(text);
+      text.move(2 , 0 );
+      background.draw(text);
+      text.move(0 , -2 );
+      background.draw(text);
+      text.setColor(sf::Color::White);
+      text.move(-1, 1);
+      background.draw(text);
+
       background.display();
+
+
 
       std::vector<Player*> players = gamestate -> GetPlayers();
 
