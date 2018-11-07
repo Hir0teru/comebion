@@ -134,19 +134,19 @@ void Entity::SetStatBlock (int newStatBlock){
   }
 }
 
-Buff Entity::GetBuffs (){
+Buff Entity::GetBuff (){
   return buff;
 }
 
-void Entity::SetBuffs (Buff newBuff){
+void Entity::SetBuff (Buff newBuff){
   this->buff = newBuff;
 }
 
-Debuff Entity::GetDebuffs (){
+Debuff Entity::GetDebuff (){
   return debuff;
 }
 
-void Entity::SetDebuffs (Debuff newDebuff){
+void Entity::SetDebuff (Debuff newDebuff){
   this->debuff = newDebuff;
 }
 
