@@ -1,13 +1,31 @@
+#include <algorithm>
+
 #include "CommandShuffle.h"
+#include "state/Card.h"
+#include "state/DeckParts.h"
 
 
 using namespace engine;
 
-// CommandShuffle (){
-//   playerID = 0;
-// }
-// CommandShuffle (int playerID);
-// void Execute (std::shared_ptr<state::GameState>& gameState);
-// void Undo (std::shared_ptr<state::GameState>& gameState);
-// Json::Value Serialize () const;
-// static Command* Deserialize (const Json::Value& stack);
+CommandShuffle::CommandShuffle (){
+  playerID = 0;
+}
+CommandShuffle::CommandShuffle (int playerID){
+  if(playerID >=0 && playerID < 2){
+    this -> playerID = playerID;
+  }
+}
+void CommandShuffle::Execute (std::shared_ptr<state::GameState>& gameState){
+  if(playerID >=0 && playerID < 2){
+    int floorNb =  gameState -> GetMap() -> GetCurrentFloor();
+    std::vector<state::Card*> drawPile =  gameState -> GetMap() -> GetFloors()[floorNb] -> GetCurrentRoom() -> GetDrawPiles()[playerID] -> GetCards();
+    std::vector<state::Card*> discardPile =  gameState -> GetMap() -> GetFloors()[floorNb] -> GetCurrentRoom() -> GetDiscardPiles()[playerID] -> GetCards();
+    drawPile.insert(drawPile.end(), discardPile.begin(), discardPile.end());
+    std::random_shuffle(drawPile.begin(), drawPile.end());
+    gameState -> GetMap() -> GetFloors()[floorNb] -> GetCurrentRoom() -> GetDrawPiles()[playerID] -> SetCards(drawPile);
+    discardPile.clear();
+    gameState -> GetMap() -> GetFloors()[floorNb] -> GetCurrentRoom() -> GetDiscardPiles()[playerID] -> SetCards(discardPile);
+  }
+}
+
+void CommandShuffle::Undo (std::shared_ptr<state::GameState>& gameState){}
