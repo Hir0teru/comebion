@@ -24,11 +24,6 @@ Floor::Floor()
 
 Floor::Floor (int floorNumber, int element){
   CardManager* CM = CardManager::instance();
-  SkillManager* SM = SkillManager::instance();
-  std::vector<EnemySkill*> skills;
-  skills.push_back((*SM)[0]);
-  skills.push_back((*SM)[1]);
-  skills.push_back((*SM)[2]);
   if (floorNumber < 0 || floorNumber > 3){
     throw std::out_of_range("Not a valid floor number. Value must be between 0 and 3");
   }
@@ -42,7 +37,7 @@ Floor::Floor (int floorNumber, int element){
       int randomNumber;
       std::vector<std::unique_ptr<Enemy>> enemies;
       std::unique_ptr<Enemy> enemy= std::make_unique<Enemy>(element, 2);
-
+      enemy->SetId(2);
       enemies.push_back(std::move(enemy));
       std::shared_ptr<Room> room = std::make_shared<EnemyRoom>(element, std::move(enemies));
       this->firstRoom = room;
@@ -54,7 +49,7 @@ Floor::Floor (int floorNumber, int element){
           std::cout<<"room "<<i<<": enemyRoom"<<std::endl;
           enemies.clear();
           std::unique_ptr<Enemy> enemy2= std::make_unique<Enemy>(element, 3);
-
+          enemy2->SetId(2);
           enemies.push_back(std::move(enemy2));
           std::shared_ptr<EnemyRoom> ER = std::make_shared<EnemyRoom>(element, std::move(enemies));
           currentRoom->SetNextRoom(ER);
@@ -77,6 +72,7 @@ Floor::Floor (int floorNumber, int element){
       enemies.clear();
 
       std::unique_ptr<Enemy> enemy2 = std::make_unique<Enemy>(element, 0);
+      enemy2->SetId(2);
       enemies.push_back(std::move(enemy2));
       if (element == 1){
         std::shared_ptr<EnemyRoom> ER = std::make_shared<EnemyRoom>(element, std::move(enemies));
@@ -100,6 +96,7 @@ Floor::Floor (int floorNumber, int element){
           }
           else{
             std::unique_ptr<Enemy> enemy3= std::make_unique<Enemy>(element, -1);
+            enemy3->SetId(3);
             enemies.push_back(std::move(enemy3));
 
             std::shared_ptr<EnemyRoom> ER = std::make_shared<EnemyRoom>(element, std::move(enemies));
