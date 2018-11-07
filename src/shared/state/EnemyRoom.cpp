@@ -134,3 +134,11 @@ bool EnemyRoom::GetIsFightWon(){
 void EnemyRoom::SetIsFightWon(bool isFightWon){
   this->isFightWon = isFightWon;
 }
+
+std::vector<Card*> EnemyRoom::GetReward(){
+  return reward;
+}
+
+void EnemyRoom::SetReward(std::vector<Card*> reward){
+  this -> reward = reward;
+}

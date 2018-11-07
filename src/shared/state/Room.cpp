@@ -163,3 +163,6 @@ Room::Room (int elem, bool isSTR, bool isER, bool isSR) {
 
     void Room::SetEntityTurn(int entityNb){}
     void Room::SetTurn(int entityNb){}
+
+    std::vector<Card*> Room::GetReward(){return{};}
+    void Room::SetReward(std::vector<Card*>){}

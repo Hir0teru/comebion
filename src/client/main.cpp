@@ -117,15 +117,15 @@ void testSFML2() {
   Debuff* debuff3 = new Debuff(1,0);
 
   Player* aang = (*PM)[0];
-  aang -> SetBuffs(*buff1);
-  aang -> SetDebuffs(*debuff1);
+  aang -> SetBuff(*buff1);
+  aang -> SetDebuff(*debuff1);
   aang -> SetLife(42);
-  aang -> SetDebuffs(*debuff2);
+  aang -> SetDebuff(*debuff2);
 
   Player* korra = (*PM)[1];
-  korra -> SetBuffs(*buff2);
+  korra -> SetBuff(*buff2);
   korra -> SetLife(42);
-  korra -> SetDebuffs(*debuff2);
+  korra -> SetDebuff(*debuff2);
 
   std::vector<EnemySkill*> skills;
   skills.push_back((*SM)[0]);
@@ -135,8 +135,8 @@ void testSFML2() {
   std::unique_ptr<Enemy> enemy1 = std::make_unique<Enemy>( "La", 2, "res/textures/Enemy/Water/La.png", 5, 2, 502, 1, skills, 800);
   std::unique_ptr<Enemy> enemy2 = std::make_unique<Enemy>("Vaatu", 3, "res/textures/Enemy/Vaatu.png", 10, 0, 450, 2, skills, 900);
   enemy2 -> SetIntent(2);
-  enemy1 -> SetDebuffs(*debuff3);
-  enemy2 -> SetBuffs(*buff3);
+  enemy1 -> SetDebuff(*debuff3);
+  enemy2 -> SetBuff(*buff3);
   enemy2 -> SetBlock(15);
 
   Editeur* editeur = new Editeur( 10, 10, 1,  (*CM)[0], 5, 5);
