@@ -28,4 +28,6 @@
 #include "engine/CommandChangeFloor.h"
 #include "engine/CommandNextEntity.h"
 #include "engine/CommandGameWon.h"
+#include "engine/CommandEnterRoom.h"
+#include "engine/CommandExitRoom.h"
 #endif
