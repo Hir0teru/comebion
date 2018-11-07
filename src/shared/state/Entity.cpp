@@ -186,3 +186,10 @@ int Entity::GetMaxLife(){
 void Entity::SetMaxLife(int maxLife){
   this -> maxLife = maxLife;
 }
+
+bool Entity::GetIsEntityAlive(){
+  return isEntityAlive;
+}
+void Entity::SetIsEntityAlive(bool isEntityAlive){
+  this -> isEntityAlive = isEntityAlive;
+}

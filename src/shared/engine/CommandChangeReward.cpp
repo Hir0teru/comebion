@@ -16,7 +16,7 @@ CommandChangeReward::CommandChangeReward (int enemyID){
 void CommandChangeReward::Execute (std::shared_ptr<state::GameState>& gameState){
   if(enemyID >=2 && enemyID <5){
     int floorNb =  gameState -> GetMap() -> GetCurrentFloor();
-    std::unique_ptr<state::Enemy>& enemy= gameState -> GetMap() -> GetFloors()[floorNb] -> GetCurrentRoom() -> GetEnemies()[enemyID];
+    std::unique_ptr<state::Enemy>& enemy= gameState -> GetMap() -> GetFloors()[floorNb] -> GetCurrentRoom() -> GetEnemies()[enemyID - 2];
     gameState -> GetMap() -> GetFloors()[floorNb] -> GetCurrentRoom() -> SetReward(enemy -> GetReward());
   }
 }
