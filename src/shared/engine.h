@@ -21,7 +21,7 @@
 #include "engine/CommandPlayCard.h"
 #include "engine/CommandChangeIntent.h"
 #include "engine/CommandShuffle.h"
-#include "engine/CommandSetReward.h"
+#include "engine/CommandChangeReward.h"
 #include "engine/CommandAddCard.h"
 #include "engine/CommandRemoveCard.h"
 #include "engine/CommandChangeRoom.h"

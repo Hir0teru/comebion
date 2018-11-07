@@ -1,4 +1,4 @@
-#include "CommandSetReward.h"
+#include "CommandChangeReward.h"
 
 using namespace engine;
 
@@ -18,4 +18,4 @@ using namespace engine;
       // gameState -> GetMap() -> GetFloors()[floorNb] -> GetCurrentRoom() -> SetReward()
     }
   }
-  void Undo (std::shared_ptr<state::GameState>& gameState){}
+  void CommandChangeReward::Undo (std::shared_ptr<state::GameState>& gameState){}
