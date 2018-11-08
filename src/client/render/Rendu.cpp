@@ -564,7 +564,7 @@ void Rendu::SetTextureRoom(){
       }
       int entityTurn =  room -> GetEntityTurn(); //0, 1 = joueurs, 2,3,4 = ennemis
       if( entityTurn >= 0 && entityTurn < 2){
-        std::vector<Card*> cards =  room -> GetHands()[entityTurn] -> GetCards();!
+        std::vector<Card*> cards =  room -> GetHands()[entityTurn] -> GetCards();
         x = 120;
         y = 480;
         int statAttack = players[entityTurn] -> GetStatAttack();
