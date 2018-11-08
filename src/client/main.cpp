@@ -23,6 +23,7 @@ void testEngine(){
   std::vector<Player*> players;
   players.push_back((*PM)[0]);
   players.push_back((*PM)[1]);
+  rendu -> GetGameState() -> SetPlayers(players);
   sf::RenderWindow window(sf::VideoMode(rendu -> GetDimensionX(), rendu -> GetDimensionY()), "Test image");
   Moteur* moteur = new Moteur(rendu -> GetGameState());
   moteur -> AddCommand(std::make_shared<CommandEnterRoom>()); //salle d'ennemy
@@ -124,7 +125,7 @@ void testEngine(){
       }
       if(event.type == sf::Event::KeyReleased){
         moteur -> Update();
-        std::cout << "1"<< std::endl;
+
       }
     }
     if(!rendu -> GetGameState() -> GetIsInsideRoom()){
@@ -135,11 +136,8 @@ void testEngine(){
       window.display();
     }
     else{
-      std::cout << "1"<< std::endl;
       rendu -> SetTextureRoom();
-      std::cout << "1"<< std::endl;
       rendu -> DrawInsideRoom();
-      std::cout << "1"<< std::endl;
       window.clear(sf::Color::White);
 
       // sprite.setTexture(rendu -> GetTextureMap().getTexture());

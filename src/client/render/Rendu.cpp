@@ -367,7 +367,6 @@ std::cout << "in draw" << std::endl;
 
 
 void Rendu::SetTextureRoom(){
-  std::cout << "settexture ok" <<std::endl;
 
   textureCards.clear();
   textureEnemies.clear();
@@ -375,7 +374,6 @@ void Rendu::SetTextureRoom(){
   texturePiles.clear();
   int floorNb = gamestate -> GetMap() -> GetCurrentFloor();
   std::shared_ptr<Room>& room = gamestate -> GetMap() -> GetFloors()[floorNb] -> GetCurrentRoom();
-  std::cout << "room" <<std::endl;
 
 
   SetBackground(room -> GetImageInsideRoom());
@@ -510,7 +508,6 @@ void Rendu::SetTextureRoom(){
     }
     else{
       // batlle room
-      std::cout << "enemyroom" <<std::endl;
 
       sf::Texture tmptexture;
       if(!tmptexture.loadFromFile("res/textures/other/button1.png")){
@@ -549,7 +546,6 @@ void Rendu::SetTextureRoom(){
 
 
       std::vector<Player*> players = gamestate -> GetPlayers();
-      std::cout << "players" <<std::endl;
 
       int x = 10;
       int y = 300;
@@ -560,7 +556,6 @@ void Rendu::SetTextureRoom(){
       }
 
       std::vector<std::unique_ptr<Enemy>>& enemies =room -> GetEnemies();
-      std::cout << "enemies" <<std::endl;
 
        x = 1300;
        y = 300;
@@ -570,8 +565,9 @@ void Rendu::SetTextureRoom(){
       }
       int entityTurn =  room -> GetEntityTurn(); //0, 1 = joueurs, 2,3,4 = ennemis
       if( entityTurn >= 0 && entityTurn < 2){
-        std::vector<Card*> cards =  room -> GetHands()[entityTurn] -> GetCards();;
-        std::cout << "cards" <<std::endl;
+        std::vector<Card*> cards =  room -> GetHands()[entityTurn] -> GetCards();
+        players[entityTurn] -> SetStatAttack(2);
+          std::cout << players[entityTurn] -> GetStatAttack() <<std::endl;
 
         x = 120;
         y = 480;
@@ -579,14 +575,13 @@ void Rendu::SetTextureRoom(){
         int statBlock = players[entityTurn] -> GetStatBlock();
         for (auto card : cards){
           if(card!= nullptr){
-                      std::cout << "hum" <<std::endl;
             AddTextureCard(x * scale, y * scale, scale/3, card, statAttack, statBlock);
             x+= 110;
           }
         }
         AddTexturePile(10 *scale, 480 * scale, scale/3,  "res/textures/cards/back_card_fin.png", room -> GetDrawPiles()[entityTurn] -> GetSize());
+
         AddTexturePile(900 *scale, 480 * scale, scale/3, "res/textures/cards/back_card_fin.png", room -> GetDiscardPiles()[entityTurn] -> GetSize());
-        std::cout << "settexture ok" <<std::endl;
       }
     }
   }
