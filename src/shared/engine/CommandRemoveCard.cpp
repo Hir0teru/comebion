@@ -1,8 +1,9 @@
 #include "CommandRemoveCard.h"
 #include "state/Card.h"
+#include <iostream>
 
 using namespace engine;
-
+using namespace std;
 
 CommandRemoveCard::CommandRemoveCard (){
   playerID = 0;
@@ -17,6 +18,7 @@ CommandRemoveCard::CommandRemoveCard (int playerID, int index){
   } else this -> index = 0;
 }
 void CommandRemoveCard::Execute (std::shared_ptr<state::GameState>& gameState){
+  cout<<"Remove card "<<index<<" from player "<<playerID<<endl;
   std::vector<state::Card*> cards = gameState -> GetPlayers()[playerID] -> GetDeck() -> GetCards();
   int size = gameState -> GetPlayers()[playerID] -> GetDeck() -> GetSize();
   if (size > 0 ){
@@ -29,4 +31,6 @@ void CommandRemoveCard::Execute (std::shared_ptr<state::GameState>& gameState){
   }
 }
 
-void CommandRemoveCard::Undo (std::shared_ptr<state::GameState>& gameState){}
+void CommandRemoveCard::Undo (std::shared_ptr<state::GameState>& gameState){
+  cout<<"Undo Remove card "<<index<<" from player "<<playerID<<endl;
+}

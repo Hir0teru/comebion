@@ -4,6 +4,7 @@
 
 using namespace state;
 using namespace engine;
+using namespace std;
 
 CommandAttack::CommandAttack (int damage, int entityID): damage(damage), entityID(entityID)
 {
@@ -13,6 +14,7 @@ CommandAttack::CommandAttack (int damage, int entityID): damage(damage), entityI
 CommandAttack::CommandAttack (){}
 
 void CommandAttack::Execute (std::shared_ptr<state::GameState>& gameState){
+  cout<<"Attack entity "<<entityID<<" with "<<damage<<"damages"<<endl;
   if (entityID < 2){
     PlayerManager* PM = PlayerManager::instance();
     (*PM)[entityID]->SetLife((*PM)[entityID]->GetLife() - damage);
@@ -29,6 +31,7 @@ void CommandAttack::Execute (std::shared_ptr<state::GameState>& gameState){
 }
 
 void CommandAttack::Undo (std::shared_ptr<state::GameState>& gameState){
+  cout<<"Undo Attack entity "<<entityID<<" with "<<damage<<"damages"<<endl;
   if (entityID < 2){
     PlayerManager* PM = PlayerManager::instance();
     (*PM)[entityID]->SetLife((*PM)[entityID]->GetLife() + damage);

@@ -4,12 +4,14 @@
 
 using namespace state;
 using namespace engine;
+using namespace std;
 
 CommandEndFight::CommandEndFight (bool isFightWon): isFightWon(isFightWon){}
 
 CommandEndFight::CommandEndFight (){}
 
 void CommandEndFight::Execute (std::shared_ptr<state::GameState>& gameState){
+  cout<<"End fight"<<endl;
   int floorNb = gameState->GetMap()->GetCurrentFloor();
   Room* room = gameState->GetMap()->GetFloors()[floorNb]->GetCurrentRoom().get();
 
@@ -23,6 +25,7 @@ void CommandEndFight::Execute (std::shared_ptr<state::GameState>& gameState){
 }
 
 void CommandEndFight::Undo (std::shared_ptr<state::GameState>& gameState){
+  cout<<"Undo End fight"<<endl;
   int floorNb = gameState->GetMap()->GetCurrentFloor();
   Room* room = gameState->GetMap()->GetFloors()[floorNb]->GetCurrentRoom().get();
 

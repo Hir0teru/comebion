@@ -4,10 +4,12 @@
 
 using namespace state;
 using namespace engine;
+using namespace std;
 
 CommandEnterRoom::CommandEnterRoom (){}
 
 void CommandEnterRoom::Execute (std::shared_ptr<state::GameState>& gameState){
+  cout<<"Enter current room"<<endl;
   gameState->SetIsInsideRoom(true);
   int floorNb = gameState->GetMap()->GetCurrentFloor();
   Room* room = gameState->GetMap()->GetFloors()[floorNb]->GetCurrentRoom().get();
@@ -19,5 +21,6 @@ void CommandEnterRoom::Execute (std::shared_ptr<state::GameState>& gameState){
 }
 
 void CommandEnterRoom::Undo (std::shared_ptr<state::GameState>& gameState){
+  cout<<"Undo Enter current room"<<endl;
   gameState->SetIsInsideRoom(false);
 }

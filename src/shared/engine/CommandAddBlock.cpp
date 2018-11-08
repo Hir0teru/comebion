@@ -4,6 +4,7 @@
 
 using namespace state;
 using namespace engine;
+using namespace std;
 
 CommandAddBlock::CommandAddBlock (int block, int entityID): block(block), entityID(entityID)
 {
@@ -13,6 +14,7 @@ CommandAddBlock::CommandAddBlock (int block, int entityID): block(block), entity
 CommandAddBlock::CommandAddBlock (){}
 
 void CommandAddBlock::Execute (std::shared_ptr<state::GameState>& gameState){
+  cout<<"Add "<<block<<" block to entity "<<entityID<<endl;
   if (entityID < 2){
     PlayerManager* PM = PlayerManager::instance();
     (*PM)[entityID]->SetBlock((*PM)[entityID]->GetBlock() + block);
@@ -29,6 +31,7 @@ void CommandAddBlock::Execute (std::shared_ptr<state::GameState>& gameState){
 }
 
 void CommandAddBlock::Undo (std::shared_ptr<state::GameState>& gameState){
+  cout<<"Undo Add "<<block<<" to entity "<<entityID<<endl;
   if (entityID < 2){
     PlayerManager* PM = PlayerManager::instance();
     (*PM)[entityID]->SetBlock((*PM)[entityID]->GetBlock() - block);

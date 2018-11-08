@@ -4,12 +4,16 @@
 
 using namespace state;
 using namespace engine;
+using namespace std;
 
 CommandAddDebuff::CommandAddDebuff (int entityID, state::Debuff debuff): entityID(entityID), debuff(debuff){}
 
 CommandAddDebuff::CommandAddDebuff (){}
 
 void CommandAddDebuff::Execute (std::shared_ptr<state::GameState>& gameState){
+  cout<<"Add debuff to entity "<<entityID<<endl;
+  cout<<" BlockMinus "<< debuff.GetBlockMinus()<< endl;
+  cout<<" AttackMinus "<< debuff.GetAttackMinus()<< endl;
   Entity* selected_entity = nullptr;
   if (entityID < 2){
     PlayerManager* PM = PlayerManager::instance();
@@ -32,6 +36,9 @@ void CommandAddDebuff::Execute (std::shared_ptr<state::GameState>& gameState){
 }
 
 void CommandAddDebuff::Undo (std::shared_ptr<state::GameState>& gameState){
+  cout<<"Undo Adding debuff to entity "<<entityID<<"..."<<endl;
+  cout<<" BlockMinus "<< debuff.GetBlockMinus()<< endl;
+  cout<<" AttackMinus "<< debuff.GetAttackMinus()<< endl;
   Entity* selected_entity = nullptr;
   if (entityID < 2){
     PlayerManager* PM = PlayerManager::instance();

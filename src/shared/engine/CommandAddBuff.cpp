@@ -4,6 +4,7 @@
 
 using namespace state;
 using namespace engine;
+using namespace std;
 
 CommandAddBuff::CommandAddBuff (int entityID, state::Buff buff): entityID(entityID), buff(buff)
 {
@@ -13,6 +14,12 @@ CommandAddBuff::CommandAddBuff (int entityID, state::Buff buff): entityID(entity
 CommandAddBuff::CommandAddBuff (){}
 
 void CommandAddBuff::Execute (std::shared_ptr<state::GameState>& gameState){
+  cout<<"Adding buff to entity "<<entityID<<"..."<<endl;
+  cout<<" BlockPlus "<< buff.GetBlockPlus()<< endl;
+  cout<<" AttackPlus "<< buff.GetAttackPlus()<< endl;
+  cout<<" Heal "<< buff.GetHeal()<< endl;
+  cout<<" Evade "<< buff.GetEvade()<< endl;
+  cout<<" Retaliate "<< buff.GetRetaliate()<< endl;
   Entity* selected_entity = nullptr;
   if (entityID < 2){
     PlayerManager* PM = PlayerManager::instance();
@@ -38,7 +45,12 @@ void CommandAddBuff::Execute (std::shared_ptr<state::GameState>& gameState){
 }
 
 void CommandAddBuff::Undo (std::shared_ptr<state::GameState>& gameState){
-  Entity* selected_entity = nullptr;
+  cout<<"Undo Add buff to entity "<<entityID<<endl;
+  cout<<" BlockPlus "<< buff.GetBlockPlus()<< endl;
+  cout<<" AttackPlus "<< buff.GetAttackPlus()<< endl;
+  cout<<" Heal "<< buff.GetHeal()<< endl;
+  cout<<" Evade "<< buff.GetEvade()<< endl;
+  cout<<" Retaliate "<< buff.GetRetaliate()<< endl;  Entity* selected_entity = nullptr;
   if (entityID < 2){
     PlayerManager* PM = PlayerManager::instance();
     selected_entity = (*PM)[entityID];

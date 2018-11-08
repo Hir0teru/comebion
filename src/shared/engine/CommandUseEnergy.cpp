@@ -1,8 +1,8 @@
 #include "CommandUseEnergy.h"
-
+#include <iostream>
 
 using namespace engine;
-
+using namespace std;
 
 CommandUseEnergy::CommandUseEnergy(){
   entityID = 0;
@@ -14,14 +14,14 @@ CommandUseEnergy::CommandUseEnergy(int energyAmount, int playerId){
   this -> energyAmount = energyAmount;
 }
 void CommandUseEnergy::Execute(std::shared_ptr<state::GameState>& gameState){
+  cout<<"Use "<<energyAmount<<" energy of player "<<playerId<<endl;
   if(entityID >=0 && entityID < 2){
-    if( gameState -> GetPlayers()[entityID] -> GetEnergy() < energyAmount){
-       gameState -> GetPlayers()[entityID]-> SetEnergy(0);
-    } else  gameState -> GetPlayers()[entityID] -> SetEnergy(energyAmount);
+    gameState -> GetPlayers()[entityID] -> SetEnergy(energyAmount);
   }
 }
 
 void CommandUseEnergy::Undo (std::shared_ptr<state::GameState>& gameState){
+  cout<<"Undo Use "<<energyAmount<<" energy of player "<<playerId<<endl;
   if(entityID >=0 && entityID < 2){
      gameState -> GetPlayers()[entityID] -> SetEnergy(gameState -> GetPlayers()[entityID] -> GetEnergy() + energyAmount);
   }

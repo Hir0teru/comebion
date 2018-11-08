@@ -3,9 +3,10 @@
 #include "CommandShuffle.h"
 #include "state/Card.h"
 #include "state/DeckParts.h"
-
+#include <iostream>
 
 using namespace engine;
+using namespace std;
 
 CommandShuffle::CommandShuffle (){
   playerID = 0;
@@ -16,6 +17,7 @@ CommandShuffle::CommandShuffle (int playerID){
   }
 }
 void CommandShuffle::Execute (std::shared_ptr<state::GameState>& gameState){
+  cout<<"Shuffle DrawPile of player "<<playerID<<endl;
   if(playerID >=0 && playerID < 2){
     int floorNb =  gameState -> GetMap() -> GetCurrentFloor();
     std::vector<state::Card*> drawPile =  gameState -> GetMap() -> GetFloors()[floorNb] -> GetCurrentRoom() -> GetDrawPiles()[playerID] -> GetCards();
@@ -28,4 +30,6 @@ void CommandShuffle::Execute (std::shared_ptr<state::GameState>& gameState){
   }
 }
 
-void CommandShuffle::Undo (std::shared_ptr<state::GameState>& gameState){}
+void CommandShuffle::Undo (std::shared_ptr<state::GameState>& gameState){
+  cout<<"Undo Shuffle DrawPile of player "<<playerID<<endl;
+}

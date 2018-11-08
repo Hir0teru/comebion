@@ -4,12 +4,16 @@
 
 using namespace state;
 using namespace engine;
+using namespace std;
 
 CommandChangeStat::CommandChangeStat (int entityID, int statAttack, int statBlock): entityID(entityID), statAttack(statAttack), statBlock(statBlock){}
 
 CommandChangeStat::CommandChangeStat (){}
 
 void CommandChangeStat::Execute (std::shared_ptr<state::GameState>& gameState){
+  cout<<"Change stat of entity "<<entityID<<endl;
+  cout<<" StatAttack "<< statAttack<< endl;
+  cout<<" StatBlock "<< statBlock<< endl;
   Entity* selected_entity = nullptr;
   if (entityID < 2){
     PlayerManager* PM = PlayerManager::instance();
@@ -30,5 +34,8 @@ void CommandChangeStat::Execute (std::shared_ptr<state::GameState>& gameState){
 }
 
 void CommandChangeStat::Undo (std::shared_ptr<state::GameState>& gameState){
+  cout<<"Undo Change stat of entity "<<entityID<<endl;
+  cout<<" StatAttack "<< statAttack<< endl;
+  cout<<" StatBlock "<< statBlock<< endl;
   //TODO: ????
 }

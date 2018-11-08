@@ -4,12 +4,14 @@
 
 using namespace state;
 using namespace engine;
+using namespace std;
 
 CommandDie::CommandDie (int entityID): entityID(entityID){}
 
 CommandDie::CommandDie (){}
 
 void CommandDie::Execute (std::shared_ptr<state::GameState>& gameState){
+  cout<<"Entity "<<entityID<<" died"<<endl;
   Entity* selected_entity = nullptr;
   if (entityID < 2){
     PlayerManager* PM = PlayerManager::instance();
@@ -29,6 +31,7 @@ void CommandDie::Execute (std::shared_ptr<state::GameState>& gameState){
 }
 
 void CommandDie::Undo (std::shared_ptr<state::GameState>& gameState){
+  cout<<"Undo Entity "<<entityID<<" died"<<endl;
   Entity* selected_entity = nullptr;
   if (entityID < 2){
     PlayerManager* PM = PlayerManager::instance();

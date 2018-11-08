@@ -4,12 +4,14 @@
 
 using namespace state;
 using namespace engine;
+using namespace std;
 
 CommandDraw::CommandDraw (int entityID): entityID(entityID){}
 
 CommandDraw::CommandDraw (){}
 
 void CommandDraw::Execute (std::shared_ptr<state::GameState>& gameState){
+  cout<<"Draw card for player "<<entityID<<endl;
   int floorNb = gameState->GetMap()->GetCurrentFloor();
   Room* room = gameState->GetMap()->GetFloors()[floorNb]->GetCurrentRoom().get();
 
@@ -30,6 +32,7 @@ void CommandDraw::Execute (std::shared_ptr<state::GameState>& gameState){
 }
 
 void CommandDraw::Undo (std::shared_ptr<state::GameState>& gameState){
+  cout<<"Undo Draw card for player "<<entityID<<endl;
   int floorNb = gameState->GetMap()->GetCurrentFloor();
   Room* room = gameState->GetMap()->GetFloors()[floorNb]->GetCurrentRoom().get();
 
