@@ -1,4 +1,5 @@
 #include "CommandNextEntity.h"
+#include <iostream>
 
 
 using namespace engine;
@@ -14,6 +15,19 @@ void CommandNextEntity::Execute (std::shared_ptr<state::GameState>& gameState){
   if(entityTurn == enemyNb - 1){ // new turn for players
     for (int i = 0; i < playerNb; i++){
       gameState -> GetPlayers()[i] -> SetBlock(0);
+      gameState -> GetPlayers()[i] -> SetEnergy(3);
+      Buff buff = gameState -> GetPlayers()[i] -> GetBuff();
+      buff.SetBlockPlus(buff.GetBlockPlus() - 1);
+      buff.SetAttackPlus(buff.GetAttackPlus() -1);
+      buff.SetHeal(buff.GetHeal() -1 );
+      buff.SetEvade(buff.GetEvade() - 1);
+      buff.SetRetaliate(buff.GetRetaliate() -1);
+      gameState -> GetPlayers()[i] -> SetBuff(buff);
+      Debuff debuff = gameState -> GetPlayers()[i] -> GetDebuff();
+      debuff.SetBlockMinus(debuff.GetBlockMinus() - 1);
+      debuff.SetAttackMinus(debuff.GetAttackMinus() - 1);
+      gameState -> GetPlayers()[i] -> SetDebuff(debuff);
+
     }
     if(! gameState -> GetPlayers()[0] -> GetIsEntityAlive()){
       entityTurn = 1;  //one of the two players must be alive, else the game is lost
@@ -30,6 +44,7 @@ void CommandNextEntity::Execute (std::shared_ptr<state::GameState>& gameState){
       entityTurn = 0;
     }
   }
+  std::cout<<"Set next entity : " << entityTurn << std::endl;
   gameState -> GetMap() -> GetFloors()[floorNb] -> GetCurrentRoom() -> SetEntityTurn(entityTurn);
 }
 void CommandNextEntity::Undo (std::shared_ptr<state::GameState>& gameState){

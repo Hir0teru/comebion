@@ -10,10 +10,138 @@
 
 #include "state.h"
 #include "render.h"
+#include "engine.h"
 
 using namespace std;
 using namespace state;
 using namespace render;
+
+void testEngine(){
+  PlayerManager* PM = PlayerManager::instance();
+  CardManager* CM = CardManager::instance();
+  Rendu* rendu = new Rendu();
+  std::vector<Player*> players;
+  players.push_back((*PM)[0]);
+  players.push_back((*PM)[1]);
+  sf::RenderWindow window(sf::VideoMode(rendu -> GetDimensionX(), rendu -> GetDimensionY()), "Test image");
+  std::vector<std::shared_ptr<Comman>> commands;
+  Moteur* moteur = new Moteur(rendu -> GetGameState());
+  moteur.AddCommand(std::make_shared<CommandEnterRoom>()); //salle d'ennemy
+
+
+  if(rendu -> GetGameState() -> GetFloors()[0] -> GetCurrentRoom() -> isEnemyRoom()){
+    moteur.AddCommand(std::make_shared<CommandChangeIntent(0, 2));
+    int entityTurn = rendu -> GetGameState() -> GetFloors()[0] -> GetCurrentRoom() -> GetEntityTurn();
+    moteur.AddCommand(std::make_shared<CommandShuffle>(entityTurn));
+    moteur.AddCommand(std::make_shared<CommandDraw>(entityTurn, false, false)); // on pioche 5 cartes
+    moteur.AddCommand(std::make_shared<CommandDraw>(entityTurn, false, false));
+    moteur.AddCommand(std::make_shared<CommandDraw>(entityTurn, false, false));
+    moteur.AddCommand(std::make_shared<CommandDraw>(entityTurn, false, false));
+    moteur.AddCommand(std::make_shared<CommandDraw>(entityTurn, false, false));
+    int index
+    //play cards
+    for (index = 0; index < 3; index++){
+        moteur.AddCommand(std::make_shared<CommandUseEnergy>(1, entityTurn));
+        moteur.AddCommand(std::make_shared<CommandAttack>(rendu -> GetGameState() -> GetFloors()[0] -> GetCurrentRoom() -> GetHands()[0] -> GetCards()[index] -> GetAttack(), 2);
+        moteur.AddCommand(std::make_shared<CommandBlock>(rendu -> GetGameState() -> GetFloors()[0] -> GetCurrentRoom() -> GetHands()[0] -> GetCards()[index] -> GetBlock(), 0);
+        moteur.AddCommand(std::make_shared<CommandChangeElement>(entityTurn,rendu -> GetGameState() -> GetFloors()[0] -> GetCurrentRoom() -> GetHands()[0] -> GetCards()[index] -> GetElement());
+        moteur.AddCommand(std::make_shared<CommandDiscard>(entityTurn, 0));
+    }
+    //discard rest of the hand
+    for(index = 0; index < (int)rendu -> GetGameState() -> GetFloors()[0] -> GetCurrentRoom() -> GetHands()[0] -> GetCards().size(); index++){
+      moteur.AddCommand(std::make_shared<CommandDiscard( entityTurn, 0)>());
+    }
+    //next player
+    moteur.AddCommand(std::make_shared<CommandNextEntity>());
+    entityTurn = rendu -> GetGameState() -> GetFloors()[0] -> GetCurrentRoom() -> GetEntityTurn();
+    moteur.AddCommand(std::make_shared<CommandShuffle>(entityTurn));
+    moteur.AddCommand(std::make_shared<CommandShuffle>(entityTurn));
+    moteur.AddCommand(std::make_shared<CommandDraw>(entityTurn, false, false)); // on pioche 5 cartes
+    moteur.AddCommand(std::make_shared<CommandDraw>(entityTurn, false, false));
+    moteur.AddCommand(std::make_shared<CommandDraw>(entityTurn, false, false));
+    moteur.AddCommand(std::make_shared<CommandDraw>(entityTurn, false, false));
+    moteur.AddCommand(std::make_shared<CommandDraw>(entityTurn, false, false));
+
+    //play cards
+    for (index = 0; index < 3; index++){
+        moteur.AddCommand(std::make_shared<CommandUseEnergy>(1, entityTurn));
+        moteur.AddCommand(std::make_shared<CommandAttack>(rendu -> GetGameState() -> GetFloors()[0] -> GetCurrentRoom() -> GetHands()[0] -> GetCards()[index] -> GetAttack(), 2);
+        moteur.AddCommand(std::make_shared<CommandBlock>(rendu -> GetGameState() -> GetFloors()[0] -> GetCurrentRoom() -> GetHands()[0] -> GetCards()[index] -> GetBlock(), 0);
+        moteur.AddCommand(std::make_shared<CommandChangeElement>(entityTurn,rendu -> GetGameState() -> GetFloors()[0] -> GetCurrentRoom() -> GetHands()[0] -> GetCards()[index] -> GetElement());
+        moteur.AddCommand(std::make_shared<CommandDiscard>(entityTurn, 0));
+    }
+    //discard rest of the hand
+    for(index = 0; index < (int)rendu -> GetGameState() -> GetFloors()[0] -> GetCurrentRoom() -> GetHands()[0] -> GetCards().size(); index++){
+      moteur.AddCommand(std::make_shared<CommandDiscard( entityTurn, 0)>());
+    }
+    //next enemy
+    moteur.AddCommand(std::make_shared<CommandNextEntity>());
+    entityTurn = rendu -> GetGameState() -> GetFloors()[0] -> GetCurrentRoom() -> GetEntityTurn();
+
+    int intent = rendu -> GetGameState() -> GetFloors()[0] -> GetCurrentRoom() -> GetEnemies()[entityTurn - 2 ] -> GetIntent();
+    moteur.AddCommand(std::make_shared<CommandAttack>(rendu -> GetGameState() -> GetFloors()[0] -> GetCurrentRoom() -> GetEnemies()[entityTurn - 2 ] -> GetSkills()[intent] -> GetAttack(), 0);
+    moteur.AddCommand(std::make_shared<CommandBlock>(rendu -> GetGameState() -> GetFloors()[0] -> GetCurrentRoom() -> GetEnemies()[entityTurn - 2 ] -> GetSkills()[intent] -> GetBlock(), 2);
+    moteur.AddCommand(std::make_shared<CommandAddDebuff>(rendu -> GetGameState() -> GetFloors()[0] -> GetCurrentRoom() -> GetEnemies()[entityTurn - 2 ] -> GetSkills()[intent] -> GetDebuff(), 0);
+
+    moteur.AddCommand(std::make_shared<CommandNextEntity>());
+    moteur.AddCommand(std::make_shared<CommandDie>(0));
+    moteur.AddCommand(std::make_shared<CommandDie>(2));
+
+
+  }
+  //exit room
+  moteur.AddCommand(std::make_shared<CommandExitRoom>());
+  moteur.AddCommand(std::make_shared<CommandChangeRoom>());
+  moteur.AddCommand(std::make_shared<CommandEnterRoom>());
+  moteur.AddCommand(std::make_shared<CommandAddCard>(0, rendu -> GetGameState() -> GetFloors()[0] -> GetCurrentRoom() -> GetReward()[0],false);
+
+  moteur.AddCommand(std::make_shared<CommandExitRoom>());
+  moteur.AddCommand(std::make_shared<CommandChangeRoom>());
+  moteur.AddCommand(std::make_shared<CommandEnterRoom>());
+  moteur.AddCommand(std::make_shared<CommandAddCard>(0, rendu -> GetGameState() -> GetFloors()[0] -> GetCurrentRoom() -> GetReward()[0],false);
+
+  moteur.AddCommand(std::make_shared<CommandExitRoom>());
+  moteur.AddCommand(std::make_shared<CommandChangeRoom>());
+  moteur.AddCommand(std::make_shared<CommandEnterRoom>());
+  moteur.AddCommand(std::make_shared<CommandHeal>(rendu -> GetGameState() -> GetFloors()[0] -> GetCurrentRoom() -> GetHeal(), 0);
+  moteur.AddCommand(std::make_shared<CommandExitRoom>());
+
+
+  while(window.isOpen()){
+    sf::Event event;
+    while (window.pollEvent(event)){
+      if (event.type == sf::Event::Closed){
+
+        window.close();
+      }
+    }
+    if(!rendu -> GetGameState() -> GetIsInsideRoom()){
+      rendu -> SetTextureMap(1);
+      window.clear(sf::Color::White);
+      sprite.setTexture(rendu -> GetTextureMap().getTexture());
+      window.draw(sprite);
+      window.display();
+    }
+    else{
+      rendu -> SetTextureRoom();
+      rendu -> DrawInsideRoom();
+
+      window.clear(sf::Color::White);
+      sf::Sprite sprite;
+      // sprite.setTexture(rendu -> GetTextureMap().getTexture());
+      sprite.setTexture(rendu -> GetTexture().getTexture());
+
+      window.draw(sprite);
+
+      window.display();
+    }
+    sleep(1);
+    moteur -> Update();
+
+}
+
+
+
 
 void testSFML(){
   PlayerManager* PM = PlayerManager::instance();
@@ -666,6 +794,10 @@ int main(int argc,char* argv[])
     }
     if (argc == 2 and std::string(argv[1] )== "render2"){
       testSFML2();
+    }
+
+    if (argc == 2 and std::string(argv[1] )== "engine"){
+      testEngine();
     }
 
     delete SkillManager::instance();
