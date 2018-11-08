@@ -31,7 +31,6 @@ using namespace state;
       return texture;
     }
     void Rendu::DrawInsideRoom (){
-std::cout << "in draw" << std::endl;
       if (!texture.create(dimensionX, dimensionY)){
         std::cout<<"RenderTexture error"<<std::endl;
         throw std::invalid_argument("error with argument");
@@ -565,10 +564,7 @@ void Rendu::SetTextureRoom(){
       }
       int entityTurn =  room -> GetEntityTurn(); //0, 1 = joueurs, 2,3,4 = ennemis
       if( entityTurn >= 0 && entityTurn < 2){
-        std::vector<Card*> cards =  room -> GetHands()[entityTurn] -> GetCards();
-        players[entityTurn] -> SetStatAttack(2);
-          std::cout << players[entityTurn] -> GetStatAttack() <<std::endl;
-
+        std::vector<Card*> cards =  room -> GetHands()[entityTurn] -> GetCards();!
         x = 120;
         y = 480;
         int statAttack = players[entityTurn] -> GetStatAttack();
