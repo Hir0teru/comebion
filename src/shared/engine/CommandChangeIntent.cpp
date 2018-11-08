@@ -11,12 +11,14 @@ CommandChangeIntent::CommandChangeIntent (int enemyID, int intent): enemyID(enem
 CommandChangeIntent::CommandChangeIntent (){}
 
 void CommandChangeIntent::Execute (std::shared_ptr<state::GameState>& gameState){
-  cout<<"Change intent of enemy "<<enemyID<<" to "<<intent<<endl;
-  int floorNb = gameState->GetMap()->GetCurrentFloor();
-  std::vector<std::unique_ptr<Enemy>>& enemies = gameState->GetMap()->GetFloors()[floorNb]->GetCurrentRoom()->GetEnemies();
-  for (auto& enemy : enemies){
-    if (enemy.get()->GetId() == enemyID){
-      enemy.get()->SetIntent(intent);
+  if (enemyID > 1){
+    cout<<"Change intent of enemy "<<enemyID<<" to "<<intent<<endl;
+    int floorNb = gameState->GetMap()->GetCurrentFloor();
+    std::vector<std::unique_ptr<Enemy>>& enemies = gameState->GetMap()->GetFloors()[floorNb]->GetCurrentRoom()->GetEnemies();
+    for (auto& enemy : enemies){
+      if (enemy.get()->GetId() == enemyID){
+        enemy.get()->SetIntent(intent);
+      }
     }
   }
 }

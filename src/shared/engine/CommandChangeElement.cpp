@@ -11,17 +11,19 @@ CommandChangeElement::CommandChangeElement (int entityID, int element): entityID
 CommandChangeElement::CommandChangeElement (){}
 
 void CommandChangeElement::Execute (std::shared_ptr<state::GameState>& gameState){
-  cout<<"Change element of entity "<<entityID<<" to "<<element<<endl;
-  if (entityID < 2){
-    PlayerManager* PM = PlayerManager::instance();
-    (*PM)[entityID]->SetElement(element);
-  } else {
-    int floorNb = gameState->GetMap()->GetCurrentFloor();
-    std::vector<std::unique_ptr<Enemy>>& enemies = gameState->GetMap()->GetFloors()[floorNb]->GetCurrentRoom()->GetEnemies();
+  if (entityID > 0){
+    cout<<"Change element of entity "<<entityID<<" to "<<element<<endl;
+    if (entityID < 2){
+      PlayerManager* PM = PlayerManager::instance();
+      (*PM)[entityID]->SetElement(element);
+    } else {
+      int floorNb = gameState->GetMap()->GetCurrentFloor();
+      std::vector<std::unique_ptr<Enemy>>& enemies = gameState->GetMap()->GetFloors()[floorNb]->GetCurrentRoom()->GetEnemies();
 
-    for (auto& enemy : enemies){
-      if (enemy.get()->GetId() == entityID){
-        enemy.get()->SetElement(element);
+      for (auto& enemy : enemies){
+        if (enemy.get()->GetId() == entityID){
+          enemy.get()->SetElement(element);
+        }
       }
     }
   }

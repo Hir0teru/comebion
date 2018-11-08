@@ -11,7 +11,9 @@ CommandChangeRoom::CommandChangeRoom (){}
 void CommandChangeRoom::Execute (std::shared_ptr<state::GameState>& gameState){
   cout<<"Going to next room"<<endl;
   int floorNb = gameState->GetMap()->GetCurrentFloor();
-  gameState->GetMap()->GetFloors()[floorNb]->SetCurrentRoom(gameState->GetMap()->GetFloors()[floorNb]->GetCurrentRoom()->GetNextRoom());
+  if (gameState->GetMap()->GetFloors()[floorNb]->GetCurrentRoom()->GetNextRoom()){
+    gameState->GetMap()->GetFloors()[floorNb]->SetCurrentRoom(gameState->GetMap()->GetFloors()[floorNb]->GetCurrentRoom()->GetNextRoom());
+  }
 }
 
 void CommandChangeRoom::Undo (std::shared_ptr<state::GameState>& gameState){

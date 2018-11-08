@@ -15,7 +15,7 @@ void CommandChangeStat::Execute (std::shared_ptr<state::GameState>& gameState){
   cout<<" StatAttack "<< statAttack<< endl;
   cout<<" StatBlock "<< statBlock<< endl;
   Entity* selected_entity = nullptr;
-  if (entityID < 2){
+  if (entityID > 0 && entityID < 2){
     PlayerManager* PM = PlayerManager::instance();
     selected_entity = (*PM)[entityID];
   } else {

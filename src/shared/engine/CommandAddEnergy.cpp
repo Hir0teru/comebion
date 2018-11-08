@@ -11,11 +11,15 @@ CommandAddEnergy::CommandAddEnergy (int entityID, int energyAmount): entityID(en
 CommandAddEnergy::CommandAddEnergy (){}
 
 void CommandAddEnergy::Execute (std::shared_ptr<state::GameState>& gameState){
-  cout<<"Add "<<energyAmount<< " energy to entity "<<entityID<<endl;
-  gameState->GetPlayers()[entityID]->SetEnergy(gameState->GetPlayers()[entityID]->GetEnergy() + energyAmount);
+  if (entityID > 0 && entityID < 2 ){
+    cout<<"Add "<<energyAmount<< " energy to entity "<<entityID<<endl;
+    gameState->GetPlayers()[entityID]->SetEnergy(gameState->GetPlayers()[entityID]->GetEnergy() + energyAmount);
+  }
 }
 
 void CommandAddEnergy::Undo (std::shared_ptr<state::GameState>& gameState){
-  cout<<"Undo Adding "<<energyAmount<< " energy to entity "<<entityID<<"..."<<endl;
-  gameState->GetPlayers()[entityID]->SetEnergy(gameState->GetPlayers()[entityID]->GetEnergy() - energyAmount);
+  if (playerID > 0 && playerID < 2 ){
+    cout<<"Undo Adding "<<energyAmount<< " energy to entity "<<entityID<<"..."<<endl;
+    gameState->GetPlayers()[entityID]->SetEnergy(gameState->GetPlayers()[entityID]->GetEnergy() - energyAmount);
+  }
 }

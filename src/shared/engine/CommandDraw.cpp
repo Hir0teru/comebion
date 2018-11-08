@@ -12,23 +12,25 @@ CommandDraw::CommandDraw (){}
 
 void CommandDraw::Execute (std::shared_ptr<state::GameState>& gameState){
   cout<<"Draw card for player "<<entityID<<endl;
-  int floorNb = gameState->GetMap()->GetCurrentFloor();
-  Room* room = gameState->GetMap()->GetFloors()[floorNb]->GetCurrentRoom().get();
+  if (entityID > 0 && entityID < 2){
+    int floorNb = gameState->GetMap()->GetCurrentFloor();
+    Room* room = gameState->GetMap()->GetFloors()[floorNb]->GetCurrentRoom().get();
 
-  std::vector<DeckParts*> hands = room->GetHands();
-  std::vector<DeckParts*> drawPiles = room->GetDrawPiles();
+    std::vector<DeckParts*> hands = room->GetHands();
+    std::vector<DeckParts*> drawPiles = room->GetDrawPiles();
 
-  std::vector<Card*> handCards = hands[entityID]->GetCards();
-  std::vector<Card*> drawPileCards = drawPiles[entityID]->GetCards();
+    std::vector<Card*> handCards = hands[entityID]->GetCards();
+    std::vector<Card*> drawPileCards = drawPiles[entityID]->GetCards();
 
-  handCards.push_back(drawPileCards.back());
-  drawPileCards.pop_back();
+    handCards.push_back(drawPileCards.back());
+    drawPileCards.pop_back();
 
-  hands[entityID]->SetCards(handCards);
-  drawPiles[entityID]->SetCards(drawPileCards);
+    hands[entityID]->SetCards(handCards);
+    drawPiles[entityID]->SetCards(drawPileCards);
 
-  room->SetHands(hands);
-  room->SetDrawPiles(drawPiles);
+    room->SetHands(hands);
+    room->SetDrawPiles(drawPiles);
+  }
 }
 
 void CommandDraw::Undo (std::shared_ptr<state::GameState>& gameState){

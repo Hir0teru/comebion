@@ -12,25 +12,27 @@ CommandDiscard::CommandDiscard (){}
 
 void CommandDiscard::Execute (std::shared_ptr<state::GameState>& gameState){
   cout<<"Discard card number "<<cardID<<" from player "<<entityID<<endl;
-  int floorNb = gameState->GetMap()->GetCurrentFloor();
-  Room* room = gameState->GetMap()->GetFloors()[floorNb]->GetCurrentRoom().get();
+  if (entityID > 0 && entityID < 2){
+    int floorNb = gameState->GetMap()->GetCurrentFloor();
+    Room* room = gameState->GetMap()->GetFloors()[floorNb]->GetCurrentRoom().get();
 
-  std::vector<DeckParts*> hands = room->GetHands();
-  std::vector<DeckParts*> discardPiles = room->GetDiscardPiles();
+    std::vector<DeckParts*> hands = room->GetHands();
+    std::vector<DeckParts*> discardPiles = room->GetDiscardPiles();
 
-  std::vector<Card*> handCards = hands[entityID]->GetCards();
-  std::vector<Card*> discardPileCards = discardPiles[entityID]->GetCards();
+    std::vector<Card*> handCards = hands[entityID]->GetCards();
+    std::vector<Card*> discardPileCards = discardPiles[entityID]->GetCards();
 
-  discardPileCards.push_back(handCards[cardID]);
-  handCards.erase(handCards.begin() + cardID);
+    discardPileCards.push_back(handCards[cardID]);
+    handCards.erase(handCards.begin() + cardID);
 
-  hands[entityID]->SetCards(handCards);
-  hands[entityID]->SetSize(handCards.size());
-  discardPiles[entityID]->SetCards(discardPileCards);
-  discardPiles[entityID]->SetSize(discardPileCards.size());
+    hands[entityID]->SetCards(handCards);
+    hands[entityID]->SetSize(handCards.size());
+    discardPiles[entityID]->SetCards(discardPileCards);
+    discardPiles[entityID]->SetSize(discardPileCards.size());
 
-  room->SetHands(hands);
-  room->SetDiscardPiles(discardPiles);
+    room->SetHands(hands);
+    room->SetDiscardPiles(discardPiles);
+  }
 }
 
 void CommandDiscard::Undo (std::shared_ptr<state::GameState>& gameState){
