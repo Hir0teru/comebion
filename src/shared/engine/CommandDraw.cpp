@@ -26,7 +26,9 @@ void CommandDraw::Execute (std::shared_ptr<state::GameState>& gameState){
     drawPileCards.pop_back();
 
     hands[entityID]->SetCards(handCards);
+    hands[entityID]->SetSize(handCards.size());
     drawPiles[entityID]->SetCards(drawPileCards);
+    drawPiles[entityID]->SetSize(drawPileCards.size());
 
     room->SetHands(hands);
     room->SetDrawPiles(drawPiles);
@@ -48,7 +50,10 @@ void CommandDraw::Undo (std::shared_ptr<state::GameState>& gameState){
   handCards.pop_back();
 
   hands[entityID]->SetCards(handCards);
+  hands[entityID]->SetSize(handCards.size());
   drawPiles[entityID]->SetCards(drawPileCards);
+  drawPiles[entityID]->SetSize(drawPileCards.size());
+
 
   room->SetHands(hands);
   room->SetDrawPiles(drawPiles);
