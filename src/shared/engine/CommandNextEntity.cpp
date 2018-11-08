@@ -14,7 +14,7 @@ void CommandNextEntity::Execute (std::shared_ptr<state::GameState>& gameState){
   int enemyNb = gameState -> GetMap() -> GetFloors()[floorNb] -> GetCurrentRoom() -> GetEnemies().size();
   int playerNb = gameState -> GetPlayers().size();
 
-  if(entityTurn == enemyNb - 1){ // new turn for players
+  if(entityTurn == enemyNb +1 ){ // new turn for players
     for (int i = 0; i < playerNb; i++){
       gameState -> GetPlayers()[i] -> SetBlock(0);
       gameState -> GetPlayers()[i] -> SetEnergy(3);

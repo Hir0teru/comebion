@@ -30,7 +30,7 @@ void testEngine(){
 
 
   if(rendu -> GetGameState() -> GetMap() -> GetFloors()[0] -> GetCurrentRoom() -> GetIsEnemyRoom()){
-    moteur -> AddCommand(std::make_shared<CommandChangeIntent>(0, 2));
+    moteur -> AddCommand(std::make_shared<CommandChangeIntent>(2, 2));
     int entityTurn = 0;
     moteur -> AddCommand(std::make_shared<CommandShuffle>(entityTurn));
     moteur -> AddCommand(std::make_shared<CommandDraw>(entityTurn)); // on pioche 5 cartes
@@ -89,7 +89,7 @@ void testEngine(){
     moteur -> AddCommand(std::make_shared<CommandAddDebuff>(0, *rendu -> GetGameState() ->GetMap() -> GetFloors()[0] -> GetCurrentRoom() -> GetEnemies()[entityTurn - 2 ] -> GetSkills()[intent] -> GetDebuff()));
 
     moteur -> AddCommand(std::make_shared<CommandNextEntity>());
-    moteur -> AddCommand(std::make_shared<CommandDie>(0));
+    // moteur -> AddCommand(std::make_shared<CommandDie>(0));
     moteur -> AddCommand(std::make_shared<CommandDie>(2));
 
 
@@ -112,7 +112,7 @@ void testEngine(){
   moteur -> AddCommand(std::make_shared<CommandExitRoom>());
 
 
-
+std::cout << "press a key for next step" << std::endl;
   while(window.isOpen()){
 
 

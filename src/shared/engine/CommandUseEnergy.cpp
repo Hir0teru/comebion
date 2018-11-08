@@ -16,7 +16,7 @@ CommandUseEnergy::CommandUseEnergy(int energyAmount, int playerId){
 void CommandUseEnergy::Execute(std::shared_ptr<state::GameState>& gameState){
   cout<<"Use "<<energyAmount<<" energy of player "<<entityID<<endl;
   if(entityID >=0 && entityID < 2){
-    gameState -> GetPlayers()[entityID] -> SetEnergy(energyAmount);
+    gameState -> GetPlayers()[entityID] -> SetEnergy(gameState -> GetPlayers()[entityID] -> GetEnergy()  - energyAmount);
   }
 }
 

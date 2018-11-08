@@ -549,8 +549,10 @@ void Rendu::SetTextureRoom(){
       int x = 10;
       int y = 300;
       for (auto player : players){
-        AddTexturePlayer(x* scale/1.5, y * scale/1.5, scale/1.5, player);
-        x+= 250;
+        if(player -> GetIsEntityAlive()){
+          AddTexturePlayer(x* scale/1.5, y * scale/1.5, scale/1.5, player);
+          x+= 250;
+        }
 
       }
 
@@ -559,8 +561,10 @@ void Rendu::SetTextureRoom(){
        x = 1300;
        y = 300;
       for (auto& enemy : enemies){
-        AddTextureEnemy(x* scale/1.5, y * scale/1.5, scale/1.5, enemy);
-        x-= 250;
+        if(enemy -> GetIsEntityAlive()){
+          AddTextureEnemy(x* scale/1.5, y * scale/1.5, scale/1.5, enemy);
+          x-= 250;
+        }
       }
       int entityTurn =  room -> GetEntityTurn(); //0, 1 = joueurs, 2,3,4 = ennemis
       if( entityTurn >= 0 && entityTurn < 2){
@@ -570,10 +574,8 @@ void Rendu::SetTextureRoom(){
         int statAttack = players[entityTurn] -> GetStatAttack();
         int statBlock = players[entityTurn] -> GetStatBlock();
         for (auto card : cards){
-          if(card!= nullptr){
             AddTextureCard(x * scale, y * scale, scale/3, card, statAttack, statBlock);
             x+= 110;
-          }
         }
         AddTexturePile(10 *scale, 480 * scale, scale/3,  "res/textures/cards/back_card_fin.png", room -> GetDrawPiles()[entityTurn] -> GetSize());
 

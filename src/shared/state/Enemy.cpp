@@ -25,6 +25,7 @@ Enemy::Enemy (){
 
 Enemy::Enemy(int element, int nb):Enemy(){
   this->SetElement(element);
+  this -> SetIsEntityAlive(true);
   switch (element) {
     case 1:
       if (nb == 0) {
