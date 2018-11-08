@@ -73,96 +73,121 @@ Room::Room (int elem, bool isSTR, bool isER, bool isSR) {
     // Operations
 }
 
-    std::string Room::GetImageMapRoom (){
-      return imageMapRoom;
-    }
+std::string Room::GetImageMapRoom (){
+  return imageMapRoom;
+}
 
-    void Room::SetImageMapRoom(std::string image){
-      imageMapRoom = image;
-    }
+void Room::SetImageMapRoom(std::string image){
+  imageMapRoom = image;
+}
 
-    std::string Room::GetImageInsideRoom (){
-      return imageInsideRoom;
-    }
+std::string Room::GetImageInsideRoom (){
+  return imageInsideRoom;
+}
 
-    void Room::SetImageInsideRoom(std::string image){
-      imageInsideRoom = image;
-    }
+void Room::SetImageInsideRoom(std::string image){
+  imageInsideRoom = image;
+}
 
-    bool Room::GetIsSpecialTrainingRoom (){
-      return isSpecialTrainingRoom;
-    }
+bool Room::GetIsSpecialTrainingRoom (){
+  return isSpecialTrainingRoom;
+}
 
-    bool Room::GetIsEnemyRoom (){
-      return isEnemyRoom;
-    }
+bool Room::GetIsEnemyRoom (){
+  return isEnemyRoom;
+}
 
-    bool Room::GetIsSleepRoom (){
-      return isSleepRoom;
-    }
+bool Room::GetIsSleepRoom (){
+  return isSleepRoom;
+}
 
-    int Room::GetElement (){
-      return element;
-    }
+int Room::GetElement (){
+  return element;
+}
 
-    std::shared_ptr<Room>& Room::GetNextRoom(){
-      return nextRoom;
-    }
+std::shared_ptr<Room>& Room::GetNextRoom(){
+  return nextRoom;
+}
 
-    void Room::SetNextRoom(std::shared_ptr<Room> newNextRoom){
-      auto next(newNextRoom);
-      Room* currentRoom;
-      currentRoom = this;
+void Room::SetNextRoom(std::shared_ptr<Room> newNextRoom){
+  auto next(newNextRoom);
+  Room* currentRoom;
+  currentRoom = this;
 
-      while (next && next.get() != currentRoom){
-        next = next->GetNextRoom();
-      }
+  while (next && next.get() != currentRoom){
+    next = next->GetNextRoom();
+  }
 
-      if (next){
-        throw "Loop Detected";
-      } else {
-        this->nextRoom = newNextRoom;
-      }
-    }
+  if (next){
+    throw "Loop Detected";
+  } else {
+    this->nextRoom = newNextRoom;
+  }
+}
     // Setters and Getters
 
     //virtual classes
 
-    int Room::GetHeal(){
-      std::cout << "methode mère" << std::endl;
-      return 0;}
+int Room::GetHeal(){
+  std::cout << "methode mère" << std::endl;
+  return 0;
+}
 
-    int Room::GetEntityTurn(){
-      std::cout << "methode mère" << std::endl;
-      return 0;}
+int Room::GetEntityTurn(){
+  std::cout << "methode mère" << std::endl;
+  return 0;
+}
 
-    std::vector<std::unique_ptr<Enemy>>& Room::GetEnemies(){
-      std::cout << "methode mère" << std::endl;
-      std::vector<std::unique_ptr<Enemy>> enemy; //this will never be used
-      return enemy;}
+std::vector<std::unique_ptr<Enemy>>& Room::GetEnemies(){
+  std::cout << "methode mère" << std::endl;
+  std::vector<std::unique_ptr<Enemy>> enemy; //this will never be used
+  return enemy;
+}
 
-    std::vector<DeckParts*> Room::GetHands(){
-      std::cout << "methode mère" << std::endl;
-      return std::vector<DeckParts*>();}
+std::vector<DeckParts*> Room::GetHands(){
+  std::cout << "methode mère" << std::endl;
+  return std::vector<DeckParts*>();
+}
 
-    std::vector<DeckParts*> Room::GetDrawPiles(){
-      std::cout << "methode mère" << std::endl;
-      return std::vector<DeckParts*>();}
+std::vector<DeckParts*> Room::GetDrawPiles(){
+  std::cout << "methode mère" << std::endl;
+  return std::vector<DeckParts*>();
+}
 
-    std::vector<DeckParts*> Room::GetDiscardPiles(){
-      std::cout << "methode mère" << std::endl;
-      return std::vector<DeckParts*>();}
+std::vector<DeckParts*> Room::GetDiscardPiles(){
+  std::cout << "methode mère" << std::endl;
+  return std::vector<DeckParts*>();
+}
 
-    std::vector<Card*> Room::GetCardReward(){
-      std::cout << "methode mère" << std::endl;
-      return std::vector<Card*>();}
+std::vector<Card*> Room::GetCardReward(){
+  std::cout << "methode mère" << std::endl;
+  return std::vector<Card*>();
+}
 
-    void Room::SetHands(std::vector<DeckParts*> hands){}
-    void Room::SetDiscardPiles(std::vector<DeckParts*> discardPiles){}
-    void Room::SetDrawPiles(std::vector<DeckParts*> drawPiles){}
+void Room::SetHands(std::vector<DeckParts*> hands){}
+void Room::SetDiscardPiles(std::vector<DeckParts*> discardPiles){}
+void Room::SetDrawPiles(std::vector<DeckParts*> drawPiles){}
 
-    void Room::SetEntityTurn(int entityNb){}
-    void Room::SetTurn(int entityNb){}
+void Room::SetEntityTurn(int entityNb){}
+void Room::SetTurn(int entityNb){}
 
-    std::vector<Card*> Room::GetReward(){return{};}
-    void Room::SetReward(std::vector<Card*>){}
+std::vector<Card*> Room::GetReward(){return{};}
+void Room::SetReward(std::vector<Card*>){}
+
+bool Room::GetIsGameLost(){
+  std::cout << "methode mère" << std::endl;
+  return false;
+}
+
+void Room::SetIsGameLost(bool isGameLost){}
+
+bool Room::GetIsFightWon(){
+  std::cout << "methode mère" << std::endl;
+  return false;
+}
+
+void Room::SetIsFightWon(bool isFightWon){}
+
+int Room::GetTurn(){
+  return 0;
+}

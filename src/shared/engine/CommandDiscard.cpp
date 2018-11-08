@@ -11,40 +11,40 @@ CommandDiscard::CommandDiscard (){}
 
 void CommandDiscard::Execute (std::shared_ptr<state::GameState>& gameState){
   int floorNb = gameState->GetMap()->GetCurrentFloor();
-  state::EnemyRoom* room = gameState->GetMap()->GetFloors()[floorNb]->GetCurrentRoom();
+  Room* room = gameState->GetMap()->GetFloors()[floorNb]->GetCurrentRoom().get();
 
-  std::vector<DeckParts*> hands = room->GetHands()
-  std::vector<DeckParts*> discardPiles = room->GetDiscardPiles()
+  std::vector<DeckParts*> hands = room->GetHands();
+  std::vector<DeckParts*> discardPiles = room->GetDiscardPiles();
 
-  DeckParts* hand = hands[entityId];
-  DeckParts* discardPile = discardPiles[entityId];
+  std::vector<Card*> handCards = hands[entityID]->GetCards();
+  std::vector<Card*> discardPileCards = discardPiles[entityID]->GetCards();
 
-  discardPile.push_back(hand[cardID]);
-  hand.erase(hand.begin() + cardID);
+  discardPileCards.push_back(handCards[cardID]);
+  handCards.erase(handCards.begin() + cardID);
 
-  hands[entityId] = hand;
-  discardPiles[entityId] = discardPile;
+  hands[entityID]->SetCards(handCards);
+  discardPiles[entityID]->SetCards(discardPileCards);
 
   room->SetHands(hands);
-  room->SetDiscardPiles(DiscardPiles);
+  room->SetDiscardPiles(discardPiles);
 }
 
 void CommandDiscard::Undo (std::shared_ptr<state::GameState>& gameState){
   int floorNb = gameState->GetMap()->GetCurrentFloor();
-  EnemyRoom* room = gameState->GetMap()->GetFloors()[floorNb]->GetCurrentRoom();
+  Room* room = gameState->GetMap()->GetFloors()[floorNb]->GetCurrentRoom().get();
 
-  std::vector<DeckParts*> hands = room->GetHands()
-  std::vector<DeckParts*> discardPiles = room->GetDiscardPiles()
+  std::vector<DeckParts*> hands = room->GetHands();
+  std::vector<DeckParts*> discardPiles = room->GetDiscardPiles();
 
-  DeckParts* hand = hands[entityId];
-  DeckParts* discardPile = discardPiles[entityId];
+  std::vector<Card*> handCards = hands[entityID]->GetCards();
+  std::vector<Card*> discardPileCards = discardPiles[entityID]->GetCards();
 
-  hand.push_back(discardPile.back());
-  discardPile.pop_back();
+  handCards.push_back(discardPileCards.back());
+  discardPileCards.pop_back();
 
-  hands[entityId] = hand;
-  discardPiles[entityId] = discardPile;
+  hands[entityID]->SetCards(handCards);
+  discardPiles[entityID]->SetCards(discardPileCards);
 
   room->SetHands(hands);
-  room->SetDiscardPiles(DiscardPiles);
+  room->SetDiscardPiles(discardPiles);
 }
