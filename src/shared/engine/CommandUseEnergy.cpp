@@ -14,14 +14,14 @@ CommandUseEnergy::CommandUseEnergy(int energyAmount, int playerId){
   this -> energyAmount = energyAmount;
 }
 void CommandUseEnergy::Execute(std::shared_ptr<state::GameState>& gameState){
-  cout<<"Use "<<energyAmount<<" energy of player "<<playerId<<endl;
+  cout<<"Use "<<energyAmount<<" energy of player "<<entityID<<endl;
   if(entityID >=0 && entityID < 2){
     gameState -> GetPlayers()[entityID] -> SetEnergy(energyAmount);
   }
 }
 
 void CommandUseEnergy::Undo (std::shared_ptr<state::GameState>& gameState){
-  cout<<"Undo Use "<<energyAmount<<" energy of player "<<playerId<<endl;
+  cout<<"Undo Use "<<energyAmount<<" energy of player "<<entityID<<endl;
   if(entityID >=0 && entityID < 2){
      gameState -> GetPlayers()[entityID] -> SetEnergy(gameState -> GetPlayers()[entityID] -> GetEnergy() + energyAmount);
   }
