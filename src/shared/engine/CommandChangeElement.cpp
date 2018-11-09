@@ -11,7 +11,7 @@ CommandChangeElement::CommandChangeElement (int entityID, int element): entityID
 CommandChangeElement::CommandChangeElement (){}
 
 void CommandChangeElement::Execute (std::shared_ptr<state::GameState>& gameState){
-  if (entityID > 0){
+  if (entityID >= 0){
     cout<<"Change element of entity "<<entityID<<" to "<<element<<endl;
     if (entityID < 2){
       PlayerManager* PM = PlayerManager::instance();

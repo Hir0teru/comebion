@@ -13,7 +13,7 @@ CommandDie::CommandDie (){}
 void CommandDie::Execute (std::shared_ptr<state::GameState>& gameState){
   cout<<"Entity "<<entityID<<" died"<<endl;
   Entity* selected_entity = nullptr;
-  if (entityID > 0 && entityID < 2){
+  if (entityID >= 0 && entityID < 2){
     PlayerManager* PM = PlayerManager::instance();
     selected_entity = (*PM)[entityID];
   } else {

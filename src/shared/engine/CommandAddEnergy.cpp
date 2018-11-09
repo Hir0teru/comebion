@@ -11,7 +11,7 @@ CommandAddEnergy::CommandAddEnergy (int entityID, int energyAmount): entityID(en
 CommandAddEnergy::CommandAddEnergy (){}
 
 void CommandAddEnergy::Execute (std::shared_ptr<state::GameState>& gameState){
-  if (entityID > 0 && entityID < 2 ){
+  if (entityID >= 0 && entityID < 2 ){
     cout<<"Add "<<energyAmount<< " energy to entity "<<entityID<<endl;
     gameState->GetPlayers()[entityID]->SetEnergy(gameState->GetPlayers()[entityID]->GetEnergy() + energyAmount);
   }

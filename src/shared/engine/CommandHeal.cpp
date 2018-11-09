@@ -15,7 +15,7 @@ CommandHeal::CommandHeal (){}
 
 void CommandHeal::Execute (std::shared_ptr<state::GameState>& gameState){
   cout<<"Heal entity "<<entityID<<" of "<<heal<<" hp"<<endl;
-  if (entityID > 0 && entityID < 2){
+  if (entityID >= 0 && entityID < 2){
     PlayerManager* PM = PlayerManager::instance();
     (*PM)[entityID]->SetLife((*PM)[entityID]->GetLife() + heal);
   } else {
@@ -32,7 +32,7 @@ void CommandHeal::Execute (std::shared_ptr<state::GameState>& gameState){
 
 void CommandHeal::Undo (std::shared_ptr<state::GameState>& gameState){
   cout<<"Undo Heal entity "<<entityID<<" of "<<heal<<" hp"<<endl;
-  if (entityID > 0 && entityID < 2){
+  if (entityID >= 0 && entityID < 2){
     PlayerManager* PM = PlayerManager::instance();
     (*PM)[entityID]->SetLife((*PM)[entityID]->GetLife() - heal);
   } else {

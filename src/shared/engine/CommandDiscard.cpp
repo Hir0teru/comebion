@@ -12,7 +12,7 @@ CommandDiscard::CommandDiscard (){}
 
 void CommandDiscard::Execute (std::shared_ptr<state::GameState>& gameState){
   cout<<"Discard card number "<<cardID<<" from player "<<entityID<<endl;
-  if (entityID > 0 && entityID < 2){
+  if (entityID >= 0 && entityID < 2){
     int floorNb = gameState->GetMap()->GetCurrentFloor();
     Room* room = gameState->GetMap()->GetFloors()[floorNb]->GetCurrentRoom().get();
 
