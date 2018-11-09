@@ -46,6 +46,7 @@ void CommandNextEntity::Execute (std::shared_ptr<state::GameState>& gameState){
       entityTurn = 0;
     }
   }
+  else{ entityTurn+=1;}
   std::cout<<"Set next entity : " << entityTurn << std::endl;
   gameState -> GetMap() -> GetFloors()[floorNb] -> GetCurrentRoom() -> SetEntityTurn(entityTurn);
 }

@@ -60,7 +60,6 @@ void testEngine(){
     moteur -> AddCommand(std::make_shared<CommandNextEntity>());
     entityTurn = 1;
     moteur -> AddCommand(std::make_shared<CommandShuffle>(entityTurn));
-    moteur -> AddCommand(std::make_shared<CommandShuffle>(entityTurn));
     moteur -> AddCommand(std::make_shared<CommandDraw>(entityTurn)); // on pioche 5 cartes
     moteur -> AddCommand(std::make_shared<CommandDraw>(entityTurn));
     moteur -> AddCommand(std::make_shared<CommandDraw>(entityTurn));
