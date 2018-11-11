@@ -17,6 +17,32 @@ using namespace state;
 using namespace render;
 using namespace engine;
 
+void test(){
+  PlayerManager* PM = PlayerManager::instance();
+  std::shared_ptr<GameState> gameState = std::make_shared<state::GameState>();
+  std::vector<Player*> players;
+  players.push_back((*PM)[0]);
+  players.push_back((*PM)[1]);
+  gameState -> SetPlayers(players);
+  Moteur* moteur = new Moteur(gameState);
+  moteur -> AddCommand(std::make_shared<CommandShuffle>(0));
+  moteur -> AddCommand(std::make_shared<CommandDraw>(0)); // on pioche 5 cartes
+  moteur -> AddCommand(std::make_shared<CommandDraw>(0));
+  moteur -> AddCommand(std::make_shared<CommandDraw>(0));
+  moteur -> AddCommand(std::make_shared<CommandDraw>(0));
+  moteur -> AddCommand(std::make_shared<CommandDraw>(0));
+  moteur -> Update();
+  moteur -> Update();
+  moteur -> Update();
+  moteur -> Update();
+  moteur -> Update();
+  moteur -> Update();
+
+  View* view = new View(gameState);
+
+  view -> Draw();
+}
+
 void testEngine(){
   PlayerManager* PM = PlayerManager::instance();
   std::shared_ptr<GameState> gameState = std::make_shared<state::GameState>();
@@ -802,6 +828,11 @@ int main(int argc,char* argv[])
 
     if (argc == 2 and std::string(argv[1] )== "engine"){
       testEngine();
+    }
+
+
+    if (argc == 2 and std::string(argv[1] )== "test"){
+      test();
     }
 
     delete SkillManager::instance();

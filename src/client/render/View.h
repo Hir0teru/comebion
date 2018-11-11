@@ -24,7 +24,7 @@ namespace render {
   private:
     std::unique_ptr<Rendu> rendu;
     std::shared_ptr<state::GameState> gameState;
-    std::unique_ptr<sf::RenderWindow> window;
+    sf::RenderWindow window;
     // Operations
   public:
     View ();
@@ -32,7 +32,7 @@ namespace render {
     ~View ();
     std::unique_ptr<Rendu>& GetRendu ();
     std::shared_ptr<state::GameState>& GetGameState ();
-    std::unique_ptr<sf::RenderWindow>& GetWindow ();
+    sf::RenderWindow& GetWindow ();
     void Draw ();
     // Setters and Getters
   };

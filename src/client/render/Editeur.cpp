@@ -622,7 +622,7 @@ Editeur::Editeur (int x, int y, float scale, state::Player* player){
   this -> x = x;
   this -> y = y;
 
-  if (!texture.create(int(500*scale), int(800*scale))){
+  if (!texture.create(int(300*scale), int(450*scale))){
     std::cout<<"RenderTexture error"<<std::endl;
     throw std::invalid_argument("error with argument");
   }
@@ -1030,7 +1030,7 @@ Editeur::Editeur(int x, int y, float scale, std::unique_ptr<state::Enemy>& enemy
   this -> x = x;
   this -> y = y;
 
-  if (!texture.create(int(500*scale), int(800*scale))){
+  if (!texture.create(int(300*scale), int(450*scale))){
     std::cout<<"RenderTexture error"<<std::endl;
     throw std::invalid_argument("error with argument");
   }
@@ -1444,8 +1444,11 @@ if (enemy -> GetBuff().GetAttackPlus() > 0){
 
 Editeur::~Editeur(){}
 
-void Editeur::Click(int x, int y){
-
+bool Editeur::Click(int x, int y){
+  sf::Vector2u size = texture.getSize();
+  if(x > (this -> x + 80) && x <= (this -> x +(int) size.x + 20) && y > (this -> y + 70) && y <= (this -> y +(int) size.y - 20)){
+    return true;
+  } else return false;
 }
 
 int const Editeur::GetX(){
@@ -2029,7 +2032,7 @@ void Editeur::SetEditeurCard( float scale, state::Card* card, int statAttack , i
 
 void Editeur::SetEditeurPlayer(float scale, state::Player* player){
 
-  if (!texture.create(int(500*scale), int(800*scale))){
+  if (!texture.create(int(300*scale), int(450*scale))){
     std::cout<<"RenderTexture error"<<std::endl;
     throw std::invalid_argument("error with argument");
   }
@@ -2432,7 +2435,7 @@ void Editeur::SetEditeurPlayer(float scale, state::Player* player){
 }
 
 void Editeur::SetEditeurEnemy(float scale, std::unique_ptr<Enemy>& enemy){
-  if (!texture.create(int(500*scale), int(800*scale))){
+  if (!texture.create(int(300*scale), int(450*scale))){
     std::cout<<"RenderTexture error"<<std::endl;
     throw std::invalid_argument("error with argument");
   }

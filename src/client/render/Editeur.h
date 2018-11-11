@@ -36,7 +36,7 @@ namespace render {
     Editeur (int x, int y, float scale, state::Card* card, int statAttack, int statBlock);
     Editeur (int x, int y, float scale, state::Player* player);
     Editeur (int x, int y, float scale, std::unique_ptr<state::Enemy>& enemy);
-    void Click (int x, int y);
+    bool Click (int x, int y);
     int const GetX ();
     void SetX (int x);
     int const GetY ();
