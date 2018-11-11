@@ -8,13 +8,14 @@ using namespace render;
 using namespace state;
 
 
-    Rendu::Rendu(){
+    Rendu::Rendu(){}
+
+    Rendu::Rendu(std::shared_ptr<GameState>& gameState){
       dimensionX = 1080;
       dimensionY = 720;
-      gamestate = std::make_shared<state::GameState>();
-
-
+      this -> gameState = gameState;
     }
+
     Rendu::~Rendu (){
 
     }
@@ -73,7 +74,7 @@ using namespace state;
 
     }
     std::shared_ptr<state::GameState>& Rendu::GetGameState (){
-      return gamestate;
+      return gameState;
     }
     void Rendu::SetTextureCards (std::vector<std::unique_ptr<Editeur>>& textureCards){
       this -> textureCards = std::move(textureCards);
@@ -280,8 +281,8 @@ using namespace state;
         throw std::invalid_argument("error with argument");
       }
       texture.clear(sf::Color::Transparent);
-      int currentFloor = gamestate -> GetMap() ->  GetCurrentFloor();
-      std::unique_ptr<Floor>& floor = gamestate -> GetMap() ->  GetFloors()[currentFloor];
+      int currentFloor = gameState -> GetMap() ->  GetCurrentFloor();
+      std::unique_ptr<Floor>& floor = gameState -> GetMap() ->  GetFloors()[currentFloor];
       std::shared_ptr<Room> currentRoom = floor -> GetFirstRoom();
 
       int element = floor -> GetElement();
@@ -371,8 +372,8 @@ void Rendu::SetTextureRoom(){
   textureEnemies.clear();
   texturePlayers.clear();
   texturePiles.clear();
-  int floorNb = gamestate -> GetMap() -> GetCurrentFloor();
-  std::shared_ptr<Room>& room = gamestate -> GetMap() -> GetFloors()[floorNb] -> GetCurrentRoom();
+  int floorNb = gameState -> GetMap() -> GetCurrentFloor();
+  std::shared_ptr<Room>& room = gameState -> GetMap() -> GetFloors()[floorNb] -> GetCurrentRoom();
 
 
   SetBackground(room -> GetImageInsideRoom());
@@ -544,7 +545,7 @@ void Rendu::SetTextureRoom(){
 
 
 
-      std::vector<Player*> players = gamestate -> GetPlayers();
+      std::vector<Player*> players = gameState -> GetPlayers();
 
       int x = 10;
       int y = 300;

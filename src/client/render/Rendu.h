@@ -38,7 +38,7 @@ namespace render {
   private:
     int dimensionX;
     int dimensionY;
-    std::shared_ptr<state::GameState> gamestate;
+    std::shared_ptr<state::GameState> gameState;
     std::vector<std::unique_ptr<Editeur>> textureCards;
     std::vector<std::unique_ptr<Editeur>> texturePiles;
     std::vector<std::unique_ptr<Editeur>> textureEnemies;
@@ -50,6 +50,7 @@ namespace render {
     // Operations
   public:
     Rendu ();
+    Rendu (std::shared_ptr<state::GameState>& gameState);
     ~Rendu ();
     void Click (int x, int y);
     void DrawInsideRoom ();

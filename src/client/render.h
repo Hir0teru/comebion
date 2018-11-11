@@ -4,4 +4,5 @@
 
 #include "render/Editeur.h"
 #include "render/Rendu.h"
+#include "render/View.h"
 #endif

@@ -19,13 +19,14 @@ using namespace engine;
 
 void testEngine(){
   PlayerManager* PM = PlayerManager::instance();
-  Rendu* rendu = new Rendu();
+  std::shared_ptr<GameState> gameState = std::make_shared<state::GameState>();
+  Rendu* rendu = new Rendu(gameState);
   std::vector<Player*> players;
   players.push_back((*PM)[0]);
   players.push_back((*PM)[1]);
   rendu -> GetGameState() -> SetPlayers(players);
   sf::RenderWindow window(sf::VideoMode(rendu -> GetDimensionX(), rendu -> GetDimensionY()), "Test image");
-  Moteur* moteur = new Moteur(rendu -> GetGameState());
+  Moteur* moteur = new Moteur(gameState);
   moteur -> AddCommand(std::make_shared<CommandEnterRoom>()); //salle d'ennemy
 
 
@@ -112,43 +113,37 @@ void testEngine(){
 
 
 std::cout << "press a key for next step" << std::endl;
-  while(window.isOpen()){
+sf::Event event;
+sf::Sprite sprite;
+rendu -> SetTextureMap(1);
+sprite.setTexture(rendu -> GetTextureMap().getTexture());
 
+while(window.isOpen()){
 
-    sf::Event event;
-    sf::Sprite sprite;
-    while (window.pollEvent(event)){
-      if (event.type == sf::Event::Closed){
+  window.clear(sf::Color::White);
+  window.draw(sprite);
+  window.display();
 
-        window.close();
-      }
-      if(event.type == sf::Event::KeyReleased){
-        moteur -> Update();
+  while (window.pollEvent(event)){
+    if (event.type == sf::Event::Closed){
 
-      }
+      window.close();
     }
-    if(!rendu -> GetGameState() -> GetIsInsideRoom()){
-      rendu -> SetTextureMap(1);
-      window.clear(sf::Color::White);
-      sprite.setTexture(rendu -> GetTextureMap().getTexture());
-      window.draw(sprite);
-      window.display();
-    }
-    else{
-      rendu -> SetTextureRoom();
-      rendu -> DrawInsideRoom();
-      window.clear(sf::Color::White);
-
-      // sprite.setTexture(rendu -> GetTextureMap().getTexture());
-      sprite.setTexture(rendu -> GetTexture().getTexture());
-
-      window.draw(sprite);
-
-      window.display();
+    if(event.type == sf::Event::KeyReleased){
+      moteur -> Update();
+      if(!rendu -> GetGameState() -> GetIsInsideRoom()){
+        rendu -> SetTextureMap(1);
+        sprite.setTexture(rendu -> GetTextureMap().getTexture());
+      }
+      else{
+        rendu -> SetTextureRoom();
+        rendu -> DrawInsideRoom();
+        sprite.setTexture(rendu -> GetTexture().getTexture());
+        }
+      }
     }
   }
 }
-
 
 
 

@@ -22,12 +22,10 @@ void CommandDraw::Execute (std::shared_ptr<state::GameState>& gameState){
     std::vector<Card*> drawPileCards = drawPiles[entityID]->GetCards();
     if (hands[entityID] -> GetSize() < 7){
     handCards.push_back(drawPileCards[drawPiles[entityID] -> GetSize() - 1]);
-    drawPileCards.erase(drawPileCards.begin() +drawPiles[entityID] -> GetSize() - 1);
+    drawPileCards.erase(drawPileCards.begin() + drawPiles[entityID] -> GetSize() - 1);
 
     gameState->GetMap()->GetFloors()[floorNb]->GetCurrentRoom() -> GetHands()[entityID]->SetCards(handCards);
-    gameState->GetMap()->GetFloors()[floorNb]->GetCurrentRoom() -> GetHands()[entityID] ->SetSize(hands[entityID]->GetSize() + 1);
     gameState->GetMap()->GetFloors()[floorNb]->GetCurrentRoom() -> GetDrawPiles()[entityID]->SetCards(drawPileCards);
-    gameState->GetMap()->GetFloors()[floorNb]->GetCurrentRoom() -> GetDrawPiles()[entityID]->SetSize(drawPiles[entityID] -> GetSize() - 1 );
   }
     // room->SetHands(hands);
     // room->SetDrawPiles(drawPiles);
