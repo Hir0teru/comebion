@@ -95,7 +95,7 @@ void testEngine(){
       moteur -> AddCommand(std::make_shared<CommandDiscard>( entityTurn, 0));
     }
     //next player
-    moteur -> AddCommand(std::make_shared<CommandNextEntity>());
+    // moteur -> AddCommand(std::make_shared<CommandNextEntity>());
     entityTurn = 1;
     moteur -> AddCommand(std::make_shared<CommandShuffle>(entityTurn));
     moteur -> AddCommand(std::make_shared<CommandDraw>(entityTurn)); // on pioche 5 cartes
@@ -117,14 +117,14 @@ void testEngine(){
       moteur -> AddCommand(std::make_shared<CommandDiscard>( entityTurn, 0));
     }
     //next enemy
-    moteur -> AddCommand(std::make_shared<CommandNextEntity>());
+    // moteur -> AddCommand(std::make_shared<CommandNextEntity>());
     entityTurn = 2;
 
     moteur -> AddCommand(std::make_shared<CommandAttack>(rendu -> GetGameState() -> GetMap() ->GetFloors()[0] -> GetCurrentRoom() -> GetEnemies()[entityTurn - 2 ] -> GetSkills()[2] -> GetAttack(), 0));
     moteur -> AddCommand(std::make_shared<CommandAddBlock>(rendu -> GetGameState() -> GetMap() ->GetFloors()[0] -> GetCurrentRoom() -> GetEnemies()[entityTurn - 2 ] -> GetSkills()[2] -> GetBlock(), 2));
     moteur -> AddCommand(std::make_shared<CommandAddDebuff>(0, *rendu -> GetGameState() ->GetMap() -> GetFloors()[0] -> GetCurrentRoom() -> GetEnemies()[entityTurn - 2 ] -> GetSkills()[2] -> GetDebuff()));
 
-    moteur -> AddCommand(std::make_shared<CommandNextEntity>());
+    // moteur -> AddCommand(std::make_shared<CommandNextEntity>());
     // moteur -> AddCommand(std::make_shared<CommandDie>(0));
     moteur -> AddCommand(std::make_shared<CommandDie>(2));
 

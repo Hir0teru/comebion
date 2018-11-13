@@ -21,6 +21,8 @@ AI_Random::AI_Random (std::shared_ptr<state::GameState> gameState, std::shared_p
   } else entityID = 0;
 
 }
+
+
 std::vector<std::shared_ptr<engine::Command>> AI_Random::GetPossibleCommands (){
   std::vector<std::shared_ptr<engine::Command>> possibleCommands;
 
@@ -34,21 +36,33 @@ std::vector<std::shared_ptr<engine::Command>> AI_Random::GetPossibleCommands (){
     if (room->GetIsSleepRoom()){
       possibleCommands.push_back(std::make_shared<engine::CommandHeal>(room->GetHeal(), entityID));
       possibleCommands.push_back(std::make_shared<engine::CommandChangeStat>(gameState->GetPlayers()[entityID]->GetStatAttack() + 2,gameState->GetPlayers()[entityID]->GetStatBlock() + 2,  entityID));
-    } else if(room->GetIsSpecialTrainingRoom()){
+    } else if (room->GetIsSpecialTrainingRoom()) {
       possibleCommands.push_back(std::make_shared<engine::CommandAddCard>(entityID, 0, gameState->GetPlayers()[entityID]->GetDeck()->GetSize() == 15));
       possibleCommands.push_back(std::make_shared<engine::CommandAddCard>(entityID, 1, gameState->GetPlayers()[entityID]->GetDeck()->GetSize() == 15));
       possibleCommands.push_back(std::make_shared<engine::CommandAddCard>(entityID, 2, gameState->GetPlayers()[entityID]->GetDeck()->GetSize() == 15));
-      possibleCommands.push_back(std::make_shared<engine::CommandExitRoom>());
-    } else{ //enemyroom
 
+    } else { //enemyroom
+      possibleCommands.push_back(std::make_shared<engine::CommandNextEntity>());
+      
     }
   }
+  return possibleCommands;
 }
-std::shared_ptr<engine::Command> AI_Random::ChooseCommand (){
+
+
+std::shared_ptr<engine::Command> AI_Random::Play (){
   std::vector<std::shared_ptr<engine::Command>> commands = GetPossibleCommands();
   int index = rand() % (int) commands.size();
-  return commands[index];
-}
-void AI_Random::ExecuteCommand(std::shared_ptr<engine::Command> command){
+  std::shared_ptr<Command> command_chosen = commands[index];
 
+  int floorNb = gameState->GetMap()->GetCurrentFloor();
+  gameState->GetMap()->GetFloors()[floorNb]->GetCurrentRoom()->GetEnemies();
+
+  if (gameState->GetMap()->GetFloors()[floorNb]->GetCurrentRoom()->GetIsSpecialTrainingRoom() || gameState->GetMap()->GetFloors()[floorNb]->GetCurrentRoom()->GetIsSleepRoom()) {
+    command_chosen.Execute(gameState);
+    CommandExitRoom command;
+    command.Execute();
+  } else {
+    command_chosen.Execute(gameState);
+  }
 }

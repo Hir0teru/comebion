@@ -97,7 +97,7 @@ void View::Draw (){
                 (int) sf::Mouse::getPosition(window).x > 885 && (int) sf::Mouse::getPosition(window).x < 995 &&
                 (int) sf::Mouse::getPosition(window).y > 655 && (int) sf::Mouse::getPosition(window).y < 688){
                   std::cout << " clicked on next turn" << std::endl;
-                  moteur -> AddCommand(std::make_shared<CommandNextEntity>());
+                  // moteur -> AddCommand(std::make_shared<CommandNextEntity>());
                   moteur -> Update();
                   rendu -> UpdateTexturesCards();
                   rendu -> UpdateTexturesPiles();
