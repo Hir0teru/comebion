@@ -11,6 +11,8 @@ CommandExitRoom::CommandExitRoom (){}
 void CommandExitRoom::Execute (std::shared_ptr<state::GameState>& gameState){
   cout<<"Exit current room"<<endl;
   gameState->SetIsInsideRoom(false);
+  CommandChangeRoom command();
+  command.Execute(gameState);
 }
 
 void CommandExitRoom::Undo (std::shared_ptr<state::GameState>& gameState){

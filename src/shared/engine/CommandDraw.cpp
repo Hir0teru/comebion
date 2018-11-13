@@ -1,5 +1,6 @@
 #include "CommandDraw.h"
 #include "state/PlayerManager.h"
+#include "CommandShuffle.h"
 #include <iostream>
 
 using namespace state;
@@ -20,6 +21,15 @@ void CommandDraw::Execute (std::shared_ptr<state::GameState>& gameState){
 
     std::vector<Card*> handCards = hands[entityID]->GetCards();
     std::vector<Card*> drawPileCards = drawPiles[entityID]->GetCards();
+    if((int) drawPileCards.size() <=0){
+      CommandShuffle command(entityID);
+      command.Execute(gameState);
+    }
+    hands = room->GetHands();
+    drawPiles = room->GetDrawPiles();
+
+    handCards = hands[entityID]->GetCards();
+    drawPileCards = drawPiles[entityID]->GetCards();
     if (hands[entityID] -> GetSize() < 7){
     handCards.push_back(drawPileCards[drawPiles[entityID] -> GetSize() - 1]);
     drawPileCards.erase(drawPileCards.begin() + drawPiles[entityID] -> GetSize() - 1);

@@ -47,6 +47,13 @@ void CommandNextEntity::Execute (std::shared_ptr<state::GameState>& gameState){
     }
   }
   else{ entityTurn+=1;}
+
+  if(entityTurn >=0 && entityTurn < 2){
+    for(int j = 0; j < 5; j++){
+      CommandDraw commandDraw(entityTurn);
+      commandDraw.Execute(gameState);
+    }
+  }
   std::cout<<"Set next entity : " << entityTurn << std::endl;
   gameState -> GetMap() -> GetFloors()[floorNb] -> GetCurrentRoom() -> SetEntityTurn(entityTurn);
 }

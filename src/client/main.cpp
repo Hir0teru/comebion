@@ -28,17 +28,17 @@ void test(){
   // moteur -> AddCommand(std::make_shared<CommandChangeRoom>());
   // moteur -> AddCommand(std::make_shared<CommandChangeRoom>());
   // moteur -> AddCommand(std::make_shared<CommandChangeRoom>());
-  moteur -> AddCommand(std::make_shared<CommandEnterRoom>());
+  // moteur -> AddCommand(std::make_shared<CommandEnterRoom>());
   // moteur -> AddCommand(std::make_shared<CommandShuffle>(0));
   // moteur -> AddCommand(std::make_shared<CommandDraw>(0)); // on pioche 5 cartes
   // moteur -> AddCommand(std::make_shared<CommandDraw>(0));
   // moteur -> AddCommand(std::make_shared<CommandDraw>(0));
   // moteur -> AddCommand(std::make_shared<CommandDraw>(0));
   // moteur -> AddCommand(std::make_shared<CommandDraw>(0));
-  moteur-> Update();
-  moteur -> Update();
-  moteur -> Update();
-  moteur -> Update();
+  // moteur-> Update();
+  // moteur -> Update();
+  // moteur -> Update();
+  // moteur -> Update();
   // moteur -> Update();
   // moteur -> Update();
   // moteur -> Update();

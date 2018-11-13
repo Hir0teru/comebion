@@ -91,6 +91,10 @@ namespace render {
     sf::RenderTexture& GetTextureMap ();
     void SetTextureMap (float scale);
     void SetTextureRoom ();
+    void UpdateTexturesCards ();
+    void UpdateTexturesPlayers ();
+    void UpdateTexturesEnemies ();
+    void UpdateTexturesPiles ();
     // Setters and Getters
   };
 

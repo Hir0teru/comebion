@@ -38,7 +38,6 @@ void CommandPlaySkill::Execute (std::shared_ptr<state::GameState>& gameState){
 
   if (enemyID >= 2){
     int floorNb = gameState->GetMap()->GetCurrentFloor();
-    std::shared_ptr<Room>& room = gameState->GetMap()->GetFloors()[floorNb]->GetCurrentRoom();
     SkillManager* SM = SkillManager::instance();
     EnemySkill* selectedSkill = (*SM)[skillIndex];
     PlayerManager* PM = PlayerManager::instance();

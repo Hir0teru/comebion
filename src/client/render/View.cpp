@@ -1,7 +1,10 @@
 #include "View.h"
+#include "engine.h"
+#include "state.h"
 #include <iostream>
 
 using namespace render;
+using namespace engine;
 
 
 
@@ -68,7 +71,12 @@ void View::Draw (){
           if(!gameState -> GetIsInsideRoom()){
             if((int) sf::Mouse::getPosition(window).x > 505 && (int) sf::Mouse::getPosition(window).x < 620 &&
             (int) sf::Mouse::getPosition(window).y > 505 && (int) sf::Mouse::getPosition(window).y < 535){
-                std::cout << "clicked on next room" << std::endl;
+                std::cout << "clicked on enter room" << std::endl;
+                moteur -> AddCommand(std::make_shared<CommandEnterRoom>()); //salle d'ennemy
+                moteur -> Update();
+                rendu -> SetTextureRoom();
+                rendu -> DrawInsideRoom();
+                sprite.setTexture(rendu -> GetTexture().getTexture());
               }
           }
           else{
@@ -89,6 +97,12 @@ void View::Draw (){
                 (int) sf::Mouse::getPosition(window).x > 885 && (int) sf::Mouse::getPosition(window).x < 995 &&
                 (int) sf::Mouse::getPosition(window).y > 655 && (int) sf::Mouse::getPosition(window).y < 688){
                   std::cout << " clicked on next turn" << std::endl;
+                  moteur -> AddCommand(std::make_shared<CommandNextEntity>());
+                  moteur -> Update();
+                  rendu -> UpdateTexturesCards();
+                  rendu -> UpdateTexturesPiles();
+                  rendu -> DrawInsideRoom();
+                  sprite.setTexture(rendu -> GetTexture().getTexture());
 
               } else if((gameState ->GetMap() ->  GetFloors()[gameState -> GetMap() -> GetCurrentFloor()] -> GetCurrentRoom() -> GetIsSpecialTrainingRoom() ||
                     (gameState ->GetMap() ->  GetFloors()[gameState -> GetMap() -> GetCurrentFloor()] -> GetCurrentRoom() -> GetIsEnemyRoom() &&
@@ -96,6 +110,11 @@ void View::Draw (){
                 (int) sf::Mouse::getPosition(window).x > 488 && (int) sf::Mouse::getPosition(window).x < 595 &&
                 (int) sf::Mouse::getPosition(window).y > 460 && (int) sf::Mouse::getPosition(window).y < 486){
                   std::cout << " clicked on pass" << std::endl;
+                  moteur -> AddCommand(std::shared_ptr<CommandExitRoom>());
+                  moteur -> Update();
+                  rendu -> SetTextureRoom();
+                  rendu -> DrawInsideRoom();
+                  sprite.setTexture(rendu -> GetTexture().getTexture());
 
               } else if(gameState ->GetMap() ->  GetFloors()[gameState -> GetMap() -> GetCurrentFloor()] -> GetCurrentRoom() -> GetIsSleepRoom() &&
                 (int) sf::Mouse::getPosition(window).x > 355 && (int) sf::Mouse::getPosition(window).x < 465 &&

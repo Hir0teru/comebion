@@ -378,7 +378,7 @@ using namespace state;
         throw std::invalid_argument("error with argument");
       }
       text.setFont(font);
-      text.setString("Next Room");
+      text.setString("Enter Room");
       text.setColor(sf::Color::Black);
       text.setCharacterSize(15 * scale);
       text.setStyle(sf::Text::Bold);
@@ -695,6 +695,71 @@ void Rendu::SetTextureRoom(){
 
         background.display();
       }
+    }
+  }
+}
+
+void Rendu::UpdateTexturesPiles(){
+  float scale = dimensionX / 1080.;
+  int floorNb = gameState -> GetMap() -> GetCurrentFloor();
+  std::shared_ptr<Room>& room = gameState -> GetMap() -> GetFloors()[floorNb] -> GetCurrentRoom();
+  texturePiles.clear();
+  int entityTurn =  room -> GetEntityTurn(); //0, 1 = joueurs, 2,3,4 = ennemis
+  if( entityTurn >= 0 && entityTurn < 2){
+
+    AddTexturePile(10 *scale, 480 * scale, scale/4,  "res/textures/cards/back_card_fin.png", room -> GetDrawPiles()[entityTurn] -> GetSize());
+
+    AddTexturePile(900 *scale, 480 * scale, scale/4, "res/textures/cards/back_card_fin.png", room -> GetDiscardPiles()[entityTurn] -> GetSize());
+  }
+}
+
+void Rendu::UpdateTexturesPlayers(){
+  float scale = dimensionX / 1080.;
+  texturePlayers.clear();
+  std::vector<Player*> players = gameState -> GetPlayers();
+
+  int x = 10;
+  int y = 300;
+  for (auto player : players){
+    if(player -> GetIsEntityAlive()){
+      AddTexturePlayer(x* scale/1.5, y * scale/1.5, scale/1.5, player);
+      x+= 250;
+    }
+  }
+}
+
+void Rendu::UpdateTexturesCards(){
+  float scale = dimensionX / 1080.;
+  textureCards.clear();
+  int floorNb = gameState -> GetMap() -> GetCurrentFloor();
+  std::shared_ptr<Room>& room = gameState -> GetMap() -> GetFloors()[floorNb] -> GetCurrentRoom();
+  std::vector<Player*> players = gameState -> GetPlayers();
+  int entityTurn =  room -> GetEntityTurn(); //0, 1 = joueurs, 2,3,4 = ennemis
+  if( entityTurn >= 0 && entityTurn < 2){
+    std::vector<Card*> cards =  room -> GetHands()[entityTurn] -> GetCards();
+    int x = 120;
+    int y = 480;
+    int statAttack = players[entityTurn] -> GetStatAttack();
+    int statBlock = players[entityTurn] -> GetStatBlock();
+    for (auto card : cards){
+        AddTextureCard(x * scale, y * scale, scale/3, card, statAttack, statBlock);
+        x+= 110;
+    }
+  }
+}
+
+void Rendu::UpdateTexturesEnemies(){
+  float scale = dimensionX / 1080.;
+  int floorNb = gameState -> GetMap() -> GetCurrentFloor();
+  std::shared_ptr<Room>& room = gameState -> GetMap() -> GetFloors()[floorNb] -> GetCurrentRoom();
+  std::vector<std::unique_ptr<Enemy>>& enemies =room -> GetEnemies();
+
+   int x = 1300;
+   int y = 300;
+  for (auto& enemy : enemies){
+    if(enemy -> GetIsEntityAlive()){
+      AddTextureEnemy(x* scale/1.5, y * scale/1.5, scale/1.5, enemy);
+      x-= 250;
     }
   }
 }
