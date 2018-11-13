@@ -19,6 +19,7 @@
 
 using namespace engine;
 using namespace state;
+using namespace std;
 
 CommandPlayCard::CommandPlayCard (){}
 
@@ -32,6 +33,8 @@ CommandPlayCard::CommandPlayCard (int playerID, int targetID, int cardIndex){
 }
 
 void CommandPlayCard::Execute (std::shared_ptr<state::GameState>& gameState){
+  cout<<"Add playing card "<<cardIndex<<" from player "<<playerID<<", target is "<<targetID<<endl;
+
   if (playerID >= 0 && playerID < 2){
     int floorNb = gameState->GetMap()->GetCurrentFloor();
     std::shared_ptr<Room>& room = gameState->GetMap()->GetFloors()[floorNb]->GetCurrentRoom();
@@ -90,7 +93,7 @@ void CommandPlayCard::Execute (std::shared_ptr<state::GameState>& gameState){
       if (entityTarget->GetLife() == 0){
         CommandDie commandDie(entityTarget->GetId());
         if (entityTarget->GetIsPlayer()){
-          CommandChangeReward commandChangeReward(entityTarget->GetReward());
+          CommandChangeReward commandChangeReward(entityTarget->GetId());
           commandChangeReward.Execute(gameState);
         }
         commandDie.Execute(gameState);
