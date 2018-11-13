@@ -30,4 +30,5 @@
 #include "engine/CommandGameWon.h"
 #include "engine/CommandEnterRoom.h"
 #include "engine/CommandExitRoom.h"
+#include "engine/CommandPlaySkill.h"
 #endif

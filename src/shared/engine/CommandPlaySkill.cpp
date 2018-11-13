@@ -1,4 +1,4 @@
-#include "CommandPlayCard.h"
+#include "CommandPlaySkill.h"
 #include "CommandAttack.h"
 #include "CommandAddBlock.h"
 #include "CommandHeal.h"
@@ -14,6 +14,7 @@
 // #include "state/DeckParts.h"
 // #include "state/Room.h"
 #include "state/PlayerManager.h"
+#include "state/SkillManager.h"
 #include <iostream>
 #include <stdexcept>
 
@@ -21,44 +22,41 @@ using namespace engine;
 using namespace state;
 using namespace std;
 
-CommandPlayCard::CommandPlayCard (){}
+CommandPlaySkill::CommandPlaySkill (){}
 
-CommandPlayCard::CommandPlayCard (int playerID, int targetID, int cardIndex){
-  if (playerID >=0 && playerID < 2){
-    this->playerID = playerID;
-  } else this->playerID = 0;
-  if (cardIndex >= 0 && cardIndex < 7){
-    this->cardIndex = cardIndex;
-  } else this->cardIndex = 0;
+CommandPlaySkill::CommandPlaySkill (int enemyID, int targetID, int skillIndex){
+  if (enemyID >=2){
+    this->enemyID = enemyID;
+  } else this->enemyID = 2;
+  if (skillIndex >= 0){
+    this->skillIndex = skillIndex;
+  } else this->skillIndex = 0;
 }
 
-void CommandPlayCard::Execute (std::shared_ptr<state::GameState>& gameState){
-  cout<<"Play card "<<cardIndex<<" from player "<<playerID<<", target is "<<targetID<<endl;
+void CommandPlaySkill::Execute (std::shared_ptr<state::GameState>& gameState){
+  cout<<"Play skill "<<skillIndex<<" from enemy "<<enemyID<<", target is "<<targetID<<endl;
 
-  if (playerID >= 0 && playerID < 2){
+  if (enemyID >= 2){
     int floorNb = gameState->GetMap()->GetCurrentFloor();
     std::shared_ptr<Room>& room = gameState->GetMap()->GetFloors()[floorNb]->GetCurrentRoom();
-    std::vector<Card*> cards = room->GetHands()[playerID]->GetCards();
-    Card* selected_card = cards[cardIndex];
+    SkillManager* SM = SkillManager::instance();
+    EnemySkill* selectedSkill = (*SM)[skillIndex];
     PlayerManager* PM = PlayerManager::instance();
-    Player* player = (*PM)[playerID];
     std::vector<Entity*> targets;
 
-    if ((selected_card->GetTarget() == 0 || selected_card->GetTarget() == 3) && (targetID > 1)){
+    if ((selectedSkill->GetTarget() == 0 || selectedSkill->GetTarget() == 3) && (targetID > 1)){
       throw std::invalid_argument("Wrong target. target should be Player.");
     }
 
-    if ((selected_card->GetTarget() == 1 || selected_card->GetTarget() == 2) && (targetID < 2)){
+    if ((selectedSkill->GetTarget() == 1 || selectedSkill->GetTarget() == 2) && (targetID < 2)){
       throw std::invalid_argument("Wrong target. target should be Enemy.");
     }
 
-    if (selected_card->GetCost() > player->GetEnergy()) {
-      throw std::out_of_range("Not enough energy to play this card");
+    if (selectedSkill->GetTurnsBeforeUse() > 0) {
+      throw std::out_of_range("Skill not ready to be used");
     }
-    CommandUseEnergy commandUseEnergy(selected_card->GetCost(), playerID);
-    commandUseEnergy.Execute(gameState);
 
-    switch (selected_card->GetTarget()){
+    switch (selectedSkill->GetTarget()){
       case 0:
         targets.push_back((*PM)[targetID]);
         break;
@@ -78,11 +76,11 @@ void CommandPlayCard::Execute (std::shared_ptr<state::GameState>& gameState){
     }
 
     for (auto& entityTarget : targets){
-      CommandAttack commandAttack(selected_card->GetAttack(), entityTarget->GetId());
-      CommandAddBlock commandAddBlock(selected_card->GetBlock(), entityTarget->GetId());
-      CommandHeal commandHeal(selected_card->GetHeal(), entityTarget->GetId());
-      CommandAddBuff commandAddBuff(entityTarget->GetId(), *selected_card->GetBuff());
-      CommandAddDebuff commandAddDebuff(entityTarget->GetId(), *selected_card->GetDebuff());
+      CommandAttack commandAttack(selectedSkill->GetAttack(), entityTarget->GetId());
+      CommandAddBlock commandAddBlock(selectedSkill->GetBlock(), entityTarget->GetId());
+      CommandHeal commandHeal(selectedSkill->GetHeal(), entityTarget->GetId());
+      CommandAddBuff commandAddBuff(entityTarget->GetId(), *selectedSkill->GetBuff());
+      CommandAddDebuff commandAddDebuff(entityTarget->GetId(), *selectedSkill->GetDebuff());
 
       commandAttack.Execute(gameState);
       commandAddBlock.Execute(gameState);
@@ -123,13 +121,7 @@ void CommandPlayCard::Execute (std::shared_ptr<state::GameState>& gameState){
         }
       }
     }
-    CommandDiscard commandDiscard(playerID, cardIndex);
-    commandDiscard.Execute(gameState);
-    for (int i = 0; i < selected_card->GetDraw(); i++){
-      CommandDraw commandDraw(playerID);
-      commandDraw.Execute(gameState);
-    }
   }
 }
 
-void CommandPlayCard::Undo (std::shared_ptr<state::GameState>& gameState){}
+void CommandPlaySkill::Undo (std::shared_ptr<state::GameState>& gameState){}
