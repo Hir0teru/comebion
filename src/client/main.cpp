@@ -24,24 +24,29 @@ void test(){
   players.push_back((*PM)[0]);
   players.push_back((*PM)[1]);
   gameState -> SetPlayers(players);
-  Moteur* moteur = new Moteur(gameState);
-  moteur -> AddCommand(std::make_shared<CommandShuffle>(0));
-  moteur -> AddCommand(std::make_shared<CommandDraw>(0)); // on pioche 5 cartes
-  moteur -> AddCommand(std::make_shared<CommandDraw>(0));
-  moteur -> AddCommand(std::make_shared<CommandDraw>(0));
-  moteur -> AddCommand(std::make_shared<CommandDraw>(0));
-  moteur -> AddCommand(std::make_shared<CommandDraw>(0));
+  std::shared_ptr<Moteur> moteur = make_shared<Moteur>(gameState);
+  // moteur -> AddCommand(std::make_shared<CommandChangeRoom>());
+  // moteur -> AddCommand(std::make_shared<CommandChangeRoom>());
+  // moteur -> AddCommand(std::make_shared<CommandChangeRoom>());
+  moteur -> AddCommand(std::make_shared<CommandEnterRoom>());
+  // moteur -> AddCommand(std::make_shared<CommandShuffle>(0));
+  // moteur -> AddCommand(std::make_shared<CommandDraw>(0)); // on pioche 5 cartes
+  // moteur -> AddCommand(std::make_shared<CommandDraw>(0));
+  // moteur -> AddCommand(std::make_shared<CommandDraw>(0));
+  // moteur -> AddCommand(std::make_shared<CommandDraw>(0));
+  // moteur -> AddCommand(std::make_shared<CommandDraw>(0));
+  moteur-> Update();
   moteur -> Update();
   moteur -> Update();
   moteur -> Update();
-  moteur -> Update();
-  moteur -> Update();
-  moteur -> Update();
-  moteur -> AddCommand(std::make_shared<CommandEndFight>());
-  moteur -> Update();
+  // moteur -> Update();
+  // moteur -> Update();
+  // moteur -> Update();
+  // moteur -> AddCommand(std::make_shared<CommandEndFight>());
+  // moteur -> Update();
 // gameState -> GetMap() -> GetFloors()[gameState ->GetMap() ->  GetCurrentFloor()] -> GetCurrentRoom() -> SetIsFightWon(true) ;
 
-  View* view = new View(gameState);
+  View* view = new View(gameState, moteur);
 
   view -> Draw();
 }
@@ -62,6 +67,9 @@ void testEngine(){
   if(rendu -> GetGameState() -> GetMap() -> GetFloors()[0] -> GetCurrentRoom() -> GetIsEnemyRoom()){
     moteur -> AddCommand(std::make_shared<CommandChangeIntent>(2, 2));
     int entityTurn = 0;
+    moteur -> AddCommand(std::make_shared<CommandAddDebuff>(2, *new Debuff(6, 7)));
+    moteur -> AddCommand(std::make_shared<CommandAddBuff>(2, *new Buff(1,2,3,4,5)));
+
     moteur -> AddCommand(std::make_shared<CommandShuffle>(entityTurn));
     moteur -> AddCommand(std::make_shared<CommandDraw>(entityTurn)); // on pioche 5 cartes
     moteur -> AddCommand(std::make_shared<CommandDraw>(entityTurn));
@@ -112,10 +120,9 @@ void testEngine(){
     moteur -> AddCommand(std::make_shared<CommandNextEntity>());
     entityTurn = 2;
 
-    int intent = rendu -> GetGameState() ->GetMap() -> GetFloors()[0] -> GetCurrentRoom() -> GetEnemies()[entityTurn - 2 ] -> GetIntent();
-    moteur -> AddCommand(std::make_shared<CommandAttack>(rendu -> GetGameState() -> GetMap() ->GetFloors()[0] -> GetCurrentRoom() -> GetEnemies()[entityTurn - 2 ] -> GetSkills()[intent] -> GetAttack(), 0));
-    moteur -> AddCommand(std::make_shared<CommandAddBlock>(rendu -> GetGameState() -> GetMap() ->GetFloors()[0] -> GetCurrentRoom() -> GetEnemies()[entityTurn - 2 ] -> GetSkills()[intent] -> GetBlock(), 2));
-    moteur -> AddCommand(std::make_shared<CommandAddDebuff>(0, *rendu -> GetGameState() ->GetMap() -> GetFloors()[0] -> GetCurrentRoom() -> GetEnemies()[entityTurn - 2 ] -> GetSkills()[intent] -> GetDebuff()));
+    moteur -> AddCommand(std::make_shared<CommandAttack>(rendu -> GetGameState() -> GetMap() ->GetFloors()[0] -> GetCurrentRoom() -> GetEnemies()[entityTurn - 2 ] -> GetSkills()[2] -> GetAttack(), 0));
+    moteur -> AddCommand(std::make_shared<CommandAddBlock>(rendu -> GetGameState() -> GetMap() ->GetFloors()[0] -> GetCurrentRoom() -> GetEnemies()[entityTurn - 2 ] -> GetSkills()[2] -> GetBlock(), 2));
+    moteur -> AddCommand(std::make_shared<CommandAddDebuff>(0, *rendu -> GetGameState() ->GetMap() -> GetFloors()[0] -> GetCurrentRoom() -> GetEnemies()[entityTurn - 2 ] -> GetSkills()[2] -> GetDebuff()));
 
     moteur -> AddCommand(std::make_shared<CommandNextEntity>());
     // moteur -> AddCommand(std::make_shared<CommandDie>(0));

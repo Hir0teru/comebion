@@ -369,8 +369,8 @@ using namespace state;
       sf::Sprite sprite;
       sprite.setTexture(tmptexture);
       sprite.scale(scale, scale);
-      sprite.move(500 * scale, 600 * scale);
-      background.draw(sprite);
+      sprite.move(500 * scale, 500 * scale);
+      textureMap.draw(sprite);
       sf::Text text;
       sf::Font font;
       if (!font.loadFromFile("res/text_fonts/attack of the cucumbers.ttf")){
@@ -382,8 +382,8 @@ using namespace state;
       text.setColor(sf::Color::Black);
       text.setCharacterSize(15 * scale);
       text.setStyle(sf::Text::Bold);
-      text.move(510 * scale, 610 * scale);
-      background.draw(text);
+      text.move(510 * scale, 510 * scale);
+      textureMap.draw(text);
       text.move(0 , 2 );
       background.draw(text);
       text.move(2 , 0 );
@@ -392,7 +392,7 @@ using namespace state;
       background.draw(text);
       text.setColor(sf::Color::White);
       text.move(-1, 1);
-      background.draw(text);
+      textureMap.draw(text);
 
       textureMap.display();
     }
@@ -449,9 +449,10 @@ void Rendu::SetTextureRoom(){
     sprite.setPosition(350 * scale, 280 * scale);
     background.draw(sprite);
 
+    text.setCharacterSize(20 * scale);
     text.setString("Heal");
     text.setColor(sf::Color::White);
-    text.move(9, 69 * scale);
+    text.move(15, 65 * scale);
     background.draw(text);
     text.move(0 , 2 );
     background.draw(text);
@@ -468,7 +469,7 @@ void Rendu::SetTextureRoom(){
 
     text.setString("Meditate");
     text.setColor(sf::Color::White);
-    text.move(189* scale, -1);
+    text.move(195* scale, -1);
     background.draw(text);
     text.move(0 , 2 );
     background.draw(text);
@@ -562,7 +563,7 @@ void Rendu::SetTextureRoom(){
         sf::Sprite sprite;
         sprite.setTexture(tmptexture);
         sprite.scale(scale, scale);
-        sprite.move(910 * scale, 440 * scale);
+        sprite.move(880 * scale, 650 * scale);
         background.draw(sprite);
         sf::Text text;
         sf::Font font;
@@ -575,7 +576,7 @@ void Rendu::SetTextureRoom(){
         text.setColor(sf::Color::Black);
         text.setCharacterSize(15 * scale);
         text.setStyle(sf::Text::Bold);
-        text.move(930 * scale, 450 * scale);
+        text.move(895 * scale, 660 * scale);
         background.draw(text);
         text.move(0 , 2 );
         background.draw(text);
@@ -624,9 +625,9 @@ void Rendu::SetTextureRoom(){
               AddTextureCard(x * scale, y * scale, scale/3, card, statAttack, statBlock);
               x+= 110;
           }
-          AddTexturePile(10 *scale, 480 * scale, scale/3,  "res/textures/cards/back_card_fin.png", room -> GetDrawPiles()[entityTurn] -> GetSize());
+          AddTexturePile(10 *scale, 480 * scale, scale/4,  "res/textures/cards/back_card_fin.png", room -> GetDrawPiles()[entityTurn] -> GetSize());
 
-          AddTexturePile(900 *scale, 480 * scale, scale/3, "res/textures/cards/back_card_fin.png", room -> GetDiscardPiles()[entityTurn] -> GetSize());
+          AddTexturePile(900 *scale, 480 * scale, scale/4, "res/textures/cards/back_card_fin.png", room -> GetDiscardPiles()[entityTurn] -> GetSize());
         }
       }
       else{

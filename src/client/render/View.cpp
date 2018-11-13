@@ -8,9 +8,10 @@ using namespace render;
 
 View::View (){}
 
-View::View (std::shared_ptr<state::GameState>& gameState){
+View::View (std::shared_ptr<state::GameState>& gameState, std::shared_ptr<engine::Moteur> moteur){
   rendu = std::make_unique<Rendu>(gameState);
   this -> gameState = gameState;
+  this -> moteur = moteur;
 }
 
 View::~View (){}
@@ -32,7 +33,7 @@ void View::Draw (){
   // std::cout << "press a key for next step" << std::endl;
   sf::Event event;
   sf::Sprite sprite;
-  rendu -> SetTextureRoom();
+  // rendu -> SetTextureRoom();
   // rendu -> DrawInsideRoom();
   // sprite.setTexture(rendu -> GetTexture().getTexture());
   rendu -> SetTextureMap(1);
@@ -61,18 +62,20 @@ void View::Draw (){
           sprite.setTexture(rendu -> GetTexture().getTexture());
           }
         } else if(event.type == sf::Event::MouseButtonReleased){
+          std::cout << "x = " << sf::Mouse::getPosition(window).x << std::endl;
+          std::cout << "y = " << sf::Mouse::getPosition(window).y << std::endl;
 
-          if(!gameState -> GetIsInsideRoom() &&
-            (int) sf::Mouse::getPosition().x > 550 && (int) sf::Mouse::getPosition().x < 660 &&
-            (int) sf::Mouse::getPosition().y > 600 && (int) sf::Mouse::getPosition().y < 630){
-
-            }
-            std::cout << "x = " << sf::Mouse::getPosition().x << std::endl;
-            std::cout << "y = " << sf::Mouse::getPosition().y << std::endl;
+          if(!gameState -> GetIsInsideRoom()){
+            if((int) sf::Mouse::getPosition(window).x > 505 && (int) sf::Mouse::getPosition(window).x < 620 &&
+            (int) sf::Mouse::getPosition(window).y > 505 && (int) sf::Mouse::getPosition(window).y < 535){
+                std::cout << "clicked on next room" << std::endl;
+              }
+          }
+          else{
             if(cardSelected == -1){  // no card selected
               int i = 0;
               for(auto& card : rendu -> GetTextureCards()){
-                if(card -> Click(sf::Mouse::getPosition().x, sf::Mouse::getPosition().y)){
+                if(card -> Click(sf::Mouse::getPosition(window).x, sf::Mouse::getPosition(window).y)){
                   std::cout << "card " << i<< std::endl;
                   cardSelected = i;
                   card -> SetY(card -> GetY() - 20);
@@ -83,64 +86,70 @@ void View::Draw (){
               }
               if(gameState ->GetMap() ->  GetFloors()[gameState -> GetMap() -> GetCurrentFloor()] -> GetCurrentRoom() -> GetIsEnemyRoom() &&
                   !gameState -> GetMap() -> GetFloors()[gameState ->GetMap() ->  GetCurrentFloor()] -> GetCurrentRoom() -> GetIsFightWon() &&
-                (int) sf::Mouse::getPosition().x > 980 && (int) sf::Mouse::getPosition().x < 1090 &&
-                (int) sf::Mouse::getPosition().y > 500 && (int) sf::Mouse::getPosition().y < 530){
+                (int) sf::Mouse::getPosition(window).x > 885 && (int) sf::Mouse::getPosition(window).x < 995 &&
+                (int) sf::Mouse::getPosition(window).y > 655 && (int) sf::Mouse::getPosition(window).y < 688){
                   std::cout << " clicked on next turn" << std::endl;
+
               } else if((gameState ->GetMap() ->  GetFloors()[gameState -> GetMap() -> GetCurrentFloor()] -> GetCurrentRoom() -> GetIsSpecialTrainingRoom() ||
                     (gameState ->GetMap() ->  GetFloors()[gameState -> GetMap() -> GetCurrentFloor()] -> GetCurrentRoom() -> GetIsEnemyRoom() &&
                     gameState -> GetMap() -> GetFloors()[gameState ->GetMap() ->  GetCurrentFloor()] -> GetCurrentRoom() -> GetIsFightWon()))&&
-                (int) sf::Mouse::getPosition().x > 550 && (int) sf::Mouse::getPosition().x < 660 &&
-                (int) sf::Mouse::getPosition().y > 510 && (int) sf::Mouse::getPosition().y < 540){
+                (int) sf::Mouse::getPosition(window).x > 488 && (int) sf::Mouse::getPosition(window).x < 595 &&
+                (int) sf::Mouse::getPosition(window).y > 460 && (int) sf::Mouse::getPosition(window).y < 486){
                   std::cout << " clicked on pass" << std::endl;
+
+              } else if(gameState ->GetMap() ->  GetFloors()[gameState -> GetMap() -> GetCurrentFloor()] -> GetCurrentRoom() -> GetIsSleepRoom() &&
+                (int) sf::Mouse::getPosition(window).x > 355 && (int) sf::Mouse::getPosition(window).x < 465 &&
+                (int) sf::Mouse::getPosition(window).y > 290 && (int) sf::Mouse::getPosition(window).y < 315){
+                  std::cout << " clicked on Heal" << std::endl;
+
+              } else if(gameState ->GetMap() ->  GetFloors()[gameState -> GetMap() -> GetCurrentFloor()] -> GetCurrentRoom() -> GetIsSleepRoom() &&
+                (int) sf::Mouse::getPosition(window).x > 545 && (int) sf::Mouse::getPosition(window).x < 655 &&
+                (int) sf::Mouse::getPosition(window).y > 290 && (int) sf::Mouse::getPosition(window).y < 315){
+                  std::cout << " clicked on Meditate" << std::endl;
               }
 
             } else{
-                int i = 0;
-                bool res = false;
-                while(!res && i <(int) rendu -> GetTextureCards().size()){
-                  if(rendu -> GetTextureCards()[i] -> Click(sf::Mouse::getPosition().x, sf::Mouse::getPosition().y)){
-                    std::cout << "card " << i<< std::endl;
-                    rendu -> GetTextureCards()[cardSelected] -> SetY(rendu -> GetTextureCards()[cardSelected] -> GetY() + 20);
-                    cardSelected = i;
-                    rendu -> GetTextureCards()[i] -> SetY(rendu -> GetTextureCards()[i] -> GetY() - 20);
-                    rendu -> DrawInsideRoom();
-                    res = true;
-                  }
-                  i+=1;
+              int i = 0;
+              bool res = false;
+              while(!res && i <(int) rendu -> GetTextureCards().size()){
+                if(rendu -> GetTextureCards()[i] -> Click(sf::Mouse::getPosition(window).x, sf::Mouse::getPosition(window).y)){
+                  std::cout << "card " << i<< std::endl;
+                  rendu -> GetTextureCards()[cardSelected] -> SetY(rendu -> GetTextureCards()[cardSelected] -> GetY() + 20);
+                  cardSelected = i;
+                  rendu -> GetTextureCards()[i] -> SetY(rendu -> GetTextureCards()[i] -> GetY() - 20);
+                  rendu -> DrawInsideRoom();
+                  res = true;
                 }
-                i = 0;
-                while(!res && i < (int) rendu -> GetTexturePlayers().size()){
-                  if(rendu -> GetTexturePlayers()[i] -> Click(sf::Mouse::getPosition().x, sf::Mouse::getPosition().y)){
-                    std::cout << "player " << i<< std::endl;
-                    rendu -> GetTextureCards()[cardSelected] -> SetY(rendu -> GetTextureCards()[cardSelected] -> GetY() + 20);
-                    cardSelected = -1;
-                    rendu -> DrawInsideRoom();
-                    res = true;
-                  }
-                  i+=1;
-                }
-                i = 0;
-                while(!res && i < (int) rendu -> GetTextureEnemies().size()){
-                  if(rendu -> GetTextureEnemies()[i] -> Click(sf::Mouse::getPosition().x, sf::Mouse::getPosition().y)){
-                    std::cout << "enemy " << i<< std::endl;
-                    rendu -> GetTextureCards()[cardSelected] -> SetY(rendu -> GetTextureCards()[cardSelected] -> GetY() + 20);
-                    cardSelected = -1;
-                    rendu -> DrawInsideRoom();
-                    res = true;
-                  }
-                  i+=1;
-                }
-                if(!res){
+                i+=1;
+              }
+              i = 0;
+              while(!res && i < (int) rendu -> GetTexturePlayers().size()){
+                if(rendu -> GetTexturePlayers()[i] -> Click(sf::Mouse::getPosition(window).x, sf::Mouse::getPosition(window).y)){
+                  std::cout << "player " << i<< std::endl;
                   rendu -> GetTextureCards()[cardSelected] -> SetY(rendu -> GetTextureCards()[cardSelected] -> GetY() + 20);
                   cardSelected = -1;
                   rendu -> DrawInsideRoom();
+                  res = true;
                 }
-        // i = 0;
-        // for(auto& pile : rendu -> GetTexturePiles()){
-        //   if(pile -> Click(sf::Mouse::getPosition().x, sf::Mouse::getPosition().y)){
-        //     std::cout << "pile " << i<< std::endl;
-        //   }
-        //   i+=1;
+                i+=1;
+              }
+              i = 0;
+              while(!res && i < (int) rendu -> GetTextureEnemies().size()){
+                if(rendu -> GetTextureEnemies()[i] -> Click(sf::Mouse::getPosition(window).x, sf::Mouse::getPosition(window).y)){
+                  std::cout << "enemy " << i<< std::endl;
+                  rendu -> GetTextureCards()[cardSelected] -> SetY(rendu -> GetTextureCards()[cardSelected] -> GetY() + 20);
+                  cardSelected = -1;
+                  rendu -> DrawInsideRoom();
+                  res = true;
+                }
+                i+=1;
+              }
+              if(!res){
+                rendu -> GetTextureCards()[cardSelected] -> SetY(rendu -> GetTextureCards()[cardSelected] -> GetY() + 20);
+                cardSelected = -1;
+                rendu -> DrawInsideRoom();
+              }
+            }
         }
       }
     }

@@ -10,10 +10,14 @@ namespace render {
 };
 namespace state {
   class GameState;
+};
+namespace engine {
+  class Moteur;
 }
 
 #include "Rendu.h"
 #include "state/GameState.h"
+#include "engine/Moteur.h"
 
 namespace render {
 
@@ -25,10 +29,11 @@ namespace render {
     std::unique_ptr<Rendu> rendu;
     std::shared_ptr<state::GameState> gameState;
     sf::RenderWindow window;
+    std::shared_ptr<engine::Moteur> moteur;
     // Operations
   public:
     View ();
-    View (std::shared_ptr<state::GameState>& gameState);
+    View (std::shared_ptr<state::GameState>& gameState, std::shared_ptr<engine::Moteur> moteur);
     ~View ();
     std::unique_ptr<Rendu>& GetRendu ();
     std::shared_ptr<state::GameState>& GetGameState ();

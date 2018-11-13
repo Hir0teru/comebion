@@ -13,15 +13,31 @@ void CommandChangeRoom::Execute (std::shared_ptr<state::GameState>& gameState){
   int floorNb = gameState->GetMap()->GetCurrentFloor();
   if (gameState->GetMap()->GetFloors()[floorNb]->GetCurrentRoom()->GetNextRoom()){
     gameState->GetMap()->GetFloors()[floorNb]->SetCurrentRoom(gameState->GetMap()->GetFloors()[floorNb]->GetCurrentRoom()->GetNextRoom());
+  } else if(floorNb == 4){
+    std::cout << "Fin du jeu, bravo! Vous avez encore sauvé le monde!" <<std::endl;
+  } else{
+    floorNb ++;
+    gameState -> GetMap() -> SetCurrentFloor(floorNb);
+    gameState->GetMap()->GetFloors()[floorNb]->SetCurrentRoom(gameState->GetMap()->GetFloors()[floorNb]->GetFirstRoom());
   }
 }
 
 void CommandChangeRoom::Undo (std::shared_ptr<state::GameState>& gameState){
   cout<<"Undo Going to next room"<<endl;
   int floorNb = gameState->GetMap()->GetCurrentFloor();
-  Room* actual_currentRoom = gameState->GetMap()->GetFloors()[floorNb]->GetCurrentRoom().get();
-  Room* currentRoom = gameState->GetMap()->GetFloors()[floorNb]->GetFirstRoom().get();
-  while (currentRoom->GetNextRoom().get() != actual_currentRoom){
-    currentRoom = currentRoom->GetNextRoom().get();
+  std::shared_ptr<Room> actual_currentRoom = gameState->GetMap()->GetFloors()[floorNb]->GetCurrentRoom();
+  std::shared_ptr<Room>  currentRoom = gameState->GetMap()->GetFloors()[floorNb]->GetFirstRoom();
+  if(actual_currentRoom != currentRoom){ // si on ne vient pas de changer de floor
+    while (currentRoom->GetNextRoom() != actual_currentRoom){
+      currentRoom = currentRoom->GetNextRoom();
+    }
+    gameState->GetMap()->GetFloors()[floorNb]->SetCurrentRoom(currentRoom);
+  } else if(floorNb > 0){
+    floorNb --;
+    currentRoom = gameState->GetMap()->GetFloors()[floorNb]->GetFirstRoom();
+    while (currentRoom->GetNextRoom() ){
+      currentRoom = currentRoom->GetNextRoom();
+    }
+    gameState->GetMap()->GetFloors()[floorNb]->SetCurrentRoom(currentRoom);
   }
 }
