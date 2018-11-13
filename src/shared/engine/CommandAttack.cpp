@@ -28,10 +28,10 @@ void CommandAttack::Execute (std::shared_ptr<state::GameState>& gameState){
     int floorNb = gameState->GetMap()->GetCurrentFloor();
     std::vector<std::unique_ptr<Enemy>>& enemies = gameState->GetMap()->GetFloors()[floorNb]->GetCurrentRoom()->GetEnemies();
     int tmpdamage = damage;
-    tmpdamage -= enemies[entityID -2]->GetBlock();
-    enemies[entityID -2]->SetBlock(enemies[entityID -2]->GetBlock() - damage);
+    tmpdamage -= enemies[entityID - 2]->GetBlock();
+    enemies[entityID - 2]->SetBlock(enemies[entityID - 2]->GetBlock() - damage);
     if(tmpdamage > 0){
-      enemies[entityID -2]->SetLife(enemies[entityID -2]->GetLife() - tmpdamage);
+      enemies[entityID -2]->SetLife(enemies[entityID - 2]->GetLife() - tmpdamage);
     }
   }
 }
