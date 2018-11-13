@@ -1,4 +1,5 @@
 #include "CommandExitRoom.h"
+#include "CommandChangeRoom.h"
 #include "state/PlayerManager.h"
 #include <iostream>
 
@@ -11,7 +12,7 @@ CommandExitRoom::CommandExitRoom (){}
 void CommandExitRoom::Execute (std::shared_ptr<state::GameState>& gameState){
   cout<<"Exit current room"<<endl;
   gameState->SetIsInsideRoom(false);
-  CommandChangeRoom command();
+  CommandChangeRoom command;
   command.Execute(gameState);
 }
 

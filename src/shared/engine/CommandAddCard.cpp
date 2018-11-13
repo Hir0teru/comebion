@@ -1,4 +1,5 @@
 #include "CommandAddCard.h"
+#include "CommandRemoveCard.h"
 #include "state/PlayerManager.h"
 #include "state/CardManager.h"
 #include <iostream>
