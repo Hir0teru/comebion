@@ -1,6 +1,9 @@
 #include "CommandNextEntity.h"
 #include "state/Buff.h"
 #include "state/Debuff.h"
+#include "CommandDraw.h"
+#include "CommandShuffle.h"
+#include "CommandSkill.h"
 #include <iostream>
 
 
@@ -34,7 +37,7 @@ void CommandNextEntity::Execute (std::shared_ptr<state::GameState>& gameState){
     if(! gameState -> GetPlayers()[0] -> GetIsEntityAlive()){
       entityTurn = 1;  //one of the two players must be alive, else the game is lost
     } else entityTurn = 0;
-  } else if (entityTurn == playerNb - 1){
+  } else if (entityTurn == playerNb - 1){  // new turn for enemy
     entityTurn = 2;
     for (int i = 0; i < enemyNb; i++){
       gameState -> GetMap() -> GetFloors()[floorNb] -> GetCurrentRoom() -> GetEnemies()[i] -> SetBlock(0);
@@ -52,6 +55,47 @@ void CommandNextEntity::Execute (std::shared_ptr<state::GameState>& gameState){
     for(int j = 0; j < 5; j++){
       CommandDraw commandDraw(entityTurn);
       commandDraw.Execute(gameState);
+    } else{
+      int intent  = gameState -> GetMap() -> GetFloors()[floorNb] -> GetCurrentRoom() -> GetEnemies()[entityTurn] -> GetIntent();
+      int target = gameState -> GetMap() -> GetFloors()[floorNb] -> GetCurrentRoom() -> GetEnemies()[entityTurn] -> GetSkills()[intent] -> GetTarget();
+      int cible;
+      switch (target){
+        // case 0:
+        //   if(!gameState -> GetPlayers()[0] -> GetIsEntityAlive()){
+        //     cible = 1;
+        //   } else if(!gameState -> GetPlayers()[1] -> GetIsEntityAlive()){
+        //     cible = 0;
+        //   } else{
+        //   cible = rand % (int) gameState -> GetPlayers().size();
+        //   }
+        //   CommandPlaySkill commandSkill(entityTurn, cible, intent);
+        //   commandSkill.Execute(gameState);
+        //
+        //   break;
+        // case 1:
+        //   if(!gameState -> GetPlayers()[0] -> GetIsEntityAlive()){
+        //     cible = 1;
+        //   } else if(!gameState -> GetPlayers()[1] -> GetIsEntityAlive()){
+        //     cible = 0;
+        //   } else{
+        //   cible = rand % (int) gameState -> GetPlayers().size();
+        //   }
+        //   CommandPlaySkill commandSkill(entityTurn, cible, intent);
+        //   commandSkill.Execute(gameState);
+        //   break;
+        // case 2:
+        //   for (auto& enemy : gameState->GetMap()->GetFloors()[floorNb]->GetCurrentRoom()->GetEnemies()){
+        //     targets.push_back(enemy.get());
+        //   }
+        //   break;
+        // case 3:
+        //   for (auto& playerTarget : gameState->GetPlayers()){
+        //     targets.push_back(playerTarget);
+        //   }
+        //   break;
+      }
+
+      CommandPlaySkill commandSkill(entityTurn, , intent)
     }
   }
   std::cout<<"Set next entity : " << entityTurn << std::endl;

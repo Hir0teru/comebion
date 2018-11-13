@@ -27,7 +27,6 @@ void CommandRemoveCard::Execute (std::shared_ptr<state::GameState>& gameState){
     }
     cards[size -1] = nullptr;
     gameState -> GetPlayers()[playerID] -> GetDeck() -> SetCards(cards);
-    gameState -> GetPlayers()[playerID] -> GetDeck() -> SetSize(size -1);
   }
 }
 
