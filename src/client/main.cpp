@@ -37,6 +37,9 @@ void test(){
   moteur -> Update();
   moteur -> Update();
   moteur -> Update();
+  moteur -> AddCommand(std::make_shared<CommandEndFight>());
+  moteur -> Update();
+// gameState -> GetMap() -> GetFloors()[gameState ->GetMap() ->  GetCurrentFloor()] -> GetCurrentRoom() -> SetIsFightWon(true) ;
 
   View* view = new View(gameState);
 

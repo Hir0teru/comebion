@@ -362,6 +362,38 @@ using namespace state;
 
       }
 
+      sf::Texture tmptexture;
+      if(!tmptexture.loadFromFile("res/textures/other/button1.png")){
+        throw std::invalid_argument("error with texture button");
+      }
+      sf::Sprite sprite;
+      sprite.setTexture(tmptexture);
+      sprite.scale(scale, scale);
+      sprite.move(500 * scale, 600 * scale);
+      background.draw(sprite);
+      sf::Text text;
+      sf::Font font;
+      if (!font.loadFromFile("res/text_fonts/attack of the cucumbers.ttf")){
+        std::cout <<"error with font name" << std::endl;
+        throw std::invalid_argument("error with argument");
+      }
+      text.setFont(font);
+      text.setString("Next Room");
+      text.setColor(sf::Color::Black);
+      text.setCharacterSize(15 * scale);
+      text.setStyle(sf::Text::Bold);
+      text.move(510 * scale, 610 * scale);
+      background.draw(text);
+      text.move(0 , 2 );
+      background.draw(text);
+      text.move(2 , 0 );
+      background.draw(text);
+      text.move(0 , -2 );
+      background.draw(text);
+      text.setColor(sf::Color::White);
+      text.move(-1, 1);
+      background.draw(text);
+
       textureMap.display();
     }
 
@@ -407,6 +439,15 @@ void Rendu::SetTextureRoom(){
     text.move(-1, 1);
     background.draw(text);
 
+    sf::Texture tmptexture;
+    if(!tmptexture.loadFromFile("res/textures/other/button1.png")){
+      throw std::invalid_argument("error with texture button");
+    }
+    sf::Sprite sprite;
+    sprite.setTexture(tmptexture);
+    sprite.scale(scale, scale);
+    sprite.setPosition(350 * scale, 280 * scale);
+    background.draw(sprite);
 
     text.setString("Heal");
     text.setColor(sf::Color::White);
@@ -421,6 +462,9 @@ void Rendu::SetTextureRoom(){
     text.setColor(sf::Color::Black);
     text.move(-1, 1);
     background.draw(text);
+
+    sprite.setPosition(540 * scale, 280 * scale);
+    background.draw(sprite);
 
     text.setString("Meditate");
     text.setColor(sf::Color::White);
@@ -508,79 +552,147 @@ void Rendu::SetTextureRoom(){
     }
     else{
       // batlle room
+      if( room -> GetIsGameLost()){
+        SetBackground("res/textures/background/you_died.jpg");
+      } else if( !room -> GetIsFightWon()){
+        sf::Texture tmptexture;
+        if(!tmptexture.loadFromFile("res/textures/other/button1.png")){
+          throw std::invalid_argument("error with texture button");
+        }
+        sf::Sprite sprite;
+        sprite.setTexture(tmptexture);
+        sprite.scale(scale, scale);
+        sprite.move(910 * scale, 440 * scale);
+        background.draw(sprite);
+        sf::Text text;
+        sf::Font font;
+        if (!font.loadFromFile("res/text_fonts/attack of the cucumbers.ttf")){
+          std::cout <<"error with font name" << std::endl;
+          throw std::invalid_argument("error with argument");
+        }
+        text.setFont(font);
+        text.setString("End turn");
+        text.setColor(sf::Color::Black);
+        text.setCharacterSize(15 * scale);
+        text.setStyle(sf::Text::Bold);
+        text.move(930 * scale, 450 * scale);
+        background.draw(text);
+        text.move(0 , 2 );
+        background.draw(text);
+        text.move(2 , 0 );
+        background.draw(text);
+        text.move(0 , -2 );
+        background.draw(text);
+        text.setColor(sf::Color::White);
+        text.move(-1, 1);
+        background.draw(text);
 
-      sf::Texture tmptexture;
-      if(!tmptexture.loadFromFile("res/textures/other/button1.png")){
-        throw std::invalid_argument("error with texture button");
-      }
-      sf::Sprite sprite;
-      sprite.setTexture(tmptexture);
-      sprite.scale(scale, scale);
-      sprite.move(910 * scale, 440 * scale);
-      background.draw(sprite);
-      sf::Text text;
-      sf::Font font;
-      if (!font.loadFromFile("res/text_fonts/attack of the cucumbers.ttf")){
-        std::cout <<"error with font name" << std::endl;
-        throw std::invalid_argument("error with argument");
-      }
-      text.setFont(font);
-      text.setString("End turn");
-      text.setColor(sf::Color::Black);
-      text.setCharacterSize(15 * scale);
-      text.setStyle(sf::Text::Bold);
-      text.move(930 * scale, 450 * scale);
-      background.draw(text);
-      text.move(0 , 2 );
-      background.draw(text);
-      text.move(2 , 0 );
-      background.draw(text);
-      text.move(0 , -2 );
-      background.draw(text);
-      text.setColor(sf::Color::White);
-      text.move(-1, 1);
-      background.draw(text);
-
-      background.display();
+        background.display();
 
 
 
-      std::vector<Player*> players = gameState -> GetPlayers();
+        std::vector<Player*> players = gameState -> GetPlayers();
 
-      int x = 10;
-      int y = 300;
-      for (auto player : players){
-        if(player -> GetIsEntityAlive()){
-          AddTexturePlayer(x* scale/1.5, y * scale/1.5, scale/1.5, player);
-          x+= 250;
+        int x = 10;
+        int y = 300;
+        for (auto player : players){
+          if(player -> GetIsEntityAlive()){
+            AddTexturePlayer(x* scale/1.5, y * scale/1.5, scale/1.5, player);
+            x+= 250;
+          }
+
         }
 
-      }
+        std::vector<std::unique_ptr<Enemy>>& enemies =room -> GetEnemies();
 
-      std::vector<std::unique_ptr<Enemy>>& enemies =room -> GetEnemies();
+         x = 1300;
+         y = 300;
+        for (auto& enemy : enemies){
+          if(enemy -> GetIsEntityAlive()){
+            AddTextureEnemy(x* scale/1.5, y * scale/1.5, scale/1.5, enemy);
+            x-= 250;
+          }
+        }
+        int entityTurn =  room -> GetEntityTurn(); //0, 1 = joueurs, 2,3,4 = ennemis
+        if( entityTurn >= 0 && entityTurn < 2){
+          std::vector<Card*> cards =  room -> GetHands()[entityTurn] -> GetCards();
+          x = 120;
+          y = 480;
+          int statAttack = players[entityTurn] -> GetStatAttack();
+          int statBlock = players[entityTurn] -> GetStatBlock();
+          for (auto card : cards){
+              AddTextureCard(x * scale, y * scale, scale/3, card, statAttack, statBlock);
+              x+= 110;
+          }
+          AddTexturePile(10 *scale, 480 * scale, scale/3,  "res/textures/cards/back_card_fin.png", room -> GetDrawPiles()[entityTurn] -> GetSize());
 
-       x = 1300;
-       y = 300;
-      for (auto& enemy : enemies){
-        if(enemy -> GetIsEntityAlive()){
-          AddTextureEnemy(x* scale/1.5, y * scale/1.5, scale/1.5, enemy);
-          x-= 250;
+          AddTexturePile(900 *scale, 480 * scale, scale/3, "res/textures/cards/back_card_fin.png", room -> GetDiscardPiles()[entityTurn] -> GetSize());
         }
       }
-      int entityTurn =  room -> GetEntityTurn(); //0, 1 = joueurs, 2,3,4 = ennemis
-      if( entityTurn >= 0 && entityTurn < 2){
-        std::vector<Card*> cards =  room -> GetHands()[entityTurn] -> GetCards();
-        x = 120;
-        y = 480;
-        int statAttack = players[entityTurn] -> GetStatAttack();
-        int statBlock = players[entityTurn] -> GetStatBlock();
-        for (auto card : cards){
-            AddTextureCard(x * scale, y * scale, scale/3, card, statAttack, statBlock);
-            x+= 110;
-        }
-        AddTexturePile(10 *scale, 480 * scale, scale/3,  "res/textures/cards/back_card_fin.png", room -> GetDrawPiles()[entityTurn] -> GetSize());
+      else{
 
-        AddTexturePile(900 *scale, 480 * scale, scale/3, "res/textures/cards/back_card_fin.png", room -> GetDiscardPiles()[entityTurn] -> GetSize());
+        sf::Text text;
+        sf::Font font;
+        if (!font.loadFromFile("res/text_fonts/Anke Print.ttf")){
+          std::cout <<"error with font name" << std::endl;
+          throw std::invalid_argument("error with argument");
+        }
+        text.setFont(font);
+        text.setString("Choose a card to obtain : ");
+        text.setColor(sf::Color::White);
+        text.setCharacterSize(30 * scale);
+        text.setStyle(sf::Text::Bold);
+        text.setPosition(339 * scale, 219 * scale);
+        background.draw(text);
+        text.move(0 , 2 );
+        background.draw(text);
+        text.move(2 , 0 );
+        background.draw(text);
+        text.move(0 , -2 );
+        background.draw(text);
+        text.setColor(sf::Color::Black);
+        text.move(-1, 1);
+        background.draw(text);
+
+        std::vector<Card*> reward =  room -> GetCardReward();
+        int x = 320;
+        int y = 250;
+        for (auto card : reward){
+          AddTextureCard(x * scale, y* scale, scale/3, card, 0, 0);
+          x += 150;
+        }
+        sf::Texture tmptexture;
+        if(!tmptexture.loadFromFile("res/textures/other/button1.png")){
+          throw std::invalid_argument("error with texture button");
+        }
+        sf::Sprite sprite;
+        sprite.setTexture(tmptexture);
+        sprite.scale(scale, scale);
+        sprite.setPosition(480 * scale, 450 * scale);
+        background.draw(sprite);
+        if (!font.loadFromFile("res/text_fonts/attack of the cucumbers.ttf")){
+          std::cout <<"error with font name" << std::endl;
+          throw std::invalid_argument("error with argument");
+        }
+        text.setFont(font);
+        text.setString("Pass");
+        text.setColor(sf::Color::Black);
+        text.setCharacterSize(15 * scale);
+        text.setStyle(sf::Text::Bold);
+        text.setPosition(515 * scale, 460 * scale);
+        background.draw(text);
+        text.move(0 , 2 );
+        background.draw(text);
+        text.move(2 , 0 );
+        background.draw(text);
+        text.move(0 , -2 );
+        background.draw(text);
+        text.setColor(sf::Color::White);
+        text.move(-1, 1);
+        background.draw(text);
+
+
+        background.display();
       }
     }
   }
