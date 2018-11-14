@@ -1,15 +1,4 @@
-#include "CommandPlayCard.h"
-#include "CommandAttack.h"
-#include "CommandAddBlock.h"
-#include "CommandHeal.h"
-#include "CommandAddBuff.h"
-#include "CommandAddDebuff.h"
-#include "CommandDraw.h"
-#include "CommandDiscard.h"
-#include "CommandDie.h"
-#include "CommandUseEnergy.h"
-#include "CommandChangeReward.h"
-#include "CommandEndFight.h"
+#include "engine.h"
 // #include "state/Card.h"
 // #include "state/DeckParts.h"
 // #include "state/Room.h"
@@ -79,23 +68,25 @@ void CommandPlayCard::Execute (std::shared_ptr<state::GameState>& gameState){
         }
         break;
     }
-
+    int element = selected_card -> GetElement();
     for (auto& entityTarget : targets){
       CommandAttack commandAttack(selected_card->GetAttack(), entityTarget->GetId());
       CommandAddBlock commandAddBlock(selected_card->GetBlock(), entityTarget->GetId());
       CommandHeal commandHeal(selected_card->GetHeal(), entityTarget->GetId());
       CommandAddBuff commandAddBuff(entityTarget->GetId(), *selected_card->GetBuff());
       CommandAddDebuff commandAddDebuff(entityTarget->GetId(), *selected_card->GetDebuff());
+      CommandChangeElement commandChangeElement(playerID, element);
 
       commandAttack.Execute(gameState);
       commandAddBlock.Execute(gameState);
       commandHeal.Execute(gameState);
       commandAddBuff.Execute(gameState);
       commandAddDebuff.Execute(gameState);
+      commandChangeElement.Execute(gameState);
 
       if (entityTarget->GetLife() == 0){
         CommandDie commandDie(entityTarget->GetId());
-        if (entityTarget->GetIsPlayer()){
+        if (!entityTarget->GetIsPlayer()){
           CommandChangeReward commandChangeReward(entityTarget->GetId());
           commandChangeReward.Execute(gameState);
         }

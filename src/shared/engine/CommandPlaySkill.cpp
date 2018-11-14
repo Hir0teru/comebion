@@ -1,15 +1,4 @@
-#include "CommandPlaySkill.h"
-#include "CommandAttack.h"
-#include "CommandAddBlock.h"
-#include "CommandHeal.h"
-#include "CommandAddBuff.h"
-#include "CommandAddDebuff.h"
-#include "CommandDraw.h"
-#include "CommandDiscard.h"
-#include "CommandDie.h"
-#include "CommandUseEnergy.h"
-#include "CommandChangeReward.h"
-#include "CommandEndFight.h"
+#include "engine.h"
 // #include "state/Card.h"
 // #include "state/DeckParts.h"
 // #include "state/Room.h"
@@ -31,6 +20,9 @@ CommandPlaySkill::CommandPlaySkill (int enemyID, int targetID, int skillIndex){
   if (skillIndex >= 0){
     this->skillIndex = skillIndex;
   } else this->skillIndex = 0;
+  if(targetID >= 0 && targetID < 5){
+    this -> targetID = targetID;
+  }
 }
 
 void CommandPlaySkill::Execute (std::shared_ptr<state::GameState>& gameState){
@@ -60,7 +52,7 @@ void CommandPlaySkill::Execute (std::shared_ptr<state::GameState>& gameState){
         targets.push_back((*PM)[targetID]);
         break;
       case 1:
-        targets.push_back(gameState->GetMap()->GetFloors()[floorNb]->GetCurrentRoom()->GetEnemies()[targetID].get());
+        targets.push_back(gameState->GetMap()->GetFloors()[floorNb]->GetCurrentRoom()->GetEnemies()[targetID - 2].get());
         break;
       case 2:
         for (auto& enemy : gameState->GetMap()->GetFloors()[floorNb]->GetCurrentRoom()->GetEnemies()){
@@ -131,6 +123,8 @@ void CommandPlaySkill::Execute (std::shared_ptr<state::GameState>& gameState){
       newIntent = rand() % (int) skills.size();
       i--;
     }
+    CommandChangeIntent changeIntent(enemyID, newIntent);
+    changeIntent.Execute(gameState);
   }
 
 }

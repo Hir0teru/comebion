@@ -31,13 +31,13 @@ Enemy::Enemy(int element, int nb):Enemy(){
       if (nb == 0) {
         this->SetImage("res/textures/Enemy/Air/bison.png");
         this->SetName("Flying Bison");
-        this->SetMaxLife(300);
-        this->SetLife(300);
+        this->SetMaxLife(30);
+        this->SetLife(30);
       } else {
         this->SetImage("res/textures/Enemy/Air/" + to_string(nb) +".png");
         this->SetName("air thing");
-        this->SetMaxLife(60);
-        this->SetLife(60);
+        this->SetMaxLife(10);
+        this->SetLife(10);
       }
       break;
     case 2:

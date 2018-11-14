@@ -6,7 +6,7 @@
 using namespace state;
 using namespace engine;
 using namespace std;
-
+// 4 > 3 > 2 > 1
 CommandAttack::CommandAttack (int damage, int entityID): damage(damage), entityID(entityID)
 {
 
@@ -16,18 +16,30 @@ CommandAttack::CommandAttack (){}
 
 void CommandAttack::Execute (std::shared_ptr<state::GameState>& gameState){
   cout<<"Attack entity "<<entityID<<" with "<<damage<<"damages"<<endl;
+  PlayerManager* PM = PlayerManager::instance();
   if (entityID < 2){
-    PlayerManager* PM = PlayerManager::instance();
-    int tmpdamage = damage;
+    float tmpdamage = damage + (*PM)[entityID] -> GetStatAttack();
+    if((*PM)[entityID] -> GetDebuff().GetAttackMinus() > 0 ){
+      tmpdamage = tmpdamage/2.;
+    }
+    if((*PM)[entityID] -> GetBuff().GetAttackPlus() > 0 ){
+      tmpdamage = tmpdamage * 1.5;
+    }
     tmpdamage -= (*PM)[entityID]->GetBlock();
     (*PM)[entityID]->SetBlock((*PM)[entityID]->GetBlock() - damage);
     if(tmpdamage > 0){
-      (*PM)[entityID]->SetLife((*PM)[entityID]->GetLife() - tmpdamage);
+      (*PM)[entityID]->SetLife((*PM)[entityID]->GetLife() - (int)tmpdamage);
     }
   } else {
     int floorNb = gameState->GetMap()->GetCurrentFloor();
     std::vector<std::unique_ptr<Enemy>>& enemies = gameState->GetMap()->GetFloors()[floorNb]->GetCurrentRoom()->GetEnemies();
-    int tmpdamage = damage;
+    float tmpdamage = damage + enemies[entityID - 2] -> GetStatAttack();
+    if(enemies[entityID - 2] -> GetDebuff().GetAttackMinus() > 0 ){
+      tmpdamage = tmpdamage/2.;
+    }
+    if(enemies[entityID - 2] -> GetBuff().GetAttackPlus() > 0 ){
+      tmpdamage = tmpdamage * 1.5;
+    }
     tmpdamage -= enemies[entityID - 2]->GetBlock();
     enemies[entityID - 2]->SetBlock(enemies[entityID - 2]->GetBlock() - damage);
     if(tmpdamage > 0){

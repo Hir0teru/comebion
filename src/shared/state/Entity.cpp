@@ -67,7 +67,9 @@ int Entity::GetLife (){
 
 void Entity::SetLife (int newLife){
   if (newLife < 0) {
-    this -> life = 60;
+    this -> life = 0;
+  } else if (newLife > maxLife){
+    this -> life = maxLife;
   }
   else {
     this -> life = newLife;

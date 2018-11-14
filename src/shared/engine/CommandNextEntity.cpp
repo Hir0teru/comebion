@@ -89,12 +89,14 @@ void CommandNextEntity::Execute (std::shared_ptr<state::GameState>& gameState){
             commandSkill.Execute(gameState);
             std::cout << "50" << std::endl;
           } else if(target == 1 ){
-            cible = rand() % (int) (gameState -> GetMap() -> GetFloors()[floorNb] -> GetCurrentRoom() -> GetEnemies().size());
+            cible = (rand() % (int) (gameState -> GetMap() -> GetFloors()[floorNb] -> GetCurrentRoom() -> GetEnemies().size())) + 2;
+            std::cout << "cible = "<< cible << std::endl;
             int j =0;
-            while(!gameState -> GetMap() -> GetFloors()[floorNb] -> GetCurrentRoom() -> GetEnemies()[cible] -> GetIsEntityAlive() && j < (int)gameState -> GetMap() -> GetFloors()[floorNb] -> GetCurrentRoom() -> GetEnemies().size()){
-              cible = rand() % (int) (gameState -> GetMap() -> GetFloors()[floorNb] -> GetCurrentRoom() -> GetEnemies().size());
+            while(!gameState -> GetMap() -> GetFloors()[floorNb] -> GetCurrentRoom() -> GetEnemies()[cible - 2] -> GetIsEntityAlive() && j < (int)gameState -> GetMap() -> GetFloors()[floorNb] -> GetCurrentRoom() -> GetEnemies().size()){
+              cible = (rand() % (int) (gameState -> GetMap() -> GetFloors()[floorNb] -> GetCurrentRoom() -> GetEnemies().size())) + 2;
               j++;
             }
+            std::cout << "cible = "<< cible << std::endl;
             std::cout << "in next entity" << std::endl;
             CommandPlaySkill commandSkill(entityTurn, cible, intent);
             commandSkill.Execute(gameState);
