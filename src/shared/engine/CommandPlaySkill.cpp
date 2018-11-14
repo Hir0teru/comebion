@@ -120,7 +120,19 @@ void CommandPlaySkill::Execute (std::shared_ptr<state::GameState>& gameState){
         }
       }
     }
+    std::vector<EnemySkill*> skills = gameState->GetMap()->GetFloors()[floorNb]->GetCurrentRoom()->GetEnemies()[enemyID - 2] ->GetSkills();
+    for (auto skill : skills){
+      skill -> SetTurnsBeforeUse( skill -> GetTurnsBeforeUse() - 1);
+    }
+    skills[skillIndex] -> SetTurnsBeforeUse(skills[skillIndex] -> GetCooldown());
+    int newIntent = rand() % (int) skills.size();
+    int i = skills.size();
+    while(skills[newIntent] -> GetTurnsBeforeUse() > 0 && i > 0 ){
+      newIntent = rand() % (int) skills.size();
+      i--;
+    }
   }
+
 }
 
 void CommandPlaySkill::Undo (std::shared_ptr<state::GameState>& gameState){}

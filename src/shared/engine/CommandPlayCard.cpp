@@ -30,6 +30,9 @@ CommandPlayCard::CommandPlayCard (int playerID, int targetID, int cardIndex){
   if (cardIndex >= 0 && cardIndex < 7){
     this->cardIndex = cardIndex;
   } else this->cardIndex = 0;
+  if(targetID >= 0 && targetID < 5){
+    this -> targetID = targetID;
+  } else this -> targetID = 0;
 }
 
 void CommandPlayCard::Execute (std::shared_ptr<state::GameState>& gameState){
@@ -53,7 +56,7 @@ void CommandPlayCard::Execute (std::shared_ptr<state::GameState>& gameState){
     }
 
     if (selected_card->GetCost() > player->GetEnergy()) {
-      throw std::out_of_range("Not enough energy to play this card");
+      throw std::invalid_argument("Not enough energy to play this card");
     }
     CommandUseEnergy commandUseEnergy(selected_card->GetCost(), playerID);
     commandUseEnergy.Execute(gameState);
@@ -63,7 +66,7 @@ void CommandPlayCard::Execute (std::shared_ptr<state::GameState>& gameState){
         targets.push_back((*PM)[targetID]);
         break;
       case 1:
-        targets.push_back(gameState->GetMap()->GetFloors()[floorNb]->GetCurrentRoom()->GetEnemies()[targetID].get());
+        targets.push_back(gameState->GetMap()->GetFloors()[floorNb]->GetCurrentRoom()->GetEnemies()[targetID - 2].get());
         break;
       case 2:
         for (auto& enemy : gameState->GetMap()->GetFloors()[floorNb]->GetCurrentRoom()->GetEnemies()){

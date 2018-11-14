@@ -1,5 +1,6 @@
 #include "Moteur.h"
 #include <stdexcept>
+#include <iostream>
 
 using namespace engine;
 
@@ -17,8 +18,15 @@ void Moteur::AddCommand (std::shared_ptr<Command> command){
 }
 void Moteur::Update (){
   if((int) commands.size() > 0){
-    commands[0] -> Execute(gameState);
-    commands.erase(commands.begin());
+    try{
+      commands[0] -> Execute(gameState);
+      commands.erase(commands.begin());
+    }
+    catch(std::invalid_argument){
+      std::cout << "wrong command" << std::endl;
+      commands.erase(commands.begin());
+    }
+
   }
 }
 

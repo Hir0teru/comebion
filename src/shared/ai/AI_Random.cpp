@@ -9,10 +9,10 @@ using namespace engine;
 
 AI_Random::AI_Random (){}
 AI_Random::AI_Random (std::shared_ptr<state::GameState> gameState, std::shared_ptr<engine::Moteur> moteur, int entityID){
-  gameState = gameState;
-  moteur = moteur;
+  this -> gameState = gameState;
+  this -> moteur = moteur;
   if(entityID >=0 && entityID < 2){
-    entityID = entityID;
+    this -> entityID = entityID;
   } else entityID = 0;
 
 }
@@ -22,7 +22,7 @@ std::vector<std::shared_ptr<engine::Command>> AI_Random::GetPossibleCommands (){
   std::vector<std::shared_ptr<engine::Command>> possibleCommands;
 
   std::cout << "is dead?" << std::endl;
-  if (gameState->GetIsGameLost()){
+  if (gameState ->  GetRules()->GetIsGameLost()){
     std::cout << "you're dead, deal with it" << std::endl;
   } else if (!gameState->GetIsInsideRoom()){
     std::cout << "in map" << std::endl;
@@ -75,6 +75,7 @@ std::vector<std::shared_ptr<engine::Command>> AI_Random::GetPossibleCommands (){
 void AI_Random::Play (){
   std::cout << "thinking ..." << std::endl;
   std::vector<std::shared_ptr<engine::Command>> commands = GetPossibleCommands();
+  std::cout << commands.size() << std::endl;
   int index = rand() % (int) commands.size();
   std::shared_ptr<Command> command_chosen = commands[index];
   moteur -> AddCommand(command_chosen);

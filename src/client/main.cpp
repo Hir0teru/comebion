@@ -56,23 +56,23 @@ void testRandomAI(){
         window.close();
       }
       if(event.type == sf::Event::KeyReleased){
-        try{
-          std::cout << "updating ..." << std::endl;
-          moteur -> Update();
-          std::cout << "done" << std::endl;
-          if(!rendu -> GetGameState() -> GetIsInsideRoom()){
-            entityTurn = 0;
-            rendu -> SetTextureMap(1);
-            sprite.setTexture(rendu -> GetTextureMap().getTexture());
-          }
-          else{
-            floorNb =  gameState -> GetMap() -> GetCurrentFloor();
-            entityTurn =  gameState -> GetMap() -> GetFloors()[floorNb] -> GetCurrentRoom() -> GetEntityTurn() ;
-            rendu -> SetTextureRoom();
-            rendu -> DrawInsideRoom();
-            sprite.setTexture(rendu -> GetTexture().getTexture());
-          }
-        } catch(std::invalid_argument){ std::cout << "wrong action" <<std::endl;}
+
+        std::cout << "updating ..." << std::endl;
+        moteur -> Update();
+        std::cout << "done" << std::endl;
+        if(!rendu -> GetGameState() -> GetIsInsideRoom()){
+          entityTurn = 0;
+          rendu -> SetTextureMap(1);
+          sprite.setTexture(rendu -> GetTextureMap().getTexture());
+        }
+        else{
+          floorNb =  gameState -> GetMap() -> GetCurrentFloor();
+          entityTurn =  gameState -> GetMap() -> GetFloors()[floorNb] -> GetCurrentRoom() -> GetEntityTurn() ;
+          rendu -> SetTextureRoom();
+          rendu -> DrawInsideRoom();
+          sprite.setTexture(rendu -> GetTexture().getTexture());
+        }
+
         if(moteur -> GetCommands().size() <= 0){
           if(entityTurn == 0){
             ai1 -> Play();
@@ -80,10 +80,12 @@ void testRandomAI(){
             if( gameState -> GetMap() -> GetFloors()[floorNb] -> GetCurrentRoom() -> GetIsSleepRoom() || gameState -> GetMap() -> GetFloors()[floorNb] -> GetCurrentRoom() -> GetIsSpecialTrainingRoom() ||
           (gameState -> GetMap() -> GetFloors()[floorNb] -> GetCurrentRoom() -> GetIsEnemyRoom() && gameState -> GetMap() -> GetFloors()[floorNb] -> GetCurrentRoom() -> GetIsFightWon())){
               // if ((int) gameState -> GetPlayers().size()  == 1){ //only one player
+              std::cout << "adding command exit" << std::endl;
                 moteur -> AddCommand(std::make_shared<CommandExitRoom>());
               // }
             }
           }  else{
+            std::cout<< "adding command next entity"<<std::endl;
             moteur -> AddCommand(std::make_shared<CommandNextEntity>());
           }
         }
