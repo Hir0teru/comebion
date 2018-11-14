@@ -10,6 +10,7 @@ GameState::GameState (){
   infoPlayers.push_back(std::move(std::make_unique<InfoPlayer>()));
   rules = std::move(std::make_unique<Rules>(1, std::move(infoPlayers)));
   isInsideRoom = false;
+  isGameLost = false;
 }
 
 GameState::~GameState(){}
@@ -36,4 +37,12 @@ std::vector<Player*>& GameState::GetPlayers(){
 
 void GameState::SetPlayers(std::vector<Player*>& players){
   this -> players = players;
+}
+
+bool GameState::GetIsGameLost(){
+  return isGameLost;
+}
+
+void GameState::SetIsGameLost(bool isGameLost){
+  this -> isGameLost = isGameLost;
 }

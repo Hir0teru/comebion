@@ -22,7 +22,7 @@ std::vector<std::shared_ptr<engine::Command>> AI_Random::GetPossibleCommands (){
   std::vector<std::shared_ptr<engine::Command>> possibleCommands;
 
   std::cout << "is dead?" << std::endl;
-  if (gameState->GetRules()->GetIsGameLost()){
+  if (gameState->GetIsGameLost()){
     std::cout << "you're dead, deal with it" << std::endl;
   } else if (!gameState->GetIsInsideRoom()){
     std::cout << "in map" << std::endl;
