@@ -18,6 +18,14 @@ void CommandEnterRoom::Execute (std::shared_ptr<state::GameState>& gameState){
   if (room->GetIsEnemyRoom()){
     for (unsigned int i = 0; i < gameState->GetPlayers().size(); i++){
       room->GetDrawPiles()[i]->SetCards(gameState->GetPlayers()[i]->GetDeck()->GetCards());
+      gameState->GetPlayers()[i] -> SetEnergy(3);
+      gameState->GetPlayers()[i] -> SetBuff(Buff(0,0,0,0,0));
+      gameState->GetPlayers()[i] -> SetDebuff(Debuff(0,0));
+    }
+    for (auto& enemy : room -> GetEnemies()){
+      for(auto skill : enemy -> GetSkills()){
+        skill -> SetTurnsBeforeUse(0);
+      }
     }
     CommandShuffle commandS(0);
     commandS.Execute(gameState);

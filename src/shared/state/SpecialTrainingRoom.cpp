@@ -21,6 +21,6 @@ SpecialTrainingRoom::SpecialTrainingRoom (int element, std::vector<Card*> cardRe
   }
 }
 
-std::vector<Card*> SpecialTrainingRoom::GetCardReward (){
+std::vector<Card*> SpecialTrainingRoom::GetReward (){
   return cardReward;
 }

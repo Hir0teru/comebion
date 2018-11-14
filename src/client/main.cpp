@@ -77,8 +77,10 @@ void testRandomAI(){
           if(entityTurn == 0){
             ai1 -> Play();
             floorNb =  gameState -> GetMap() -> GetCurrentFloor();
-            if( gameState -> GetMap() -> GetFloors()[floorNb] -> GetCurrentRoom() -> GetIsSleepRoom() || gameState -> GetMap() -> GetFloors()[floorNb] -> GetCurrentRoom() -> GetIsSpecialTrainingRoom() ||
-          (gameState -> GetMap() -> GetFloors()[floorNb] -> GetCurrentRoom() -> GetIsEnemyRoom() && gameState -> GetMap() -> GetFloors()[floorNb] -> GetCurrentRoom() -> GetIsFightWon())){
+            if(gameState->GetIsInsideRoom() && (( gameState -> GetMap() -> GetFloors()[floorNb] -> GetCurrentRoom() -> GetIsSleepRoom() ||
+            gameState -> GetMap() -> GetFloors()[floorNb] -> GetCurrentRoom() -> GetIsSpecialTrainingRoom()) ||
+          (gameState -> GetMap() -> GetFloors()[floorNb] -> GetCurrentRoom() -> GetIsEnemyRoom() &&
+          gameState -> GetMap() -> GetFloors()[floorNb] -> GetCurrentRoom() -> GetIsFightWon()))){
               // if ((int) gameState -> GetPlayers().size()  == 1){ //only one player
               std::cout << "adding command exit" << std::endl;
                 moteur -> AddCommand(std::make_shared<CommandExitRoom>());
@@ -161,8 +163,8 @@ void testEngine(){
     //play cards
     for (index = 0; index < 3; index++){
         moteur -> AddCommand(std::make_shared<CommandUseEnergy>(1, entityTurn));
-        moteur -> AddCommand(std::make_shared<CommandAttack>(6, 2));
-        moteur -> AddCommand(std::make_shared<CommandAddBlock>(6, 0));
+        moteur -> AddCommand(std::make_shared<CommandAttack>(6,entityTurn,  2));
+        moteur -> AddCommand(std::make_shared<CommandAddBlock>(6, entityTurn, 0));
         moteur -> AddCommand(std::make_shared<CommandChangeElement>(entityTurn, 4));
         moteur -> AddCommand(std::make_shared<CommandDiscard>(entityTurn, 0));
 
@@ -185,8 +187,8 @@ void testEngine(){
     //play cards
     for (index = 0; index < 3; index++){
         moteur -> AddCommand(std::make_shared<CommandUseEnergy>(1, entityTurn));
-        moteur -> AddCommand(std::make_shared<CommandAttack>(6, 2));
-        moteur -> AddCommand(std::make_shared<CommandAddBlock>(6, 0));
+        moteur -> AddCommand(std::make_shared<CommandAttack>(6,entityTurn, 2));
+        moteur -> AddCommand(std::make_shared<CommandAddBlock>(6,entityTurn, 0));
         moteur -> AddCommand(std::make_shared<CommandChangeElement>(entityTurn, 4));
         moteur -> AddCommand(std::make_shared<CommandDiscard>(entityTurn, 0));
     }
@@ -198,8 +200,8 @@ void testEngine(){
     // moteur -> AddCommand(std::make_shared<CommandNextEntity>());
     entityTurn = 2;
 
-    moteur -> AddCommand(std::make_shared<CommandAttack>(rendu -> GetGameState() -> GetMap() ->GetFloors()[0] -> GetCurrentRoom() -> GetEnemies()[entityTurn - 2 ] -> GetSkills()[2] -> GetAttack(), 0));
-    moteur -> AddCommand(std::make_shared<CommandAddBlock>(rendu -> GetGameState() -> GetMap() ->GetFloors()[0] -> GetCurrentRoom() -> GetEnemies()[entityTurn - 2 ] -> GetSkills()[2] -> GetBlock(), 2));
+    moteur -> AddCommand(std::make_shared<CommandAttack>(rendu -> GetGameState() -> GetMap() ->GetFloors()[0] -> GetCurrentRoom() -> GetEnemies()[entityTurn - 2 ] -> GetSkills()[2] -> GetAttack(),entityTurn, 0));
+    moteur -> AddCommand(std::make_shared<CommandAddBlock>(rendu -> GetGameState() -> GetMap() ->GetFloors()[0] -> GetCurrentRoom() -> GetEnemies()[entityTurn - 2 ] -> GetSkills()[2] -> GetBlock(),entityTurn, 2));
     moteur -> AddCommand(std::make_shared<CommandAddDebuff>(0, *rendu -> GetGameState() ->GetMap() -> GetFloors()[0] -> GetCurrentRoom() -> GetEnemies()[entityTurn - 2 ] -> GetSkills()[2] -> GetDebuff()));
 
     // moteur -> AddCommand(std::make_shared<CommandNextEntity>());

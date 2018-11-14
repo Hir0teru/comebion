@@ -67,8 +67,8 @@ void CommandPlaySkill::Execute (std::shared_ptr<state::GameState>& gameState){
     }
 
     for (auto& entityTarget : targets){
-      CommandAttack commandAttack(selectedSkill->GetAttack(), entityTarget->GetId());
-      CommandAddBlock commandAddBlock(selectedSkill->GetBlock(), entityTarget->GetId());
+      CommandAttack commandAttack(selectedSkill->GetAttack(), enemyID, entityTarget->GetId());
+      CommandAddBlock commandAddBlock(selectedSkill->GetBlock(), enemyID, entityTarget->GetId());
       CommandHeal commandHeal(selectedSkill->GetHeal(), entityTarget->GetId());
       CommandAddBuff commandAddBuff(entityTarget->GetId(), *selectedSkill->GetBuff());
       CommandAddDebuff commandAddDebuff(entityTarget->GetId(), *selectedSkill->GetDebuff());
@@ -119,9 +119,8 @@ void CommandPlaySkill::Execute (std::shared_ptr<state::GameState>& gameState){
     skills[skillIndex] -> SetTurnsBeforeUse(skills[skillIndex] -> GetCooldown());
     int newIntent = rand() % (int) skills.size();
     int i = skills.size();
-    while(skills[newIntent] -> GetTurnsBeforeUse() > 0 && i > 0 ){
+    while(skills[newIntent] -> GetTurnsBeforeUse() > 0){
       newIntent = rand() % (int) skills.size();
-      i--;
     }
     CommandChangeIntent changeIntent(enemyID, newIntent);
     changeIntent.Execute(gameState);

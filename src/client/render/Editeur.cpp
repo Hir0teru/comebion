@@ -985,7 +985,7 @@ Editeur::Editeur (int x, int y, float scale, state::Player* player){
               }
             }
 
-            if (player -> GetDebuff().GetBlockMinus() > 0){
+            if (player -> GetDebuff().GetAttackMinus() > 0){
                 sf::Texture tmptexture;
                 if(!tmptexture.loadFromFile("res/textures/icons/attack_down.png")){
                   std::cout << "error with attack up"<<std::endl;
@@ -998,7 +998,7 @@ Editeur::Editeur (int x, int y, float scale, state::Player* player){
                 texture.draw(tmpsprite);
                 //text for value of attack/buff/debuff/block
                 sf::Text tmptext;
-                tmptext.setString(std::to_string(player -> GetDebuff(). GetBlockMinus()));
+                tmptext.setString(std::to_string(player -> GetDebuff(). GetAttackMinus()));
                 tmptext.setFont(lifefont);
                 tmptext.setStyle(1);
                 tmptext.setCharacterSize(18 * scale);
@@ -1401,7 +1401,7 @@ if (enemy -> GetBuff().GetAttackPlus() > 0){
               }
             }
 
-            if (enemy -> GetDebuff().GetBlockMinus() > 0){
+            if (enemy -> GetDebuff().GetAttackMinus() > 0){
                 sf::Texture tmptexture;
                 if(!tmptexture.loadFromFile("res/textures/icons/attack_down.png")){
                   std::cout << "error with attack up"<<std::endl;
@@ -1414,7 +1414,7 @@ if (enemy -> GetBuff().GetAttackPlus() > 0){
                 texture.draw(tmpsprite);
                 //text for value of attack/buff/debuff/block
                 sf::Text tmptext;
-                tmptext.setString(std::to_string(enemy -> GetDebuff(). GetBlockMinus()));
+                tmptext.setString(std::to_string(enemy -> GetDebuff(). GetAttackMinus()));
                 tmptext.setFont(lifefont);
                 tmptext.setStyle(1);
                 tmptext.setCharacterSize(18 * scale);
@@ -2395,7 +2395,7 @@ void Editeur::SetEditeurPlayer(float scale, state::Player* player){
               }
             }
 
-            if (player -> GetDebuff().GetBlockMinus() > 0){
+            if (player -> GetDebuff().GetAttackMinus() > 0){
                 sf::Texture tmptexture;
                 if(!tmptexture.loadFromFile("res/textures/icons/attack_down.png")){
                   std::cout << "error with attack up"<<std::endl;
@@ -2408,7 +2408,7 @@ void Editeur::SetEditeurPlayer(float scale, state::Player* player){
                 texture.draw(tmpsprite);
                 //text for value of attack/buff/debuff/block
                 sf::Text tmptext;
-                tmptext.setString(std::to_string(player -> GetDebuff(). GetBlockMinus()));
+                tmptext.setString(std::to_string(player -> GetDebuff(). GetAttackMinus()));
                 tmptext.setFont(lifefont);
                 tmptext.setStyle(1);
                 tmptext.setCharacterSize(18 * scale);
@@ -2806,7 +2806,7 @@ if (enemy -> GetBuff().GetAttackPlus() > 0){
               }
             }
 
-            if (enemy -> GetDebuff().GetBlockMinus() > 0){
+            if (enemy -> GetDebuff().GetAttackMinus() > 0){
                 sf::Texture tmptexture;
                 if(!tmptexture.loadFromFile("res/textures/icons/attack_down.png")){
                   std::cout << "error with attack up"<<std::endl;
@@ -2819,7 +2819,7 @@ if (enemy -> GetBuff().GetAttackPlus() > 0){
                 texture.draw(tmpsprite);
                 //text for value of attack/buff/debuff/block
                 sf::Text tmptext;
-                tmptext.setString(std::to_string(enemy -> GetDebuff(). GetBlockMinus()));
+                tmptext.setString(std::to_string(enemy -> GetDebuff(). GetAttackMinus()));
                 tmptext.setFont(lifefont);
                 tmptext.setStyle(1);
                 tmptext.setCharacterSize(18 * scale);

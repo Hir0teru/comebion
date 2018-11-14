@@ -167,10 +167,10 @@ std::vector<DeckParts*> Room::GetDiscardPiles(){
   return std::vector<DeckParts*>();
 }
 
-std::vector<Card*> Room::GetCardReward(){
-  std::cout << "methode mère" << std::endl;
-  return std::vector<Card*>();
-}
+// std::vector<Card*> Room::GetCardReward(){
+//   std::cout << "methode mère" << std::endl;
+//   return std::vector<Card*>();
+// }
 
 void Room::SetHands(std::vector<DeckParts*> hands){}
 void Room::SetDiscardPiles(std::vector<DeckParts*> discardPiles){}

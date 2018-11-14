@@ -19,6 +19,9 @@ void CommandChangeRoom::Execute (std::shared_ptr<state::GameState>& gameState){
     floorNb ++;
     gameState -> GetMap() -> SetCurrentFloor(floorNb);
     gameState->GetMap()->GetFloors()[floorNb]->SetCurrentRoom(gameState->GetMap()->GetFloors()[floorNb]->GetFirstRoom());
+    for(auto player :gameState -> GetPlayers()){
+      player -> SetLife(player -> GetMaxLife());
+    }
   }
 }
 

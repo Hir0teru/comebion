@@ -511,7 +511,7 @@ void Rendu::SetTextureRoom(){
       text.move(-1, 1);
       background.draw(text);
 
-      std::vector<Card*> reward =  room -> GetCardReward();
+      std::vector<Card*> reward =  room -> GetReward();
       int x = 320;
       int y = 250;
       for (auto card : reward){
@@ -655,7 +655,7 @@ void Rendu::SetTextureRoom(){
         text.move(-1, 1);
         background.draw(text);
 
-        std::vector<Card*> reward =  room -> GetCardReward();
+        std::vector<Card*> reward =  room -> GetReward();
         int x = 320;
         int y = 250;
         for (auto card : reward){
