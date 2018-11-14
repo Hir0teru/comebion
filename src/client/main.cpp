@@ -59,16 +59,16 @@ void testRandomAI(){
 
         std::cout << "updating ..." << std::endl;
         moteur -> Update();
+        floorNb =  gameState -> GetMap() -> GetCurrentFloor();
+        entityTurn =  gameState -> GetMap() -> GetFloors()[floorNb] -> GetCurrentRoom() -> GetEntityTurn() ;
         std::cout << "done" << std::endl;
         if(!rendu -> GetGameState() -> GetIsInsideRoom()){
-          entityTurn = 0;
           rendu -> SetTextureMap(1);
           sprite.setTexture(rendu -> GetTextureMap().getTexture());
         }
         else{
-          floorNb =  gameState -> GetMap() -> GetCurrentFloor();
-          entityTurn =  gameState -> GetMap() -> GetFloors()[floorNb] -> GetCurrentRoom() -> GetEntityTurn() ;
           rendu -> SetTextureRoom();
+          std::cout << "ok" << std::endl;
           rendu -> DrawInsideRoom();
           sprite.setTexture(rendu -> GetTexture().getTexture());
         }

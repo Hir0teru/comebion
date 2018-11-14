@@ -11,6 +11,10 @@ CommandChangeRoom::CommandChangeRoom (){}
 void CommandChangeRoom::Execute (std::shared_ptr<state::GameState>& gameState){
   cout<<"Going to next room"<<endl;
   int floorNb = gameState->GetMap()->GetCurrentFloor();
+  if((int)gameState -> GetPlayers().size() == 2 && !gameState -> GetPlayers()[0] -> GetIsEntityAlive()){
+    gameState->GetMap()->GetFloors()[floorNb]->GetCurrentRoom()-> SetEntityTurn(1);
+  }
+  else gameState->GetMap()->GetFloors()[floorNb]->GetCurrentRoom() -> SetEntityTurn(0);
   if (gameState->GetMap()->GetFloors()[floorNb]->GetCurrentRoom()->GetNextRoom()){
     gameState->GetMap()->GetFloors()[floorNb]->SetCurrentRoom(gameState->GetMap()->GetFloors()[floorNb]->GetCurrentRoom()->GetNextRoom());
   } else if(floorNb == 4){

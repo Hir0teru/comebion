@@ -20,14 +20,8 @@ CommandRemoveCard::CommandRemoveCard (int playerID, int index){
 void CommandRemoveCard::Execute (std::shared_ptr<state::GameState>& gameState){
   cout<<"Remove card "<<index<<" from player "<<playerID<<endl;
   std::vector<state::Card*> cards = gameState -> GetPlayers()[playerID] -> GetDeck() -> GetCards();
-  int size = gameState -> GetPlayers()[playerID] -> GetDeck() -> GetSize();
-  if (size > 0 ){
-    for (int i = index; i < size-1 ; i++){
-      cards[i] = cards[i+1];
-    }
-    cards[size -1] = nullptr;
-    gameState -> GetPlayers()[playerID] -> GetDeck() -> SetCards(cards);
-  }
+  cards.erase(cards.begin() + index);
+  gameState -> GetPlayers()[playerID] -> GetDeck() -> SetCards(cards);
 }
 
 void CommandRemoveCard::Undo (std::shared_ptr<state::GameState>& gameState){
