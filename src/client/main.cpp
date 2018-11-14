@@ -11,11 +11,87 @@
 #include "state.h"
 #include "render.h"
 #include "engine.h"
+#include "ai.h"
 
 using namespace std;
 using namespace state;
 using namespace render;
 using namespace engine;
+using namespace ai;
+
+void testRandomAI(){
+  PlayerManager* PM = PlayerManager::instance();
+  std::shared_ptr<GameState> gameState = std::make_shared<state::GameState>();
+  std::vector<Player*> players;
+  players.push_back((*PM)[0]);
+  // players.push_back((*PM)[1]);
+  gameState -> SetPlayers(players);
+  std::shared_ptr<Moteur> moteur = make_shared<Moteur>(gameState);
+
+  AI_Random* ai1 = new AI_Random(gameState, moteur,0);
+  // AI_Random* ai2 = new AI_Random (gameState, moteur,1);
+
+  int entityTurn = 0;
+  int floorNb = 0;
+
+  Rendu * rendu = new Rendu(gameState);
+  sf::RenderWindow window(sf::VideoMode(rendu -> GetDimensionX(), rendu -> GetDimensionY()), "Slay the Avatar");
+
+
+  std::cout << "press a key for next step" << std::endl;
+  sf::Event event;
+  sf::Sprite sprite;
+  rendu -> SetTextureMap(1);
+  sprite.setTexture(rendu -> GetTextureMap().getTexture());
+
+  while(window.isOpen()){
+
+    window.clear(sf::Color::White);
+    window.draw(sprite);
+    window.display();
+
+    while (window.pollEvent(event)){
+      if (event.type == sf::Event::Closed){
+
+        window.close();
+      }
+      if(event.type == sf::Event::KeyReleased){
+        try{
+          std::cout << "updating ..." << std::endl;
+          moteur -> Update();
+          std::cout << "done" << std::endl;
+          if(!rendu -> GetGameState() -> GetIsInsideRoom()){
+            entityTurn = 0;
+            rendu -> SetTextureMap(1);
+            sprite.setTexture(rendu -> GetTextureMap().getTexture());
+          }
+          else{
+            floorNb =  gameState -> GetMap() -> GetCurrentFloor();
+            entityTurn =  gameState -> GetMap() -> GetFloors()[floorNb] -> GetCurrentRoom() -> GetEntityTurn() ;
+            rendu -> SetTextureRoom();
+            rendu -> DrawInsideRoom();
+            sprite.setTexture(rendu -> GetTexture().getTexture());
+          }
+        } catch(std::invalid_argument){ std::cout << "wrong action" <<std::endl;}
+        if(moteur -> GetCommands().size() <= 0){
+          if(entityTurn == 0){
+            ai1 -> Play();
+            floorNb =  gameState -> GetMap() -> GetCurrentFloor();
+            if( gameState -> GetMap() -> GetFloors()[floorNb] -> GetCurrentRoom() -> GetIsSleepRoom() || gameState -> GetMap() -> GetFloors()[floorNb] -> GetCurrentRoom() -> GetIsSpecialTrainingRoom() ||
+          (gameState -> GetMap() -> GetFloors()[floorNb] -> GetCurrentRoom() -> GetIsEnemyRoom() && gameState -> GetMap() -> GetFloors()[floorNb] -> GetCurrentRoom() -> GetIsFightWon())){
+              // if ((int) gameState -> GetPlayers().size()  == 1){ //only one player
+                moteur -> AddCommand(std::make_shared<CommandExitRoom>());
+              // }
+            }
+          }  else{
+            moteur -> AddCommand(std::make_shared<CommandNextEntity>());
+          }
+        }
+      }
+    }
+  }
+}
+
 
 void test(){
   PlayerManager* PM = PlayerManager::instance();
@@ -844,6 +920,10 @@ int main(int argc,char* argv[])
     if (argc == 2 and std::string(argv[1] )== "test"){
       test();
     }
+    if (argc == 2 and std::string(argv[1] )== "random_ai")
+  {
+    testRandomAI();
+  }
 
     delete SkillManager::instance();
     delete CardManager::instance();

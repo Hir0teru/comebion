@@ -5,7 +5,7 @@ using namespace state;
 
 EnemyRoom::~EnemyRoom(){}
 
-EnemyRoom::EnemyRoom (int element, std::vector<std::unique_ptr<Enemy>> enemies): Room(element, false, true, false), turn(0), entityTurn(0), isGameLost(false)
+EnemyRoom::EnemyRoom (int element, std::vector<std::unique_ptr<Enemy>> enemies): Room(element, false, true, false), turn(0), isGameLost(false)
 {
   PlayerManager* PM = PlayerManager::instance();
   if (enemies.size() <= 0) {
@@ -32,9 +32,9 @@ int EnemyRoom::GetTurn (){
   return turn;
 }
 
-int EnemyRoom::GetEntityTurn (){
-  return entityTurn;
-}
+// int EnemyRoom::GetEntityTurn (){
+//   return entityTurn;
+// }
 
 bool EnemyRoom::GetIsGameLost (){
   return isGameLost;
@@ -123,9 +123,9 @@ void EnemyRoom::SetTurn(int turn){
   this -> turn = turn;
 }
 
-void EnemyRoom::SetEntityTurn(int entityNb){
-  this -> entityTurn = entityNb;
-}
+// void EnemyRoom::SetEntityTurn(int entityNb){
+//   this -> entityTurn = entityNb;
+// }
 
 bool EnemyRoom::GetIsFightWon(){
   return isFightWon;

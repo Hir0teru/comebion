@@ -5,6 +5,7 @@ using namespace state;
 Room::~Room(){}
 
 Room::Room (int elem, bool isSTR, bool isER, bool isSR) {
+    entityTurn = 0;
     // Attributes
     if (elem < 0 || elem > 4) {
       element = 0;
@@ -124,6 +125,17 @@ void Room::SetNextRoom(std::shared_ptr<Room> newNextRoom){
     this->nextRoom = newNextRoom;
   }
 }
+
+int Room::GetEntityTurn(){
+  return entityTurn;
+}
+void Room::SetEntityTurn(int entityTurn){
+  if ((isSleepRoom || isSpecialTrainingRoom) && entityTurn >= 0 && entityTurn < 2){
+    this -> entityTurn  = entityTurn;
+  } else if (isEnemyRoom && entityTurn >=0 && entityTurn < 5){
+    this -> entityTurn = entityTurn;
+  }
+}
     // Setters and Getters
 
     //virtual classes
@@ -133,10 +145,6 @@ int Room::GetHeal(){
   return 0;
 }
 
-int Room::GetEntityTurn(){
-  std::cout << "methode mère" << std::endl;
-  return 0;
-}
 
 std::vector<std::unique_ptr<Enemy>>& Room::GetEnemies(){
   std::cout << "methode mère" << std::endl;
@@ -168,7 +176,7 @@ void Room::SetHands(std::vector<DeckParts*> hands){}
 void Room::SetDiscardPiles(std::vector<DeckParts*> discardPiles){}
 void Room::SetDrawPiles(std::vector<DeckParts*> drawPiles){}
 
-void Room::SetEntityTurn(int entityNb){}
+
 void Room::SetTurn(int entityNb){}
 
 std::vector<Card*> Room::GetReward(){return{};}
