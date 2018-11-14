@@ -73,7 +73,7 @@ void testRandomAI(){
           sprite.setTexture(rendu -> GetTexture().getTexture());
         }
 
-        if(moteur -> GetCommands().size() <= 0){
+        if(moteur -> GetCommands().size() <= 0 && !gameState -> GetRules() -> GetIsGameLost()){
           if(entityTurn == 0){
             ai1 -> Play();
             floorNb =  gameState -> GetMap() -> GetCurrentFloor();
