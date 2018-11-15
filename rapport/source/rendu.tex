@@ -46,8 +46,25 @@ Les attributs de cette classe sont:
 \begin{itemize}
 \item int dimensionX : un entier indiquant la longueur de la fenêtre à générer en pixels
 \item in dimensionY : un entier indiquant la largeur de la fenêtre à générer en pixels.
-\item Gamsetate * gamestate : un pointeur vers le gamestate.
+\item Gamestate * gamestate : un pointeur vers le gamestate.
 \end{itemize}
+
+\begin{figure}[H]
+\begin{center}
+\subfigure{%
+\includegraphics[width=8cm]{images/map_air.png}}%
+\qquad
+\subfigure{%
+\includegraphics[width=8cm]{images/enemyRoom.png}}%
+\qquad
+\subfigure{%
+\includegraphics[width=8cm]{images/sleepRoom.png}}%
+\qquad
+\subfigure{%
+\includegraphics[width=8cm]{images/reward.png}}%
+\caption{\label{slaythespiregame}Exemple de rendu final. En haut à gauche la carte, le cercle rouge indique la salle actuelle, en appuyant sur le bouton "enter room" on entre dans la salle. En haut à gauche une salle d'enemis, avec le(s) joueur(s) à gauche, le(s) ennemi(s) à droite, et les cartes du joueur actif en dessous. Les deux cartes au dos noirs indiquent la pioche et la défausse. En bas à gauche une salle de repos, on peut choisir de se soigner ou de méditer pour augmenter ses stats de base. En bas à droite une salle d'entrainement, on peut choisir une carte à ajouter au deck}
+\end{center}
+\end{figure}
 
 \subsection{Conception logiciel}
 

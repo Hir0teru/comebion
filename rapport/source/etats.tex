@@ -11,7 +11,7 @@ Le diagramme des états possède pour l'instant 18 classes. Tous les attributs p
 
 \begin{itemize}
         \item int firstElement : élément de départ du joueur. Les valeurs autorisées sont 1 (Air), 2 (Water), 3 (Earth), 4 (Fire). La valeur par défaut est 1. 
-        \item  bool playerControlledByAI : indique si le joueur est controlé par une intelligence artificielle ou non. Sera utilisé plus tard.
+        \item  bool playerControlledByAI : indique si le joueur est controlé par une intelligence artificielle ou non.
 \end{itemize}
 
 \underline{\textbf{Rules}}
@@ -20,15 +20,15 @@ Le diagramme des états possède pour l'instant 18 classes. Tous les attributs p
     \item bool isGameLost : Indique si les joueurs ont gagné ou non. Implique que le jeu est terminé. Le jeu est perdu lorsque que tous les joueurs sont morts.
     \item bool isGameOver : Indique si le jeu est terminé ou non. Un jeu est terminé lorsqu'il est perdu, ou lorsque les joueurs ont traversé la dernière salle du dernier étage.
     \item int nbPlayers : indique le nombre de joueurs qui participeront au jeu. Les valeurs autorisées sont 1 ou 2. Ces joueurs joueront en coopératif et affronteront les ennemis ensemble.
-    \item  std::vector<std::shared\_ptr<InfoPlayer>> infoPlayer: vecteur de pointeurs vers un objet InfoPlayer. Contient les informations du joueur 1 et 2 (s'il existe) respectivement. sa taille maximale est de 2, sa taille minimale est de 1.
+    \item  std::vector<std::unique\_ptr<InfoPlayer>> infoPlayer: vecteur de pointeurs vers un objet InfoPlayer. Contient les informations du joueur 1 et 2 (s'il existe) respectivement. sa taille maximale est de 2, sa taille minimale est de 1.
 \end{itemize}
 
 \underline{\textbf{GameState}}
 \par Contient des pointeurs vers tous les objets du jeu.
 \begin{itemize}
-    \item std::vector<std::shared\_ptr<Player>> players : Un vecteur de pointeurs vers les joueurs. Sa taille minimale est de 1, sa taille maximale est de 2.
-    \item std::shared\_ptr<Map> map: Un pointeur vers la carte du jeu. La carte est composée d'étages (Floor), eux-même composés de salles (Room). 
-    \item std::shared\_ptr<Rules> rules : un pointeur vers un objet Rules qui défini les règles du jeu.
+    \item std::vector<Player*> players : Un vecteur de pointeurs vers les joueurs. Sa taille minimale est de 1, sa taille maximale est de 2.
+    \item std::unique\_ptr<Map> map: Un pointeur vers la carte du jeu. La carte est composée d'étages (Floor), eux-même composés de salles (Room). 
+    \item std::unique\_ptr<Rules> rules : un pointeur vers un objet Rules qui défini les règles du jeu.
     \item  bool isInsideRoom : Indique si les joueurs se trouvent dans une salle ou  à l'exterieur. S'ils se trouvent à l'extérieur, c'est qu'ils sont en train de choisir une salle. Ils ont alors vue sur l'ensemble du graph des salles. Sinon, ils se trouvent à l'intérieur et effectuent les actions correspondantes. Les deux joueurs sont toujours en même temps à l'intérieur ou à l'exterieur d'une salle.
 \end{itemize}
 
@@ -66,7 +66,7 @@ Le diagramme des états possède pour l'instant 18 classes. Tous les attributs p
 \underline{SpecialTrainingRoom}
 \par Hérite de la classe Room. Permet aux joueurs d'ajouter des cartes à son deck.
 \begin{itemize}
-    \item std::vector<std::shared\_ptr<Card> cardReward : un vecteur de pointeurs vers des cartes. La taille de ce vecteurs est 3. Les cartes peuvent être générées avec n'importe quel élément.
+    \item std::vector<Card*> cardReward : un vecteur de pointeurs vers des cartes. La taille de ce vecteurs est 3. Les cartes peuvent être générées avec n'importe quel élément.
 \end{itemize}
 
 \underline{SleepRoom}
@@ -78,10 +78,10 @@ Le diagramme des états possède pour l'instant 18 classes. Tous les attributs p
 \underline{EnemyRoom}
 \par Hérite de la classe Room. Les joueurs doivent affronter un ou plusieurs ennemis et les vaincre pour pouvoir passer à la salle suivante.
 \begin{itemize}
-    \item std::vector<std::shared\_ptr<Enemy>> enemies : un vecteur de pointeurs vers des objets de classe Enemy. Ce vecteur possède une taille minime de 1 et maximale de 3.
-    \item std::vector<std::shared\_ptr<DeckParts>> drawPiles : un vecteur de pointeurs vers des objets de type DeckParts. Le vecteur possède une taille minimale de 1 et maximale de 2. Référence la pioche (drawPile) de chacun des joueurs.
-    \item std::vector<std::shared\_ptr<DeckParts>> hands : un vecteur de pointeurs vers des objets de type DeckParts. Le vecteur possède une taille minimale de 1 et maximale de 2. Référence la main (hand) de chacun des joueurs. Une seule main sera affichée à la fois.
-    \item std::vector<std::shared\_ptr<DeckParts>> discardPiles: un vecteur de pointeurs vers des objets de type DeckParts. Le vecteur possède une taille minimale de 1 et maximale de 2. Référence la défausse (discardPile) de chacun des joueurs.
+    \item std::vector<std::unique\_ptr<Enemy>> enemies : un vecteur de pointeurs vers des objets de classe Enemy. Ce vecteur possède une taille minime de 1 et maximale de 3.
+    \item std::vector<std::unique\_ptr<DeckParts>> drawPiles : un vecteur de pointeurs vers des objets de type DeckParts. Le vecteur possède une taille minimale de 1 et maximale de 2. Référence la pioche (drawPile) de chacun des joueurs.
+    \item std::vector<std::unique\_ptr<DeckParts>> hands : un vecteur de pointeurs vers des objets de type DeckParts. Le vecteur possède une taille minimale de 1 et maximale de 2. Référence la main (hand) de chacun des joueurs. Une seule main sera affichée à la fois.
+    \item std::vector<std::unique\_ptr<DeckParts>> discardPiles: un vecteur de pointeurs vers des objets de type DeckParts. Le vecteur possède une taille minimale de 1 et maximale de 2. Référence la défausse (discardPile) de chacun des joueurs.
     \item int turn : nombre de tours écoulés depuis le début du combat. Valeur positive requise. 
     \item int entityTurn : indique l'identifiant (Id) de l'entité en train de jouer. Si cet identifiant correspond à un joueur, sa main sera affichée et il pourra jouer des cartes. Si cet Id correspond à un ennemi, il effectuera son action puis choisira sa suivante en fonction des actions précédentes des joueurs.
     \item bool isGameLost : indique si les joueurs ont perdu. Le combat continue tant que les joueurs n'ont pas gagné, perdu ou abandonné. Les joueurs gagnent ce combat s'ils réduisent à 0 la vie des monstres adverses, perdent si leur vie est réduite à 0 ou s'ils abandonnent. Si les joueurs gagnent, ils sortent de la salle.
@@ -91,7 +91,7 @@ Le diagramme des états possède pour l'instant 18 classes. Tous les attributs p
 
 \subsubsection{Etat du deck}
 \underline{\textbf{Card}}
-\par Définie les cartes jouées dans le jeu. Toutes les cartes seront référencées dans un fichier texte contenu dans un des dossier du projet.
+\par Définie les cartes jouées dans le jeu.
 \begin{itemize}
     \item std::string name : le nom de la carte. Doit être un nom de carte existant.
     \item int cost : le coût en énergie de la carte. Les valeurs possibles sont comprises entre 0 et 3 inclus. 
@@ -107,10 +107,17 @@ Le diagramme des états possède pour l'instant 18 classes. Tous les attributs p
     \item Buff buff : objet Buff contenant des bonus à appliquer aux cartes au moment où elles sont jouées.
 \end{itemize}
 
+\underline{\textbf{CardManager}}
+\par Singleton permettant de créer les cartes de façon unique, puis d'y avoir accès facilement et enfin de les détruire facilement.
+\begin{itemize}
+    \item static CardManager* inst : Unique instance du CardManager
+    \item std::vector<std::unique\_ptr<Card>> cards : Vecteur de cartes
+\end{itemize}
+
 \underline{\textbf{Deck}}
 \par Contient des pointeurs vers des cartes. 
 \begin{itemize}
-    \item std::vector<std::shared\_ptr<Card>> cards : contient un vecteur de pointeurs vers des cartes. Certains pointeurs peuvent pointer vers la même carte. Ce vecteur possède une taille positive (par défaut 15) égale à sizeMax.
+    \item std::vector<Card*> cards : contient un vecteur de pointeurs vers des cartes. Certains pointeurs peuvent pointer vers la même carte. Ce vecteur possède une taille positive (par défaut 15) égale à sizeMax.
     \item int size : la taille du sous-vecteur à considérer. Si un deck est incomplet ou que des cartes ont été retirées, on ignore simplement les pointeurs correspondant et on considère un vecteur de taille plus petite. Valeur positive nécessaire.
     \item int sizeMax : la taille maximale du deck autorisée. Valeur positive nécessaire. Par défaut 15.
 \end{itemize}
@@ -119,8 +126,8 @@ Le diagramme des états possède pour l'instant 18 classes. Tous les attributs p
 \par Permet de créer la pioche, la main et la défausse pour une salle d'ennemis.
 
 \begin{itemize}
-    \item std::vector<std::shared\_ptr<Card>> cards : un vecteur de pointeurs vers des cartes. Certains pointeurs peuvent pointer vers la même carte. Possède une taille positive, égale à sizeMax.
-    \item int playerId: référence l'Id du joueur auquel la pioche/main/défausse appartient. Doit correspondre à l'Id d'un joueur existant.
+    \item std::vector<Card*> cards : un vecteur de pointeurs vers des cartes. Certains pointeurs peuvent pointer vers la même carte. Possède une taille positive, égale à sizeMax.
+    \item Player* player: pointeur vers le joueur auquel la pioche/main/défausse appartient.
     \item bool isHand : indique si la partie de deck est une main ou non. Une partie de deck ne peut être qu'une seule de ces instances: pioche, main, défausse.
     \item bool isDiscardPile: indique si la partie de deck est une défausse ou non. Une partie de deck ne peut être qu'une seule de ces instances: pioche, main, défausse.
     \item bool isDrawPile : indique si la partie de deck est une pioche ou non. Une partie de deck ne peut être qu'une seule de ces instances: pioche, main, défausse.
@@ -161,14 +168,15 @@ Le diagramme des états possède pour l'instant 18 classes. Tous les attributs p
     \item Debuff debuff : les debuffs appliqués à l'entité.
     \item bool isPlayer : indique si l'entité est un joueur (true) ou un ennemi (false).
     \item bool isEntityAlive : indique si l'entité est en vie. Une entité n'est pas en vie si son total de vie est nul. Une entité n'est pas affichée si elle n'est pas en vie, et ne peut plus agir pour le reste du jeu/combat. Si aucun des joueurs n'est en vie, la partie est terminée.
+    \item int maxLife : la valeur maximale de la vie de cette entité.
 \end{itemize}
 
 
 \underline{\textbf{Enemy}}
 \par Hérite de Entity. Une classe pour les ennemis. 
 \begin{itemize}
-    \item std::vector<std::shared\_ptr<Card>> reward : un vecteur de pointeurs vers les cartes. Ce vecteur est de taille 3. Les cartes pointées peuvent être ajoutées au deck d'un joueur lorsque le combat est terminé. Un joueur ne pourra ajouter qu'une seule carte parmis toutes les cartes proposées (même s'il y a eu plusieurs ennemis).
-    \item std::vector<std::shared\_ptr<EnemySkill>>  skills : un vecteur de pointeurs vers les capacités (Skill) d'un ennemi. Ce vecteur possède une taille minimale de 1 et maximale de 10. Détermine les capacités pouvant être effectuées par un ennemi.
+    \item std::vector<Card*> reward : un vecteur de pointeurs vers les cartes. Ce vecteur est de taille 3. Les cartes pointées peuvent être ajoutées au deck d'un joueur lorsque le combat est terminé. Un joueur ne pourra ajouter qu'une seule carte parmis toutes les cartes proposées (même s'il y a eu plusieurs ennemis).
+    \item std::vector<EnemySkill*>  skills : un vecteur de pointeurs vers les capacités (Skill) d'un ennemi. Ce vecteur possède une taille minimale de 1 et maximale de 10. Détermine les capacités pouvant être effectuées par un ennemi.
     \item int intent : un entier. Fait référence au pointeur de la capacité qui va être utilisée par l'ennemi lors de son tour. Valeur comprise entre 0 et la taille de skills - 1, soit au moins comprise entre 0 et 10. 
 \end{itemize}
 
@@ -179,8 +187,8 @@ Le diagramme des états possède pour l'instant 18 classes. Tous les attributs p
     \item int attack : Valeur d'attaque de la capacité (buffs/debuffs non appliqués). Valeur positive requise.
     \item int block : Valeur de block de la capacité (buffs/debuffs non appliqués). Valeur positive requise.
     \item int heal : Valeur de soin de la capacité. Valeur positive requise.
-    \item std::shared\_ptr<Buff>  buff : bonus que la capacité va appliquer sur la cible. Ils vont s'additionner à ses bonus actuels.
-    \item std::shared\_ptr debuff : malus que la capacité va appliquer sur la cible. Ils vont s'additionner à ses malus actuels.
+    \item std::unique\_ptr<Buff>  buff : bonus que la capacité va appliquer sur la cible. Ils vont s'additionner à ses bonus actuels.
+    \item std::unique\_ptr debuff : malus que la capacité va appliquer sur la cible. Ils vont s'additionner à ses malus actuels.
     \item std::string intentImage : chemin vers l'image de référence de l'attaque. Cette image apparaitera au dessus de l'ennemi en combat et indiquera au joueur le type de capacité utilisée. Ces images sont de deux catégories: celles représentant une capacité menée sur un joueur(ou tous les joueurs) et celles menées sur un ennemi (ou tous les ennemis).
     Capacités sur les joueurs : attaque, attaque et debuff.
     Capacités sur les ennemis : bloque, buff, soigne et toutes les combinaisons de ces paramètres. On a au total 9 images différentes pour les images d'intention.
@@ -189,12 +197,25 @@ Le diagramme des états possède pour l'instant 18 classes. Tous les attributs p
     \item int target: indique à quel type d'entité s'applique la capacité. Les valeurs possibles sont 0 (unique joueur), 1 (unique ennemi), 2 (tous les ennemis), 3 (tous les joueurs).
 \end{itemize}
 
+\underline{\textbf{SkillManager}}
+\par Singleton permettant de créer les compétences des enemis de façon unique, puis d'y avoir accès facilement et enfin de les détruire facilement.
+\begin{itemize}
+    \item static SkillManager* inst : Unique instance du SkillManager
+    \item std::vector<std::unique\_ptr<EnemySkill>> cards : Vecteur de competences.
+\end{itemize}
 
 \underline{\textbf{Player}}
 \par Hérite de la classe Entity. Contient les informations relatives au joueur.
 \begin{itemize}
     \item int energy : valeur positive requise. Le nombre d'énergie restante du joueur. Cette énergie est utilisée pour jouer des cartes, une carte ne peut pas être jouée si son coût est supérieur à l'énergie du joueur. L'énergie est initialisée à 3 au début de chaque tour du joueur.
-    \item std::shared\_ptr<Deck>  deck : un pointeur vers un deck de cartes.
+    \item std::unique\_ptr<Deck>  deck : un pointeur vers un deck de cartes.
+\end{itemize}
+
+\underline{\textbf{PlayerManager}}
+\par Singleton permettant de créer les personnages des joueurs de façon unique, puis d'y avoir accès facilement et enfin de les détruire facilement.
+\begin{itemize}
+    \item static PlayerManager* inst : Unique instance du PlayerManager
+    \item std::vector<std::unique\_ptr<Player> > cards : Vecteur de joueurs
 \end{itemize}
 
 \subsection{Conception Logiciel}

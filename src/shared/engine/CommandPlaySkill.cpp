@@ -118,7 +118,6 @@ void CommandPlaySkill::Execute (std::shared_ptr<state::GameState>& gameState){
     }
     skills[skillIndex] -> SetTurnsBeforeUse(skills[skillIndex] -> GetCooldown());
     int newIntent = rand() % (int) skills.size();
-    int i = skills.size();
     while(skills[newIntent] -> GetTurnsBeforeUse() > 0){
       newIntent = rand() % (int) skills.size();
     }
