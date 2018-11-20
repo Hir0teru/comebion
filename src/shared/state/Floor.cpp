@@ -60,9 +60,11 @@ Floor::Floor (int floorNumber, int element){
         } else {
           std::cout<<"room "<<i<<": specialTrainingRoom"<<std::endl;
           std::vector<Card*> reward;
-          reward.push_back((*CM)[0]);
-          reward.push_back((*CM)[0]);
-          reward.push_back((*CM)[0]);
+          int card;
+          for (int i = 0; i<3; i++){
+            card = rand() % 24 + 2;
+            reward.push_back((*CM)[card]);
+          }
           currentRoom->SetNextRoom(std::make_shared<SpecialTrainingRoom>(element, reward));
         }
         currentRoom = currentRoom->GetNextRoom();

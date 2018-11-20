@@ -28,8 +28,6 @@ void CommandAttack::Execute (std::shared_ptr<state::GameState>& gameState){
       if((*PM)[entityID] -> GetBuff().GetAttackPlus() > 0 ){
         tmpdamage = tmpdamage * 1.5;
       }
-      tmpdamage -= (*PM)[entityID]->GetBlock();
-
     } else {
       tmpdamage = damage + enemies[entityID - 2] -> GetStatAttack();
       if(enemies[entityID - 2] -> GetDebuff().GetAttackMinus() > 0 ){
@@ -40,18 +38,62 @@ void CommandAttack::Execute (std::shared_ptr<state::GameState>& gameState){
       }
     }
     if(target < 2){
-      int block = (*PM)[target]->GetBlock();
-      (*PM)[target]->SetBlock(block - (int)tmpdamage);
-      tmpdamage -= block;
-      if(tmpdamage > 0){
-        (*PM)[target]->SetLife((*PM)[target]->GetLife() - (int)tmpdamage);
-      }
+      if((*PM)[target] -> GetBuff().GetEvade() <= 0){
+        int block = (*PM)[target]->GetBlock();
+        (*PM)[target]->SetBlock(block - (int)tmpdamage);
+        tmpdamage -= block;
+        if(tmpdamage > 0){
+          (*PM)[target]->SetLife((*PM)[target]->GetLife() - (int)tmpdamage);
+        }
+        int retaliate = (*PM)[target] -> GetBuff().GetRetaliate();
+        if(retaliate> 0){
+          std::cout << target << " retaliate on " << entityID << std::endl;
+          if(entityID < 2){
+            int block = (*PM)[entityID]->GetBlock();
+            (*PM)[entityID]->SetBlock(block - 5);
+            retaliate = 5 - block;
+            if(retaliate > 0){
+              (*PM)[entityID]->SetLife((*PM)[entityID]->GetLife() - retaliate);
+            }
+          } else{
+            int block = enemies[entityID - 2]->GetBlock();
+            enemies[target - 2]->SetBlock(enemies[entityID - 2]->GetBlock() - 5);
+            retaliate = 5 - block;
+            if(retaliate> 0){
+              enemies[target -2]->SetLife(enemies[entityID - 2]->GetLife() - retaliate);
+            }
+          }
+        }
+      } else std::cout << target << " evade attack from " << entityID;
+
     } else{
-      int block = enemies[target - 2]->GetBlock();
-      enemies[target - 2]->SetBlock(enemies[target - 2]->GetBlock() - (int)tmpdamage);
-      if(tmpdamage - block> 0){
-        enemies[target -2]->SetLife(enemies[target - 2]->GetLife() - (int)tmpdamage + block);
-      }
+      if(  enemies[target - 2] -> GetBuff().GetEvade() <=0){
+        int block = enemies[target - 2]->GetBlock();
+        enemies[target - 2]->SetBlock(block - (int)tmpdamage);
+        tmpdamage -= block;
+        if(tmpdamage> 0){
+          enemies[target -2]->SetLife(enemies[target - 2]->GetLife() - (int)tmpdamage);
+        }
+        int retaliate = enemies[target - 2] -> GetBuff().GetRetaliate();
+        if(retaliate> 0){
+          std::cout << target << " retaliate on " << entityID << std::endl;
+          if(entityID < 2){
+            int block = (*PM)[entityID]->GetBlock();
+            (*PM)[entityID]->SetBlock(block - 5);
+            retaliate = 5 - block;
+            if(retaliate > 0){
+              (*PM)[entityID]->SetLife((*PM)[entityID]->GetLife() - retaliate);
+            }
+          } else{
+            int block = enemies[entityID - 2]->GetBlock();
+            enemies[target - 2]->SetBlock(enemies[entityID - 2]->GetBlock() - 5);
+            retaliate = 5 - block;
+            if(retaliate> 0){
+              enemies[target -2]->SetLife(enemies[entityID - 2]->GetLife() - retaliate);
+            }
+          }
+        }
+      } else std::cout << target << " evade attack from " << entityID;
     }
   cout<<"Attack entity "<<target<<" with "<<(int)tmpdamage<<"damages"<<endl;
   } else{

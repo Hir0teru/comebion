@@ -1,4 +1,5 @@
 #include "Moteur.h"
+#include "engine.h"
 #include <stdexcept>
 #include <iostream>
 
@@ -27,6 +28,11 @@ void Moteur::Update (){
       commands.erase(commands.begin());
     }
 
+  } else{
+    int floorNb =  gameState -> GetMap() -> GetCurrentFloor();
+    if (gameState->GetMap()->GetFloors()[floorNb]->GetCurrentRoom() -> GetEntityTurn() >=2){
+      commands.push_back(std::make_shared<CommandNextEntity>());
+    }
   }
 }
 

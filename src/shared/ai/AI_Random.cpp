@@ -30,7 +30,7 @@ std::vector<std::shared_ptr<engine::Command>> AI_Random::GetPossibleCommands (){
     std::shared_ptr<Room> room = gameState->GetMap()->GetFloors()[floorNb]->GetCurrentRoom();
     if (room->GetIsSleepRoom()){
       possibleCommands.push_back(std::make_shared<engine::CommandHeal>(room->GetHeal(), entityID));
-      possibleCommands.push_back(std::make_shared<engine::CommandChangeStat>(gameState->GetPlayers()[entityID]->GetStatAttack() + 2,gameState->GetPlayers()[entityID]->GetStatBlock() + 2,  entityID));
+      possibleCommands.push_back(std::make_shared<engine::CommandChangeStat>(entityID, gameState->GetPlayers()[entityID]->GetStatAttack() + 2,gameState->GetPlayers()[entityID]->GetStatBlock() + 2));
     } else if (room->GetIsSpecialTrainingRoom()) {
       possibleCommands.push_back(std::make_shared<engine::CommandAddCard>(entityID, 0, gameState->GetPlayers()[entityID]->GetDeck()->GetSize() == 15));
       possibleCommands.push_back(std::make_shared<engine::CommandAddCard>(entityID, 1, gameState->GetPlayers()[entityID]->GetDeck()->GetSize() == 15));
@@ -67,25 +67,37 @@ std::vector<std::shared_ptr<engine::Command>> AI_Random::GetPossibleCommands (){
 
 
 void AI_Random::Play (){
-  std::cout << "thinking ..." << std::endl;
-  std::vector<std::shared_ptr<engine::Command>> commands = GetPossibleCommands();
-  int index = rand() % (int) commands.size();
-  std::shared_ptr<Command> command_chosen = commands[index];
-  moteur -> AddCommand(command_chosen);
+  int floorNb =  gameState -> GetMap() -> GetCurrentFloor();
+  if(gameState->GetMap()->GetFloors()[floorNb]->GetCurrentRoom() -> GetEntityTurn() == entityID){
+    std::cout << "thinking ..." << std::endl;
+    std::vector<std::shared_ptr<engine::Command>> commands = GetPossibleCommands();
+    int index = rand() % (int) commands.size();
+    std::shared_ptr<Command> command_chosen = commands[index];
+    moteur -> AddCommand(command_chosen);
 
-  int floorNb = gameState->GetMap()->GetCurrentFloor();
 
-  if (gameState->GetIsInsideRoom() &&(gameState->GetMap()->GetFloors()[floorNb]->GetCurrentRoom()->GetIsSpecialTrainingRoom() || gameState->GetMap()->GetFloors()[floorNb]->GetCurrentRoom()->GetIsSleepRoom())) {
-    moteur -> AddCommand(std::make_shared<CommandNextEntity>());
-    std::cout << "done thinking!" << std::endl;
+    if ((entityID == (int) gameState -> GetPlayers().size() -1) &&
+        (gameState->GetIsInsideRoom() && (( gameState -> GetMap() -> GetFloors()[floorNb] -> GetCurrentRoom() -> GetIsSleepRoom() ||
+        gameState -> GetMap() -> GetFloors()[floorNb] -> GetCurrentRoom() -> GetIsSpecialTrainingRoom()) ||
+        (gameState -> GetMap() -> GetFloors()[floorNb] -> GetCurrentRoom() -> GetIsEnemyRoom() &&
+        gameState -> GetMap() -> GetFloors()[floorNb] -> GetCurrentRoom() -> GetIsFightWon())))){
+          moteur -> AddCommand(std::make_shared<CommandExitRoom>());
+    } else if (gameState->GetIsInsideRoom() && (( gameState -> GetMap() -> GetFloors()[floorNb] -> GetCurrentRoom() -> GetIsSleepRoom() ||
+               gameState -> GetMap() -> GetFloors()[floorNb] -> GetCurrentRoom() -> GetIsSpecialTrainingRoom()) ||
+               (gameState -> GetMap() -> GetFloors()[floorNb] -> GetCurrentRoom() -> GetIsEnemyRoom() &&
+               gameState -> GetMap() -> GetFloors()[floorNb] -> GetCurrentRoom() -> GetIsFightWon()))){
+                  moteur -> AddCommand(std::make_shared<CommandNextEntity>());
+    }
+
+
+
+    //   command_chosen.Execute(gameState);
+    //   CommandExitRoom command;
+    //   command.Execute();
+    // } else {
+      // command_chosen -> Execute(gameState);
+    // }
   }
-
-  //   command_chosen.Execute(gameState);
-  //   CommandExitRoom command;
-  //   command.Execute();
-  // } else {
-    // command_chosen -> Execute(gameState);
-  // }
 }
 
 std::shared_ptr<engine::Moteur>& AI_Random::GetMoteur(){

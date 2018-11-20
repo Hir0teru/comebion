@@ -30,6 +30,7 @@ void CommandNextEntity::Execute (std::shared_ptr<state::GameState>& gameState){
         state::Buff buff = gameState -> GetPlayers()[i] -> GetBuff();
         buff.SetBlockPlus(buff.GetBlockPlus() - 1);
         buff.SetAttackPlus(buff.GetAttackPlus() -1);
+        gameState -> GetPlayers()[i]  -> SetLife(gameState -> GetPlayers()[i]  -> GetLife() + buff.GetHeal());
         buff.SetHeal(buff.GetHeal() -1 );
         buff.SetEvade(buff.GetEvade() - 1);
         buff.SetRetaliate(buff.GetRetaliate() -1);
@@ -40,23 +41,29 @@ void CommandNextEntity::Execute (std::shared_ptr<state::GameState>& gameState){
         gameState -> GetPlayers()[i] -> SetDebuff(debuff);
 
       }
-    std::cout << "7" << std::endl;
       if(! gameState -> GetPlayers()[0] -> GetIsEntityAlive()){
-      std::cout << "8" << std::endl;
         entityTurn = 1;  //one of the two players must be alive, else the game is lost
       } else entityTurn = 0;
     } else if (entityTurn == playerNb - 1){  // new turn for enemy
       entityTurn = 2;
       for (int i = 0; i < enemyNb; i++){
-        std::cout << "10" << std::endl;
         gameState -> GetMap() -> GetFloors()[floorNb] -> GetCurrentRoom() -> GetEnemies()[i] -> SetBlock(0);
-        std::cout << "11" << std::endl;
+        state::Buff buff = gameState -> GetMap() -> GetFloors()[floorNb] -> GetCurrentRoom() -> GetEnemies()[i] -> GetBuff();
+        buff.SetBlockPlus(buff.GetBlockPlus() - 1);
+        buff.SetAttackPlus(buff.GetAttackPlus() -1);
+        gameState -> GetMap() -> GetFloors()[floorNb] -> GetCurrentRoom() -> GetEnemies()[i]  -> SetLife(gameState -> GetMap() -> GetFloors()[floorNb] -> GetCurrentRoom() -> GetEnemies()[i] -> GetLife() + buff.GetHeal());
+        buff.SetHeal(buff.GetHeal() -1 );
+        buff.SetEvade(buff.GetEvade() - 1);
+        buff.SetRetaliate(buff.GetRetaliate() -1);
+        gameState -> GetMap() -> GetFloors()[floorNb] -> GetCurrentRoom() -> GetEnemies()[i] -> SetBuff(buff);
+        state::Debuff debuff = gameState -> GetMap() -> GetFloors()[floorNb] -> GetCurrentRoom() -> GetEnemies()[i] -> GetDebuff();
+        debuff.SetBlockMinus(debuff.GetBlockMinus() - 1);
+        debuff.SetAttackMinus(debuff.GetAttackMinus() - 1);
+        gameState -> GetMap() -> GetFloors()[floorNb] -> GetCurrentRoom() -> GetEnemies()[i] -> SetDebuff(debuff);
         if(! gameState -> GetMap() -> GetFloors()[floorNb] -> GetCurrentRoom() -> GetEnemies()[i] -> GetIsEntityAlive()){
-          std::cout << "12" << std::endl;
           entityTurn += 1;  //one of the two players must be alive, else the game is lost
         }
       }
-      std::cout << "13" << std::endl;
       if (entityTurn > 5){
         entityTurn = 0;
       }

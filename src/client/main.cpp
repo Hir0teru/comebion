@@ -4,6 +4,9 @@
 #include <memory>
 #include <unistd.h>
 #include <cstdlib>
+#include <stdio.h>
+#include <stdlib.h>
+#include <time.h>
 
 // Les lignes suivantes ne servent qu'à vérifier que la compilation avec SFML fonctionne
 #include <SFML/Graphics.hpp>
@@ -65,31 +68,37 @@ void testRandomAI(){
         if(!rendu -> GetGameState() -> GetIsInsideRoom()){
           rendu -> SetTextureMap(1);
           sprite.setTexture(rendu -> GetTextureMap().getTexture());
+          window.clear(sf::Color::White);
+          window.draw(sprite);
+          window.display();
         }
         else{
           rendu -> SetTextureRoom();
           std::cout << "ok" << std::endl;
           rendu -> DrawInsideRoom();
           sprite.setTexture(rendu -> GetTexture().getTexture());
+          window.clear(sf::Color::White);
+          window.draw(sprite);
+          window.display();
         }
 
         if(moteur -> GetCommands().size() <= 0 && !gameState -> GetRules() -> GetIsGameLost()){
-          if(entityTurn == 0){
+          // if(entityTurn == 0){
             ai1 -> Play();
-            floorNb =  gameState -> GetMap() -> GetCurrentFloor();
-            if(gameState->GetIsInsideRoom() && (( gameState -> GetMap() -> GetFloors()[floorNb] -> GetCurrentRoom() -> GetIsSleepRoom() ||
-            gameState -> GetMap() -> GetFloors()[floorNb] -> GetCurrentRoom() -> GetIsSpecialTrainingRoom()) ||
-          (gameState -> GetMap() -> GetFloors()[floorNb] -> GetCurrentRoom() -> GetIsEnemyRoom() &&
-          gameState -> GetMap() -> GetFloors()[floorNb] -> GetCurrentRoom() -> GetIsFightWon()))){
-              // if ((int) gameState -> GetPlayers().size()  == 1){ //only one player
-              std::cout << "adding command exit" << std::endl;
-                moteur -> AddCommand(std::make_shared<CommandExitRoom>());
-              // }
-            }
-          }  else{
-            std::cout<< "adding command next entity"<<std::endl;
-            moteur -> AddCommand(std::make_shared<CommandNextEntity>());
-          }
+            // floorNb =  gameState -> GetMap() -> GetCurrentFloor();
+          //   if(gameState->GetIsInsideRoom() && (( gameState -> GetMap() -> GetFloors()[floorNb] -> GetCurrentRoom() -> GetIsSleepRoom() ||
+          //   gameState -> GetMap() -> GetFloors()[floorNb] -> GetCurrentRoom() -> GetIsSpecialTrainingRoom()) ||
+          // (gameState -> GetMap() -> GetFloors()[floorNb] -> GetCurrentRoom() -> GetIsEnemyRoom() &&
+          // gameState -> GetMap() -> GetFloors()[floorNb] -> GetCurrentRoom() -> GetIsFightWon()))){
+          //     // if ((int) gameState -> GetPlayers().size()  == 1){ //only one player
+          //     std::cout << "adding command exit" << std::endl;
+          //       moteur -> AddCommand(std::make_shared<CommandExitRoom>());
+          //     // }
+          //   }
+          // }  else{
+          //   std::cout<< "adding command next entity"<<std::endl;
+          //   moteur -> AddCommand(std::make_shared<CommandNextEntity>());
+          // }
         }
       }
     }
@@ -897,6 +906,7 @@ int main(int argc,char* argv[])
     SkillManager::instance();
     CardManager::instance();
     PlayerManager::instance();
+    srand(time(NULL));
     //Exemple exemple;
     //exemple.setX(53);
 

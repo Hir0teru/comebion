@@ -14,16 +14,18 @@ using namespace std;
 //basic ennemy for testing
 Enemy::Enemy (){
   CardManager* CM = CardManager::instance();
-  SkillManager* SM = SkillManager::instance();
-
+  // SkillManager* SM = SkillManager::instance();
+  int card;
   for (int i = 0; i<3; i++){
-    reward.push_back((*CM)[0]);
-    skills.push_back((*SM)[i]);
+    card = rand() % 24 + 2;
+    reward.push_back((*CM)[card]);
+    // skills.push_back((*SM)[i]);
   }
   intent = 0;
 }
 
 Enemy::Enemy(int element, int nb):Enemy(){
+  SkillManager* SM = SkillManager::instance();
   this->SetElement(element);
   this -> SetIsEntityAlive(true);
   switch (element) {
@@ -33,11 +35,17 @@ Enemy::Enemy(int element, int nb):Enemy(){
         this->SetName("Flying Bison");
         this->SetMaxLife(30);
         this->SetLife(30);
+        skills.push_back((*SM)[8]);
+        skills.push_back((*SM)[9]);
+        skills.push_back((*SM)[10]);
       } else {
         this->SetImage("res/textures/Enemy/Air/" + to_string(nb) +".png");
         this->SetName("air thing");
         this->SetMaxLife(10);
         this->SetLife(10);
+        skills.push_back((*SM)[0]);
+        skills.push_back((*SM)[1]);
+        skills.push_back((*SM)[2]);
       }
       break;
     case 2:
@@ -46,11 +54,17 @@ Enemy::Enemy(int element, int nb):Enemy(){
         this->SetName("La");
         this->SetMaxLife(500);
         this->SetLife(500);
+        skills.push_back((*SM)[11]);
+        skills.push_back((*SM)[12]);
+        skills.push_back((*SM)[13]);
       } else {
         this->SetImage("res/textures/Enemy/Water/" + to_string(nb) +".png");
         this->SetName("water thing");
         this->SetMaxLife(60);
         this->SetLife(60);
+        skills.push_back((*SM)[0]);
+        skills.push_back((*SM)[3]);
+        skills.push_back((*SM)[4]);
       }
       break;
     case 3:
@@ -59,11 +73,17 @@ Enemy::Enemy(int element, int nb):Enemy(){
         this->SetName("Badgermole");
         this->SetMaxLife(300);
         this->SetLife(300);
+        skills.push_back((*SM)[14]);
+        skills.push_back((*SM)[15]);
+        skills.push_back((*SM)[16]);
       } else {
         this->SetImage("res/textures/Enemy/Earth/" + to_string(nb) +".png");
         this->SetName("earth thing");
         this->SetMaxLife(60);
         this->SetLife(60);
+        skills.push_back((*SM)[0]);
+        skills.push_back((*SM)[5]);
+        skills.push_back((*SM)[6]);
       }
       break;
     case 4:
@@ -72,16 +92,25 @@ Enemy::Enemy(int element, int nb):Enemy(){
         this->SetName("Blue Dragon");
         this->SetMaxLife(250);
         this->SetLife(250);
+        skills.push_back((*SM)[17]);
+        skills.push_back((*SM)[18]);
+        skills.push_back((*SM)[19]);
       } else if (nb == -1) {
         this->SetImage("res/textures/Enemy/Fire/red_dragon.png");
         this->SetName("Red Dragon");
         this->SetMaxLife(250);
         this->SetLife(250);
+        skills.push_back((*SM)[20]);
+        skills.push_back((*SM)[21]);
+        skills.push_back((*SM)[22]);
       } else {
         this->SetImage("res/textures/Enemy/Fire/" + to_string(nb) +".png");
         this->SetName("fire thing");
         this->SetMaxLife(60);
         this->SetLife(60);
+        skills.push_back((*SM)[0]);
+        skills.push_back((*SM)[3]);
+        skills.push_back((*SM)[7]);
       }
       break;
   }
