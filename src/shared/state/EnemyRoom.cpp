@@ -142,3 +142,11 @@ std::vector<Card*> EnemyRoom::GetReward(){
 void EnemyRoom::SetReward(std::vector<Card*> reward){
   this -> reward = reward;
 }
+
+int EnemyRoom::GetTotalDamage(){
+  int total = 0;
+  for (auto& enemy : enemies){
+    total += enemy->GetSkills()[enemy->GetIntent()]->GetAttack();
+  }
+  return total;
+}

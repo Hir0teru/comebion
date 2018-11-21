@@ -65,3 +65,35 @@ void Deck::SetSize (int newSize){
 int Deck::GetSizeMax (){
   return sizeMax;
 }
+
+std::vector<int> Deck::CountCards(){
+  std::vector<int> count;
+  int attack, block = 0;
+  for (auto& card : cards){
+    if (card->GetAttack() > 0){
+      attack++;
+    }
+    if (card->GetBlock() > 0){
+      block++;
+    }
+
+    Buff* buffInstance = card->GetBuff();
+    if (buffInstance->GetAttackPlus() + buffInstance->GetBlockPlus() + buffInstance->GetHeal() + buffInstance->GetEvade() + buffInstance->GetRetaliate() > 0){
+      block++;
+    }
+
+    Debuff* debuffInstance = card->GetDebuff();
+    if (debuffInstance->GetAttackMinus() + debuffInstance->GetBlockMinus() > 0){
+      attack++;
+    }
+
+  }
+  count.push_back(attack);
+  count.push_back(block);
+
+  return count;
+}
+
+bool Deck::IsFull(){
+  return (cards.size() == sizeMax);
+}

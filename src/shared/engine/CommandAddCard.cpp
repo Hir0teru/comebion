@@ -21,10 +21,10 @@ void CommandAddCard::Execute (std::shared_ptr<state::GameState>& gameState){
       command.Execute(gameState);
     }
     cout<<"Add card number "<<card<<" to player "<<playerID<<"'s deck"<<endl;
-    int floorNb = gameState -> GetMap() -> GetCurrentFloor();
-    std::shared_ptr<Room> room = gameState -> GetMap() -> GetFloors()[floorNb] -> GetCurrentRoom();
+    int floorNb = gameState->GetMap()->GetCurrentFloor();
+    std::shared_ptr<Room> room = gameState->GetMap()->GetFloors()[floorNb]->GetCurrentRoom();
     std::vector<Card*> cards = gameState->GetPlayers()[playerID]->GetDeck()->GetCards();
-    cards.push_back(room -> GetReward()[card]);
+    cards.push_back(room->GetReward()[card]);
     gameState->GetPlayers()[playerID]->GetDeck()->SetCards(cards);
   }
 }
