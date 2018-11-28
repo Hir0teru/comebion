@@ -14,6 +14,13 @@ void CommandEnterRoom::Execute (std::shared_ptr<state::GameState>& gameState){
   cout<<"Enter current room"<<endl;
   gameState->SetIsInsideRoom(true);
   int floorNb = gameState->GetMap()->GetCurrentFloor();
+
+  if((int)gameState -> GetPlayers().size() == 2 && !gameState -> GetPlayers()[0] -> GetIsEntityAlive()){
+    gameState->GetMap()->GetFloors()[floorNb]->GetCurrentRoom()-> SetEntityTurn(1);
+  }
+  else {
+    gameState->GetMap()->GetFloors()[floorNb]->GetCurrentRoom() -> SetEntityTurn(0);}
+
   Room* room = gameState->GetMap()->GetFloors()[floorNb]->GetCurrentRoom().get();
   if (room->GetIsEnemyRoom()){
     for (unsigned int i = 0; i < gameState->GetPlayers().size(); i++){

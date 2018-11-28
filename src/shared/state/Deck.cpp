@@ -95,5 +95,5 @@ std::vector<int> Deck::CountCards(){
 }
 
 bool Deck::IsFull(){
-  return (cards.size() == sizeMax);
+  return ((int) cards.size() == sizeMax);
 }

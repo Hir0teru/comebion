@@ -3,4 +3,5 @@
 #define __AI__H
 
 #include "ai/AI_Random.h"
+#include "ai/AI_Heuristique.h"
 #endif

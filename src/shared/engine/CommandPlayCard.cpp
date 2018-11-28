@@ -47,6 +47,12 @@ void CommandPlayCard::Execute (std::shared_ptr<state::GameState>& gameState){
     if (selected_card->GetCost() > player->GetEnergy()) {
       throw std::invalid_argument("Not enough energy to play this card");
     }
+    if(targetID > 1 && !room -> GetEnemies()[targetID - 2] -> GetIsEntityAlive()){
+      throw std::invalid_argument("target is dead");
+    }
+    if(targetID < 2 && !(*PM)[targetID] -> GetIsEntityAlive()){
+      throw std::invalid_argument("target is dead");
+    }
     CommandUseEnergy commandUseEnergy(selected_card->GetCost(), playerID);
     commandUseEnergy.Execute(gameState);
 
