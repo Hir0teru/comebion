@@ -200,11 +200,9 @@ std::shared_ptr<engine::Moteur>& AI_Heuristique::GetMoteur(){
 }
 
 int AI_Heuristique::Max_attack(std::vector<state::Card*> cards, int * cards_played, int energy_left, int max, int index, int nb_card_played){
-  std::cout << "energy " << energy_left << std::endl;
   if(index >= (int) cards.size() - 1 ) return max;
   int newmax = max;
   for(int i = index + 1; i< (int) cards.size(); i++){
-    std::cout << "card " << i<< std::endl;
     if(cards_played[i] == 0 && cards[i] -> GetCost() <= energy_left && cards[i] -> GetAttack() > 0 ){
 
 
@@ -214,13 +212,16 @@ int AI_Heuristique::Max_attack(std::vector<state::Card*> cards, int * cards_play
       }
 
       cards_played_cpy[i] = nb_card_played + 1;
+      // calcule le max en jouant la carte i
       newmax =  Max_attack(cards, cards_played_cpy, energy_left - cards[i] -> GetCost(), max  + cards[i] -> GetAttack(), i, nb_card_played + 1);
     //  cards_played[i] = 0;
+    // calcule le max en ne jouant pas la carte i
       max = Max_attack(cards, cards_played, energy_left, max, i, nb_card_played);
 
       if(newmax > max){
         max = newmax;
         //cards_played[i] = nb_card_played + 1;
+        // si le max en jouant la carte est plus grand que sans la jouer:
         for(int j = 0; j < 5; j++){
           cards_played[j] = cards_played_cpy[j];
         }
@@ -239,7 +240,6 @@ int AI_Heuristique::Try_block(std::vector<state::Card*> cards, int * cards_playe
   if(index >= (int) cards.size() - 1  || block >= block_aim) return block;
   int newblock = block;
   for(int i = index + 1; i< (int) cards.size(); i++){
-    std::cout << "card " << i<< std::endl;
     if(cards_played[i] == 0 && cards[i] -> GetCost() <= energy_left && cards[i] -> GetBlock() > 0 && i != index){
 
       int cards_played_cpy[5];
