@@ -41,16 +41,18 @@ std::vector<std::shared_ptr<engine::Command>> AI_Random::GetPossibleCommands (){
     } else { //enemyroom
       if(!gameState -> GetMap() -> GetFloors()[floorNb] -> GetCurrentRoom() -> GetIsFightWon()){ // keep fighting
         for (int i = 0; i < room -> GetHands()[entityID] -> GetSize(); i++){ // try to play cards
-          if(room -> GetHands()[entityID] -> GetCards()[i] -> GetTarget() == 0 || room -> GetHands()[entityID] -> GetCards()[i] -> GetTarget() == 3){
-            possibleCommands.push_back(std::make_shared<engine::CommandPlayCard>(entityID, 0, i));
-            if((int)gameState -> GetPlayers().size() == 2 ){
-              possibleCommands.push_back(std::make_shared<engine::CommandPlayCard>(entityID, 1, i));
+          if(room -> GetHands()[entityID] -> GetCards()[i] -> GetCost() <= gameState -> GetPlayers()[entityID] -> GetEnergy()){
+            if(room -> GetHands()[entityID] -> GetCards()[i] -> GetTarget() == 0 || room -> GetHands()[entityID] -> GetCards()[i] -> GetTarget() == 3){
+              possibleCommands.push_back(std::make_shared<engine::CommandPlayCard>(entityID, 0, i));
+              if((int)gameState -> GetPlayers().size() == 2 ){
+                possibleCommands.push_back(std::make_shared<engine::CommandPlayCard>(entityID, 1, i));
+              }
+            } else{
+                for(int j = 0; j < (int) room -> GetEnemies().size(); j++){
+                  possibleCommands.push_back(std::make_shared<engine::CommandPlayCard>(entityID, j+2, i));
+                }
+              }
             }
-          } else{
-            for(int j = 0; j < (int) room -> GetEnemies().size(); j++){
-              possibleCommands.push_back(std::make_shared<engine::CommandPlayCard>(entityID, j+2, i));
-            }
-          }
         }
         possibleCommands.push_back(std::make_shared<engine::CommandNextEntity>());
       } else{ //fight won

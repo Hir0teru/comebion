@@ -12,7 +12,6 @@ CommandExitRoom::CommandExitRoom (){}
 void CommandExitRoom::Execute (std::shared_ptr<state::GameState>& gameState){
   cout<<"Exit current room"<<endl;
   gameState->SetIsInsideRoom(false);
-  int floorNb = gameState->GetMap()->GetCurrentFloor();
   CommandChangeRoom command;
   command.Execute(gameState);
 }

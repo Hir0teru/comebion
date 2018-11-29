@@ -30,8 +30,8 @@ void CommandPlaySkill::Execute (std::shared_ptr<state::GameState>& gameState){
 
   if (enemyID >= 2){
     int floorNb = gameState->GetMap()->GetCurrentFloor();
-    SkillManager* SM = SkillManager::instance();
-    EnemySkill* selectedSkill = (*SM)[skillIndex];
+    std::vector<EnemySkill*> skills = gameState->GetMap()-> GetFloors()[floorNb] -> GetCurrentRoom()-> GetEnemies()[enemyID - 2] -> GetSkills();
+    EnemySkill* selectedSkill = skills[skillIndex];
     PlayerManager* PM = PlayerManager::instance();
     std::vector<Entity*> targets;
 
@@ -112,7 +112,7 @@ void CommandPlaySkill::Execute (std::shared_ptr<state::GameState>& gameState){
         }
       }
     }
-    std::vector<EnemySkill*> skills = gameState->GetMap()->GetFloors()[floorNb]->GetCurrentRoom()->GetEnemies()[enemyID - 2] ->GetSkills();
+    // std::vector<EnemySkill*> skills = gameState->GetMap()->GetFloors()[floorNb]->GetCurrentRoom()->GetEnemies()[enemyID - 2] ->GetSkills();
     for (auto skill : skills){
       skill -> SetTurnsBeforeUse( skill -> GetTurnsBeforeUse() - 1);
     }

@@ -111,25 +111,29 @@ void testRandomAI(){
   std::shared_ptr<GameState> gameState = std::make_shared<state::GameState>();
   std::vector<Player*> players;
   players.push_back((*PM)[0]);
-  // players.push_back((*PM)[1]);
   gameState -> SetPlayers(players);
   std::shared_ptr<Moteur> moteur = make_shared<Moteur>(gameState);
 
   AI_Random* ai1 = new AI_Random(gameState, moteur,0);
-  // AI_Random* ai2 = new AI_Random (gameState, moteur,1);
 
-  //int entityTurn = 0;
-  //int floorNb = 0;
 
   Rendu * rendu = new Rendu(gameState);
   sf::RenderWindow window(sf::VideoMode(rendu -> GetDimensionX(), rendu -> GetDimensionY()), "Slay the Avatar");
 
 
-  std::cout << "press a key for next step" << std::endl;
+  // std::cout << "press a key for next step" << std::endl;
+
+
+
   sf::Event event;
   sf::Sprite sprite;
   rendu -> SetTextureMap(1);
   sprite.setTexture(rendu -> GetTextureMap().getTexture());
+  bool pause = false;
+
+  std::cout << "press a key to pause or unpause" << std::endl;
+  sleep(1);
+  std::cout << "beginning...." << std::endl;
 
   while(window.isOpen()){
 
@@ -137,13 +141,30 @@ void testRandomAI(){
     window.draw(sprite);
     window.display();
 
+
+
+
+
     while (window.pollEvent(event)){
       if (event.type == sf::Event::Closed){
 
         window.close();
       }
       if(event.type == sf::Event::KeyReleased){
+        if(pause == false){
+          pause = true;
+        } else pause = false;
+      }
+    }
 
+    if(!pause){
+      if(moteur -> GetCommands().size() <= 0){
+        ai1 -> Play();
+        if (moteur -> GetCommands().size() <= 0){
+            moteur -> Update(); // le moteur est toujours vide -> un ennemi doit être en train de jouer -> passer à l'ennemi suivant
+        }
+      }
+      else{
         std::cout << "updating ..." << std::endl;
         moteur -> Update();
         //floorNb =  gameState -> GetMap() -> GetCurrentFloor();
@@ -165,25 +186,7 @@ void testRandomAI(){
           window.draw(sprite);
           window.display();
         }
-
-        if(moteur -> GetCommands().size() <= 0 && !gameState -> GetRules() -> GetIsGameLost()){
-          // if(entityTurn == 0){
-            ai1 -> Play();
-            // floorNb =  gameState -> GetMap() -> GetCurrentFloor();
-          //   if(gameState->GetIsInsideRoom() && (( gameState -> GetMap() -> GetFloors()[floorNb] -> GetCurrentRoom() -> GetIsSleepRoom() ||
-          //   gameState -> GetMap() -> GetFloors()[floorNb] -> GetCurrentRoom() -> GetIsSpecialTrainingRoom()) ||
-          // (gameState -> GetMap() -> GetFloors()[floorNb] -> GetCurrentRoom() -> GetIsEnemyRoom() &&
-          // gameState -> GetMap() -> GetFloors()[floorNb] -> GetCurrentRoom() -> GetIsFightWon()))){
-          //     // if ((int) gameState -> GetPlayers().size()  == 1){ //only one player
-          //     std::cout << "adding command exit" << std::endl;
-          //       moteur -> AddCommand(std::make_shared<CommandExitRoom>());
-          //     // }
-          //   }
-          // }  else{
-          //   std::cout<< "adding command next entity"<<std::endl;
-          //   moteur -> AddCommand(std::make_shared<CommandNextEntity>());
-          // }
-        }
+        sleep(0.3);
       }
     }
   }
