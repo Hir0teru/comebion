@@ -12,7 +12,7 @@ SkillManager::SkillManager (){
   //int attack, int heal, int block, std::unique_ptr<Buff> buff, std::unique_ptr<Debuff> debuff, std::string intentimage, int cooldown, int target
   skills.push_back(std::move(std::make_unique<EnemySkill>(10, 0, 0, std::make_unique<Buff>(0, 0, 0, 0, 0), std::make_unique<Debuff>(0, 0), "res/textures/icons/attack.png", 1, 0)));
   skills.push_back(std::move(std::make_unique<EnemySkill>(5, 0, 0, std::make_unique<Buff>(0, 0, 0, 0, 0), std::make_unique<Debuff>(0, 3), "res/textures/icons/attack_debuff.png", 0, 0)));
-  skills.push_back(std::move(std::make_unique<EnemySkill>(0, 0, 10, std::make_unique<Buff>(3, 0, 0, 0, 0), std::make_unique<Debuff>(0, 0), "res/textures/icons/block_up.png", 1, 1)));
+  skills.push_back(std::move(std::make_unique<EnemySkill>(0, 0, 0, std::make_unique<Buff>(0, 0, 0, 1, 0), std::make_unique<Debuff>(0, 0), "res/textures/icons/block_up.png", 1, 1)));
   skills.push_back(std::move(std::make_unique<EnemySkill>(5, 0, 0, std::make_unique<Buff>(0, 0, 0, 0, 0), std::make_unique<Debuff>(3, 0), "res/textures/icons/attack_debuff.png", 0, 0)));
   skills.push_back(std::move(std::make_unique<EnemySkill>(0, 0, 10, std::make_unique<Buff>(0, 0, 6, 0, 0), std::make_unique<Debuff>(0, 0), "res/textures/icons/heal_block.png", 2, 1)));
   skills.push_back(std::move(std::make_unique<EnemySkill>(0, 0, 5, std::make_unique<Buff>(3, 0, 0, 0, 0), std::make_unique<Debuff>(0, 0), "res/textures/icons/block_up.png", 0, 1)));
