@@ -98,7 +98,7 @@ void CommandAttack::Execute (std::shared_ptr<state::GameState>& gameState){
           if(retaliate > 0){
             (*PM)[entityID]->SetLife((*PM)[entityID]->GetLife() - retaliate);
           }
-        } else{
+        } else {
           int block = enemies[entityID - 2]->GetBlock();
           enemies[entityID - 2]->SetBlock(enemies[entityID - 2]->GetBlock() - 5);
           retaliate = 5 - block;
@@ -108,7 +108,7 @@ void CommandAttack::Execute (std::shared_ptr<state::GameState>& gameState){
         }
       }
 
-    } else{
+    } else {
 
       targetElement = enemies[target - 2] -> GetElement();
 

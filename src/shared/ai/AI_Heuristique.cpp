@@ -111,7 +111,7 @@ void AI_Heuristique::Play (){
 
             }
             if(try_block == 0){
-              max =  Max_attack_ite( cards,  cards_played, gameState->GetPlayers()[entityID]->GetEnergy(), room->GetEnemies()[2]->GetBlock(), room->GetEnemies()[2]->GetLife());
+              max = Max_attack_ite( cards,  cards_played, gameState->GetPlayers()[entityID], room->GetEnemies()[0].get());
               std::cout << "max attack: " << max << std::endl;
             }
 
@@ -213,7 +213,6 @@ int AI_Heuristique::Max_attack(std::vector<state::Card*> cards, int * cards_play
   for(int i = index+1; i< (int) cards.size(); i++){
     if(cards_played[i] == 0 && cards[i]->GetCost() <= energy_left && cards[i]->GetAttack() > 0 ){
 
-
       int cards_played_cpy[5];
       for(int j = 0; j < 5; j++){
         cards_played_cpy[j] = cards_played[j];
@@ -244,28 +243,30 @@ int AI_Heuristique::Max_attack(std::vector<state::Card*> cards, int * cards_play
   return max;
 }
 
-int AI_Heuristique::Max_attack_ite(std::vector<state::Card*> cards, int * cards_played, int energy_available, int block, int life){
+int AI_Heuristique::Max_attack_ite(std::vector<state::Card*> cards, int * cards_played, Player* player, Enemy* enemy){
   int best_choice = 0;
   int max_damage = 0;
   int energy_used = 0;
   int card_played_order = 1;
+  int block = enemy->GetBlock();
+  int life = enemy->GetLife();
+  int energy_available = player->GetEnergy();
 
-  for (int i = 0; i < pow(2,cards.size()); i++){
+  for (int i = 0; i < pow(2, cards.size()); i++){
     int damage = 0;
     int energy = 0;
 
     for (int card_nb = 0; card_nb < (int) cards.size(); card_nb ++){
       if ((int) (i / pow(2, card_nb)) % 2){
-        damage += cards[card_nb]->GetAttack();
+        damage += GetRealDamage(enemy, player, cards[card_nb]);
         energy += cards[card_nb]->GetCost();
       }
     }
 
-
     if (energy <= energy_available &&
-        (damage > (block + life) && energy < energy_used)
+        ((damage > (block + life) && energy < energy_used)
          || (damage > max_damage && max_damage < (block + life))
-         || (damage == max_damage && energy <= energy_used)){
+         || (damage == max_damage && energy <= energy_used))){
       max_damage = damage;
       energy_used = energy;
       best_choice = i;
@@ -283,6 +284,7 @@ int AI_Heuristique::Max_attack_ite(std::vector<state::Card*> cards, int * cards_
     return max_damage;
   } else return 0;
 }
+
 
 int AI_Heuristique::Try_block(std::vector<state::Card*> cards, int * cards_played, int energy_left, int block, int index, int nb_card_played, int block_aim){
   if(index >= (int) cards.size() - 1  || block >= block_aim) return block;
@@ -310,4 +312,56 @@ int AI_Heuristique::Try_block(std::vector<state::Card*> cards, int * cards_playe
     }
   }
   return block;
+}
+
+
+int AI_Heuristique::GetRealDamage(Enemy* enemy, Player* player, Card* card){
+  int entityElement = player->GetElement();
+  int targetElement = enemy->GetElement();
+  int damage = card->GetAttack();
+
+  if(damage > 0){
+    float tmpdamage;
+    tmpdamage = damage + player->GetStatAttack();
+    if(player->GetDebuff().GetAttackMinus() > 0 ){
+      tmpdamage = tmpdamage/2.;
+    }
+    if(player->GetBuff().GetAttackPlus() > 0 ){
+      tmpdamage = tmpdamage * 1.5;
+    }
+    // check elements:
+    switch(entityElement){
+    case 1:
+      if (targetElement == 4){
+        tmpdamage = tmpdamage * 1.5;
+      } else if (targetElement == 2){
+        tmpdamage = tmpdamage/2.;
+      }
+      break;
+    case 2:
+      if (targetElement == 1){
+        tmpdamage = tmpdamage * 1.5;
+      } else if (targetElement == 3){
+        tmpdamage = tmpdamage/2.;
+      }
+        break;
+    case 3:
+      if (targetElement == 2){
+        tmpdamage = tmpdamage * 1.5;
+      } else if (targetElement == 4){
+        tmpdamage = tmpdamage/2.;
+      }
+      break;
+    case 4:
+      if (targetElement == 3){
+        tmpdamage = tmpdamage * 1.5;
+      } else if (targetElement == 1){
+        tmpdamage = tmpdamage/2.;
+      }
+      break;
+    }
+    return (int) tmpdamage;
+  } else {
+    return 0;
+  }
 }
