@@ -2,7 +2,6 @@
 #include "CommandRemoveCard.h"
 #include "state/PlayerManager.h"
 #include "state/CardManager.h"
-#include <tgmath.h>
 #include <iostream>
 
 using namespace state;
@@ -20,14 +19,21 @@ void CommandAddCard::Execute (std::shared_ptr<state::GameState>& gameState){
     std::shared_ptr<Room> room = gameState->GetMap()->GetFloors()[floorNb]->GetCurrentRoom();
     std::vector<Card*> cards = gameState->GetPlayers()[playerID]->GetDeck()->GetCards();
     if (isDeckFull){
-      int index = rand() % 15;
-      // int index = 0;
-      // int min = 0;
-      // for(auto card : cards){
-      //   int score = card -> GetAttack() * 1.5 + card -> GetBlock() + pow( card -> GetHeal(), 2)+ pow(card -> GetBuff() -> GetEvade(), 4) +
-      //   pow(card -> GetBuff() -> GetHeal(), 2) + pow(card -> GetBuff() ->GetRetaliate() , 3) + pow(card -> GetBuff() ->GetAttackPlus(), 3) +
-      //   pow(card -> GetBuff() ->GetBlockPlus(), 3) ,
-      // }
+      // int index = rand() % 15;
+      int index = 0;
+      int i = 0;
+      int min = 0;
+      for(auto card : cards){
+        int score = card -> GetAttack() + card -> GetBlock() + card -> GetHeal() * 4 + card -> GetBuff() -> GetEvade() * 4 +
+                    card -> GetBuff() -> GetRetaliate() * 4 + card -> GetBuff() -> GetHeal() * 2 + card -> GetDebuff() -> GetAttackMinus() * 2 +
+                    card -> GetDebuff() -> GetBlockMinus() * 2 + card -> GetBuff() -> GetAttackPlus() * 2 + card -> GetBuff() -> GetBlockPlus() * 2 +
+                    (card -> GetTarget() >= 2) * 5 - 3 * card -> GetCost();
+        if (min > score){
+          min = score;
+          index = i;
+        }
+        i++;
+      }
       CommandRemoveCard command(playerID, index);
       command.Execute(gameState);
     }

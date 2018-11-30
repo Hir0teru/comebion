@@ -1165,31 +1165,9 @@ if (enemy -> GetBlock() > 0){
   }
 
 //Intent:
+float intent = enemy -> GetSkills()[enemy -> GetIntent()] -> GetAttack();
 
-sf::Texture intenttext;
-if(!intenttext.loadFromFile(enemy -> GetSkills()[enemy -> GetIntent()] -> GetIntentImage())){
-  throw std::invalid_argument("error with intentImage");
-}
-sf::Sprite intentSprite;
-intentSprite.setTexture(intenttext);
-intentSprite.scale(scale/3, scale/3);
-intentSprite.move(70 * scale,250 * scale);
-texture.draw(intentSprite);
 
-if(enemy -> GetSkills()[enemy -> GetIntent()] -> GetAttack() > 0){
-  sf::Text tmptext;
-  tmptext.setString(std::to_string(enemy -> GetSkills()[enemy -> GetIntent()] -> GetAttack()));
-  tmptext.setFont(lifefont);
-  tmptext.setStyle(1);
-  tmptext.setCharacterSize(18 * scale);
-  tmptext.setColor(sf::Color::Black);
-  tmptext.move((85) * scale, (270) * scale);
-  texture.draw(tmptext);
-  tmptext.setCharacterSize(15 * scale);
-  tmptext.setColor(sf::Color::White);
-  tmptext.move(0,2 * scale);
-  texture.draw(tmptext);
-}
 
 
 
@@ -1198,6 +1176,7 @@ int positionX = 10;
 int positionY = 330;
 
 if (enemy -> GetBuff().GetAttackPlus() > 0){
+    intent *= 1.5;
     sf::Texture tmptexture;
     if(!tmptexture.loadFromFile("res/textures/icons/attack_up.png")){
       std::cout << "error with attack up"<<std::endl;
@@ -1402,6 +1381,7 @@ if (enemy -> GetBuff().GetAttackPlus() > 0){
             }
 
             if (enemy -> GetDebuff().GetAttackMinus() > 0){
+                intent *= 0.5;
                 sf::Texture tmptexture;
                 if(!tmptexture.loadFromFile("res/textures/icons/attack_down.png")){
                   std::cout << "error with attack up"<<std::endl;
@@ -1434,6 +1414,31 @@ if (enemy -> GetBuff().GetAttackPlus() > 0){
                   positionX += 40;  //200 = limit
                 }
               }
+
+  sf::Texture intenttext;
+  if(!intenttext.loadFromFile(enemy -> GetSkills()[enemy -> GetIntent()] -> GetIntentImage())){
+    throw std::invalid_argument("error with intentImage");
+  }
+  sf::Sprite intentSprite;
+  intentSprite.setTexture(intenttext);
+  intentSprite.scale(scale/3, scale/3);
+  intentSprite.move(70 * scale,250 * scale);
+  texture.draw(intentSprite);
+
+  if(enemy -> GetSkills()[enemy -> GetIntent()] -> GetAttack() > 0){
+    sf::Text tmptext;
+    tmptext.setString(std::to_string((int) intent));
+    tmptext.setFont(lifefont);
+    tmptext.setStyle(1);
+    tmptext.setCharacterSize(18 * scale);
+    tmptext.setColor(sf::Color::Black);
+    tmptext.move((85) * scale, (270) * scale);
+    texture.draw(tmptext);
+    tmptext.setCharacterSize(15 * scale);
+    tmptext.setColor(sf::Color::White);
+    tmptext.move(0,2 * scale);
+    texture.draw(tmptext);
+  }
 
 
   texture.display();
@@ -2570,31 +2575,9 @@ if (enemy -> GetBlock() > 0){
   }
 
 //Intent:
+float intent = enemy -> GetSkills()[enemy -> GetIntent()] -> GetAttack();
 
-sf::Texture intenttext;
-if(!intenttext.loadFromFile(enemy -> GetSkills()[enemy -> GetIntent()] -> GetIntentImage())){
-  throw std::invalid_argument("error with intentImage");
-}
-sf::Sprite intentSprite;
-intentSprite.setTexture(intenttext);
-intentSprite.scale(scale/3, scale/3);
-intentSprite.move(70 * scale,250 * scale);
-texture.draw(intentSprite);
 
-if(enemy -> GetSkills()[enemy -> GetIntent()] -> GetAttack() > 0){
-  sf::Text tmptext;
-  tmptext.setString(std::to_string(enemy -> GetSkills()[enemy -> GetIntent()] -> GetAttack()));
-  tmptext.setFont(lifefont);
-  tmptext.setStyle(1);
-  tmptext.setCharacterSize(18 * scale);
-  tmptext.setColor(sf::Color::Black);
-  tmptext.move((85) * scale, (270) * scale);
-  texture.draw(tmptext);
-  tmptext.setCharacterSize(15 * scale);
-  tmptext.setColor(sf::Color::White);
-  tmptext.move(0,2 * scale);
-  texture.draw(tmptext);
-}
 
 
 
@@ -2603,6 +2586,7 @@ int positionX = 10;
 int positionY = 330;
 
 if (enemy -> GetBuff().GetAttackPlus() > 0){
+    intent *= 1.5;
     sf::Texture tmptexture;
     if(!tmptexture.loadFromFile("res/textures/icons/attack_up.png")){
       std::cout << "error with attack up"<<std::endl;
@@ -2807,6 +2791,7 @@ if (enemy -> GetBuff().GetAttackPlus() > 0){
             }
 
             if (enemy -> GetDebuff().GetAttackMinus() > 0){
+                intent *= 0.5;
                 sf::Texture tmptexture;
                 if(!tmptexture.loadFromFile("res/textures/icons/attack_down.png")){
                   std::cout << "error with attack up"<<std::endl;
@@ -2839,6 +2824,31 @@ if (enemy -> GetBuff().GetAttackPlus() > 0){
                   positionX += 40;  //200 = limit
                 }
               }
+
+  sf::Texture intenttext;
+  if(!intenttext.loadFromFile(enemy -> GetSkills()[enemy -> GetIntent()] -> GetIntentImage())){
+    throw std::invalid_argument("error with intentImage");
+  }
+  sf::Sprite intentSprite;
+  intentSprite.setTexture(intenttext);
+  intentSprite.scale(scale/3, scale/3);
+  intentSprite.move(70 * scale,250 * scale);
+  texture.draw(intentSprite);
+
+  if(enemy -> GetSkills()[enemy -> GetIntent()] -> GetAttack() > 0){
+    sf::Text tmptext;
+    tmptext.setString(std::to_string((int) intent));
+    tmptext.setFont(lifefont);
+    tmptext.setStyle(1);
+    tmptext.setCharacterSize(18 * scale);
+    tmptext.setColor(sf::Color::Black);
+    tmptext.move((85) * scale, (270) * scale);
+    texture.draw(tmptext);
+    tmptext.setCharacterSize(15 * scale);
+    tmptext.setColor(sf::Color::White);
+    tmptext.move(0,2 * scale);
+    texture.draw(tmptext);
+  }
 
 
   texture.display();

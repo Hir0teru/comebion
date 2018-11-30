@@ -28,6 +28,7 @@ void CommandEnterRoom::Execute (std::shared_ptr<state::GameState>& gameState){
       gameState->GetPlayers()[i] -> SetEnergy(3);
       gameState->GetPlayers()[i] -> SetBuff(Buff(0,0,0,0,0));
       gameState->GetPlayers()[i] -> SetDebuff(Debuff(0,0));
+      gameState -> GetPlayers()[i] -> SetBlock(0);
     }
     for (auto& enemy : room -> GetEnemies()){
       for(auto skill : enemy -> GetSkills()){
