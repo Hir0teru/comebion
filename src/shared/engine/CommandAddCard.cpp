@@ -15,15 +15,20 @@ CommandAddCard::CommandAddCard (){}
 void CommandAddCard::Execute (std::shared_ptr<state::GameState>& gameState){
 
   if (playerID >= 0 && playerID < 2 && card >=0 && card < 3){
+    int floorNb = gameState->GetMap()->GetCurrentFloor();
+    std::shared_ptr<Room> room = gameState->GetMap()->GetFloors()[floorNb]->GetCurrentRoom();
+    std::vector<Card*> cards = gameState->GetPlayers()[playerID]->GetDeck()->GetCards();
     if (isDeckFull){
-      int index = rand() % 15;
+      // int index = rand() % 15;
+      int index = 0;
+      int min = 0;
+      for(auto card : cards){
+        int score = card -> GetAttack() + card -> GetBlock() + 8 * card -> GetBuff() -> GetEvade() + 4 * card -> GetBuff() -> GetEvade()
+      }
       CommandRemoveCard command(playerID, index);
       command.Execute(gameState);
     }
     cout<<"Add card number "<<card<<" to player "<<playerID<<"'s deck"<<endl;
-    int floorNb = gameState->GetMap()->GetCurrentFloor();
-    std::shared_ptr<Room> room = gameState->GetMap()->GetFloors()[floorNb]->GetCurrentRoom();
-    std::vector<Card*> cards = gameState->GetPlayers()[playerID]->GetDeck()->GetCards();
     cards.push_back(room->GetReward()[card]);
     gameState->GetPlayers()[playerID]->GetDeck()->SetCards(cards);
   }

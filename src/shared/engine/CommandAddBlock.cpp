@@ -45,7 +45,7 @@ void CommandAddBlock::Execute (std::shared_ptr<state::GameState>& gameState){
 
     cout<<"Add "<<(int)tmpblock<<" block to entity "<<target<<endl;
   } else{
-    cout<<"Add "<<block<<" block to entity "<<target<<endl;
+    //cout<<"Add "<<block<<" block to entity "<<target<<endl;
 
   }
 }

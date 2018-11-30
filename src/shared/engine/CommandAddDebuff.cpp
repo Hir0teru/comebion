@@ -11,9 +11,12 @@ CommandAddDebuff::CommandAddDebuff (int entityID, state::Debuff debuff): entityI
 CommandAddDebuff::CommandAddDebuff (){}
 
 void CommandAddDebuff::Execute (std::shared_ptr<state::GameState>& gameState){
-  cout<<"Add debuff to entity "<<entityID<<endl;
-  cout<<" BlockMinus "<< debuff.GetBlockMinus()<< endl;
-  cout<<" AttackMinus "<< debuff.GetAttackMinus()<< endl;
+  if(debuff.GetBlockMinus() > 0){
+    cout<<" BlockMinus "<< debuff.GetBlockMinus()<< endl;
+  }
+  if(debuff.GetAttackMinus() > 0){
+    cout<<" AttackMinus "<< debuff.GetAttackMinus()<< endl;
+  }
   Entity* selected_entity = nullptr;
   if (entityID < 2){
     PlayerManager* PM = PlayerManager::instance();

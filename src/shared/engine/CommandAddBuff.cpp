@@ -14,12 +14,21 @@ CommandAddBuff::CommandAddBuff (int entityID, state::Buff buff): entityID(entity
 CommandAddBuff::CommandAddBuff (){}
 
 void CommandAddBuff::Execute (std::shared_ptr<state::GameState>& gameState){
-  cout<<"Adding buff to entity "<<entityID<<"..."<<endl;
-  cout<<" BlockPlus "<< buff.GetBlockPlus()<< endl;
-  cout<<" AttackPlus "<< buff.GetAttackPlus()<< endl;
-  cout<<" Heal "<< buff.GetHeal()<< endl;
-  cout<<" Evade "<< buff.GetEvade()<< endl;
-  cout<<" Retaliate "<< buff.GetRetaliate()<< endl;
+  if(buff.GetBlockPlus() > 0){
+    cout<<" BlockPlus "<< buff.GetBlockPlus()<< endl;
+  }
+  if(buff.GetAttackPlus() > 0 ){
+    cout<<" AttackPlus "<< buff.GetAttackPlus()<< endl;
+  }
+  if(buff.GetHeal() > 0){
+    cout<<" Heal "<< buff.GetHeal()<< endl;
+  }
+  if(buff.GetEvade() > 0){
+    cout<<" Evade "<< buff.GetEvade()<< endl;
+  }
+  if(buff.GetRetaliate() > 0){
+    cout<<" Retaliate "<< buff.GetRetaliate()<< endl;
+  }
   Entity* selected_entity = nullptr;
   if (entityID < 2){
     PlayerManager* PM = PlayerManager::instance();

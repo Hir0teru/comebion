@@ -65,7 +65,6 @@ void testHeurAI(){
         moteur -> Update();
         //floorNb =  gameState -> GetMap() -> GetCurrentFloor();
         //entityTurn =  gameState -> GetMap() -> GetFloors()[floorNb] -> GetCurrentRoom() -> GetEntityTurn() ;
-        std::cout << "done" << std::endl;
         if(!rendu -> GetGameState() -> GetIsInsideRoom()){
           rendu -> SetTextureMap(1);
           sprite.setTexture(rendu -> GetTextureMap().getTexture());
@@ -75,7 +74,6 @@ void testHeurAI(){
         }
         else{
           rendu -> SetTextureRoom();
-          std::cout << "ok" << std::endl;
           rendu -> DrawInsideRoom();
           sprite.setTexture(rendu -> GetTexture().getTexture());
           window.clear(sf::Color::White);
@@ -169,7 +167,6 @@ void testRandomAI(){
         moteur -> Update();
         //floorNb =  gameState -> GetMap() -> GetCurrentFloor();
       //  entityTurn =  gameState -> GetMap() -> GetFloors()[floorNb] -> GetCurrentRoom() -> GetEntityTurn() ;
-        std::cout << "done" << std::endl;
         if(!rendu -> GetGameState() -> GetIsInsideRoom()){
           rendu -> SetTextureMap(1);
           sprite.setTexture(rendu -> GetTextureMap().getTexture());
@@ -179,7 +176,6 @@ void testRandomAI(){
         }
         else{
           rendu -> SetTextureRoom();
-          std::cout << "ok" << std::endl;
           rendu -> DrawInsideRoom();
           sprite.setTexture(rendu -> GetTexture().getTexture());
           window.clear(sf::Color::White);

@@ -45,8 +45,10 @@ void AI_Heuristique::Play (){
         for (int i = 0; i < (int) room->GetReward().size(); i++ ){
           if (room->GetReward()[i]->GetAttack() > 0) attack.push_back(i);
           if (room->GetReward()[i]->GetBlock() > 0) block.push_back(i);
-          if (room->GetReward()[i]->GetDebuff() > 0) attack.push_back(i);
-          if (room->GetReward()[i]->GetBuff() > 0) block.push_back(i);
+          if ((room->GetReward()[i]->GetDebuff() ->GetAttackMinus() > 0) || (room->GetReward()[i]->GetDebuff() -> GetBlockMinus() > 0)) attack.push_back(i);
+          if ((room->GetReward()[i]->GetBuff() -> GetAttackPlus() > 0) || (room->GetReward()[i]->GetBuff() -> GetBlockPlus() > 0)
+              || (room->GetReward()[i]->GetBuff() -> GetEvade() > 0) || (room->GetReward()[i]->GetBuff() -> GetHeal() > 0)
+              || (room->GetReward()[i]->GetBuff() -> GetRetaliate() > 0)) block.push_back(i);
         }
 
         if (count[0] < count[1] && attack.size() > 0){
@@ -66,7 +68,6 @@ void AI_Heuristique::Play (){
 
       } else { //enemyroom
         if (!gameState->GetMap()->GetFloors()[floorNb]->GetCurrentRoom()->GetIsFightWon()){ // keep fighting
-          std::cout << "in process..." <<std::endl;
 
           DeckParts* hand = room->GetHands()[entityID];
           std::vector<Card*> cards = hand -> GetCards();
@@ -199,10 +200,16 @@ std::shared_ptr<engine::Moteur>& AI_Heuristique::GetMoteur(){
   return moteur;
 }
 
+// cards : contient les cartes actuellement présentent dans la main
+// cards_played : pointeur vers un int[5] -> si cards_played[i] = 0, la carte i n'a pas été jouée, si cards_played[i] = 1 ou 2, la carte i a été jouée en 1er/2eme
+// energy_left : l'énergie restante du joueur. Note: certaines cartes coûtent 0.
+// max : le maximum d'attaque atteint actuellement (initialement 0)
+// index : l'index de la carte qui a été jouée/non jouée en dernier (initialement -1)
+// nb_card_played : le nombre de cartes déjà jouées - utilisé par cards_played uniquement (pour le débug)
 int AI_Heuristique::Max_attack(std::vector<state::Card*> cards, int * cards_played, int energy_left, int max, int index, int nb_card_played){
   if(index >= (int) cards.size() - 1 ) return max;
   int newmax = max;
-  for(int i = index + 1; i< (int) cards.size(); i++){
+  for(int i = index+1; i< (int) cards.size(); i++){
     if(cards_played[i] == 0 && cards[i] -> GetCost() <= energy_left && cards[i] -> GetAttack() > 0 ){
 
 
