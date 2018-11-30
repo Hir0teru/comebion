@@ -316,7 +316,7 @@ int AI_Heuristique::Try_block(std::vector<state::Card*> cards, int * cards_playe
 
 
 int AI_Heuristique::GetRealDamage(Enemy* enemy, Player* player, Card* card){
-  int entityElement = player->GetElement();
+  int entityElement = card->GetElement();
   int targetElement = enemy->GetElement();
   int damage = card->GetAttack();
 
