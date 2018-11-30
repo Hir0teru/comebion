@@ -150,3 +150,19 @@ int EnemyRoom::GetTotalDamage(){
   }
   return total;
 }
+
+int EnemyRoom::MostVulnerableEnemy(){
+  int max_life = 999999;
+  int max_block = 999999;
+  int chosen_enemy = enemies[0]->GetId();
+  for (auto& enemy:enemies){
+    if ((enemy->GetBuff().GetEvade() <= 0) && (enemy->GetIsEntityAlive())
+        && ((enemy->GetBlock() < max_block)
+        || (enemy->GetBlock() == max_block && enemy->GetLife() < max_life))){
+      chosen_enemy = enemy->GetId();
+      max_life = enemy->GetLife();
+      max_block = enemy->GetBlock();
+    }
+  }
+  return chosen_enemy;
+}

@@ -199,3 +199,7 @@ void Room::SetIsFightWon(bool isFightWon){}
 int Room::GetTurn(){
   return 0;
 }
+
+int Room::MostVulnerableEnemy(){
+  return 0;
+}

@@ -111,16 +111,16 @@ void AI_Heuristique::Play (){
 
             }
             if(try_block == 0){
-              max = Max_attack_ite( cards,  cards_played, gameState->GetPlayers()[entityID], room->GetEnemies()[0].get());
+              max = Max_attack(cards, cards_played, gameState->GetPlayers()[entityID], room->GetEnemies()[room->MostVulnerableEnemy() - 2].get());
               std::cout << "max attack: " << max << std::endl;
             }
 
             if(max > 0){
               for(int i = 0; i < 5; i++){
                 std::cout << cards_played[i] << std::endl;
-                if(cards_played[i] > 0){
+                if(cards_played[i] > 0 && (cards[i]->GetTarget() == 1 || cards[i]->GetTarget() == 2)){
                   std::cout << " card " << i << " played in " << cards_played[i] << std::endl;
-                  moteur->AddCommand(std::make_shared<CommandPlayCard>(entityID, 2, cards_index[i]));
+                  moteur->AddCommand(std::make_shared<CommandPlayCard>(entityID, room->MostVulnerableEnemy(), cards_index[i]));
                   for(int j = i+1 ; j<  (int) cards.size(); j++){
                     cards_index[j] = cards_index[j] - 1;
                   }
@@ -129,7 +129,7 @@ void AI_Heuristique::Play (){
             } else if(try_block > 0){
               for(int i = 0; i < 5; i++){
                 std::cout << cards_played[i] << std::endl;
-                if(cards_played[i] > 0){
+                if(cards_played[i] > 0 && (cards[i]->GetTarget() == 0 || cards[i]->GetTarget() == 3)){
                   std::cout << " card " << i << " played in " << cards_played[i] << std::endl;
                   moteur->AddCommand(std::make_shared<CommandPlayCard>(entityID, entityID, cards_index[i]));
                   for(int j = i+1 ; j<  (int) cards.size(); j++){
@@ -201,49 +201,7 @@ std::shared_ptr<engine::Moteur>& AI_Heuristique::GetMoteur(){
   return moteur;
 }
 
-// cards : contient les cartes actuellement présentent dans la main
-// cards_played : pointeur vers un int[5]->si cards_played[i] = 0, la carte i n'a pas été jouée, si cards_played[i] = 1 ou 2, la carte i a été jouée en 1er/2eme
-// energy_left : l'énergie restante du joueur. Note: certaines cartes coûtent 0.
-// max : le maximum d'attaque atteint actuellement (initialement 0)
-// index : l'index de la carte qui a été jouée/non jouée en dernier (initialement -1)
-// nb_card_played : le nombre de cartes déjà jouées - utilisé par cards_played uniquement (pour le débug)
-int AI_Heuristique::Max_attack(std::vector<state::Card*> cards, int * cards_played, int energy_left, int max, int index, int nb_card_played){
-  if(index >= (int) cards.size() - 1 ) return max;
-  int newmax = max;
-  for(int i = index+1; i< (int) cards.size(); i++){
-    if(cards_played[i] == 0 && cards[i]->GetCost() <= energy_left && cards[i]->GetAttack() > 0 ){
-
-      int cards_played_cpy[5];
-      for(int j = 0; j < 5; j++){
-        cards_played_cpy[j] = cards_played[j];
-      }
-
-      cards_played_cpy[i] = nb_card_played + 1;
-      // calcule le max en jouant la carte i
-      newmax =  Max_attack(cards, cards_played_cpy, energy_left - cards[i]->GetCost(), max  + cards[i]->GetAttack(), i, nb_card_played + 1);
-    //  cards_played[i] = 0;
-    // calcule le max en ne jouant pas la carte i
-      max = Max_attack(cards, cards_played, energy_left, max, i, nb_card_played);
-
-      if(newmax > max){
-        max = newmax;
-        //cards_played[i] = nb_card_played + 1;
-        // si le max en jouant la carte est plus grand que sans la jouer:
-        for(int j = 0; j < 5; j++){
-          cards_played[j] = cards_played_cpy[j];
-        }
-        return(max);
-      } else {
-        for(int j = 0; j < 5; j++){
-          cards_played_cpy[j] = cards_played[j];
-        }
-      }
-    }
-  }
-  return max;
-}
-
-int AI_Heuristique::Max_attack_ite(std::vector<state::Card*> cards, int * cards_played, Player* player, Enemy* enemy){
+int AI_Heuristique::Max_attack(std::vector<state::Card*> cards, int * cards_played, Player* player, Enemy* enemy){
   int best_choice = 0;
   int max_damage = 0;
   int energy_used = 0;
