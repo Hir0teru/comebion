@@ -76,12 +76,12 @@ void CommandPlayCard::Execute (std::shared_ptr<state::GameState>& gameState){
     }
     int element = selected_card -> GetElement();
     for (auto& entityTarget : targets){
+      CommandChangeElement commandChangeElement(playerID, element);
       CommandAttack commandAttack(selected_card->GetAttack(),playerID,  entityTarget->GetId());
       CommandAddBlock commandAddBlock(selected_card->GetBlock(),playerID,  entityTarget->GetId());
       CommandHeal commandHeal(selected_card->GetHeal(), entityTarget->GetId());
       CommandAddBuff commandAddBuff(entityTarget->GetId(), *selected_card->GetBuff());
       CommandAddDebuff commandAddDebuff(entityTarget->GetId(), *selected_card->GetDebuff());
-      CommandChangeElement commandChangeElement(playerID, element);
 
       commandAttack.Execute(gameState);
       commandAddBlock.Execute(gameState);

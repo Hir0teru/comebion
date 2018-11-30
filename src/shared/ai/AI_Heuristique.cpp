@@ -38,7 +38,7 @@ void AI_Heuristique::Play (){
         } else {
           moteur->AddCommand(std::make_shared<engine::CommandChangeStat>(entityID, gameState->GetPlayers()[entityID]->GetStatAttack() + 2,gameState->GetPlayers()[entityID]->GetStatBlock() + 2));
         }
-        moteur->AddCommand(std::make_shared<engine::CommandExitRoom>());
+        // moteur->AddCommand(std::make_shared<engine::CommandExitRoom>());
       } else if (room->GetIsSpecialTrainingRoom()) {
         std::vector<int> count = player->GetDeck()->CountCards();
         std::vector<int> attack, block, buff, debuff;
