@@ -2,6 +2,7 @@
 #include "engine.h"
 #include "state.h"
 #include <iostream>
+#include <math.h>
 
 using namespace ai;
 using namespace state;
@@ -88,7 +89,7 @@ void AI_Heuristique::Play (){
             int cards_played[5]; // for the function max_attack and max_block
             int cards_index[5];  //index of the cards -> used if multiple cards are played with no update from the motor
             for(int i = 0; i< 5; i++){
-              std::cout << i << std::endl;
+              // std::cout << i << std::endl;
               cards_played[i] = 0;
               cards_index[i] = i;
             }
@@ -109,7 +110,7 @@ void AI_Heuristique::Play (){
 
             }
             if(try_block == 0){
-              max =  Max_attack( cards,  cards_played, gameState -> GetPlayers()[entityID] -> GetEnergy(), 0, -1,0);
+              max =  Max_attack_ite( cards,  cards_played, gameState -> GetPlayers()[entityID] -> GetEnergy(), room->GetEnemies()[2]->GetBlock(), room->GetEnemies()[2]->GetLife());
               std::cout << "max attack: " << max << std::endl;
             }
 
@@ -138,7 +139,7 @@ void AI_Heuristique::Play (){
             } else if(cards[playable_card_exists] -> GetTarget() == 0 || cards[playable_card_exists] -> GetTarget() == 3){
                   moteur -> AddCommand(std::make_shared<CommandPlayCard>(entityID, 0, playable_card_exists));
                 } else moteur -> AddCommand(std::make_shared<CommandPlayCard>(entityID, 2, playable_card_exists));
-              } else{
+              } else {
             std::cout << "next turn" << std::endl;
             moteur -> AddCommand(std::make_shared<engine::CommandNextEntity>());
 
@@ -234,6 +235,46 @@ int AI_Heuristique::Max_attack(std::vector<state::Card*> cards, int * cards_play
     }
   }
   return max;
+}
+
+int AI_Heuristique::Max_attack_ite(std::vector<state::Card*> cards, int * cards_played, int energy_available, int block, int life){
+  int best_choice = 0;
+  int max_damage = 0;
+  int energy_used = 0;
+  int card_played_order = 1;
+
+  for (int i = 0; i < pow(2,cards.size()); i++){
+    int damage = 0;
+    int energy = 0;
+
+    for (int card_nb = 0; card_nb < (int) cards.size(); card_nb ++){
+      if ((int) (i / pow(2, card_nb)) % 2){
+        damage += cards[card_nb]->GetAttack();
+        energy += cards[card_nb]->GetCost();
+      }
+    }
+
+
+    if (energy <= energy_available &&
+        (damage > (block + life) && energy < energy_used)
+         || (damage > max_damage && max_damage < (block + life))
+         || (damage == max_damage && energy <= energy_used)){
+      max_damage = damage;
+      energy_used = energy;
+      best_choice = i;
+    }
+  }
+
+  if (max_damage > block){
+    for (int card_nb = 0; card_nb < (int) cards.size(); card_nb ++){
+      if ((int) (best_choice / pow(2, card_nb)) % 2){
+        cards_played[card_nb] = card_played_order;
+        card_played_order++;
+      }
+    }
+
+    return max_damage;
+  } else return 0;
 }
 
 int AI_Heuristique::Try_block(std::vector<state::Card*> cards, int * cards_played, int energy_left, int block, int index, int nb_card_played, int block_aim){
