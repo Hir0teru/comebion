@@ -36,6 +36,7 @@ void CommandAddCard::Execute (std::shared_ptr<state::GameState>& gameState){
       }
       CommandRemoveCard command(playerID, index);
       command.Execute(gameState);
+      cards = gameState->GetPlayers()[playerID]->GetDeck()->GetCards();
     }
     cout<<"Add card number "<<card<<" to player "<<playerID<<"'s deck"<<endl;
     cards.push_back(room->GetReward()[card]);

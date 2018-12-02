@@ -83,12 +83,12 @@ void CommandPlayCard::Execute (std::shared_ptr<state::GameState>& gameState){
       CommandAddBuff commandAddBuff(entityTarget->GetId(), *selected_card->GetBuff());
       CommandAddDebuff commandAddDebuff(entityTarget->GetId(), *selected_card->GetDebuff());
 
+      commandChangeElement.Execute(gameState);
       commandAttack.Execute(gameState);
       commandAddBlock.Execute(gameState);
       commandHeal.Execute(gameState);
       commandAddBuff.Execute(gameState);
       commandAddDebuff.Execute(gameState);
-      commandChangeElement.Execute(gameState);
 
       if (entityTarget->GetLife() == 0){
         CommandDie commandDie(entityTarget->GetId());
