@@ -42,11 +42,16 @@ void testHeurAI(){
   sf::RenderWindow window(sf::VideoMode(rendu -> GetDimensionX(), rendu -> GetDimensionY()), "Slay the Avatar");
 
 
-  std::cout << "press a key for next step" << std::endl;
+
   sf::Event event;
   sf::Sprite sprite;
   rendu -> SetTextureMap(1);
   sprite.setTexture(rendu -> GetTextureMap().getTexture());
+  bool pause = false;
+
+  std::cout << "press a key to pause or unpause" << std::endl;
+  sleep(1);
+  std::cout << "beginning...." << std::endl;
 
   while(window.isOpen()){
 
@@ -54,17 +59,34 @@ void testHeurAI(){
     window.draw(sprite);
     window.display();
 
+
+
+
+
     while (window.pollEvent(event)){
       if (event.type == sf::Event::Closed){
 
         window.close();
       }
       if(event.type == sf::Event::KeyReleased){
+        if(pause == false){
+          pause = true;
+        } else pause = false;
+      }
+    }
 
+    if(!pause){
+      if(moteur -> GetCommands().size() <= 0){
+        ai1 -> Play();
+        if (moteur -> GetCommands().size() <= 0){
+            moteur -> Update(); // le moteur est toujours vide -> un ennemi doit être en train de jouer -> passer à l'ennemi suivant
+        }
+      }
+      else{
         std::cout << "updating ..." << std::endl;
         moteur -> Update();
         //floorNb =  gameState -> GetMap() -> GetCurrentFloor();
-        //entityTurn =  gameState -> GetMap() -> GetFloors()[floorNb] -> GetCurrentRoom() -> GetEntityTurn() ;
+      //  entityTurn =  gameState -> GetMap() -> GetFloors()[floorNb] -> GetCurrentRoom() -> GetEntityTurn() ;
         if(!rendu -> GetGameState() -> GetIsInsideRoom()){
           rendu -> SetTextureMap(1);
           sprite.setTexture(rendu -> GetTextureMap().getTexture());
@@ -80,25 +102,7 @@ void testHeurAI(){
           window.draw(sprite);
           window.display();
         }
-
-        if(moteur -> GetCommands().size() <= 0 && !gameState -> GetRules() -> GetIsGameLost()){
-          // if(entityTurn == 0){
-            ai1 -> Play();
-            // floorNb =  gameState -> GetMap() -> GetCurrentFloor();
-          //   if(gameState->GetIsInsideRoom() && (( gameState -> GetMap() -> GetFloors()[floorNb] -> GetCurrentRoom() -> GetIsSleepRoom() ||
-          //   gameState -> GetMap() -> GetFloors()[floorNb] -> GetCurrentRoom() -> GetIsSpecialTrainingRoom()) ||
-          // (gameState -> GetMap() -> GetFloors()[floorNb] -> GetCurrentRoom() -> GetIsEnemyRoom() &&
-          // gameState -> GetMap() -> GetFloors()[floorNb] -> GetCurrentRoom() -> GetIsFightWon()))){
-          //     // if ((int) gameState -> GetPlayers().size()  == 1){ //only one player
-          //     std::cout << "adding command exit" << std::endl;
-          //       moteur -> AddCommand(std::make_shared<CommandExitRoom>());
-          //     // }
-          //   }
-          // }  else{
-          //   std::cout<< "adding command next entity"<<std::endl;
-          //   moteur -> AddCommand(std::make_shared<CommandNextEntity>());
-          // }
-        }
+        sleep(0.3);
       }
     }
   }
@@ -1022,7 +1026,7 @@ int main(int argc,char* argv[])
     testRandomAI();
   }
 
-  if (argc == 2 and std::string(argv[1] )== "heuristique_ai")
+  if (argc == 2 and std::string(argv[1] )== "heuristic_ai")
 {
   testHeurAI();
 }

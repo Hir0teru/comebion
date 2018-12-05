@@ -24,10 +24,11 @@ void CommandAddCard::Execute (std::shared_ptr<state::GameState>& gameState){
       int i = 0;
       int min = 0;
       for(auto card : cards){
-        int score = card -> GetAttack() + card -> GetBlock() + card -> GetHeal() * 4 + card -> GetBuff() -> GetEvade() * 4 +
+        int score = card -> GetAttack() + card -> GetBlock() + card -> GetHeal() * 4 + card -> GetBuff() -> GetEvade() * 6 +
                     card -> GetBuff() -> GetRetaliate() * 4 + card -> GetBuff() -> GetHeal() * 2 + card -> GetDebuff() -> GetAttackMinus() * 2 +
-                    card -> GetDebuff() -> GetBlockMinus() * 2 + card -> GetBuff() -> GetAttackPlus() * 2 + card -> GetBuff() -> GetBlockPlus() * 2 +
-                    (card -> GetTarget() >= 2) * 5 - 3 * card -> GetCost();
+                    card -> GetDebuff() -> GetBlockMinus() * 2 + card -> GetBuff() -> GetAttackPlus() * 2 + card -> GetBuff() -> GetBlockPlus() * 2
+                    - 2 * card -> GetCost();
+        if(card -> GetTarget() >=2) score +=5;
         if (min > score){
           min = score;
           index = i;
@@ -36,6 +37,7 @@ void CommandAddCard::Execute (std::shared_ptr<state::GameState>& gameState){
       }
       CommandRemoveCard command(playerID, index);
       command.Execute(gameState);
+      // std::cout << "score was : " << min << std::endl;
       cards = gameState->GetPlayers()[playerID]->GetDeck()->GetCards();
     }
     cout<<"Add card number "<<card<<" to player "<<playerID<<"'s deck"<<endl;

@@ -111,6 +111,40 @@ void CommandPlaySkill::Execute (std::shared_ptr<state::GameState>& gameState){
           commandEndFight.Execute(gameState);
         }
       }
+
+      // if target has retaliated:
+
+      if (gameState->GetMap()->GetFloors()[floorNb]->GetCurrentRoom()->GetEnemies()[enemyID - 2]->GetLife() == 0){
+        CommandDie commandDie(enemyID);
+        CommandChangeReward commandChangeReward(enemyID);
+        commandChangeReward.Execute(gameState);
+        commandDie.Execute(gameState);
+
+        bool fightWon = true;
+        bool isAPlayerAlive = false;
+        for (auto& player : gameState->GetPlayers()){
+          if (player->GetIsEntityAlive()){
+            isAPlayerAlive = true;
+          }
+        }
+
+        if (!isAPlayerAlive){
+          CommandEndFight commandEndFight(false);
+          commandEndFight.Execute(gameState);
+        }
+
+        for (auto& enemy : gameState->GetMap()->GetFloors()[floorNb]->GetCurrentRoom()->GetEnemies()){
+          if (enemy->GetIsEntityAlive()) {
+            fightWon = false;
+          }
+        }
+
+        if (fightWon){
+          CommandEndFight commandEndFight(true);
+          commandEndFight.Execute(gameState);
+        }
+      }
+
     }
     // std::vector<EnemySkill*> skills = gameState->GetMap()->GetFloors()[floorNb]->GetCurrentRoom()->GetEnemies()[enemyID - 2] ->GetSkills();
     for (auto skill : skills){

@@ -122,6 +122,38 @@ void CommandPlayCard::Execute (std::shared_ptr<state::GameState>& gameState){
           commandEndFight.Execute(gameState);
         }
       }
+
+      // if target has retaliated:
+
+      if (player->GetLife() == 0){
+        CommandDie commandDie(playerID);
+        commandDie.Execute(gameState);
+
+        bool fightWon = true;
+        bool isAPlayerAlive = false;
+        for (auto& player : gameState->GetPlayers()){
+          if (player->GetIsEntityAlive()){
+            isAPlayerAlive = true;
+          }
+        }
+
+        if (!isAPlayerAlive){
+          CommandEndFight commandEndFight(false);
+          commandEndFight.Execute(gameState);
+        }
+
+        for (auto& enemy : gameState->GetMap()->GetFloors()[floorNb]->GetCurrentRoom()->GetEnemies()){
+          if (enemy->GetIsEntityAlive()) {
+            fightWon = false;
+          }
+        }
+
+        if (fightWon){
+          CommandEndFight commandEndFight(true);
+          commandEndFight.Execute(gameState);
+        }
+      }
+
     }
     CommandDiscard commandDiscard(playerID, cardIndex);
     commandDiscard.Execute(gameState);

@@ -74,15 +74,21 @@ void AI_Heuristique::Play (){
           std::vector<Card*> cards = hand->GetCards();
 
           // can we still play cards?
-          int playable_card_exists = -1;
-          for(int i = 0; i< (int) cards.size(); ++i){
+          std::vector<int> playable_cards;
+          // int playable_card_exists = -1;
+          // int i = 0;
+          int evade = -1;
+          for(int i = 0; i < (int) cards.size(); i++){
             if (cards[i]->GetCost() <= gameState->GetPlayers()[entityID]->GetEnergy()){
-              playable_card_exists = i;
-              break;
+              // playable_card_exists = i;
+              playable_cards.push_back(i);
+              if(cards[i] -> GetBuff() -> GetEvade() >0){
+                evade = i;  //used to block
+              }
             }
             i++;
           }
-          if(playable_card_exists >= 0){
+          if(playable_cards.size() > 0){
 
             // for max attack
             // target = 0
@@ -100,17 +106,26 @@ void AI_Heuristique::Play (){
             for(auto& enemy : enemies){
               int attack = enemy->GetSkills()[enemy->GetIntent()]->GetAttack();
               if(attack > 0){
+                attack = enemy -> GetStatAttack();
+                if(enemy -> GetBuff().GetAttackPlus() > 0){
+                  attack *= 1.5;
+                }
                 block_aim+= attack;
               }
             }
-            int try_block = 0;
-            int max = 0;
-            if(block_aim > gameState->GetPlayers()[entityID]->GetBlock()){
-              try_block = Try_block(cards, cards_played, gameState->GetPlayers()[entityID], block_aim);
-              std::cout << "try block: " << try_block << std::endl;
+            int try_block = 0; // valeur de block max ou atteinte en jouant au mieux le bloc
+            int max = 0; // valeur d'attaque max atteinte en jouant des cartes d'attaque
+            Player * player = gameState->GetPlayers()[entityID];
+            if(block_aim > player->GetBlock() && player -> GetBuff().GetEvade() > 0){
+              if(evade > -1){
+                moteur->AddCommand(std::make_shared<CommandPlayCard>(entityID, entityID, evade));
+              }
+              else{ // no evade cards to play
+                try_block = Try_block(cards, cards_played, player, block_aim);
+                std::cout << "try block: " << try_block << std::endl;
+              }
             }
-
-            if(try_block == 0){
+            if(try_block == 0 && evade < 0){
               max = Max_attack(cards, cards_played, gameState->GetPlayers()[entityID], room->GetEnemies()[room->MostVulnerableEnemy() - 2].get());
               std::cout << "max attack: " << max << std::endl;
             }
@@ -136,16 +151,48 @@ void AI_Heuristique::Play (){
                     cards_index[j] = cards_index[j] - 1;
                   }
                 }
-              }
-            } else if(cards[playable_card_exists]->GetTarget() == 0 || cards[playable_card_exists]->GetTarget() == 3){
-                  moteur->AddCommand(std::make_shared<CommandPlayCard>(entityID, 0, playable_card_exists));
-                } else moteur->AddCommand(std::make_shared<CommandPlayCard>(entityID, 2, playable_card_exists));
-              } else {
-            std::cout << "next turn" << std::endl;
-            moteur->AddCommand(std::make_shared<engine::CommandNextEntity>());
+              } // else: try play random card
+            } else {
+              int choice;
 
-          }
-        } else { //fight won
+              choice = rand() % playable_cards.size();
+              // if(cards[playable_card_exists]->GetTarget() == 0 || cards[playable_card_exists]->GetTarget() == 3){
+              //     moteur->AddCommand(std::make_shared<CommandPlayCard>(entityID, 0, playable_card_exists));
+              //   } else moteur->AddCommand(std::make_shared<CommandPlayCard>(entityID, 2, playable_card_exists));
+
+              //check if element matters:
+              if(block_aim > 0){
+                int enemyElement = gameState->GetMap()->GetFloors()[floorNb] -> GetElement(); // is the element of the card a bad element?
+                if (cards[playable_cards[choice]] -> GetElement() - enemyElement == -1 || cards[playable_cards[choice]] -> GetElement() - enemyElement == 3 ){
+                  bool found = false;
+                  for(int i : playable_cards){
+                    if(! (cards[playable_cards[i]] -> GetElement() - enemyElement == -1 || cards[playable_cards[i]] -> GetElement() - enemyElement == 3 )){
+                      found = true;
+                      choice = i;
+                      break;
+                    }
+                  }
+                  if (!found){
+                    choice = -1;
+                  }
+                }
+              }
+              if(choice > -1){
+                if(cards[playable_cards[choice]]->GetTarget() == 0 || cards[playable_cards[choice]]->GetTarget() == 3){
+                    moteur->AddCommand(std::make_shared<CommandPlayCard>(entityID, 0, playable_cards[choice]));
+                  } else moteur->AddCommand(std::make_shared<CommandPlayCard>(entityID, 2, playable_cards[choice]));
+                } else{ // no more cards to play
+                std::cout << "next turn" << std::endl;
+                moteur->AddCommand(std::make_shared<engine::CommandNextEntity>());
+              }
+            }
+
+        } else{
+          std::cout << "next turn" << std::endl;
+          moteur->AddCommand(std::make_shared<engine::CommandNextEntity>());
+        }
+      }
+         else { //fight won
 
           std::vector<int> count = player->GetDeck()->CountCards();
           std::vector<int> attack, block, buff, debuff;

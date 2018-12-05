@@ -13,6 +13,12 @@ void CommandChangeRoom::Execute (std::shared_ptr<state::GameState>& gameState){
   int floorNb = gameState->GetMap()->GetCurrentFloor();
   if (gameState->GetMap()->GetFloors()[floorNb]->GetCurrentRoom()->GetNextRoom()){
     gameState->GetMap()->GetFloors()[floorNb]->SetCurrentRoom(gameState->GetMap()->GetFloors()[floorNb]->GetCurrentRoom()->GetNextRoom());
+
+    //reset player's turn
+    if((int)gameState -> GetPlayers().size() == 2 && !gameState -> GetPlayers()[0] -> GetIsEntityAlive()){
+      gameState->GetMap()->GetFloors()[floorNb]->GetCurrentRoom()-> SetEntityTurn(1);
+    }
+    else {gameState->GetMap()->GetFloors()[floorNb]->GetCurrentRoom() -> SetEntityTurn(0);}
   } else if(floorNb == 4){
     std::cout << "Fin du jeu, bravo! Vous avez encore sauvé le monde!" <<std::endl;
   } else{
@@ -23,10 +29,6 @@ void CommandChangeRoom::Execute (std::shared_ptr<state::GameState>& gameState){
       player -> SetLife(player -> GetMaxLife());
     }
   }
-  if((int)gameState -> GetPlayers().size() == 2 && !gameState -> GetPlayers()[0] -> GetIsEntityAlive()){
-    gameState->GetMap()->GetFloors()[floorNb]->GetCurrentRoom()-> SetEntityTurn(1);
-  }
-  else {gameState->GetMap()->GetFloors()[floorNb]->GetCurrentRoom() -> SetEntityTurn(0);}
 }
 
 void CommandChangeRoom::Undo (std::shared_ptr<state::GameState>& gameState){
