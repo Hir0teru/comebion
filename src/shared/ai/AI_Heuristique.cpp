@@ -343,7 +343,10 @@ int AI_Heuristique::GetRealDamage(Enemy* enemy, Player* player, Card* card){
 
 int AI_Heuristique::GetRealBlock(Player* player, Card* card){
   int block = card->GetBlock();
-  block += player->GetStatBlock();
+
+  if (block != 0){
+    block += player->GetStatBlock();
+  }
 
   if (player->GetBuff().GetBlockPlus() > 0){
     block *= 1.5;
