@@ -106,10 +106,10 @@ void AI_Heuristique::Play (){
             int try_block = 0;
             int max = 0;
             if(block_aim > gameState->GetPlayers()[entityID]->GetBlock()){
-              try_block = Try_block(cards, cards_played, gameState->GetPlayers()[entityID]->GetEnergy(), 0, -1,0, block_aim);
+              try_block = Try_block(cards, cards_played, gameState->GetPlayers()[entityID], block_aim);
               std::cout << "try block: " << try_block << std::endl;
-
             }
+
             if(try_block == 0){
               max = Max_attack(cards, cards_played, gameState->GetPlayers()[entityID], room->GetEnemies()[room->MostVulnerableEnemy() - 2].get());
               std::cout << "max attack: " << max << std::endl;
@@ -244,32 +244,48 @@ int AI_Heuristique::Max_attack(std::vector<state::Card*> cards, int * cards_play
 }
 
 
-int AI_Heuristique::Try_block(std::vector<state::Card*> cards, int * cards_played, int energy_left, int block, int index, int nb_card_played, int block_aim){
-  if(index >= (int) cards.size() - 1  || block >= block_aim) return block;
-  int newblock = block;
-  for(int i = index + 1; i< (int) cards.size(); i++){
-    if(cards_played[i] == 0 && cards[i]->GetCost() <= energy_left && cards[i]->GetBlock() > 0 && i != index){
+int AI_Heuristique::Try_block(std::vector<state::Card*> cards, int * cards_played, Player* player, int block_aim){
+  int best_choice = 0;
+  int max_block = 0;
+  int energy_used = 0;
+  int card_played_order = 1;
+  int energy_available = player->GetEnergy();
 
-      int cards_played_cpy[5];
-      for(int j = 0; j < 5; j++){
-        cards_played_cpy[j] = cards_played[j];
+  block_aim = block_aim - player->GetBlock();
+
+  if (block_aim > 0) {
+    for (int i = 0; i < pow(2, cards.size()); i++){
+      int block = 0;
+      int energy = 0;
+
+      for (int card_nb = 0; card_nb < (int) cards.size(); card_nb ++){
+        if ((int) (i / pow(2, card_nb)) % 2){
+          block += GetRealBlock(player, cards[card_nb]) + cards[card_nb]->GetHeal();
+          energy += cards[card_nb]->GetCost();
+        }
       }
 
-      cards_played_cpy[i] = nb_card_played + 1;
-      newblock = Try_block(cards, cards_played_cpy, energy_left - cards[i]->GetCost(), block  + cards[i]->GetBlock(), i, nb_card_played + 1, block_aim);
-      block = Try_block(cards, cards_played, energy_left, block, i, nb_card_played, block_aim);
+      if (energy <= energy_available &&
+          ((block > block_aim && energy < energy_used)
+           || (block > max_block && max_block < block_aim)
+           || (block == max_block && energy <= energy_used))){
+        max_block = block;
+        energy_used = energy;
+        best_choice = i;
+      }
+    }
 
-      if(newblock > block){
-        block = newblock;
-        //cards_played[i] = nb_card_played + 1;
-        for(int j = 0; j < 5; j++){
-          cards_played[j] = cards_played_cpy[j];
+    if (max_block > 0){
+      for (int card_nb = 0; card_nb < (int) cards.size(); card_nb ++){
+        if ((int) (best_choice / pow(2, card_nb)) % 2){
+          cards_played[card_nb] = card_played_order;
+          card_played_order++;
         }
-        return(block);
       }
     }
   }
-  return block;
+
+  return max_block;
 }
 
 
@@ -322,4 +338,20 @@ int AI_Heuristique::GetRealDamage(Enemy* enemy, Player* player, Card* card){
   } else {
     return 0;
   }
+}
+
+
+int AI_Heuristique::GetRealBlock(Player* player, Card* card){
+  int block = card->GetBlock();
+  block += player->GetStatBlock();
+
+  if (player->GetBuff().GetBlockPlus() > 0){
+    block *= 1.5;
+  }
+
+  if (player->GetDebuff().GetBlockMinus() > 0){
+    block *= 0.5;
+  }
+
+  return block;
 }
