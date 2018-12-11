@@ -86,7 +86,6 @@ void AI_Heuristique::Play (){
                 evade = i;  //used to block
               }
             }
-            i++;
           }
           if(playable_cards.size() > 0){
 
@@ -106,7 +105,7 @@ void AI_Heuristique::Play (){
             for(auto& enemy : enemies){
               int attack = enemy->GetSkills()[enemy->GetIntent()]->GetAttack();
               if(attack > 0){
-                attack = enemy -> GetStatAttack();
+                attack += enemy -> GetStatAttack();
                 if(enemy -> GetBuff().GetAttackPlus() > 0){
                   attack *= 1.5;
                 }
@@ -116,43 +115,80 @@ void AI_Heuristique::Play (){
             int try_block = 0; // valeur de block max ou atteinte en jouant au mieux le bloc
             int max = 0; // valeur d'attaque max atteinte en jouant des cartes d'attaque
             Player * player = gameState->GetPlayers()[entityID];
-            if(block_aim > player->GetBlock() && player -> GetBuff().GetEvade() > 0){
+            if(block_aim > player->GetBlock() && player -> GetBuff().GetEvade() <= 0){
               if(evade > -1){
                 moteur->AddCommand(std::make_shared<CommandPlayCard>(entityID, entityID, evade));
+                evade = -2; // played evade
+                // std::cout << "played evade" << std::endl;
               }
               else{ // no evade cards to play
                 try_block = Try_block(cards, cards_played, player, block_aim);
                 std::cout << "try block: " << try_block << std::endl;
+                if(try_block == 0){
+                  max = Max_attack(cards, cards_played, gameState->GetPlayers()[entityID], room->GetEnemies()[room->MostVulnerableEnemy() - 2].get());
+                  std::cout << "max attack: " << max << std::endl;
+                }
               }
-            }
-            if(try_block == 0 && evade < 0){
+            } else{
               max = Max_attack(cards, cards_played, gameState->GetPlayers()[entityID], room->GetEnemies()[room->MostVulnerableEnemy() - 2].get());
               std::cout << "max attack: " << max << std::endl;
             }
 
             if(max > 0){
+              // play cards fo attackplus
+
+              if(block_aim > 0){ // the last element matters
+                for(int i = 0; i < 5; i++){
+                  // chaeck if the card makes you vulnerable, if so, play first.
+                  if(cards_played[i] > 0 && (cards[i]->GetTarget() == 1 || cards[i]->GetTarget() == 2 )
+                      && (cards[i] -> GetElement() - gameState->GetMap()->GetFloors()[floorNb] -> GetElement() == -1 || cards[i] -> GetElement() - gameState->GetMap()->GetFloors()[floorNb] -> GetElement() == 3 )){
+                   // std::cout << " card " << i << " played in " << cards_played[i] << std::endl;
+                    moteur->AddCommand(std::make_shared<CommandPlayCard>(entityID, room->MostVulnerableEnemy(), cards_index[i]));
+                    cards_played[i] = 0;
+                    for(int j = i+1 ; j<  (int) cards.size(); j++){
+                      cards_index[j] = cards_index[j] - 1;
+                    }
+                  }
+                }
+              }
               for(int i = 0; i < 5; i++){
-                std::cout << cards_played[i] << std::endl;
+                // std::cout << cards_played[i] << std::endl;
                 if(cards_played[i] > 0 && (cards[i]->GetTarget() == 1 || cards[i]->GetTarget() == 2)){
-                  std::cout << " card " << i << " played in " << cards_played[i] << std::endl;
+                 std::cout << " card " << i << " played in " << cards_played[i] << std::endl;
                   moteur->AddCommand(std::make_shared<CommandPlayCard>(entityID, room->MostVulnerableEnemy(), cards_index[i]));
                   for(int j = i+1 ; j<  (int) cards.size(); j++){
                     cards_index[j] = cards_index[j] - 1;
                   }
                 }
               }
+
             } else if(try_block > 0){
+              // play cards for block - element will matter
+
               for(int i = 0; i < 5; i++){
-                std::cout << cards_played[i] << std::endl;
+                // std::cout << cards_played[i] << std::endl;
                 if(cards_played[i] > 0 && (cards[i]->GetTarget() == 0 || cards[i]->GetTarget() == 3)){
-                  std::cout << " card " << i << " played in " << cards_played[i] << std::endl;
+                 std::cout << " card " << i << " played in " << cards_played[i] << std::endl;
                   moteur->AddCommand(std::make_shared<CommandPlayCard>(entityID, entityID, cards_index[i]));
                   for(int j = i+1 ; j<  (int) cards.size(); j++){
                     cards_index[j] = cards_index[j] - 1;
                   }
                 }
+              }
+
+              for(int i = 0; i < 5; i++){
+                // std::cout << cards_played[i] << std::endl;
+                if(cards_played[i] > 0 && (cards[i]->GetTarget() == 0 || cards[i]->GetTarget() == 3)
+                  && (cards[i] -> GetElement() - gameState->GetMap()->GetFloors()[floorNb] -> GetElement() == -1 || cards[i] -> GetElement() - gameState->GetMap()->GetFloors()[floorNb] -> GetElement() == 3 )){
+                 std::cout << " card " << i << " played in " << cards_played[i] << std::endl;
+                  moteur->AddCommand(std::make_shared<CommandPlayCard>(entityID, entityID, cards_index[i]));
+                  cards_played[i] = 0;
+                  for(int j = i+1 ; j<  (int) cards.size(); j++){
+                    cards_index[j] = cards_index[j] - 1;
+                  }
+                }
               } // else: try play random card
-            } else {
+            } else if (evade != -2){
               int choice;
 
               choice = rand() % playable_cards.size();
