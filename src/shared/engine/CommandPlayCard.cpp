@@ -20,8 +20,8 @@ CommandPlayCard::CommandPlayCard (int playerID, int targetID, int cardIndex){
     this->cardIndex = cardIndex;
   } else this->cardIndex = 0;
   if(targetID >= 0 && targetID < 5){
-    this -> targetID = targetID;
-  } else this -> targetID = 0;
+    this->targetID = targetID;
+  } else this->targetID = 0;
 }
 
 void CommandPlayCard::Execute (std::shared_ptr<state::GameState>& gameState){
@@ -47,10 +47,10 @@ void CommandPlayCard::Execute (std::shared_ptr<state::GameState>& gameState){
     if (selected_card->GetCost() > player->GetEnergy()) {
       throw std::invalid_argument("Not enough energy to play this card");
     }
-    if(targetID > 1 && !room -> GetEnemies()[targetID - 2] -> GetIsEntityAlive()){
+    if(targetID > 1 && !room->GetEnemies()[targetID - 2]->GetIsEntityAlive()){
       throw std::invalid_argument("target is dead");
     }
-    if(targetID < 2 && !(*PM)[targetID] -> GetIsEntityAlive()){
+    if(targetID < 2 && !(*PM)[targetID]->GetIsEntityAlive()){
       throw std::invalid_argument("target is dead");
     }
     CommandUseEnergy commandUseEnergy(selected_card->GetCost(), playerID);
@@ -74,10 +74,10 @@ void CommandPlayCard::Execute (std::shared_ptr<state::GameState>& gameState){
         }
         break;
     }
-    int element = selected_card -> GetElement();
+    int element = selected_card->GetElement();
     for (auto& entityTarget : targets){
       CommandChangeElement commandChangeElement(playerID, element);
-      CommandAttack commandAttack(selected_card->GetAttack(),playerID,  entityTarget->GetId());
+      CommandAttack commandAttack(selected_card->GetAttack(), playerID, entityTarget->GetId());
       CommandAddBlock commandAddBlock(selected_card->GetBlock(),playerID,  entityTarget->GetId());
       CommandHeal commandHeal(selected_card->GetHeal(), entityTarget->GetId());
       CommandAddBuff commandAddBuff(entityTarget->GetId(), *selected_card->GetBuff());

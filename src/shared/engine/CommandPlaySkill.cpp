@@ -21,7 +21,7 @@ CommandPlaySkill::CommandPlaySkill (int enemyID, int targetID, int skillIndex){
     this->skillIndex = skillIndex;
   } else this->skillIndex = 0;
   if(targetID >= 0 && targetID < 5){
-    this -> targetID = targetID;
+    this->targetID = targetID;
   }
 }
 
@@ -30,7 +30,7 @@ void CommandPlaySkill::Execute (std::shared_ptr<state::GameState>& gameState){
 
   if (enemyID >= 2){
     int floorNb = gameState->GetMap()->GetCurrentFloor();
-    std::vector<EnemySkill*> skills = gameState->GetMap()-> GetFloors()[floorNb] -> GetCurrentRoom()-> GetEnemies()[enemyID - 2] -> GetSkills();
+    std::vector<EnemySkill*> skills = gameState->GetMap()->GetFloors()[floorNb]->GetCurrentRoom()->GetEnemies()[enemyID - 2]->GetSkills();
     EnemySkill* selectedSkill = skills[skillIndex];
     PlayerManager* PM = PlayerManager::instance();
     std::vector<Entity*> targets;
@@ -146,13 +146,13 @@ void CommandPlaySkill::Execute (std::shared_ptr<state::GameState>& gameState){
       }
 
     }
-    // std::vector<EnemySkill*> skills = gameState->GetMap()->GetFloors()[floorNb]->GetCurrentRoom()->GetEnemies()[enemyID - 2] ->GetSkills();
+    // std::vector<EnemySkill*> skills = gameState->GetMap()->GetFloors()[floorNb]->GetCurrentRoom()->GetEnemies()[enemyID - 2]->GetSkills();
     for (auto skill : skills){
-      skill -> SetTurnsBeforeUse( skill -> GetTurnsBeforeUse() - 1);
+      skill->SetTurnsBeforeUse( skill->GetTurnsBeforeUse() - 1);
     }
-    skills[skillIndex] -> SetTurnsBeforeUse(skills[skillIndex] -> GetCooldown());
+    skills[skillIndex]->SetTurnsBeforeUse(skills[skillIndex]->GetCooldown());
     int newIntent = rand() % (int) skills.size();
-    while(skills[newIntent] -> GetTurnsBeforeUse() > 0){
+    while(skills[newIntent]->GetTurnsBeforeUse() > 0){
       newIntent = rand() % (int) skills.size();
     }
     CommandChangeIntent changeIntent(enemyID, newIntent);
