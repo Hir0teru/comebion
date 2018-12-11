@@ -24,7 +24,7 @@ SkillManager::SkillManager (){
   skills.push_back(std::move(std::make_unique<EnemySkill>(7, 0, 0, std::make_unique<Buff>(0, 0, 0, 0, 0), std::make_unique<Debuff>(0, 3), "res/textures/icons/attack_debuff.png", 0, 0)));
   skills.push_back(std::move(std::make_unique<EnemySkill>(15, 0, 0, std::make_unique<Buff>(0, 0, 0, 0, 0), std::make_unique<Debuff>(0, 0), "res/textures/icons/attack.png", 1, 0)));
 // water: (11)
-  skills.push_back(std::move(std::make_unique<EnemySkill>(0, 20, 20, std::make_unique<Buff>(0, 0, 0, 5, 0), std::make_unique<Debuff>(0, 0), "res/textures/icons/heal_block.png", 2, 1)));
+  skills.push_back(std::move(std::make_unique<EnemySkill>(0, 20, 20, std::make_unique<Buff>(0, 0, 5, 0, 0), std::make_unique<Debuff>(0, 0), "res/textures/icons/heal_block.png", 3, 1)));
   skills.push_back(std::move(std::make_unique<EnemySkill>(10, 0, 0, std::make_unique<Buff>(0, 0, 0, 0, 0), std::make_unique<Debuff>(0, 0), "res/textures/icons/attack.png", 0, 0)));
   skills.push_back(std::move(std::make_unique<EnemySkill>(7, 0, 0, std::make_unique<Buff>(0, 0, 0, 0, 0), std::make_unique<Debuff>(3, 0), "res/textures/icons/attack_debuff.png", 1, 0)));
   //earth: (14)

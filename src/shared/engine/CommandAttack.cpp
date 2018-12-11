@@ -155,7 +155,7 @@ void CommandAttack::Execute (std::shared_ptr<state::GameState>& gameState){
         tmpdamage -= block;
         if(tmpdamage> 0){
           enemies[target -2]->SetLife(enemies[target - 2]->GetLife() - (int)tmpdamage);
-          cout<<"Attack entity "<<target<<" with "<<(int)tmpdamage<<"damages"<<endl;
+          cout<<"Attack entity "<<target<<" with "<<(int)tmpdamage<<" damages"<<endl;
         }
       } else std::cout << target << " evade attack from " << entityID;
       int retaliate = enemies[target - 2]->GetBuff().GetRetaliate();
