@@ -145,7 +145,7 @@ void AI_Heuristique::Play (){
                    // std::cout << " card " << i << " played in " << cards_played[i] << std::endl;
                     moteur->AddCommand(std::make_shared<CommandPlayCard>(entityID, room->MostVulnerableEnemy(), cards_index[i]));
                     cards_played[i] = 0;
-                    for(int j = i+1 ; j<  (int) cards.size(); j++){
+                    for(int j = i ; j<  (int) cards.size(); j++){
                       cards_index[j] = cards_index[j] - 1;
                     }
                   }
@@ -156,7 +156,7 @@ void AI_Heuristique::Play (){
                 if(cards_played[i] > 0 && (cards[i]->GetTarget() == 1 || cards[i]->GetTarget() == 2)){
                  std::cout << " card " << i << " played in " << cards_played[i] << std::endl;
                   moteur->AddCommand(std::make_shared<CommandPlayCard>(entityID, room->MostVulnerableEnemy(), cards_index[i]));
-                  for(int j = i+1 ; j<  (int) cards.size(); j++){
+                  for(int j = i ; j<  (int) cards.size(); j++){
                     cards_index[j] = cards_index[j] - 1;
                   }
                 }
@@ -170,7 +170,7 @@ void AI_Heuristique::Play (){
                 if(cards_played[i] > 0 && (cards[i]->GetTarget() == 0 || cards[i]->GetTarget() == 3)){
                  std::cout << " card " << i << " played in " << cards_played[i] << std::endl;
                   moteur->AddCommand(std::make_shared<CommandPlayCard>(entityID, entityID, cards_index[i]));
-                  for(int j = i+1 ; j<  (int) cards.size(); j++){
+                  for(int j = i ; j<  (int) cards.size(); j++){
                     cards_index[j] = cards_index[j] - 1;
                   }
                 }
@@ -183,7 +183,7 @@ void AI_Heuristique::Play (){
                  std::cout << " card " << i << " played in " << cards_played[i] << std::endl;
                   moteur->AddCommand(std::make_shared<CommandPlayCard>(entityID, entityID, cards_index[i]));
                   cards_played[i] = 0;
-                  for(int j = i+1 ; j<  (int) cards.size(); j++){
+                  for(int j = i ; j<  (int) cards.size(); j++){
                     cards_index[j] = cards_index[j] - 1;
                   }
                 }
