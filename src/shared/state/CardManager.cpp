@@ -10,7 +10,7 @@ CardManager::CardManager (){
   //buff: blockplus, attackplus, heal, evade, retaliate
   //debuff: blockminus, attackminus
   // Card::Card (std::string name, int cost, int target, std::string image, int element, int attack, int block, int draw, int discard,  int heal, std::shared_ptr<Debuff> debuff, std::shared_ptr<Buff> buff)
-  cards.push_back(std::move(std::make_unique<Card>("Basic Attack", 1, 1, "res/textures/icons/attack.png", 1, 6, 0, 0, 0, 0, std::make_unique<Debuff>(0,0), std::make_unique<Buff>(0,0,0,0,0))));
+  cards.push_back(std::move(std::make_unique<Card>("Basic Attack", 1, 1, "res/textures/icons/attack.png", 1, 5, 0, 0, 0, 0, std::make_unique<Debuff>(0,0), std::make_unique<Buff>(0,0,0,0,0))));
   cards.push_back(std::move(std::make_unique<Card>("Basic Block", 1, 0, "res/textures/icons/block.png", 2, 0, 5, 0, 0, 0, std::make_unique<Debuff>(0,0), std::make_unique<Buff>(0,0,0,0,0))));
 
   // air

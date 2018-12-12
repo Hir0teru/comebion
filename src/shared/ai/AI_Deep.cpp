@@ -148,24 +148,31 @@ int AI_Deep::Seek_Best(std::shared_ptr<Node> tree, int P_PV_init, std::vector<in
 
         } else{ //target is enemy
           //calculating attack:
-          if( room -> GetEnemies()[tree -> GetTarget() - 2] -> GetBuff().GetEvade() <= 0){ // not evading attack
-            tmp_attack = hand[tree -> GetCardIndex()] -> GetAttack() + gameState -> GetPlayers()[entityID] -> GetStatAttack();
-            if(Current_Buff.GetAttackPlus() > 0){
-              tmp_attack *= 1.5;
-            }
-            if(gameState -> GetPlayers()[entityID] -> GetDebuff().GetAttackMinus() > 0){
-              tmp_attack *= 0.5;
-            }
-            // considering elements...
-            if((hand[tree -> GetCardIndex()] -> GetElement() - room -> GetEnemies()[tree -> GetTarget() - 2] -> GetElement() == -1)
-                || (hand[tree -> GetCardIndex()] -> GetElement() - room -> GetEnemies()[tree -> GetTarget() - 2] -> GetElement() == 3)){ //element from enemy is stronger
-                  tmp_attack *= 0.5;
-            } else if((hand[tree -> GetCardIndex()] -> GetElement() - room -> GetEnemies()[tree -> GetTarget() - 2] -> GetElement() == 1)
-                || (hand[tree -> GetCardIndex()] -> GetElement() - room -> GetEnemies()[tree -> GetTarget() - 2] -> GetElement() == -3)){ //element from enemy is weaker
-                  tmp_attack *= 1.5;
-            }
+          tmp_attack = hand[tree -> GetCardIndex()] -> GetAttack() + gameState -> GetPlayers()[entityID] -> GetStatAttack();
+          if(Current_Buff.GetAttackPlus() > 0){
+            tmp_attack *= 1.5;
           }
-          tmp_E_block[tree -> GetTarget() -2] -= (int) tmp_attack;
+          if(gameState -> GetPlayers()[entityID] -> GetDebuff().GetAttackMinus() > 0){
+            tmp_attack *= 0.5;
+          }
+          // considering elements...
+          if((hand[tree -> GetCardIndex()] -> GetElement() - room -> GetEnemies()[tree -> GetTarget() - 2] -> GetElement() == -1)
+              || (hand[tree -> GetCardIndex()] -> GetElement() - room -> GetEnemies()[tree -> GetTarget() - 2] -> GetElement() == 3)){ //element from enemy is stronger
+                tmp_attack *= 0.5;
+          } else if((hand[tree -> GetCardIndex()] -> GetElement() - room -> GetEnemies()[tree -> GetTarget() - 2] -> GetElement() == 1)
+              || (hand[tree -> GetCardIndex()] -> GetElement() - room -> GetEnemies()[tree -> GetTarget() - 2] -> GetElement() == -3)){ //element from enemy is weaker
+                tmp_attack *= 1.5;
+          }
+          //hitting all enemies:
+          if(hand[tree -> GetCardIndex()] -> GetTarget() == 2){
+            for(size_t i = 0; i < tmp_E_block.size(); i++){
+              if( room -> GetEnemies()[i] -> GetBuff().GetEvade() <= 0){ // not evading attack
+                tmp_E_block[i] -= (int) tmp_attack;
+              }
+            }
+          } else if( room -> GetEnemies()[tree -> GetTarget() - 2] -> GetBuff().GetEvade() <= 0){ // not evading attack
+            tmp_E_block[tree -> GetTarget() -2] -= (int) tmp_attack;
+          }
 
           // change Debuff:
           tmpE_Debuff[tree->GetTarget()] = *hand[tree -> GetCardIndex()] -> GetDebuff();
@@ -197,7 +204,7 @@ int AI_Deep::Seek_Best(std::shared_ptr<Node> tree, int P_PV_init, std::vector<in
         }
         if(index > -1){
           next_cards[index] -> SetToPlay(true);
-        } else std::cout <<"nothing" << std::endl;
+        }
         return(score);
     }
 
@@ -215,7 +222,7 @@ int AI_Deep::Seek_Best(std::shared_ptr<Node> tree, int P_PV_init, std::vector<in
     }
     if(index > -1){
       next_cards[index] ->SetToPlay(true);
-    } else std::cout <<"nothing at root" << std::endl;
+    } else std::cout <<"nothing to play" << std::endl;
     return(score);
   }
 
@@ -231,7 +238,7 @@ if(end){
   }
   if(Current_Buff.GetEvade() <= 0){ //if player doesn't avoid the attack
     for(size_t i = 0; i < room -> GetEnemies().size(); i++){
-      if(E_PV_init[i] > 0 && E_PV_init[i] + tmp_E_block[i]  > 0){ //the enemy is not dead
+      if(E_PV_init[i] > 0 && E_PV_init[i] + tmp_E_block[i]  > 0){ //the enemy is not dead (retaliate doesn't count)
         float tmp_attack = room -> GetEnemies()[i] -> GetSkills()[room -> GetEnemies()[i] -> GetIntent()] -> GetAttack();
         if(tmp_attack > 0 ){
           tmp_attack += room -> GetEnemies()[i] -> GetStatAttack();
@@ -328,15 +335,13 @@ void AI_Deep::Play(){
         std::vector<int> attack, block, buff, debuff;
 
         for (int i = 0; i < (int) room->GetReward().size(); i++ ){
-          if (room->GetReward()[i]->GetAttack() > 0) attack.push_back(i);
-          if (room->GetReward()[i]->GetBlock() > 0) block.push_back(i);
-          if ((room->GetReward()[i]->GetDebuff()->GetAttackMinus() > 0) || (room->GetReward()[i]->GetDebuff()->GetBlockMinus() > 0)) attack.push_back(i);
-          if ((room->GetReward()[i]->GetBuff()->GetAttackPlus() > 0) || (room->GetReward()[i]->GetBuff()->GetBlockPlus() > 0)
-              || (room->GetReward()[i]->GetBuff()->GetEvade() > 0) || (room->GetReward()[i]->GetBuff()->GetHeal() > 0)
-              || (room->GetReward()[i]->GetBuff()->GetRetaliate() > 0)) block.push_back(i);
+          if (room->GetReward()[i]->GetAttack() > 0) {attack.push_back(i);
+          } else if (room->GetReward()[i]->GetBlock() > 0 || room->GetReward()[i] -> GetHeal() > 0) {block.push_back(i);
+          }else if ((room->GetReward()[i]->GetDebuff()->GetAttackMinus() > 0) || (room->GetReward()[i]->GetDebuff()->GetBlockMinus() > 0)) {attack.push_back(i);
+          } else block.push_back(i);
         }
 
-        if (count[0] < count[1] && attack.size() > 0){
+        if (count[0] < count[1] && attack.size() > 0){ //less attack than block
           moteur->AddCommand(std::make_shared<engine::CommandAddCard>(entityID, attack[rand() % (int) attack.size()], gameState->GetPlayers()[entityID]->GetDeck()->GetSize() == 15));
         } else if ((count[0] > count[1] && block.size()) > 0){
           moteur->AddCommand(std::make_shared<engine::CommandAddCard>(entityID, block[rand() % (int) block.size()], gameState->GetPlayers()[entityID]->GetDeck()->GetSize() == 15));
