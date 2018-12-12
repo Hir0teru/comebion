@@ -108,7 +108,7 @@ int AI_Deep::Seek_Best(std::shared_ptr<Node> tree, int P_PV_init, std::vector<in
         end = true;
       } else{ // play card
         int score = - std::numeric_limits<int>::max();
-        tree -> SetToPlay(true);
+        // tree -> SetToPlay(true);
         // init all new data
         float tmp_block = 0;
         float tmp_attack = 0;
@@ -185,25 +185,37 @@ int AI_Deep::Seek_Best(std::shared_ptr<Node> tree, int P_PV_init, std::vector<in
         }
 
         std::vector<std::shared_ptr<Node>> next_cards = tree -> GetNextCards();
-        for(auto node : next_cards){ //calculate score on next nodes/cards with the new data
-           int tmp_score = Seek_Best(node, P_PV_init, E_PV_init, P_PV_current - retaliate + tmp_heal,P_Block_current + tmp_block,
+        int index = -1;
+        for(size_t i = 0; i<next_cards.size(); i++){ //calculate score on next nodes/cards with the new data
+           int tmp_score = Seek_Best(next_cards[i], P_PV_init, E_PV_init, P_PV_current - retaliate + tmp_heal,P_Block_current + tmp_block,
              P_Energy_current - hand[tree -> GetCardIndex()] -> GetCost(), tmp_element,tmp_E_block, tmpBuff, tmpE_Debuff);
            if( tmp_score > score){
              score = tmp_score;
-           } else node -> SetToPlay(false);//not the best node, should not be played
+             index = i;
+           }
+            // else node -> SetToPlay(false);//not the best node, should not be played
         }
+        if(index > -1){
+          next_cards[index] -> SetToPlay(true);
+        } else std::cout <<"nothing" << std::endl;
         return(score);
     }
 
   } else{// the root -> no card played -> only calculating the score of the sons
     int score = - std::numeric_limits<int>::max();
     std::vector<std::shared_ptr<Node>> next_cards = tree -> GetNextCards();
-    for(auto node : next_cards){
-       int tmp_score = Seek_Best(node, P_PV_init, E_PV_init, P_PV_current, P_Block_current, P_Energy_current, Current_element, E_block_current, Current_Buff,  E_Current_Debuff);
+    int index = -1;
+    for(size_t i = 0; i<next_cards.size(); i++){
+       int tmp_score = Seek_Best(next_cards[i], P_PV_init, E_PV_init, P_PV_current, P_Block_current, P_Energy_current, Current_element, E_block_current, Current_Buff,  E_Current_Debuff);
        if( tmp_score > score){
          score = tmp_score;
-       } else node -> SetToPlay(false); //not the best node, should not be played
+         index = i;
+       }
+  // else node -> SetToPlay(false);//not the best node, should not be played
     }
+    if(index > -1){
+      next_cards[index] ->SetToPlay(true);
+    } else std::cout <<"nothing at root" << std::endl;
     return(score);
   }
 
