@@ -72,21 +72,19 @@ std::vector<int> Deck::CountCards(){
   for (auto& card : cards){
     if (card->GetAttack() > 0){
       attack++;
-    }
-    if (card->GetBlock() > 0){
+    } else if (card->GetBlock() > 0 || card -> GetHeal() > 0){
       block++;
+    } else{
+      Buff* buffInstance = card->GetBuff();
+      if (buffInstance->GetAttackPlus() + buffInstance->GetBlockPlus() + buffInstance->GetHeal() + buffInstance->GetEvade() + buffInstance->GetRetaliate() > 0){
+        block++;
+      } else{
+        Debuff* debuffInstance = card->GetDebuff();
+        if (debuffInstance->GetAttackMinus() + debuffInstance->GetBlockMinus() > 0){
+          attack++;
+        }
+      }
     }
-
-    Buff* buffInstance = card->GetBuff();
-    if (buffInstance->GetAttackPlus() + buffInstance->GetBlockPlus() + buffInstance->GetHeal() + buffInstance->GetEvade() + buffInstance->GetRetaliate() > 0){
-      block++;
-    }
-
-    Debuff* debuffInstance = card->GetDebuff();
-    if (debuffInstance->GetAttackMinus() + debuffInstance->GetBlockMinus() > 0){
-      attack++;
-    }
-
   }
   count.push_back(attack);
   count.push_back(block);
