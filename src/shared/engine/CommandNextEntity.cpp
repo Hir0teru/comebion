@@ -12,7 +12,6 @@ CommandNextEntity::CommandNextEntity (){}
 void CommandNextEntity::Execute (std::shared_ptr<state::GameState>& gameState){
 
   int floorNb = gameState->GetMap()->GetCurrentFloor();
-  previousRoom = *(gameState->GetMap()->GetFloors()[floorNb]->GetCurrentRoom());
   int entityTurn = gameState->GetMap()->GetFloors()[floorNb]->GetCurrentRoom()->GetEntityTurn();
   if(gameState->GetMap()->GetFloors()[floorNb]->GetCurrentRoom()->GetIsEnemyRoom() && !gameState->GetMap()->GetFloors()[floorNb]->GetCurrentRoom()->GetIsFightWon()){
     if (entityTurn >= 0 && entityTurn < 2){ //discard the rest of the hand

@@ -19,6 +19,22 @@
             \end{itemize}
             L'élément du joueur et des ennemi est ici considéré. L'eau infligera plus de dégat à l'air, lui sur le feu, lui sur la terre et enfin cette dernière sur l'eau. De manière générale lors d'un combat, le joueur joue prioritairement les cartes dont les éléments lui sont défavorables, afin d'essayer de terminer le tour en étant d'un autre élément et ainsi ne pas fausser le calcul du block. Si à l'étape 4, il ne lui reste que des cartes à jouer d'un élément défavorable, il n'en jouera aucune. On n'empêche cependant pas le joueur de jouer des cartes aux étapes 1, 2, 3.
         \end{itemize}
+        
+        \subsubsection{Intelligence artificielle basée sur des arbres de recherche}
+        Cette intelligence artificielle n'interviendra que dans le choix des cartes à jouer. Le reste des commandes effectuées se feront toujours avec le principe de l'ia heuristique (choix des cartes à ajouter au deck, dormir/méditer...).
+        \par Jouer des cartes se découpe maintenant en plusieurs étapes:
+        \begin{itemize}
+            \item Etape 1: conception de l'arbre: l'arbre est construit à partir des cartes contenues dans la main du joueur (au nombre de 5). Toutes les cibles permises sont incluses. Les attributs d'un noeud de l'arbre est: son index, correspondant à l'index de la carte dans la main du joueur (< 0 si il ne correspond pas à une carte), sa cible (sous la forme d'un entityID),un booléen indiquant si la carte a été choisie, et un vector contenant les cartes/noeuds suivants. La racine de l'arbre possède l'index -2, tandis que les noeuds d'index -1 indiquent la commande "passer à l'entité suivante".
+            \item Etape 2: parcours de l'arbre et choix de la meilleure combinaison de cartes. Ce choix se fait basé sur un score. On parcourt l'arbre en récursif en clonnant les états. Comme on n'a que 5 cartes à prendre en compte ainsi que la commande passer le tour, ce choix ne semblait pas trop consommateur en mémoire. Le score est calculé à partir de: 
+            \begin{itemize}
+                \item la vie perdue par le joueur lorsqu'il a joué ses cartes et après calcul des dommages infligés par les ennemis
+                \item le nombre d'ennemis tués
+                \item le nombre de vie perdue par un ennemi s'il n'est pas tué, pour tous les ennemis
+                \item si le joueur est mort après avoir joué toutes ses cartes, imposant le score à $-\infty$
+            \end{itemize}
+            \item Etape 3: ajout des commandes correspondant aux cartes à jouer dans le moteur, ainsi que la commande fin du tour.
+        \end{itemize}
+        
     \clearpage
     
 \subsection{Conception logiciel}
@@ -28,6 +44,13 @@
     \par Classe implantant l'intelligence aléatoire.
     
     \underline{\textbf{AI\_Heuristic}}
+    \par Classe implantant l'IA basée sur une heuristique.
+    
+    \underline{\textbf{AI\_Deep}}
+    \par Classe implantant l'IA basée sur les arbres de recherche.
+    
+    \underline{\textbf{Node}}
+    \par Classe implantant les noeuds de l'arbre de recherche étant utilisé dans la classe IA\_Deep.
     
     \clearpage
     
@@ -43,4 +66,3 @@
     %\caption{\label{uml:ai}Diagramme des classes d'intelligence artificielle.} 
     %\end{figure}
     %\end{landscape}
-
