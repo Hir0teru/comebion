@@ -164,4 +164,6 @@ void CommandPlayCard::Execute (std::shared_ptr<state::GameState>& gameState){
   }
 }
 
-void CommandPlayCard::Undo (std::shared_ptr<state::GameState>& gameState){}
+void CommandPlayCard::Undo (std::shared_ptr<state::GameState>& gameState){
+  
+}
