@@ -1,27 +1,117 @@
 #include <iostream>
-#include <string>
-#include <vector>
 #include <memory>
-#include <unistd.h>
+#include <mutex>
+#include <string>
+#include <thread>
+#include <vector>
+
 #include <cstdlib>
 #include <stdio.h>
 #include <stdlib.h>
+#include <sys/types.h>
 #include <time.h>
+#include <unistd.h>
 
 // Les lignes suivantes ne servent qu'à vérifier que la compilation avec SFML fonctionne
 #include <SFML/Graphics.hpp>
 
-#include "state.h"
-#include "render.h"
-#include "engine.h"
 #include "ai.h"
+#include "engine.h"
+#include "render.h"
+#include "state.h"
 
-using namespace std;
-using namespace state;
-using namespace render;
-using namespace engine;
 using namespace ai;
+using namespace engine;
+using namespace render;
+using namespace state;
+using namespace std;
 
+void engineThread(std::shared_ptr<Moteur> moteur, std::shared_ptr<GameState> gameState, bool* run, bool* pause, mutex* mtx){
+  mtx->lock();
+  AI_Deep* ai1 = new AI_Deep(gameState, moteur,0);
+  mtx->unlock();
+  while (*run){
+    if (!*pause){
+      mtx->lock();
+      if(moteur->GetCommands().size() <= 0){
+        ai1->Play();
+        if (moteur->GetCommands().size() <= 0){
+          moteur->Update();
+        }
+      } else {
+        std::cout << "updating ..." << std::endl;
+        moteur->Update();
+
+      }
+      mtx->unlock();
+      // sleep(0.3);
+      std::this_thread::sleep_for(0.01s);
+    }
+  }
+}
+
+void testThread(){
+  mutex* mtx = new mutex;
+  bool* run = new bool;
+
+  PlayerManager* PM = PlayerManager::instance();
+  std::shared_ptr<GameState> gameState = std::make_shared<state::GameState>();
+  std::vector<Player*> players;
+  players.push_back((*PM)[0]);
+  gameState->SetPlayers(players);
+  std::shared_ptr<Moteur> moteur = make_shared<Moteur>(gameState);
+
+  Rendu * rendu = new Rendu(gameState);
+  sf::RenderWindow window(sf::VideoMode(rendu->GetDimensionX(), rendu->GetDimensionY()), "Slay the Avatar");
+  *run = true;
+  sf::Event event;
+  sf::Sprite sprite;
+  rendu->SetTextureMap(1);
+  sprite.setTexture(rendu->GetTextureMap().getTexture());
+  bool* pause = new bool;
+  *pause = false;
+  std::cout << "press a key to pause or unpause" << std::endl;
+  sleep(1);
+  std::cout << "beginning...." << std::endl;
+
+  std::thread test(&engineThread, moteur, gameState, run, pause, mtx);
+  while(*run){
+    window.clear(sf::Color::White);
+    window.draw(sprite);
+    window.display();
+
+    while (window.pollEvent(event)){
+      if (event.type == sf::Event::Closed){
+        window.close();
+        *run = false;
+      }
+      if(event.type == sf::Event::KeyReleased){
+        if(!(*pause)){
+          *pause = true;
+        } else *pause = false;
+      }
+    }
+    if(!(*pause)){
+      mtx->lock();
+      if(!rendu->GetGameState()->GetIsInsideRoom()){
+        rendu->SetTextureMap(1);
+        sprite.setTexture(rendu->GetTextureMap().getTexture());
+      } else {
+        rendu->SetTextureRoom();
+        rendu->DrawInsideRoom();
+        sprite.setTexture(rendu->GetTexture().getTexture());
+      }
+      mtx->unlock();
+      window.clear(sf::Color::White);
+      window.draw(sprite);
+      window.display();
+    }
+  }
+  test.join();
+  delete run;
+  delete pause;
+  delete mtx;
+}
 
 void testDeepAI(){
   PlayerManager* PM = PlayerManager::instance();
@@ -29,7 +119,7 @@ void testDeepAI(){
   std::vector<Player*> players;
   players.push_back((*PM)[0]);
   // players.push_back((*PM)[1]);
-  gameState -> SetPlayers(players);
+  gameState->SetPlayers(players);
   std::shared_ptr<Moteur> moteur = make_shared<Moteur>(gameState);
 
   AI_Deep* ai1 = new AI_Deep(gameState, moteur,0);
@@ -39,14 +129,12 @@ void testDeepAI(){
   //int floorNb = 0;
 
   Rendu * rendu = new Rendu(gameState);
-  sf::RenderWindow window(sf::VideoMode(rendu -> GetDimensionX(), rendu -> GetDimensionY()), "Slay the Avatar");
-
-
+  sf::RenderWindow window(sf::VideoMode(rendu->GetDimensionX(), rendu->GetDimensionY()), "Slay the Avatar");
 
   sf::Event event;
   sf::Sprite sprite;
-  rendu -> SetTextureMap(1);
-  sprite.setTexture(rendu -> GetTextureMap().getTexture());
+  rendu->SetTextureMap(1);
+  sprite.setTexture(rendu->GetTextureMap().getTexture());
   bool pause = false;
 
   std::cout << "press a key to pause or unpause" << std::endl;
@@ -58,10 +146,6 @@ void testDeepAI(){
     window.clear(sf::Color::White);
     window.draw(sprite);
     window.display();
-
-
-
-
 
     while (window.pollEvent(event)){
       if (event.type == sf::Event::Closed){
@@ -76,28 +160,28 @@ void testDeepAI(){
     }
 
     if(!pause){
-      if(moteur -> GetCommands().size() <= 0){
-        ai1 -> Play();
-        if (moteur -> GetCommands().size() <= 0){
-            moteur -> Update(); // le moteur est toujours vide -> un ennemi doit être en train de jouer -> passer à l'ennemi suivant
+      if(moteur->GetCommands().size() <= 0){
+        ai1->Play();
+        if (moteur->GetCommands().size() <= 0){
+            moteur->Update(); // le moteur est toujours vide->un ennemi doit être en train de jouer->passer à l'ennemi suivant
         }
       }
       else{
         std::cout << "updating ..." << std::endl;
-        moteur -> Update();
-        //floorNb =  gameState -> GetMap() -> GetCurrentFloor();
-      //  entityTurn =  gameState -> GetMap() -> GetFloors()[floorNb] -> GetCurrentRoom() -> GetEntityTurn() ;
-        if(!rendu -> GetGameState() -> GetIsInsideRoom()){
-          rendu -> SetTextureMap(1);
-          sprite.setTexture(rendu -> GetTextureMap().getTexture());
+        moteur->Update();
+        //floorNb =  gameState->GetMap()->GetCurrentFloor();
+      //  entityTurn =  gameState->GetMap()->GetFloors()[floorNb]->GetCurrentRoom()->GetEntityTurn() ;
+        if(!rendu->GetGameState()->GetIsInsideRoom()){
+          rendu->SetTextureMap(1);
+          sprite.setTexture(rendu->GetTextureMap().getTexture());
           window.clear(sf::Color::White);
           window.draw(sprite);
           window.display();
         }
         else{
-          rendu -> SetTextureRoom();
-          rendu -> DrawInsideRoom();
-          sprite.setTexture(rendu -> GetTexture().getTexture());
+          rendu->SetTextureRoom();
+          rendu->DrawInsideRoom();
+          sprite.setTexture(rendu->GetTexture().getTexture());
           window.clear(sf::Color::White);
           window.draw(sprite);
           window.display();
@@ -305,7 +389,7 @@ void test(){
   // moteur->Update();
   // moteur->AddCommand(std::make_shared<CommandEndFight>());
   // moteur->Update();
-// gameState->GetMap()->GetFloors()[gameState->GetMap()-> GetCurrentFloor()]->GetCurrentRoom()->SetIsFightWon(true) ;
+// gameState->GetMap()->GetFloors()[gameState->GetMap()->GetCurrentFloor()]->GetCurrentRoom()->SetIsFightWon(true) ;
 
   View* view = new View(gameState, moteur);
 
@@ -461,7 +545,7 @@ void testSFML(){
   int floorNb = rendu->GetGameState()->GetMap()->GetCurrentFloor();
   std::shared_ptr<Room>& room = rendu->GetGameState()->GetMap()->GetFloors()[floorNb]->GetCurrentRoom();
   // if(room->GetIsEnemyRoom()){
-  //   room->GetHands()[0]-> SetCards(cards);
+  //   room->GetHands()[0]->SetCards(cards);
   //   room->GetDrawPiles()[0]->SetCards(cards);
   //   room->SetEntityTurn(0);
   // }
@@ -484,7 +568,7 @@ void testSFML(){
 
     room = rendu->GetGameState()->GetMap()->GetFloors()[floorNb]->GetCurrentRoom();
     if(room->GetIsEnemyRoom()){
-      room->GetHands()[0]-> SetCards(cards);
+      room->GetHands()[0]->SetCards(cards);
       room->GetDrawPiles()[0]->SetCards(cards);
       room->SetEntityTurn(0);
     }
@@ -1075,50 +1159,46 @@ void testState(){
 
 int main(int argc,char* argv[])
 {
-    SkillManager::instance();
-    CardManager::instance();
-    PlayerManager::instance();
-    srand(time(NULL));
-    //Exemple exemple;
-    //exemple.setX(53);
+  SkillManager::instance();
+  CardManager::instance();
+  PlayerManager::instance();
+  srand(time(NULL));
+  //Exemple exemple;
+  //exemple.setX(53);
 
-    if (argc == 2 and std::string(argv[1]) == "hello"){
-        cout << "Bonjour le monde !" << endl;
-    }
+  if (argc == 2 and std::string(argv[1]) == "hello")
+    cout << "Bonjour le monde !" << endl;
 
-    if (argc == 2 and std::string(argv[1]) == "state"){
-        testState();
-    }
+  if (argc == 2 and std::string(argv[1]) == "state")
+    testState();
 
 
-    if (argc == 2 and std::string(argv[1] )== "render"){
-      testSFML();
-    }
-    if (argc == 2 and std::string(argv[1] )== "render2"){
-      testSFML2();
-    }
+  if (argc == 2 and std::string(argv[1] )== "render")
+    testSFML();
 
-    if (argc == 2 and std::string(argv[1] )== "engine"){
-      testEngine();
-    }
+  if (argc == 2 and std::string(argv[1] )== "render2")
+    testSFML2();
 
+  if (argc == 2 and std::string(argv[1] )== "engine")
+    testEngine();
 
-    if (argc == 2 and std::string(argv[1] )== "test"){
-      test();
-    }
-    if (argc == 2 and std::string(argv[1] )== "random_ai")
-  {
+  if (argc == 2 and std::string(argv[1] )== "test")
+    test();
+
+  if (argc == 2 and std::string(argv[1] )== "random_ai")
     testRandomAI();
-  }
 
   if (argc == 2 and std::string(argv[1] )== "heuristic_ai")
-{
-  testHeurAI();
-}
+    testHeurAI();
+
   if (argc == 2 and std::string(argv[1] )== "deep_ai")
-    {
     testDeepAI();
-    }
+
+  if (argc == 2 and std::string(argv[1] )== "deep_ai")
+    testDeepAI();
+
+  if (argc == 2 and std::string(argv[1] )== "thread")
+    testThread();
 
     delete SkillManager::instance();
     delete CardManager::instance();
