@@ -296,6 +296,7 @@ void testRandomAI(){
 
 
 
+
   sf::Event event;
   sf::Sprite sprite;
   rendu->SetTextureMap(1);
