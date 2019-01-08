@@ -80,4 +80,28 @@ void CommandAddBuff::Undo (std::shared_ptr<state::GameState>& gameState){
   entity_buff.SetEvade(entity_buff.GetEvade() - buff.GetEvade());
   entity_buff.SetRetaliate(entity_buff.GetRetaliate() - buff.GetRetaliate());
 
-  selected_entity->SetBuff(entity_buff);}
+  selected_entity->SetBuff(entity_buff);
+}
+
+json_map CommandAddBuff::Serialize () {
+  json_map val;
+  val["typeCmd"] = "AddBuff";
+  val["entityID"] = entityID;
+  val["blockPlus"] = buff.GetBlockPlus();
+  val["attackPlus"] = buff.GetAttackPlus();
+  val["heal"] = buff.GetHeal();
+  val["evade"] = buff.GetEvade();
+  val["retaliate"] = buff.GetRetaliate();
+  return val;
+}
+ CommandAddBuff* CommandAddBuff::Deserialize ( json_map in){
+   entityID = in["entityID"].as<json_int>();
+   state::Buff tmpbuff;
+   tmpbuff.SetBlockPlus(in["blockPlus"].as<json_int>());
+   tmpbuff.SetAttackPlus(in["attackPlus"].as<json_int>());
+   tmpbuff.SetHeal(in["heal"].as<json_int>());
+   tmpbuff.SetEvade(in["evade"].as<json_int>());
+   tmpbuff.SetRetaliate(in["retaliate"].as<json_int>());
+   buff = tmpbuff;
+  return this;
+}

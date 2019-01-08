@@ -62,3 +62,20 @@ void CommandAddDebuff::Undo (std::shared_ptr<state::GameState>& gameState){
 
   selected_entity->SetDebuff(entity_debuff);
 }
+
+json_map CommandAddDebuff::Serialize () {
+  json_map val;
+  val["typeCmd"] = "AddDebuff";
+  val["entityID"] = entityID;
+  val["AttackMinus"] = debuff.GetAttackMinus();
+  val["BlockMinus"] = debuff.GetBlockMinus();
+  return val;
+}
+ CommandAddDebuff* CommandAddDebuff::Deserialize ( json_map in){
+   state::Debuff tmpdebuff;
+   tmpdebuff.SetAttackMinus(in["AttackMinus"].as<json_int>());
+   tmpdebuff.SetBlockMinus(in["BlockMinus"].as<json_int>());
+   entityID = in["entityID"].as<json_int>();
+   debuff = tmpdebuff;
+  return this;
+}

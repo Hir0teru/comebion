@@ -50,3 +50,12 @@ void CommandChangeRoom::Undo (std::shared_ptr<state::GameState>& gameState){
     gameState->GetMap()->GetFloors()[floorNb]->SetCurrentRoom(currentRoom);
   }
 }
+
+json_map CommandChangeRoom::Serialize () {
+  json_map val;
+  val["typeCmd"] = "ChangeRoom";
+  return val;
+}
+ CommandChangeRoom* CommandChangeRoom::Deserialize (json_map in){
+  return this;
+}

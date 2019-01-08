@@ -17,3 +17,11 @@ void CommandGameWon::Undo (std::shared_ptr<state::GameState>& gameState){
   cout<<"Undo Game Won"<<endl;
   gameState->GetRules()->SetIsGameOver(false);
 }
+
+json_map CommandGameWon::Serialize () {
+  json_map val;
+  return val;
+}
+ CommandGameWon* CommandGameWon::Deserialize (json_map in){
+  return this;
+}

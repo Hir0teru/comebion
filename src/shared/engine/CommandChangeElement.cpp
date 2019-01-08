@@ -47,3 +47,19 @@ void CommandChangeElement::Undo (std::shared_ptr<state::GameState>& gameState){
     }
   }
 }
+
+
+json_map CommandChangeElement::Serialize () {
+  json_map val;
+  val["typeCmd"] = "ChangeElement";
+  val["entityID"] = entityID;
+  val["element"] = element;
+  val["previousElement"] = previousElement;
+  return val;
+}
+ CommandChangeElement* CommandChangeElement::Deserialize (json_map in){
+   entityID = in["entityID"].as<json_int>();
+   element = in["element"].as<json_int>();
+   previousElement = in["previousElement"].as<json_int>();
+  return this;
+}

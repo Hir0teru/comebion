@@ -27,3 +27,43 @@ void CommandChangeReward::Execute (std::shared_ptr<state::GameState>& gameState)
 void CommandChangeReward::Undo (std::shared_ptr<state::GameState>& gameState){
   cout<<"Undo Change reward of current room to reward of enemy "<<enemyID<<endl;
 }
+
+json_map CommandChangeReward::Serialize () {
+  json_map val;
+  val["typeCmd"] = "ChangeReward";
+  val["enemyID"] = enemyID;
+  if(previousReward.size()>0){ // serializing only with the name, the card manager will provide the rest
+    val["card1"] = previousReward[0]->GetName();
+    val["card2"] = previousReward[1]->GetName();
+    val["card3"] = previousReward[2]->GetName();
+  } else val["card1"] = json_null;
+
+  return val;
+}
+ CommandChangeReward* CommandChangeReward::Deserialize (json_map in){
+   enemyID = in["enemyID"].as<json_int>();
+   if(!in["card1"].is<json_null>()){
+     previousReward.clear();
+     CardManager* CM = CardManager::instance();
+     int i=0;
+     bool res = false;
+     while(!res && (*CM)[i]){ // will change the original order of the cards but it doesn't matter for the gameplay
+       if((*CM)[i]->GetName().compare(in["card1"].as<json_string>()) == 0){
+         previousReward.push_back((*CM)[i]);
+       }
+       if((*CM)[i]->GetName().compare(in["card2"].as<json_string>()) == 0){
+         previousReward.push_back((*CM)[i]);
+       }
+       if((*CM)[i]->GetName().compare(in["card3"].as<json_string>()) == 0){
+         previousReward.push_back((*CM)[i]);
+       }
+       if(previousReward.size() == 3) { res = true;}
+       i++;
+     }
+     if(!res){
+       std::cout << "deserialization of changeReward might have caused error with previousReward" <<std::endl;
+     }
+
+   }
+  return this;
+}

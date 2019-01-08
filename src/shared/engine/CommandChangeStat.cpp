@@ -55,3 +55,23 @@ void CommandChangeStat::Undo (std::shared_ptr<state::GameState>& gameState){
   selected_entity->SetStatAttack(previousStatAttack);
   selected_entity->SetStatBlock(previousStatBlock);
 }
+
+
+json_map CommandChangeStat::Serialize () {
+  json_map val;
+  val["typeCmd"] = "ChangeStat";
+  val["entityID"] = entityID;
+  val["statAttack"] = statAttack;
+  val["statBlock"] = statBlock;
+  val["previousStatAttack"] = previousStatAttack;
+  val["previousStatBlock"] = previousStatBlock;
+  return val;
+}
+ CommandChangeStat* CommandChangeStat::Deserialize (json_map in){
+   entityID = in["entityID"].as<json_int>();
+   statAttack = in["statAttack"].as<json_int>();
+   statBlock = in["statBlock"].as<json_int>();
+   previousStatAttack = in["previousStatAttack"].as<json_int>();
+   previousStatBlock = in["previousStatBlock"].as<json_int>();
+  return this;
+}

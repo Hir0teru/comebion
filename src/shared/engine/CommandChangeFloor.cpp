@@ -21,3 +21,11 @@ void CommandChangeFloor::Undo (std::shared_ptr<state::GameState>& gameState){
     gameState->GetMap()->SetCurrentFloor(gameState->GetMap()->GetCurrentFloor() - 1);
   }
 }
+json_map CommandChangeFloor::Serialize () {
+  json_map val;
+  val["typeCmd"] = "ChangeFloor";
+  return val;
+}
+ CommandChangeFloor* CommandChangeFloor::Deserialize (json_map in){
+  return this;
+}
