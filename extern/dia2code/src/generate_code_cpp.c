@@ -799,7 +799,7 @@ void print_include_stdlib(struct stdlib_includes* si,char* name) {
        }
        if (!si->jeayeson
        && (strstr(name,"json_") == name)) {
-           print ("#include <jeayeson/jeayeson.hpp>\n");
+           print ("#include <jeayeson.hpp>\n");
            si->jeayeson = 1;
        }
     }
