@@ -70,6 +70,6 @@ json_map CommandAddCard::Serialize () {
  CommandAddCard* CommandAddCard::Deserialize (json_map in){
    playerID = in["playerID"].as<json_int>();
    card = in["card"].as<json_int>();
-   isDeckFull = in["isDeckFull"].as<json_map::type::boolean>();
+   // isDeckFull = in["isDeckFull"].as<json_value::type::boolean>();
   return this;
 }
