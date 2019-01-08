@@ -48,3 +48,11 @@ void CommandEnterRoom::Undo (std::shared_ptr<state::GameState>& gameState){
   cout<<"Undo Enter current room"<<endl;
   gameState->SetIsInsideRoom(false);
 }
+
+json_map CommandEnterRoom::Serialize () {
+  json_map val;
+  return val;
+}
+ CommandEnterRoom* CommandEnterRoom::Deserialize (json_map in){
+  return this;
+}

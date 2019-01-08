@@ -33,3 +33,11 @@ void CommandShuffle::Execute (std::shared_ptr<state::GameState>& gameState){
 void CommandShuffle::Undo (std::shared_ptr<state::GameState>& gameState){
   cout<<"Undo Shuffle DrawPile of player "<<playerID<<endl;
 }
+
+json_map CommandShuffle::Serialize () {
+  json_map val;
+  return val;
+}
+ CommandShuffle* CommandShuffle::Deserialize (json_map in){
+  return this;
+}

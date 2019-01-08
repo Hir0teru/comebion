@@ -1,4 +1,4 @@
-#include "Moteur.h"
+  #include "Moteur.h"
 #include "engine.h"
 #include <stdexcept>
 #include <iostream>
@@ -53,3 +53,6 @@ std::vector<std::shared_ptr<Command>> Moteur::GetCommands (){
 void Moteur::SetCommands (std::vector<std::shared_ptr<Command>> commands){
   this -> commands = commands;
 }
+
+
+void Moteur::ReadCommand (json_map jsonval){}

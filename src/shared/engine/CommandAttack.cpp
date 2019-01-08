@@ -214,3 +214,23 @@ void CommandAttack::Undo (std::shared_ptr<state::GameState>& gameState){
     }
   }
 }
+
+
+json_map CommandAttack::Serialize () {
+  json_map val;
+  val["typeCmd"] = "Attack";
+  val["damage"] = damage;
+  val["entityID"] = entityID;
+  val["target"] = target;
+  val["entityLife"] = entityLife;
+  val["targetLife"] = targetLife;
+  return val;
+}
+ CommandAttack* CommandAttack::Deserialize (json_map in){
+   damage = in["damage"].as<json_int>();
+   entityID = in["entityID"].as<json_int>();
+   target = in["target"].as<json_int>();
+   entityLife = in["entityLife"].as<json_int>();
+   targetLife = in["targetLife"].as<json_int>();
+  return this;
+}

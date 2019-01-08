@@ -26,7 +26,7 @@ void CommandNextEntity::Execute (std::shared_ptr<state::GameState>& gameState){
     int enemyNb = gameState->GetMap()->GetFloors()[floorNb]->GetCurrentRoom()->GetEnemies().size();
     int playerNb = gameState->GetPlayers().size();
 
-    if(entityTurn == enemyNb +1 ){ // new turn for players
+    if(entityTurn == enemyNb +1 ){ // new turnplayers
       for (int i = 0; i < playerNb; i++){
         gameState->GetPlayers()[i]->SetBlock(0);
         gameState->GetPlayers()[i]->SetEnergy(3);
@@ -124,6 +124,12 @@ void CommandNextEntity::Execute (std::shared_ptr<state::GameState>& gameState){
 }
 
 
-void CommandNextEntity::Undo (std::shared_ptr<state::GameState>& gameState){
+void CommandNextEntity::Undo (std::shared_ptr<state::GameState>& gameState){}
 
+json_map CommandNextEntity::Serialize () {
+  json_map val;
+  return val;
+}
+ CommandNextEntity* CommandNextEntity::Deserialize (json_map in){
+  return this;
 }

@@ -26,3 +26,11 @@ void CommandUseEnergy::Undo (std::shared_ptr<state::GameState>& gameState){
      gameState->GetPlayers()[entityID]->SetEnergy(gameState->GetPlayers()[entityID]->GetEnergy() + energyAmount);
   }
 }
+
+json_map  CommandUseEnergy::Serialize () {
+  json_map val;
+  return val;
+}
+ CommandUseEnergy*  CommandUseEnergy::Deserialize (json_map in){
+  return this;
+}

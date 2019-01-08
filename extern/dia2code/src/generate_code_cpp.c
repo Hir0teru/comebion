@@ -695,6 +695,7 @@ struct stdlib_includes {
    int random;
    int sfmlGraphics;
    int jsoncpp;
+   int jeayeson;
 };
 
 void print_include_stdlib(struct stdlib_includes* si,char* name) {
@@ -795,6 +796,11 @@ void print_include_stdlib(struct stdlib_includes* si,char* name) {
        && (strstr(name,"Json::") == name)) {
            print ("#include <json/json.h>\n");
            si->jsoncpp = 1;
+       }
+       if (!si->jeayeson
+       && (strstr(name,"json_") == name)) {
+           print ("#include <jeayeson/jeayeson.hpp>\n");
+           si->jeayeson = 1;
        }
     }
 }

@@ -57,3 +57,16 @@ void CommandDiscard::Undo (std::shared_ptr<state::GameState>& gameState){
   room->SetHands(hands);
   room->SetDiscardPiles(discardPiles);
 }
+
+json_map CommandDiscard::Serialize () {
+  json_map val;
+  val["typeCmd"] = "Discard";
+  val["entityID"] = entityID;
+  val["cardID"] = cardID;
+  return val;
+}
+ CommandDiscard* CommandDiscard::Deserialize (json_map in){
+   entityID = in["entityID"];
+   cardID = in["cardID"];
+  return this;
+}
