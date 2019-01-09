@@ -23,10 +23,10 @@ void CommandExitRoom::Undo (std::shared_ptr<state::GameState>& gameState){
   command.Undo(gameState);
 }
 
-Json::ValueType CommandExitRoom::Serialize () {
-  Json::ValueType val;
+Json::Value CommandExitRoom::Serialize () {
+  Json::Value val;
   return val;
 }
- CommandExitRoom* CommandExitRoom::Deserialize (Json::ValueType in){
+ CommandExitRoom* CommandExitRoom::Deserialize (Json::Value in){
   return this;
 }

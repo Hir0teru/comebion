@@ -49,15 +49,15 @@ void CommandChangeElement::Undo (std::shared_ptr<state::GameState>& gameState){
 }
 
 
-Json::ValueType CommandChangeElement::Serialize () {
-  Json::ValueType val;
+Json::Value CommandChangeElement::Serialize () {
+  Json::Value val;
   val["typeCmd"] = "ChangeElement";
   val["entityID"] = entityID;
   val["element"] = element;
   val["previousElement"] = previousElement;
   return val;
 }
- CommandChangeElement* CommandChangeElement::Deserialize (Json::ValueType in){
+ CommandChangeElement* CommandChangeElement::Deserialize (Json::Value in){
    entityID = in["entityID"].asInt();
    element = in["element"].asInt();
    previousElement = in["previousElement"].asInt();

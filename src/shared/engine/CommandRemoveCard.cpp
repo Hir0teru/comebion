@@ -28,10 +28,10 @@ void CommandRemoveCard::Undo (std::shared_ptr<state::GameState>& gameState){
   cout<<"Undo Remove card "<<index<<" from player "<<playerID<<endl;
 }
 
-Json::ValueType CommandRemoveCard::Serialize () {
-  Json::ValueType val;
+Json::Value CommandRemoveCard::Serialize () {
+  Json::Value val;
   return val;
 }
- CommandRemoveCard* CommandRemoveCard::Deserialize (Json::ValueType in){
+ CommandRemoveCard* CommandRemoveCard::Deserialize (Json::Value in){
   return this;
 }

@@ -51,11 +51,11 @@ void CommandChangeRoom::Undo (std::shared_ptr<state::GameState>& gameState){
   }
 }
 
-Json::ValueType CommandChangeRoom::Serialize () {
-  Json::ValueType val;
+Json::Value CommandChangeRoom::Serialize () {
+  Json::Value val;
   val["typeCmd"] = "ChangeRoom";
   return val;
 }
- CommandChangeRoom* CommandChangeRoom::Deserialize (Json::ValueType in){
+ CommandChangeRoom* CommandChangeRoom::Deserialize (Json::Value in){
   return this;
 }

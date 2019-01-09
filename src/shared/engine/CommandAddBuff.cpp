@@ -83,8 +83,8 @@ void CommandAddBuff::Undo (std::shared_ptr<state::GameState>& gameState){
   selected_entity->SetBuff(entity_buff);
 }
 
-Json::ValueType CommandAddBuff::Serialize () {
-  Json::ValueType val;
+Json::Value CommandAddBuff::Serialize () {
+  Json::Value val;
   val["typeCmd"] = "AddBuff";
   val["entityID"] = entityID;
   val["blockPlus"] = buff.GetBlockPlus();
@@ -94,7 +94,7 @@ Json::ValueType CommandAddBuff::Serialize () {
   val["retaliate"] = buff.GetRetaliate();
   return val;
 }
- CommandAddBuff* CommandAddBuff::Deserialize ( Json::ValueType in){
+ CommandAddBuff* CommandAddBuff::Deserialize ( Json::Value in){
    entityID = in["entityID"].asInt();
    state::Buff tmpbuff;
    tmpbuff.SetBlockPlus(in["blockPlus"].asInt());

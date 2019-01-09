@@ -34,15 +34,15 @@ void CommandChangeIntent::Undo (std::shared_ptr<state::GameState>& gameState){
   }
 }
 
-Json::ValueType CommandChangeIntent::Serialize () {
-  Json::ValueType val;
+Json::Value CommandChangeIntent::Serialize () {
+  Json::Value val;
   val["typeCmd"] = "changeIntent";
   val["enemyID"] = enemyID;
   val["intent"] = intent;
   val["previousIntent"] = previousIntent;
   return val;
 }
- CommandChangeIntent* CommandChangeIntent::Deserialize (Json::ValueType in){
+ CommandChangeIntent* CommandChangeIntent::Deserialize (Json::Value in){
    enemyID = in["enemyID"].asInt();
    intent = in["intent"].asInt();
    previousIntent = in["previousIntent"].asInt();
