@@ -83,8 +83,8 @@ void CommandAddBuff::Undo (std::shared_ptr<state::GameState>& gameState){
   selected_entity->SetBuff(entity_buff);
 }
 
-json_map CommandAddBuff::Serialize () {
-  json_map val;
+Json::Value CommandAddBuff::Serialize () {
+  Json::Value val;
   val["typeCmd"] = "AddBuff";
   val["entityID"] = entityID;
   val["blockPlus"] = buff.GetBlockPlus();
@@ -94,14 +94,14 @@ json_map CommandAddBuff::Serialize () {
   val["retaliate"] = buff.GetRetaliate();
   return val;
 }
- CommandAddBuff* CommandAddBuff::Deserialize ( json_map in){
-   entityID = in["entityID"].as<json_int>();
+ CommandAddBuff* CommandAddBuff::Deserialize ( Json::Value in){
+   entityID = in["entityID"].asInt();
    state::Buff tmpbuff;
-   tmpbuff.SetBlockPlus(in["blockPlus"].as<json_int>());
-   tmpbuff.SetAttackPlus(in["attackPlus"].as<json_int>());
-   tmpbuff.SetHeal(in["heal"].as<json_int>());
-   tmpbuff.SetEvade(in["evade"].as<json_int>());
-   tmpbuff.SetRetaliate(in["retaliate"].as<json_int>());
+   tmpbuff.SetBlockPlus(in["blockPlus"].asInt());
+   tmpbuff.SetAttackPlus(in["attackPlus"].asInt());
+   tmpbuff.SetHeal(in["heal"].asInt());
+   tmpbuff.SetEvade(in["evade"].asInt());
+   tmpbuff.SetRetaliate(in["retaliate"].asInt());
    buff = tmpbuff;
   return this;
 }

@@ -69,16 +69,16 @@ void CommandAddBlock::Undo (std::shared_ptr<state::GameState>& gameState){
 
 
 
-json_map CommandAddBlock::Serialize () {
-  json_map val;
+Json::Value CommandAddBlock::Serialize () {
+  Json::Value val;
   val["typeCmd"] = "AddBlock";
   val["block"] = block;
   val["entityID"] = entityID;
   val["target"] = target;
   return val;
 }
- CommandAddBlock* CommandAddBlock::Deserialize (json_map in){
-   entityID = in["entityID"].as<json_int>();
-   target = in["target"].as<json_int>();
+ CommandAddBlock* CommandAddBlock::Deserialize (Json::Value in){
+   entityID = in["entityID"].asInt();
+   target = in["target"].asInt());
   return this;
 }

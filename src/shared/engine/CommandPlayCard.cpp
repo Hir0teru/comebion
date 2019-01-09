@@ -166,10 +166,10 @@ void CommandPlayCard::Execute (std::shared_ptr<state::GameState>& gameState){
 
 void CommandPlayCard::Undo (std::shared_ptr<state::GameState>& gameState){}
 
-json_map CommandPlayCard::Serialize () {
-  json_map val;
+Json::Value CommandPlayCard::Serialize () {
+  Json::Value val;
   return val;
 }
- CommandPlayCard* CommandPlayCard::Deserialize (json_map in){
+ CommandPlayCard* CommandPlayCard::Deserialize (Json::Value in){
   return this;
 }

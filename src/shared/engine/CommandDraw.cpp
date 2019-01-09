@@ -67,10 +67,10 @@ void CommandDraw::Undo (std::shared_ptr<state::GameState>& gameState){
   room->SetDrawPiles(drawPiles);
 }
 
-json_map CommandDraw::Serialize () {
-  json_map val;
+Json::Value CommandDraw::Serialize () {
+  Json::Value val;
   return val;
 }
- CommandDraw* CommandDraw::Deserialize (json_map in){
+ CommandDraw* CommandDraw::Deserialize (Json::Value in){
   return this;
 }

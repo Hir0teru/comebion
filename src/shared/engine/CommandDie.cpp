@@ -51,13 +51,13 @@ void CommandDie::Undo (std::shared_ptr<state::GameState>& gameState){
 }
 
 
-json_map CommandDie::Serialize () {
-  json_map val;
+Json::Value CommandDie::Serialize () {
+  Json::Value val;
   val["typeCmd"] = "Die";
   val["entityID"] = entityID;
   return val;
 }
- CommandDie* CommandDie::Deserialize (json_map in){
-   entityID = in["entityID"].as<json_int>();
+ CommandDie* CommandDie::Deserialize (Json::Value in){
+   entityID = in["entityID"].asInt();
   return this;
 }

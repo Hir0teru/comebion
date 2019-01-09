@@ -18,10 +18,10 @@ void CommandGameWon::Undo (std::shared_ptr<state::GameState>& gameState){
   gameState->GetRules()->SetIsGameOver(false);
 }
 
-json_map CommandGameWon::Serialize () {
-  json_map val;
+Json::Value CommandGameWon::Serialize () {
+  Json::Value val;
   return val;
 }
- CommandGameWon* CommandGameWon::Deserialize (json_map in){
+ CommandGameWon* CommandGameWon::Deserialize (Json::Value in){
   return this;
 }

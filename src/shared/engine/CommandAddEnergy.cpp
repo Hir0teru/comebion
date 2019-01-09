@@ -23,15 +23,15 @@ void CommandAddEnergy::Undo (std::shared_ptr<state::GameState>& gameState){
     gameState->GetPlayers()[entityID]->SetEnergy(gameState->GetPlayers()[entityID]->GetEnergy() - energyAmount);
   }
 }
-json_map CommandAddEnergy::Serialize () {
-  json_map val;
+Json::Value CommandAddEnergy::Serialize () {
+  Json::Value val;
   val["typeCmd"] = "AddEnergy";
   val["entityID"] = entityID;
   val["energyAmount"] = energyAmount;
   return val;
 }
- CommandAddEnergy* CommandAddEnergy::Deserialize (json_map in){
-   entityID = in["entityID"].as<json_int>();
-   energyAmount = in["energyAmount"].as<json_int>();
+ CommandAddEnergy* CommandAddEnergy::Deserialize (Json::Value in){
+   entityID = in["entityID"].asInt();
+   energyAmount = in["energyAmount"].asInt();
   return this;
 }

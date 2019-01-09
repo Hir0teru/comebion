@@ -49,10 +49,10 @@ void CommandHeal::Undo (std::shared_ptr<state::GameState>& gameState){
   }
 }
 
-json_map CommandHeal::Serialize () {
-  json_map val;
+Json::Value CommandHeal::Serialize () {
+  Json::Value val;
   return val;
 }
- CommandHeal* CommandHeal::Deserialize (json_map in){
+ CommandHeal* CommandHeal::Deserialize (Json::Value in){
   return this;
 }

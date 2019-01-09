@@ -22,10 +22,10 @@ void CommandNewTurn::Undo (std::shared_ptr<state::GameState>& gameState){
   room->SetTurn(room->GetTurn() - 1);
 }
 
-json_map CommandNewTurn::Serialize () {
-  json_map val;
+Json::Value CommandNewTurn::Serialize () {
+  Json::Value val;
   return val;
 }
- CommandNewTurn* CommandNewTurn::Deserialize (json_map in){
+ CommandNewTurn* CommandNewTurn::Deserialize (Json::Value in){
   return this;
 }
