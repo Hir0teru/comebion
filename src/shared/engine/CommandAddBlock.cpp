@@ -79,6 +79,6 @@ Json::Value CommandAddBlock::Serialize () {
 }
  CommandAddBlock* CommandAddBlock::Deserialize (Json::Value in){
    entityID = in["entityID"].asInt();
-   target = in["target"].asInt());
+   target = in["target"].asInt();
   return this;
 }

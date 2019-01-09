@@ -70,6 +70,6 @@ Json::Value CommandAddCard::Serialize () {
  CommandAddCard* CommandAddCard::Deserialize (Json::Value in){
    playerID = in["playerID"].asInt();
    card = in["card"].asInt();
-   isDeckFull = in["isDeckFull"].as<json_value::type::boolean>();
+   isDeckFull = in["isDeckFull"].asBool();
   return this;
 }
