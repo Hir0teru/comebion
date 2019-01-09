@@ -28,8 +28,8 @@ void CommandChangeReward::Undo (std::shared_ptr<state::GameState>& gameState){
   cout<<"Undo Change reward of current room to reward of enemy "<<enemyID<<endl;
 }
 
-Json::Value CommandChangeReward::Serialize () {
-  Json::Value val;
+Json::ValueType CommandChangeReward::Serialize () {
+  Json::ValueType val;
   // val["typeCmd"] = "ChangeReward";
   // val["enemyID"] = enemyID;
   // if(previousReward.size()>0){ // serializing only with the name, the card manager will provide the rest
@@ -40,7 +40,7 @@ Json::Value CommandChangeReward::Serialize () {
 
   return val;
 }
- CommandChangeReward* CommandChangeReward::Deserialize (Json::Value in){
+ CommandChangeReward* CommandChangeReward::Deserialize (Json::ValueType in){
    // enemyID = in["enemyID"].asInt();
    // if(in["card1"].compare("Null")!=0){
    //   previousReward.clear();

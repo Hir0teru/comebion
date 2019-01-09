@@ -163,10 +163,10 @@ void CommandPlaySkill::Execute (std::shared_ptr<state::GameState>& gameState){
 
 void CommandPlaySkill::Undo (std::shared_ptr<state::GameState>& gameState){}
 
-Json::Value CommandPlaySkill::Serialize () {
-  Json::Value val;
+Json::ValueType CommandPlaySkill::Serialize () {
+  Json::ValueType val;
   return val;
 }
- CommandPlaySkill* CommandPlaySkill::Deserialize (Json::Value in){
+ CommandPlaySkill* CommandPlaySkill::Deserialize (Json::ValueType in){
   return this;
 }

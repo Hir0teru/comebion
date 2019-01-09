@@ -27,10 +27,10 @@ void CommandUseEnergy::Undo (std::shared_ptr<state::GameState>& gameState){
   }
 }
 
-Json::Value  CommandUseEnergy::Serialize () {
-  Json::Value val;
+Json::ValueType  CommandUseEnergy::Serialize () {
+  Json::ValueType val;
   return val;
 }
- CommandUseEnergy*  CommandUseEnergy::Deserialize (Json::Value in){
+ CommandUseEnergy*  CommandUseEnergy::Deserialize (Json::ValueType in){
   return this;
 }

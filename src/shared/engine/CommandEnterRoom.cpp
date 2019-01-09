@@ -49,10 +49,10 @@ void CommandEnterRoom::Undo (std::shared_ptr<state::GameState>& gameState){
   gameState->SetIsInsideRoom(false);
 }
 
-Json::Value CommandEnterRoom::Serialize () {
-  Json::Value val;
+Json::ValueType CommandEnterRoom::Serialize () {
+  Json::ValueType val;
   return val;
 }
- CommandEnterRoom* CommandEnterRoom::Deserialize (Json::Value in){
+ CommandEnterRoom* CommandEnterRoom::Deserialize (Json::ValueType in){
   return this;
 }

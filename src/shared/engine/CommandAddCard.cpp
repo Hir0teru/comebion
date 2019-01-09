@@ -59,15 +59,15 @@ void CommandAddCard::Undo (std::shared_ptr<state::GameState>& gameState){
   }
 }
 
-Json::Value CommandAddCard::Serialize () {
-  Json::Value val;
+Json::ValueType CommandAddCard::Serialize () {
+  Json::ValueType val;
   val["typeCmd"] ="AddCard";
   val["playerID"] = playerID;
   val["card"] = card;
   val["isDeckFull"] = isDeckFull;
   return val;
 }
- CommandAddCard* CommandAddCard::Deserialize (Json::Value in){
+ CommandAddCard* CommandAddCard::Deserialize (Json::ValueType in){
    playerID = in["playerID"].asInt();
    card = in["card"].asInt();
    isDeckFull = in["isDeckFull"].asBool();

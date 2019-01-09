@@ -55,4 +55,4 @@ void Moteur::SetCommands (std::vector<std::shared_ptr<Command>> commands){
 }
 
 
-void Moteur::ReadCommand (Json::Value jsonval){}
+void Moteur::ReadCommand (Json::ValueType jsonval){}

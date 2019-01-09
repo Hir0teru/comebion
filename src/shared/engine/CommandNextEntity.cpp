@@ -126,10 +126,10 @@ void CommandNextEntity::Execute (std::shared_ptr<state::GameState>& gameState){
 
 void CommandNextEntity::Undo (std::shared_ptr<state::GameState>& gameState){}
 
-Json::Value CommandNextEntity::Serialize () {
-  Json::Value val;
+Json::ValueType CommandNextEntity::Serialize () {
+  Json::ValueType val;
   return val;
 }
- CommandNextEntity* CommandNextEntity::Deserialize (Json::Value in){
+ CommandNextEntity* CommandNextEntity::Deserialize (Json::ValueType in){
   return this;
 }

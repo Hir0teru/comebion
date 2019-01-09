@@ -36,10 +36,10 @@ void CommandEndFight::Undo (std::shared_ptr<state::GameState>& gameState){
   room->SetIsFightWon(false);
 }
 
-Json::Value CommandEndFight::Serialize () {
-  Json::Value val;
+Json::ValueType CommandEndFight::Serialize () {
+  Json::ValueType val;
   return val;
 }
- CommandEndFight* CommandEndFight::Deserialize (Json::Value in){
+ CommandEndFight* CommandEndFight::Deserialize (Json::ValueType in){
   return this;
 }
