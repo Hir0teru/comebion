@@ -43,7 +43,7 @@ void CommandPlaySkill::Execute (std::shared_ptr<state::GameState>& gameState){
       throw std::invalid_argument("Wrong target. target should be Enemy.");
     }
 
-    if (selectedSkill->GetTurnsBeforeUse() > 0) {
+    if (selectedSkill->GetTurnsBeforeUse(enemyID) > 0) {
       throw std::out_of_range("Skill not ready to be used");
     }
 
@@ -142,17 +142,20 @@ void CommandPlaySkill::Execute (std::shared_ptr<state::GameState>& gameState){
         if (fightWon){
           CommandEndFight commandEndFight(true);
           commandEndFight.Execute(gameState);
+          if(gameState->GetPlayers()[0]->GetIsEntityAlive()){
+            gameState->GetMap()->GetFloors()[floorNb]->GetCurrentRoom()->SetEntityTurn(0);
+          } else gameState->GetMap()->GetFloors()[floorNb]->GetCurrentRoom()->SetEntityTurn(1);
         }
       }
 
     }
     // std::vector<EnemySkill*> skills = gameState->GetMap()->GetFloors()[floorNb]->GetCurrentRoom()->GetEnemies()[enemyID - 2]->GetSkills();
     for (auto skill : skills){
-      skill->SetTurnsBeforeUse( skill->GetTurnsBeforeUse() - 1);
+      skill->SetTurnsBeforeUse( skill->GetTurnsBeforeUse(enemyID) - 1, enemyID);
     }
-    skills[skillIndex]->SetTurnsBeforeUse(skills[skillIndex]->GetCooldown());
+    skills[skillIndex]->SetTurnsBeforeUse(skills[skillIndex]->GetCooldown(), enemyID);
     int newIntent = rand() % (int) skills.size();
-    while(skills[newIntent]->GetTurnsBeforeUse() > 0){
+    while(skills[newIntent]->GetTurnsBeforeUse(enemyID) > 0){
       newIntent = rand() % (int) skills.size();
     }
     CommandChangeIntent changeIntent(enemyID, newIntent);

@@ -125,7 +125,7 @@ int AI_Deep::Seek_Best(std::shared_ptr<Node> tree, int P_PV_init, std::vector<in
           tmp_E_block.push_back(E_block_current[i]);
         }
         // calculate true attack/block/etc...
-        if(tree -> GetTarget() < 2){ // target is a player
+        if(tree -> GetTarget() == this->entityID){ // target is the IA
           // calculate block:
           tmp_block = hand[tree -> GetCardIndex()] -> GetBlock() + gameState -> GetPlayers()[entityID] -> GetStatBlock();
           if(Current_Buff.GetBlockPlus() > 0){
@@ -146,7 +146,7 @@ int AI_Deep::Seek_Best(std::shared_ptr<Node> tree, int P_PV_init, std::vector<in
           tmpBuff.SetHeal(tmpBuff.GetHeal() + Current_Buff.GetHeal());
           tmpBuff.SetRetaliate(tmpBuff.GetRetaliate() + Current_Buff.GetRetaliate());
 
-        } else{ //target is enemy
+        } else if(tree->GetTarget() >= 2){ //target is enemy
           //calculating attack:
           tmp_attack = hand[tree -> GetCardIndex()] -> GetAttack() + gameState -> GetPlayers()[entityID] -> GetStatAttack();
           if(Current_Buff.GetAttackPlus() > 0){
@@ -359,7 +359,6 @@ void AI_Deep::Play(){
 
         //  moteur->AddCommand(std::make_shared<engine::CommandAddCard>(entityID, attack[rand() % (int) attack.size()], gameState->GetPlayers()[entityID]->GetDeck()->GetSize() == 15));
           moteur->AddCommand(std::make_shared<engine::CommandAddCard>(entityID, index, gameState->GetPlayers()[entityID]->GetDeck()->GetSize() == 15));
-
         } else if ((count[0] > count[1] && block.size()) > 0){
           int max = -99;
           int index = -1;

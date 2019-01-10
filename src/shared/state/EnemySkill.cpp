@@ -42,7 +42,10 @@ EnemySkill::EnemySkill (int attack, int heal, int block, std::unique_ptr<Buff> b
      } else {
        this->target = target;
      }
-     turnsBeforeUse = 0;
+     turnsBeforeUse1 = 0;
+     turnsBeforeUse2 = 0;
+     turnsBeforeUse3 = 0;
+
    }
 
 
@@ -82,11 +85,24 @@ std::string EnemySkill::GetIntentImage (){
 int EnemySkill::GetCooldown (){
   return cooldown;
 }
-int EnemySkill::GetTurnsBeforeUse (){
-  return turnsBeforeUse;
+int EnemySkill::GetTurnsBeforeUse (int enemyID){
+  if(enemyID == 2){
+    return turnsBeforeUse1;
+  } else if(enemyID == 3){
+    return turnsBeforeUse2;
+  } else{
+    return turnsBeforeUse3;
+
+  }
 }
-void EnemySkill::SetTurnsBeforeUse (int newTurnsBU){
-  turnsBeforeUse = newTurnsBU;
+void EnemySkill::SetTurnsBeforeUse (int newTurnsBU, int enemyID){
+  if (enemyID == 2){
+    turnsBeforeUse1 = newTurnsBU;
+  } else if(enemyID == 3){
+    turnsBeforeUse2 = newTurnsBU;
+  } else{
+    turnsBeforeUse3 = newTurnsBU;
+  }
 }
 
 int EnemySkill::GetTarget(){

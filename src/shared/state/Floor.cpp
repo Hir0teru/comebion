@@ -39,6 +39,11 @@ Floor::Floor (int floorNumber, int element){
       std::unique_ptr<Enemy> enemy= std::make_unique<Enemy>(element, 2);
       enemy->SetId(2);
       enemies.push_back(std::move(enemy));
+      if(rand()%100 > 40){
+        std::unique_ptr<Enemy> enemy1= std::make_unique<Enemy>(element, 2);
+        enemy1->SetId(3);
+        enemies.push_back(std::move(enemy1));
+      }
       std::shared_ptr<Room> room = std::make_shared<EnemyRoom>(element, std::move(enemies));
       this->firstRoom = room;
       this->currentRoom = room;
@@ -51,6 +56,16 @@ Floor::Floor (int floorNumber, int element){
           std::unique_ptr<Enemy> enemy2= std::make_unique<Enemy>(element, 3);
           enemy2->SetId(2);
           enemies.push_back(std::move(enemy2));
+          if(rand()%100 > 30){
+            std::unique_ptr<Enemy> enemy3= std::make_unique<Enemy>(element, 2);
+            enemy3->SetId(3);
+            enemies.push_back(std::move(enemy3));
+            if(rand()%100 > 50){
+              std::unique_ptr<Enemy> enemy4= std::make_unique<Enemy>(element, 2);
+              enemy4->SetId(4);
+              enemies.push_back(std::move(enemy4));
+            }
+          }
           std::shared_ptr<EnemyRoom> ER = std::make_shared<EnemyRoom>(element, std::move(enemies));
           currentRoom->SetNextRoom(ER);
         } else if (randomNumber < 80){

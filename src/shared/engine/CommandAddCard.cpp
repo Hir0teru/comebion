@@ -44,9 +44,12 @@ void CommandAddCard::Execute (std::shared_ptr<state::GameState>& gameState){
       std::cout << "score was : " << min << std::endl;
       cards = gameState->GetPlayers()[playerID]->GetDeck()->GetCards();
     }
-    cout<<"Add card number "<<card<<" to player "<<playerID<<"'s deck: " << room->GetReward()[card] -> GetName()<<endl;
-    cards.push_back(room->GetReward()[card]);
+    std::vector<state::Card*> reward = room->GetReward();
+    cout<<"Add card number "<<card<<" to player "<<playerID<<"'s deck: " << reward[card] -> GetName()<<endl;
+    cards.push_back(reward[card]);
     gameState->GetPlayers()[playerID]->GetDeck()->SetCards(cards);
+    reward.erase(reward.begin() + card);
+    room->SetReward(reward);
   }
 }
 

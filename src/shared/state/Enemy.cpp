@@ -47,16 +47,16 @@ Enemy::Enemy(int element, int nb):Enemy(){
       if (nb == 0) {
         this->SetImage("res/textures/Enemy/Air/bison.png");
         this->SetName("Flying Bison");
-        this->SetMaxLife(30);
-        this->SetLife(30);
+        this->SetMaxLife(200);
+        this->SetLife(200);
         skills.push_back((*SM)[8]);
         skills.push_back((*SM)[9]);
         skills.push_back((*SM)[10]);
       } else {
         this->SetImage("res/textures/Enemy/Air/" + to_string(nb) +".png");
         this->SetName("air thing");
-        this->SetMaxLife(10);
-        this->SetLife(10);
+        this->SetMaxLife(30);
+        this->SetLife(30);
         skills.push_back((*SM)[0]);
         skills.push_back((*SM)[1]);
         skills.push_back((*SM)[2]);

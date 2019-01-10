@@ -24,3 +24,7 @@ SpecialTrainingRoom::SpecialTrainingRoom (int element, std::vector<Card*> cardRe
 std::vector<Card*> SpecialTrainingRoom::GetReward (){
   return cardReward;
 }
+
+void SpecialTrainingRoom::SetReward(std::vector<Card*> reward){
+  this->cardReward = reward;
+}

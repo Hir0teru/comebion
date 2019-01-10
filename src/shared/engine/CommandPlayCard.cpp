@@ -151,6 +151,9 @@ void CommandPlayCard::Execute (std::shared_ptr<state::GameState>& gameState){
         if (fightWon){
           CommandEndFight commandEndFight(true);
           commandEndFight.Execute(gameState);
+          if(gameState->GetPlayers()[0]->GetIsEntityAlive()){
+            gameState->GetMap()->GetFloors()[floorNb]->GetCurrentRoom()->SetEntityTurn(0);
+          } else gameState->GetMap()->GetFloors()[floorNb]->GetCurrentRoom()->SetEntityTurn(1);
         }
       }
 

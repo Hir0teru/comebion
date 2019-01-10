@@ -32,7 +32,7 @@ void CommandEnterRoom::Execute (std::shared_ptr<state::GameState>& gameState){
     }
     for (auto& enemy : room->GetEnemies()){
       for(auto skill : enemy->GetSkills()){
-        skill->SetTurnsBeforeUse(0);
+        skill->SetTurnsBeforeUse(0, enemy->GetId());
       }
     }
     CommandShuffle commandS(0);

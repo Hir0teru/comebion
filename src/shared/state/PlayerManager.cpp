@@ -8,8 +8,10 @@ PlayerManager* PlayerManager::inst;
 
 PlayerManager::PlayerManager (int nbPlayers){
   players.push_back(std::move(std::make_unique<Player>("Aang", 1, "res/textures/Player/Aang.png", 0, 0, 60, 0, 60)));
+  players[0]->SetId(0);
   if (nbPlayers > 1){
     players.push_back(std::move(std::make_unique<Player>("Korra", 2, "res/textures/Player/Korra.png", 0, 0, 60, 0, 60)));
+    players[1]->SetId(1);
   }
   this->nbPlayers = nbPlayers;
 }

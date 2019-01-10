@@ -28,6 +28,88 @@ using namespace state;
 using namespace std;
 
 
+void testMulti(){
+  PlayerManager* PM = PlayerManager::instance();
+  std::shared_ptr<GameState> gameState = std::make_shared<state::GameState>();
+  std::vector<Player*> players;
+  players.push_back((*PM)[0]);
+  players.push_back((*PM)[1]);
+  // players.push_back((*PM)[1]);
+  gameState->SetPlayers(players);
+  std::shared_ptr<Moteur> moteur = make_shared<Moteur>(gameState, false);
+
+  AI_Deep* ai1 = new AI_Deep(gameState, moteur,0);
+  AI_Deep* ai2 = new AI_Deep(gameState, moteur, 1);
+  // AI_Random* ai2 = new AI_Random (gameState, moteur,1);
+
+  //int entityTurn = 0;
+  //int floorNb = 0;
+
+  Rendu * rendu = new Rendu(gameState);
+  sf::RenderWindow window(sf::VideoMode(rendu->GetDimensionX(), rendu->GetDimensionY()), "Slay the Avatar");
+
+  sf::Event event;
+  sf::Sprite sprite;
+  rendu->SetTextureMap(1);
+  sprite.setTexture(rendu->GetTextureMap().getTexture());
+  bool pause = false;
+
+  std::cout << "press a key to pause or unpause" << std::endl;
+  sleep(1);
+  std::cout << "beginning...." << std::endl;
+
+  while(window.isOpen()){
+
+    window.clear(sf::Color::White);
+    window.draw(sprite);
+    window.display();
+
+    while (window.pollEvent(event)){
+      if (event.type == sf::Event::Closed){
+
+        window.close();
+      }
+      if(event.type == sf::Event::KeyReleased){
+        if(pause == false){
+          pause = true;
+        } else pause = false;
+      }
+    }
+
+    if(!pause){
+      if(moteur->GetCommands().size() <= 0){
+        ai1->Play();
+        ai2->Play();
+        if (moteur->GetCommands().size() <= 0){
+            moteur->Update(); // le moteur est toujours vide->un ennemi doit être en train de jouer->passer à l'ennemi suivant
+        }
+      }
+      else{
+        std::cout << "updating ..." << std::endl;
+        moteur->Update();
+        //floorNb =  gameState->GetMap()->GetCurrentFloor();
+      //  entityTurn =  gameState->GetMap()->GetFloors()[floorNb]->GetCurrentRoom()->GetEntityTurn() ;
+        if(!rendu->GetGameState()->GetIsInsideRoom()){
+          rendu->SetTextureMap(1);
+          sprite.setTexture(rendu->GetTextureMap().getTexture());
+          window.clear(sf::Color::White);
+          window.draw(sprite);
+          window.display();
+        }
+        else{
+          rendu->SetTextureRoom();
+          rendu->DrawInsideRoom();
+          sprite.setTexture(rendu->GetTexture().getTexture());
+          window.clear(sf::Color::White);
+          window.draw(sprite);
+          window.display();
+        }
+        sleep(0.3);
+      }
+    }
+  }
+}
+
 void testReplay(){
   Json::Value val;
   std::ifstream file ("replay.txt");
@@ -1295,7 +1377,8 @@ int main(int argc,char* argv[])
     testThread();
   if (argc == 2 and std::string(argv[1] )== "replay")
     testReplay();
-
+  if (argc == 2 and std::string(argv[1] )== "multi")
+    testMulti();
     delete SkillManager::instance();
     delete CardManager::instance();
     delete PlayerManager::instance();
