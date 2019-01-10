@@ -1,6 +1,6 @@
 [
 	{
-		"seedtime" : "1547113383"
+		"seedtime" : "1547124436"
 	},
 	{
 		"typeCmd" : "EnterRoom"
@@ -9,39 +9,6 @@
 		"cardIndex" : 0,
 		"playerID" : 0,
 		"targetID" : 0,
-		"typeCmd" : "PlayCard"
-	},
-	{
-		"cardIndex" : 1,
-		"playerID" : 0,
-		"targetID" : 2,
-		"typeCmd" : "PlayCard"
-	},
-	{
-		"cardIndex" : 1,
-		"playerID" : 0,
-		"targetID" : 2,
-		"typeCmd" : "PlayCard"
-	},
-	{
-		"typeCmd" : "NextEntity"
-	},
-	{
-		"card" : 0,
-		"isDeckFull" : false,
-		"playerID" : 0,
-		"typeCmd" : "AddCard"
-	},
-	{
-		"typeCmd" : "ExitRoom"
-	},
-	{
-		"typeCmd" : "EnterRoom"
-	},
-	{
-		"cardIndex" : 0,
-		"playerID" : 0,
-		"targetID" : 2,
 		"typeCmd" : "PlayCard"
 	},
 	{
@@ -60,28 +27,7 @@
 		"typeCmd" : "NextEntity"
 	},
 	{
-		"card" : 0,
-		"isDeckFull" : false,
-		"playerID" : 0,
-		"typeCmd" : "AddCard"
-	},
-	{
-		"typeCmd" : "ExitRoom"
-	},
-	{
-		"typeCmd" : "EnterRoom"
-	},
-	{
-		"cardIndex" : 0,
-		"playerID" : 0,
-		"targetID" : 0,
-		"typeCmd" : "PlayCard"
-	},
-	{
-		"cardIndex" : 0,
-		"playerID" : 0,
-		"targetID" : 2,
-		"typeCmd" : "PlayCard"
+		"typeCmd" : "NextEntity"
 	},
 	{
 		"cardIndex" : 0,
@@ -91,18 +37,6 @@
 	},
 	{
 		"typeCmd" : "NextEntity"
-	},
-	{
-		"card" : 0,
-		"isDeckFull" : false,
-		"playerID" : 0,
-		"typeCmd" : "AddCard"
-	},
-	{
-		"typeCmd" : "ExitRoom"
-	},
-	{
-		"typeCmd" : "EnterRoom"
 	},
 	{
 		"card" : 0,
@@ -133,7 +67,40 @@
 	{
 		"cardIndex" : 0,
 		"playerID" : 0,
+		"targetID" : 2,
+		"typeCmd" : "PlayCard"
+	},
+	{
+		"cardIndex" : 0,
+		"playerID" : 0,
 		"targetID" : 0,
+		"typeCmd" : "PlayCard"
+	},
+	{
+		"cardIndex" : 1,
+		"playerID" : 0,
+		"targetID" : 2,
+		"typeCmd" : "PlayCard"
+	},
+	{
+		"typeCmd" : "NextEntity"
+	},
+	{
+		"card" : 0,
+		"isDeckFull" : false,
+		"playerID" : 0,
+		"typeCmd" : "AddCard"
+	},
+	{
+		"typeCmd" : "ExitRoom"
+	},
+	{
+		"typeCmd" : "EnterRoom"
+	},
+	{
+		"cardIndex" : 0,
+		"playerID" : 0,
+		"targetID" : 2,
 		"typeCmd" : "PlayCard"
 	},
 	{
@@ -158,6 +125,113 @@
 		"typeCmd" : "EnterRoom"
 	},
 	{
+		"entityID" : 0,
+		"previousStatAttack" : 2,
+		"previousStatBlock" : 2,
+		"statAttack" : 4,
+		"statBlock" : 4,
+		"typeCmd" : "ChangeStat"
+	},
+	{
+		"typeCmd" : "ExitRoom"
+	},
+	{
+		"typeCmd" : "EnterRoom"
+	},
+	{
+		"cardIndex" : 0,
+		"playerID" : 0,
+		"targetID" : 0,
+		"typeCmd" : "PlayCard"
+	},
+	{
+		"cardIndex" : 0,
+		"playerID" : 0,
+		"targetID" : 0,
+		"typeCmd" : "PlayCard"
+	},
+	{
+		"cardIndex" : 1,
+		"playerID" : 0,
+		"targetID" : 2,
+		"typeCmd" : "PlayCard"
+	},
+	{
+		"typeCmd" : "NextEntity"
+	},
+	{
+		"typeCmd" : "NextEntity"
+	},
+	{
+		"cardIndex" : 0,
+		"playerID" : 0,
+		"targetID" : 2,
+		"typeCmd" : "PlayCard"
+	},
+	{
+		"typeCmd" : "NextEntity"
+	},
+	{
+		"card" : 0,
+		"isDeckFull" : false,
+		"playerID" : 0,
+		"typeCmd" : "AddCard"
+	},
+	{
+		"typeCmd" : "ExitRoom"
+	},
+	{
+		"typeCmd" : "EnterRoom"
+	},
+	{
+		"cardIndex" : 0,
+		"playerID" : 0,
+		"targetID" : 2,
+		"typeCmd" : "PlayCard"
+	},
+	{
+		"cardIndex" : 0,
+		"playerID" : 0,
+		"targetID" : 2,
+		"typeCmd" : "PlayCard"
+	},
+	{
+		"typeCmd" : "NextEntity"
+	},
+	{
+		"card" : 2,
+		"isDeckFull" : false,
+		"playerID" : 0,
+		"typeCmd" : "AddCard"
+	},
+	{
+		"typeCmd" : "ExitRoom"
+	},
+	{
+		"typeCmd" : "EnterRoom"
+	},
+	{
+		"cardIndex" : 0,
+		"playerID" : 0,
+		"targetID" : 0,
+		"typeCmd" : "PlayCard"
+	},
+	{
+		"cardIndex" : 1,
+		"playerID" : 0,
+		"targetID" : 2,
+		"typeCmd" : "PlayCard"
+	},
+	{
+		"cardIndex" : 1,
+		"playerID" : 0,
+		"targetID" : 2,
+		"typeCmd" : "PlayCard"
+	},
+	{
+		"typeCmd" : "NextEntity"
+	},
+	{
 		"card" : 1,
 		"isDeckFull" : true,
 		"playerID" : 0,
@@ -170,7 +244,7 @@
 		"typeCmd" : "EnterRoom"
 	},
 	{
-		"card" : 1,
+		"card" : 0,
 		"isDeckFull" : true,
 		"playerID" : 0,
 		"typeCmd" : "AddCard"
@@ -182,19 +256,67 @@
 		"typeCmd" : "EnterRoom"
 	},
 	{
-		"cardIndex" : 2,
+		"cardIndex" : 0,
 		"playerID" : 0,
-		"targetID" : 0,
+		"targetID" : 2,
+		"typeCmd" : "PlayCard"
+	},
+	{
+		"cardIndex" : 1,
+		"playerID" : 0,
+		"targetID" : 2,
 		"typeCmd" : "PlayCard"
 	},
 	{
 		"cardIndex" : 2,
 		"playerID" : 0,
+		"targetID" : 2,
+		"typeCmd" : "PlayCard"
+	},
+	{
+		"typeCmd" : "NextEntity"
+	},
+	{
+		"typeCmd" : "NextEntity"
+	},
+	{
+		"cardIndex" : 0,
+		"playerID" : 0,
+		"targetID" : 2,
+		"typeCmd" : "PlayCard"
+	},
+	{
+		"cardIndex" : 0,
+		"playerID" : 0,
 		"targetID" : 0,
 		"typeCmd" : "PlayCard"
 	},
 	{
-		"cardIndex" : 2,
+		"typeCmd" : "NextEntity"
+	},
+	{
+		"typeCmd" : "NextEntity"
+	},
+	{
+		"cardIndex" : 0,
+		"playerID" : 0,
+		"targetID" : 0,
+		"typeCmd" : "PlayCard"
+	},
+	{
+		"typeCmd" : "NextEntity"
+	},
+	{
+		"typeCmd" : "NextEntity"
+	},
+	{
+		"cardIndex" : 0,
+		"playerID" : 0,
+		"targetID" : 0,
+		"typeCmd" : "PlayCard"
+	},
+	{
+		"cardIndex" : 0,
 		"playerID" : 0,
 		"targetID" : 2,
 		"typeCmd" : "PlayCard"
@@ -215,12 +337,102 @@
 		"typeCmd" : "EnterRoom"
 	},
 	{
+		"cardIndex" : 0,
+		"playerID" : 0,
+		"targetID" : 0,
+		"typeCmd" : "PlayCard"
+	},
+	{
+		"cardIndex" : 0,
+		"playerID" : 0,
+		"targetID" : 0,
+		"typeCmd" : "PlayCard"
+	},
+	{
+		"cardIndex" : 2,
+		"playerID" : 0,
+		"targetID" : 2,
+		"typeCmd" : "PlayCard"
+	},
+	{
+		"typeCmd" : "NextEntity"
+	},
+	{
+		"typeCmd" : "NextEntity"
+	},
+	{
+		"cardIndex" : 0,
+		"playerID" : 0,
+		"targetID" : 2,
+		"typeCmd" : "PlayCard"
+	},
+	{
+		"cardIndex" : 3,
+		"playerID" : 0,
+		"targetID" : 2,
+		"typeCmd" : "PlayCard"
+	},
+	{
+		"cardIndex" : 2,
+		"playerID" : 0,
+		"targetID" : 2,
+		"typeCmd" : "PlayCard"
+	},
+	{
+		"typeCmd" : "NextEntity"
+	},
+	{
+		"typeCmd" : "NextEntity"
+	},
+	{
+		"cardIndex" : 1,
+		"playerID" : 0,
+		"targetID" : 0,
+		"typeCmd" : "PlayCard"
+	},
+	{
+		"cardIndex" : 0,
+		"playerID" : 0,
+		"targetID" : 2,
+		"typeCmd" : "PlayCard"
+	},
+	{
+		"cardIndex" : 1,
+		"playerID" : 0,
+		"targetID" : 2,
+		"typeCmd" : "PlayCard"
+	},
+	{
+		"typeCmd" : "NextEntity"
+	},
+	{
+		"typeCmd" : "NextEntity"
+	},
+	{
 		"cardIndex" : 4,
 		"playerID" : 0,
 		"targetID" : 0,
 		"typeCmd" : "PlayCard"
 	},
 	{
+		"cardIndex" : 2,
+		"playerID" : 0,
+		"targetID" : 2,
+		"typeCmd" : "PlayCard"
+	},
+	{
+		"cardIndex" : 2,
+		"playerID" : 0,
+		"targetID" : 2,
+		"typeCmd" : "PlayCard"
+	},
+	{
+		"typeCmd" : "NextEntity"
+	},
+	{
+		"typeCmd" : "NextEntity"
+	},
+	{
 		"cardIndex" : 0,
 		"playerID" : 0,
 		"targetID" : 2,
@@ -228,6 +440,63 @@
 	},
 	{
 		"cardIndex" : 0,
+		"playerID" : 0,
+		"targetID" : 2,
+		"typeCmd" : "PlayCard"
+	},
+	{
+		"cardIndex" : 2,
+		"playerID" : 0,
+		"targetID" : 0,
+		"typeCmd" : "PlayCard"
+	},
+	{
+		"typeCmd" : "NextEntity"
+	},
+	{
+		"typeCmd" : "NextEntity"
+	},
+	{
+		"cardIndex" : 0,
+		"playerID" : 0,
+		"targetID" : 2,
+		"typeCmd" : "PlayCard"
+	},
+	{
+		"typeCmd" : "NextEntity"
+	},
+	{
+		"card" : 0,
+		"isDeckFull" : true,
+		"playerID" : 0,
+		"typeCmd" : "AddCard"
+	},
+	{
+		"typeCmd" : "ExitRoom"
+	},
+	{
+		"typeCmd" : "EnterRoom"
+	},
+	{
+		"card" : 0,
+		"isDeckFull" : true,
+		"playerID" : 0,
+		"typeCmd" : "AddCard"
+	},
+	{
+		"typeCmd" : "ExitRoom"
+	},
+	{
+		"typeCmd" : "EnterRoom"
+	},
+	{
+		"cardIndex" : 4,
+		"playerID" : 0,
+		"targetID" : 2,
+		"typeCmd" : "PlayCard"
+	},
+	{
+		"cardIndex" : 2,
 		"playerID" : 0,
 		"targetID" : 2,
 		"typeCmd" : "PlayCard"
@@ -251,10 +520,99 @@
 		"typeCmd" : "PlayCard"
 	},
 	{
+		"cardIndex" : 0,
+		"playerID" : 0,
+		"targetID" : 2,
+		"typeCmd" : "PlayCard"
+	},
+	{
 		"typeCmd" : "NextEntity"
 	},
 	{
 		"typeCmd" : "NextEntity"
+	},
+	{
+		"cardIndex" : 0,
+		"playerID" : 0,
+		"targetID" : 0,
+		"typeCmd" : "PlayCard"
+	},
+	{
+		"cardIndex" : 0,
+		"playerID" : 0,
+		"targetID" : 2,
+		"typeCmd" : "PlayCard"
+	},
+	{
+		"cardIndex" : 0,
+		"playerID" : 0,
+		"targetID" : 0,
+		"typeCmd" : "PlayCard"
+	},
+	{
+		"typeCmd" : "NextEntity"
+	},
+	{
+		"typeCmd" : "NextEntity"
+	},
+	{
+		"cardIndex" : 4,
+		"playerID" : 0,
+		"targetID" : 0,
+		"typeCmd" : "PlayCard"
+	},
+	{
+		"cardIndex" : 2,
+		"playerID" : 0,
+		"targetID" : 2,
+		"typeCmd" : "PlayCard"
+	},
+	{
+		"cardIndex" : 0,
+		"playerID" : 0,
+		"targetID" : 0,
+		"typeCmd" : "PlayCard"
+	},
+	{
+		"typeCmd" : "NextEntity"
+	},
+	{
+		"typeCmd" : "NextEntity"
+	},
+	{
+		"cardIndex" : 0,
+		"playerID" : 0,
+		"targetID" : 2,
+		"typeCmd" : "PlayCard"
+	},
+	{
+		"typeCmd" : "NextEntity"
+	},
+	{
+		"card" : 2,
+		"isDeckFull" : true,
+		"playerID" : 0,
+		"typeCmd" : "AddCard"
+	},
+	{
+		"typeCmd" : "ExitRoom"
+	},
+	{
+		"typeCmd" : "EnterRoom"
+	},
+	{
+		"entityID" : 0,
+		"previousStatAttack" : 4,
+		"previousStatBlock" : 4,
+		"statAttack" : 6,
+		"statBlock" : 6,
+		"typeCmd" : "ChangeStat"
+	},
+	{
+		"typeCmd" : "ExitRoom"
+	},
+	{
+		"typeCmd" : "EnterRoom"
 	},
 	{
 		"cardIndex" : 0,
@@ -269,7 +627,7 @@
 		"typeCmd" : "PlayCard"
 	},
 	{
-		"cardIndex" : 0,
+		"cardIndex" : 2,
 		"playerID" : 0,
 		"targetID" : 0,
 		"typeCmd" : "PlayCard"
@@ -302,6 +660,478 @@
 		"typeCmd" : "NextEntity"
 	},
 	{
+		"typeCmd" : "NextEntity"
+	},
+	{
+		"cardIndex" : 1,
+		"playerID" : 0,
+		"targetID" : 2,
+		"typeCmd" : "PlayCard"
+	},
+	{
+		"cardIndex" : 1,
+		"playerID" : 0,
+		"targetID" : 0,
+		"typeCmd" : "PlayCard"
+	},
+	{
+		"cardIndex" : 2,
+		"playerID" : 0,
+		"targetID" : 2,
+		"typeCmd" : "PlayCard"
+	},
+	{
+		"typeCmd" : "NextEntity"
+	},
+	{
+		"card" : 1,
+		"isDeckFull" : true,
+		"playerID" : 0,
+		"typeCmd" : "AddCard"
+	},
+	{
+		"typeCmd" : "ExitRoom"
+	},
+	{
+		"typeCmd" : "EnterRoom"
+	},
+	{
+		"cardIndex" : 1,
+		"playerID" : 0,
+		"targetID" : 0,
+		"typeCmd" : "PlayCard"
+	},
+	{
+		"cardIndex" : 1,
+		"playerID" : 0,
+		"targetID" : 2,
+		"typeCmd" : "PlayCard"
+	},
+	{
+		"typeCmd" : "NextEntity"
+	},
+	{
+		"typeCmd" : "NextEntity"
+	},
+	{
+		"cardIndex" : 0,
+		"playerID" : 0,
+		"targetID" : 2,
+		"typeCmd" : "PlayCard"
+	},
+	{
+		"cardIndex" : 0,
+		"playerID" : 0,
+		"targetID" : 0,
+		"typeCmd" : "PlayCard"
+	},
+	{
+		"cardIndex" : 0,
+		"playerID" : 0,
+		"targetID" : 2,
+		"typeCmd" : "PlayCard"
+	},
+	{
+		"typeCmd" : "NextEntity"
+	},
+	{
+		"card" : 1,
+		"isDeckFull" : true,
+		"playerID" : 0,
+		"typeCmd" : "AddCard"
+	},
+	{
+		"typeCmd" : "ExitRoom"
+	},
+	{
+		"typeCmd" : "EnterRoom"
+	},
+	{
+		"cardIndex" : 3,
+		"playerID" : 0,
+		"targetID" : 0,
+		"typeCmd" : "PlayCard"
+	},
+	{
+		"cardIndex" : 1,
+		"playerID" : 0,
+		"targetID" : 2,
+		"typeCmd" : "PlayCard"
+	},
+	{
+		"typeCmd" : "NextEntity"
+	},
+	{
+		"typeCmd" : "NextEntity"
+	},
+	{
+		"cardIndex" : 0,
+		"playerID" : 0,
+		"targetID" : 0,
+		"typeCmd" : "PlayCard"
+	},
+	{
+		"cardIndex" : 2,
+		"playerID" : 0,
+		"targetID" : 2,
+		"typeCmd" : "PlayCard"
+	},
+	{
+		"typeCmd" : "NextEntity"
+	},
+	{
+		"card" : 2,
+		"isDeckFull" : true,
+		"playerID" : 0,
+		"typeCmd" : "AddCard"
+	},
+	{
+		"typeCmd" : "ExitRoom"
+	},
+	{
+		"typeCmd" : "EnterRoom"
+	},
+	{
+		"entityID" : 0,
+		"previousStatAttack" : 6,
+		"previousStatBlock" : 6,
+		"statAttack" : 8,
+		"statBlock" : 8,
+		"typeCmd" : "ChangeStat"
+	},
+	{
+		"typeCmd" : "ExitRoom"
+	},
+	{
+		"typeCmd" : "EnterRoom"
+	},
+	{
+		"entityID" : 0,
+		"previousStatAttack" : 8,
+		"previousStatBlock" : 8,
+		"statAttack" : 10,
+		"statBlock" : 10,
+		"typeCmd" : "ChangeStat"
+	},
+	{
+		"typeCmd" : "ExitRoom"
+	},
+	{
+		"typeCmd" : "EnterRoom"
+	},
+	{
+		"cardIndex" : 0,
+		"playerID" : 0,
+		"targetID" : 2,
+		"typeCmd" : "PlayCard"
+	},
+	{
+		"cardIndex" : 2,
+		"playerID" : 0,
+		"targetID" : 2,
+		"typeCmd" : "PlayCard"
+	},
+	{
+		"typeCmd" : "NextEntity"
+	},
+	{
+		"typeCmd" : "NextEntity"
+	},
+	{
+		"cardIndex" : 1,
+		"playerID" : 0,
+		"targetID" : 0,
+		"typeCmd" : "PlayCard"
+	},
+	{
+		"cardIndex" : 2,
+		"playerID" : 0,
+		"targetID" : 2,
+		"typeCmd" : "PlayCard"
+	},
+	{
+		"typeCmd" : "NextEntity"
+	},
+	{
+		"typeCmd" : "NextEntity"
+	},
+	{
+		"cardIndex" : 0,
+		"playerID" : 0,
+		"targetID" : 0,
+		"typeCmd" : "PlayCard"
+	},
+	{
+		"cardIndex" : 0,
+		"playerID" : 0,
+		"targetID" : 2,
+		"typeCmd" : "PlayCard"
+	},
+	{
+		"typeCmd" : "NextEntity"
+	},
+	{
+		"typeCmd" : "NextEntity"
+	},
+	{
+		"cardIndex" : 3,
+		"playerID" : 0,
+		"targetID" : 0,
+		"typeCmd" : "PlayCard"
+	},
+	{
+		"cardIndex" : 0,
+		"playerID" : 0,
+		"targetID" : 2,
+		"typeCmd" : "PlayCard"
+	},
+	{
+		"typeCmd" : "NextEntity"
+	},
+	{
+		"typeCmd" : "NextEntity"
+	},
+	{
+		"cardIndex" : 1,
+		"playerID" : 0,
+		"targetID" : 2,
+		"typeCmd" : "PlayCard"
+	},
+	{
+		"cardIndex" : 2,
+		"playerID" : 0,
+		"targetID" : 2,
+		"typeCmd" : "PlayCard"
+	},
+	{
+		"typeCmd" : "NextEntity"
+	},
+	{
+		"typeCmd" : "NextEntity"
+	},
+	{
+		"cardIndex" : 3,
+		"playerID" : 0,
+		"targetID" : 2,
+		"typeCmd" : "PlayCard"
+	},
+	{
+		"cardIndex" : 3,
+		"playerID" : 0,
+		"targetID" : 2,
+		"typeCmd" : "PlayCard"
+	},
+	{
+		"typeCmd" : "NextEntity"
+	},
+	{
+		"typeCmd" : "NextEntity"
+	},
+	{
+		"cardIndex" : 3,
+		"playerID" : 0,
+		"targetID" : 0,
+		"typeCmd" : "PlayCard"
+	},
+	{
+		"cardIndex" : 1,
+		"playerID" : 0,
+		"targetID" : 2,
+		"typeCmd" : "PlayCard"
+	},
+	{
+		"cardIndex" : 2,
+		"playerID" : 0,
+		"targetID" : 0,
+		"typeCmd" : "PlayCard"
+	},
+	{
+		"typeCmd" : "NextEntity"
+	},
+	{
+		"typeCmd" : "NextEntity"
+	},
+	{
+		"cardIndex" : 2,
+		"playerID" : 0,
+		"targetID" : 2,
+		"typeCmd" : "PlayCard"
+	},
+	{
+		"cardIndex" : 2,
+		"playerID" : 0,
+		"targetID" : 2,
+		"typeCmd" : "PlayCard"
+	},
+	{
+		"typeCmd" : "NextEntity"
+	},
+	{
+		"typeCmd" : "NextEntity"
+	},
+	{
+		"cardIndex" : 1,
+		"playerID" : 0,
+		"targetID" : 2,
+		"typeCmd" : "PlayCard"
+	},
+	{
+		"cardIndex" : 2,
+		"playerID" : 0,
+		"targetID" : 2,
+		"typeCmd" : "PlayCard"
+	},
+	{
+		"typeCmd" : "NextEntity"
+	},
+	{
+		"typeCmd" : "NextEntity"
+	},
+	{
+		"cardIndex" : 0,
+		"playerID" : 0,
+		"targetID" : 2,
+		"typeCmd" : "PlayCard"
+	},
+	{
+		"cardIndex" : 2,
+		"playerID" : 0,
+		"targetID" : 2,
+		"typeCmd" : "PlayCard"
+	},
+	{
+		"typeCmd" : "NextEntity"
+	},
+	{
+		"typeCmd" : "NextEntity"
+	},
+	{
+		"cardIndex" : 4,
+		"playerID" : 0,
+		"targetID" : 0,
+		"typeCmd" : "PlayCard"
+	},
+	{
+		"cardIndex" : 2,
+		"playerID" : 0,
+		"targetID" : 2,
+		"typeCmd" : "PlayCard"
+	},
+	{
+		"cardIndex" : 2,
+		"playerID" : 0,
+		"targetID" : 2,
+		"typeCmd" : "PlayCard"
+	},
+	{
+		"typeCmd" : "NextEntity"
+	},
+	{
+		"typeCmd" : "NextEntity"
+	},
+	{
+		"cardIndex" : 0,
+		"playerID" : 0,
+		"targetID" : 2,
+		"typeCmd" : "PlayCard"
+	},
+	{
+		"cardIndex" : 2,
+		"playerID" : 0,
+		"targetID" : 0,
+		"typeCmd" : "PlayCard"
+	},
+	{
+		"typeCmd" : "NextEntity"
+	},
+	{
+		"typeCmd" : "NextEntity"
+	},
+	{
+		"cardIndex" : 0,
+		"playerID" : 0,
+		"targetID" : 2,
+		"typeCmd" : "PlayCard"
+	},
+	{
+		"cardIndex" : 2,
+		"playerID" : 0,
+		"targetID" : 2,
+		"typeCmd" : "PlayCard"
+	},
+	{
+		"typeCmd" : "NextEntity"
+	},
+	{
+		"typeCmd" : "NextEntity"
+	},
+	{
+		"cardIndex" : 0,
+		"playerID" : 0,
+		"targetID" : 0,
+		"typeCmd" : "PlayCard"
+	},
+	{
+		"cardIndex" : 3,
+		"playerID" : 0,
+		"targetID" : 2,
+		"typeCmd" : "PlayCard"
+	},
+	{
+		"typeCmd" : "NextEntity"
+	},
+	{
+		"card" : 2,
+		"isDeckFull" : true,
+		"playerID" : 0,
+		"typeCmd" : "AddCard"
+	},
+	{
+		"typeCmd" : "ExitRoom"
+	},
+	{
+		"typeCmd" : "EnterRoom"
+	},
+	{
+		"cardIndex" : 0,
+		"playerID" : 0,
+		"targetID" : 0,
+		"typeCmd" : "PlayCard"
+	},
+	{
+		"cardIndex" : 1,
+		"playerID" : 0,
+		"targetID" : 0,
+		"typeCmd" : "PlayCard"
+	},
+	{
+		"cardIndex" : 2,
+		"playerID" : 0,
+		"targetID" : 2,
+		"typeCmd" : "PlayCard"
+	},
+	{
+		"typeCmd" : "NextEntity"
+	},
+	{
+		"typeCmd" : "NextEntity"
+	},
+	{
+		"cardIndex" : 0,
+		"playerID" : 0,
+		"targetID" : 0,
+		"typeCmd" : "PlayCard"
+	},
+	{
+		"cardIndex" : 2,
+		"playerID" : 0,
+		"targetID" : 2,
+		"typeCmd" : "PlayCard"
+	},
+	{
+		"typeCmd" : "NextEntity"
+	},
+	{
 		"card" : 0,
 		"isDeckFull" : true,
 		"playerID" : 0,
@@ -309,5 +1139,372 @@
 	},
 	{
 		"typeCmd" : "ExitRoom"
+	},
+	{
+		"typeCmd" : "EnterRoom"
+	},
+	{
+		"cardIndex" : 2,
+		"playerID" : 0,
+		"targetID" : 0,
+		"typeCmd" : "PlayCard"
+	},
+	{
+		"cardIndex" : 1,
+		"playerID" : 0,
+		"targetID" : 2,
+		"typeCmd" : "PlayCard"
+	},
+	{
+		"typeCmd" : "NextEntity"
+	},
+	{
+		"typeCmd" : "NextEntity"
+	},
+	{
+		"typeCmd" : "NextEntity"
+	},
+	{
+		"typeCmd" : "NextEntity"
+	},
+	{
+		"cardIndex" : 0,
+		"playerID" : 0,
+		"targetID" : 2,
+		"typeCmd" : "PlayCard"
+	},
+	{
+		"cardIndex" : 1,
+		"playerID" : 0,
+		"targetID" : 2,
+		"typeCmd" : "PlayCard"
+	},
+	{
+		"typeCmd" : "NextEntity"
+	},
+	{
+		"card" : 1,
+		"isDeckFull" : true,
+		"playerID" : 0,
+		"typeCmd" : "AddCard"
+	},
+	{
+		"typeCmd" : "ExitRoom"
+	},
+	{
+		"typeCmd" : "EnterRoom"
+	},
+	{
+		"cardIndex" : 1,
+		"playerID" : 0,
+		"targetID" : 2,
+		"typeCmd" : "PlayCard"
+	},
+	{
+		"cardIndex" : 1,
+		"playerID" : 0,
+		"targetID" : 0,
+		"typeCmd" : "PlayCard"
+	},
+	{
+		"typeCmd" : "NextEntity"
+	},
+	{
+		"typeCmd" : "NextEntity"
+	},
+	{
+		"typeCmd" : "NextEntity"
+	},
+	{
+		"typeCmd" : "NextEntity"
+	},
+	{
+		"cardIndex" : 0,
+		"playerID" : 0,
+		"targetID" : 2,
+		"typeCmd" : "PlayCard"
+	},
+	{
+		"typeCmd" : "NextEntity"
+	},
+	{
+		"card" : 2,
+		"isDeckFull" : true,
+		"playerID" : 0,
+		"typeCmd" : "AddCard"
+	},
+	{
+		"typeCmd" : "ExitRoom"
+	},
+	{
+		"typeCmd" : "EnterRoom"
+	},
+	{
+		"cardIndex" : 1,
+		"playerID" : 0,
+		"targetID" : 0,
+		"typeCmd" : "PlayCard"
+	},
+	{
+		"cardIndex" : 0,
+		"playerID" : 0,
+		"targetID" : 2,
+		"typeCmd" : "PlayCard"
+	},
+	{
+		"typeCmd" : "NextEntity"
+	},
+	{
+		"typeCmd" : "NextEntity"
+	},
+	{
+		"cardIndex" : 0,
+		"playerID" : 0,
+		"targetID" : 2,
+		"typeCmd" : "PlayCard"
+	},
+	{
+		"typeCmd" : "NextEntity"
+	},
+	{
+		"card" : 2,
+		"isDeckFull" : true,
+		"playerID" : 0,
+		"typeCmd" : "AddCard"
+	},
+	{
+		"typeCmd" : "ExitRoom"
+	},
+	{
+		"typeCmd" : "EnterRoom"
+	},
+	{
+		"entityID" : 0,
+		"previousStatAttack" : 10,
+		"previousStatBlock" : 10,
+		"statAttack" : 12,
+		"statBlock" : 12,
+		"typeCmd" : "ChangeStat"
+	},
+	{
+		"typeCmd" : "ExitRoom"
+	},
+	{
+		"typeCmd" : "EnterRoom"
+	},
+	{
+		"cardIndex" : 1,
+		"playerID" : 0,
+		"targetID" : 0,
+		"typeCmd" : "PlayCard"
+	},
+	{
+		"cardIndex" : 1,
+		"playerID" : 0,
+		"targetID" : 2,
+		"typeCmd" : "PlayCard"
+	},
+	{
+		"typeCmd" : "NextEntity"
+	},
+	{
+		"card" : 1,
+		"isDeckFull" : true,
+		"playerID" : 0,
+		"typeCmd" : "AddCard"
+	},
+	{
+		"typeCmd" : "ExitRoom"
+	},
+	{
+		"typeCmd" : "EnterRoom"
+	},
+	{
+		"cardIndex" : 0,
+		"playerID" : 0,
+		"targetID" : 0,
+		"typeCmd" : "PlayCard"
+	},
+	{
+		"typeCmd" : "NextEntity"
+	},
+	{
+		"typeCmd" : "NextEntity"
+	},
+	{
+		"cardIndex" : 3,
+		"playerID" : 0,
+		"targetID" : 0,
+		"typeCmd" : "PlayCard"
+	},
+	{
+		"cardIndex" : 0,
+		"playerID" : 0,
+		"targetID" : 2,
+		"typeCmd" : "PlayCard"
+	},
+	{
+		"typeCmd" : "NextEntity"
+	},
+	{
+		"card" : 1,
+		"isDeckFull" : true,
+		"playerID" : 0,
+		"typeCmd" : "AddCard"
+	},
+	{
+		"typeCmd" : "ExitRoom"
+	},
+	{
+		"typeCmd" : "EnterRoom"
+	},
+	{
+		"cardIndex" : 0,
+		"playerID" : 0,
+		"targetID" : 0,
+		"typeCmd" : "PlayCard"
+	},
+	{
+		"cardIndex" : 0,
+		"playerID" : 0,
+		"targetID" : 0,
+		"typeCmd" : "PlayCard"
+	},
+	{
+		"cardIndex" : 1,
+		"playerID" : 0,
+		"targetID" : 2,
+		"typeCmd" : "PlayCard"
+	},
+	{
+		"typeCmd" : "NextEntity"
+	},
+	{
+		"typeCmd" : "NextEntity"
+	},
+	{
+		"cardIndex" : 0,
+		"playerID" : 0,
+		"targetID" : 0,
+		"typeCmd" : "PlayCard"
+	},
+	{
+		"cardIndex" : 1,
+		"playerID" : 0,
+		"targetID" : 2,
+		"typeCmd" : "PlayCard"
+	},
+	{
+		"typeCmd" : "NextEntity"
+	},
+	{
+		"card" : 1,
+		"isDeckFull" : true,
+		"playerID" : 0,
+		"typeCmd" : "AddCard"
+	},
+	{
+		"typeCmd" : "ExitRoom"
+	},
+	{
+		"typeCmd" : "EnterRoom"
+	},
+	{
+		"entityID" : 0,
+		"previousStatAttack" : 12,
+		"previousStatBlock" : 12,
+		"statAttack" : 14,
+		"statBlock" : 14,
+		"typeCmd" : "ChangeStat"
+	},
+	{
+		"typeCmd" : "ExitRoom"
+	},
+	{
+		"typeCmd" : "EnterRoom"
+	},
+	{
+		"cardIndex" : 0,
+		"playerID" : 0,
+		"targetID" : 0,
+		"typeCmd" : "PlayCard"
+	},
+	{
+		"cardIndex" : 0,
+		"playerID" : 0,
+		"targetID" : 2,
+		"typeCmd" : "PlayCard"
+	},
+	{
+		"typeCmd" : "NextEntity"
+	},
+	{
+		"typeCmd" : "NextEntity"
+	},
+	{
+		"cardIndex" : 0,
+		"playerID" : 0,
+		"targetID" : 0,
+		"typeCmd" : "PlayCard"
+	},
+	{
+		"cardIndex" : 1,
+		"playerID" : 0,
+		"targetID" : 2,
+		"typeCmd" : "PlayCard"
+	},
+	{
+		"typeCmd" : "NextEntity"
+	},
+	{
+		"typeCmd" : "NextEntity"
+	},
+	{
+		"cardIndex" : 0,
+		"playerID" : 0,
+		"targetID" : 2,
+		"typeCmd" : "PlayCard"
+	},
+	{
+		"typeCmd" : "NextEntity"
+	},
+	{
+		"typeCmd" : "NextEntity"
+	},
+	{
+		"cardIndex" : 0,
+		"playerID" : 0,
+		"targetID" : 0,
+		"typeCmd" : "PlayCard"
+	},
+	{
+		"cardIndex" : 0,
+		"playerID" : 0,
+		"targetID" : 2,
+		"typeCmd" : "PlayCard"
+	},
+	{
+		"typeCmd" : "NextEntity"
+	},
+	{
+		"typeCmd" : "NextEntity"
+	},
+	{
+		"cardIndex" : 2,
+		"playerID" : 0,
+		"targetID" : 2,
+		"typeCmd" : "PlayCard"
+	},
+	{
+		"cardIndex" : 3,
+		"playerID" : 0,
+		"targetID" : 2,
+		"typeCmd" : "PlayCard"
+	},
+	{
+		"typeCmd" : "NextEntity"
+	},
+	{
+		"typeCmd" : "NextEntity"
 	}
 ]

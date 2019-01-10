@@ -342,16 +342,60 @@ void AI_Deep::Play(){
         }
 
         if (count[0] < count[1] && attack.size() > 0){ //less attack than block
+          int max = -99;
+          int index = -1;
+          for(size_t i = 0; i < attack.size(); i++){
+            state::Card* card = room->GetReward()[attack[i]];
+            int score = card -> GetAttack() + card -> GetBlock()  + card -> GetHeal() * 4 + card -> GetBuff() -> GetEvade() * 6 +
+                        card -> GetBuff() -> GetRetaliate() * 4 + card -> GetBuff() -> GetHeal() * 2 + card -> GetDebuff() -> GetAttackMinus() * 2 +
+                        card -> GetDebuff() -> GetBlockMinus() * 2 + card -> GetBuff() -> GetAttackPlus() * 2 + card -> GetBuff() -> GetBlockPlus() * 2
+                        - 2 * card -> GetCost();
+            if(card -> GetTarget() >=2) score +=5;
+            if (max < score){
+              max = score;
+              index = attack[i];
+            }
+          }
+
         //  moteur->AddCommand(std::make_shared<engine::CommandAddCard>(entityID, attack[rand() % (int) attack.size()], gameState->GetPlayers()[entityID]->GetDeck()->GetSize() == 15));
-          moteur->AddCommand(std::make_shared<engine::CommandAddCard>(entityID, attack[0], gameState->GetPlayers()[entityID]->GetDeck()->GetSize() == 15));
+          moteur->AddCommand(std::make_shared<engine::CommandAddCard>(entityID, index, gameState->GetPlayers()[entityID]->GetDeck()->GetSize() == 15));
 
         } else if ((count[0] > count[1] && block.size()) > 0){
+          int max = -99;
+          int index = -1;
+          for(size_t i = 0; i < block.size(); i++){
+            state::Card* card = room->GetReward()[block[i]];
+            int score = card -> GetAttack() + card -> GetBlock()  + card -> GetHeal() * 4 + card -> GetBuff() -> GetEvade() * 6 +
+                        card -> GetBuff() -> GetRetaliate() * 4 + card -> GetBuff() -> GetHeal() * 2 + card -> GetDebuff() -> GetAttackMinus() * 2 +
+                        card -> GetDebuff() -> GetBlockMinus() * 2 + card -> GetBuff() -> GetAttackPlus() * 2 + card -> GetBuff() -> GetBlockPlus() * 2
+                        - 2 * card -> GetCost();
+            if(card -> GetTarget() >=2) score +=5;
+            if (max < score){
+              max = score;
+              index = block[i];
+            }
+          }
           //moteur->AddCommand(std::make_shared<engine::CommandAddCard>(entityID, block[rand() % (int) block.size()], gameState->GetPlayers()[entityID]->GetDeck()->GetSize() == 15));
-          moteur->AddCommand(std::make_shared<engine::CommandAddCard>(entityID, block[0], gameState->GetPlayers()[entityID]->GetDeck()->GetSize() == 15));
+          moteur->AddCommand(std::make_shared<engine::CommandAddCard>(entityID, index, gameState->GetPlayers()[entityID]->GetDeck()->GetSize() == 15));
 
         } else {
+
+          int max = -99;
+          int index = -1;
+          for(size_t i = 0; i < room->GetReward().size(); i++){
+            state::Card* card = room->GetReward()[i];
+            int score = card -> GetAttack() + card -> GetBlock()  + card -> GetHeal() * 4 + card -> GetBuff() -> GetEvade() * 6 +
+                        card -> GetBuff() -> GetRetaliate() * 4 + card -> GetBuff() -> GetHeal() * 2 + card -> GetDebuff() -> GetAttackMinus() * 2 +
+                        card -> GetDebuff() -> GetBlockMinus() * 2 + card -> GetBuff() -> GetAttackPlus() * 2 + card -> GetBuff() -> GetBlockPlus() * 2
+                        - 2 * card -> GetCost();
+            if(card -> GetTarget() >=2) score +=5;
+            if (max < score){
+              max = score;
+              index = i;
+            }
+          }
           //moteur->AddCommand(std::make_shared<engine::CommandAddCard>(entityID, rand() % (int) room->GetReward().size(), gameState->GetPlayers()[entityID]->GetDeck()->GetSize() == 15));
-          moteur->AddCommand(std::make_shared<engine::CommandAddCard>(entityID, 2, gameState->GetPlayers()[entityID]->GetDeck()->GetSize() == 15));
+          moteur->AddCommand(std::make_shared<engine::CommandAddCard>(entityID, index, gameState->GetPlayers()[entityID]->GetDeck()->GetSize() == 15));
 
         }
 
@@ -414,12 +458,54 @@ void AI_Deep::Play(){
           }
 
           if (count[0] < count[1] && attack.size() > 0){
-            moteur->AddCommand(std::make_shared<engine::CommandAddCard>(entityID, attack[0], gameState->GetPlayers()[entityID]->GetDeck()->GetSize() == 15));
+            int max = -99;
+            int index = -1;
+            for(size_t i = 0; i < attack.size(); i++){
+              state::Card* card = room->GetReward()[attack[i]];
+              int score = card -> GetAttack() + card -> GetBlock()  + card -> GetHeal() * 4 + card -> GetBuff() -> GetEvade() * 6 +
+                          card -> GetBuff() -> GetRetaliate() * 4 + card -> GetBuff() -> GetHeal() * 2 + card -> GetDebuff() -> GetAttackMinus() * 2 +
+                          card -> GetDebuff() -> GetBlockMinus() * 2 + card -> GetBuff() -> GetAttackPlus() * 2 + card -> GetBuff() -> GetBlockPlus() * 2
+                          - 2 * card -> GetCost();
+              if(card -> GetTarget() >=2) score +=5;
+              if (max < score){
+                max = score;
+                index = attack[i];
+              }
+            }
+            moteur->AddCommand(std::make_shared<engine::CommandAddCard>(entityID, index, gameState->GetPlayers()[entityID]->GetDeck()->GetSize() == 15));
           } else if (count[0] > count[1] && block.size() > 0){
-            moteur->AddCommand(std::make_shared<engine::CommandAddCard>(entityID, block[0], gameState->GetPlayers()[entityID]->GetDeck()->GetSize() == 15));
+            int max = -99;
+            int index = -1;
+            for(size_t i = 0; i < block.size(); i++){
+              state::Card* card = room->GetReward()[block[i]];
+              int score = card -> GetAttack() + card -> GetBlock()  + card -> GetHeal() * 4 + card -> GetBuff() -> GetEvade() * 6 +
+                          card -> GetBuff() -> GetRetaliate() * 4 + card -> GetBuff() -> GetHeal() * 2 + card -> GetDebuff() -> GetAttackMinus() * 2 +
+                          card -> GetDebuff() -> GetBlockMinus() * 2 + card -> GetBuff() -> GetAttackPlus() * 2 + card -> GetBuff() -> GetBlockPlus() * 2
+                          - 2 * card -> GetCost();
+              if(card -> GetTarget() >=2) score +=5;
+              if (max < score){
+                max = score;
+                index = block[i];
+              }
+            }
+            moteur->AddCommand(std::make_shared<engine::CommandAddCard>(entityID, index, gameState->GetPlayers()[entityID]->GetDeck()->GetSize() == 15));
           } else {
+            int max = -99;
+            int index = -1;
+            for(size_t i = 0; i < room->GetReward().size(); i++){
+              state::Card* card = room->GetReward()[i];
+              int score = card -> GetAttack() + card -> GetBlock()  + card -> GetHeal() * 4 + card -> GetBuff() -> GetEvade() * 6 +
+                          card -> GetBuff() -> GetRetaliate() * 4 + card -> GetBuff() -> GetHeal() * 2 + card -> GetDebuff() -> GetAttackMinus() * 2 +
+                          card -> GetDebuff() -> GetBlockMinus() * 2 + card -> GetBuff() -> GetAttackPlus() * 2 + card -> GetBuff() -> GetBlockPlus() * 2
+                          - 2 * card -> GetCost();
+              if(card -> GetTarget() >=2) score +=5;
+              if (max < score){
+                max = score;
+                index = i;
+              }
+            }
             //moteur->AddCommand(std::make_shared<engine::CommandAddCard>(entityID, rand() % (int) room->GetReward().size(), gameState->GetPlayers()[entityID]->GetDeck()->GetSize() == 15));
-            moteur->AddCommand(std::make_shared<engine::CommandAddCard>(entityID, 2, gameState->GetPlayers()[entityID]->GetDeck()->GetSize() == 15));
+            moteur->AddCommand(std::make_shared<engine::CommandAddCard>(entityID, index, gameState->GetPlayers()[entityID]->GetDeck()->GetSize() == 15));
 
           }
 

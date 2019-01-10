@@ -46,7 +46,7 @@ void testRecord(){
   //int floorNb = 0;
   int i = 0;
 
-  while(i<100){
+  while(i<500){
     if(moteur->GetCommands().size() <= 0){
       ai1->Play();
       if (moteur->GetCommands().size() <= 0){
