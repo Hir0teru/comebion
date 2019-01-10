@@ -1375,7 +1375,7 @@ int main(int argc,char* argv[])
 
   if (argc == 2 and std::string(argv[1] )== "thread")
     testThread();
-  if (argc == 2 and std::string(argv[1] )== "replay")
+  if (argc == 2 and std::string(argv[1] )== "play")
     testReplay();
   if (argc == 2 and std::string(argv[1] )== "multi")
     testMulti();
