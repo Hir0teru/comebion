@@ -38,8 +38,11 @@ void CommandEndFight::Undo (std::shared_ptr<state::GameState>& gameState){
 
 Json::Value CommandEndFight::Serialize () {
   Json::Value val;
+  val["typeCmd"] = "EndFight";
+  val["isFightWon"] = isFightWon;
   return val;
 }
  CommandEndFight* CommandEndFight::Deserialize (Json::Value in){
+   isFightWon = in["isFightWon"].asBool();
   return this;
 }

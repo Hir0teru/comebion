@@ -128,6 +128,7 @@ void CommandNextEntity::Undo (std::shared_ptr<state::GameState>& gameState){}
 
 Json::Value CommandNextEntity::Serialize () {
   Json::Value val;
+  val["typeCmd"] = "NextEntity";
   return val;
 }
  CommandNextEntity* CommandNextEntity::Deserialize (Json::Value in){

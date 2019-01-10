@@ -24,10 +24,24 @@ Enemy::Enemy (){
   intent = 0;
 }
 
+
+
+
+
 Enemy::Enemy(int element, int nb):Enemy(){
   SkillManager* SM = SkillManager::instance();
   this->SetElement(element);
   this -> SetIsEntityAlive(true);
+  this->SetIsPlayer(false);
+  this -> SetStatAttack(0);
+  this -> SetStatBlock(0);
+  this -> SetBlock(0);
+  Buff* tmpbuff = new Buff();
+  Debuff* tmpdebuff = new Debuff();
+  this->SetBuff(*tmpbuff);
+  this->SetDebuff(*tmpdebuff);
+  delete(tmpbuff);
+  delete(tmpdebuff);
   switch (element) {
     case 1:
       if (nb == 0) {

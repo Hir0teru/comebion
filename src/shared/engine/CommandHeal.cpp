@@ -51,8 +51,13 @@ void CommandHeal::Undo (std::shared_ptr<state::GameState>& gameState){
 
 Json::Value CommandHeal::Serialize () {
   Json::Value val;
+  val["typeCmd"] = "Heal";
+  val["entityID"] = entityID;
+  val["heal"] = heal;
   return val;
 }
  CommandHeal* CommandHeal::Deserialize (Json::Value in){
+   entityID = in["entityID"].asInt();
+   heal = in["heal"].asInt();
   return this;
 }

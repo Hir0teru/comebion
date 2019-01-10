@@ -36,8 +36,11 @@ void CommandShuffle::Undo (std::shared_ptr<state::GameState>& gameState){
 
 Json::Value CommandShuffle::Serialize () {
   Json::Value val;
+  val["typeCmd"] = "Shuffle";
+  val["playerID"] = playerID;
   return val;
 }
  CommandShuffle* CommandShuffle::Deserialize (Json::Value in){
+   playerID = in["playerID"].asInt();
   return this;
 }

@@ -165,8 +165,15 @@ void CommandPlaySkill::Undo (std::shared_ptr<state::GameState>& gameState){}
 
 Json::Value CommandPlaySkill::Serialize () {
   Json::Value val;
+  val["typeCmd"] = "PlaySkill";
+  val["enemyID"] = enemyID;
+  val["targetID"] = targetID;
+  val["skillIndex"] = skillIndex;
   return val;
 }
  CommandPlaySkill* CommandPlaySkill::Deserialize (Json::Value in){
+   enemyID = in["enemyID"].asInt();
+   targetID = in["targetID"].asInt();
+   skillIndex = in["skillIndex"].asInt();
   return this;
 }

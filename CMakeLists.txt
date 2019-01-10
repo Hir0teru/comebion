@@ -32,7 +32,7 @@ exec_program(${DIA2CODE} ARGS -ns ai     -d ../src/shared -t cpp ../src/ai.dia)
 
 # Sources
 file(GLOB_RECURSE client_sources src/client/*.cpp)
-#file(GLOB_RECURSE server_sources src/server/*.cpp)
+file(GLOB_RECURSE server_sources src/server/*.cpp)
 file(GLOB_RECURSE shared_sources src/shared/*.cpp)
 
 #jsoncpp

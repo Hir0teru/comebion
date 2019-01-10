@@ -24,6 +24,7 @@ void CommandNewTurn::Undo (std::shared_ptr<state::GameState>& gameState){
 
 Json::Value CommandNewTurn::Serialize () {
   Json::Value val;
+  val["typeCmd"] = "NewTurn";
   return val;
 }
  CommandNewTurn* CommandNewTurn::Deserialize (Json::Value in){

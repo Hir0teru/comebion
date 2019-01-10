@@ -11,6 +11,7 @@
 #include <sys/types.h>
 #include <time.h>
 #include <unistd.h>
+#include <fstream>
 
 // Les lignes suivantes ne servent qu'à vérifier que la compilation avec SFML fonctionne
 #include <SFML/Graphics.hpp>
@@ -25,6 +26,100 @@ using namespace engine;
 using namespace render;
 using namespace state;
 using namespace std;
+
+
+void testReplay(){
+  Json::Value val;
+  std::ifstream file ("replay.txt");
+  file >> val;
+  file.close();
+  std::cout << val[0]["seedtime"].asString() << std::endl;
+
+  srand(std::stoi(val[0]["seedtime"].asString()));
+
+  PlayerManager* PM = PlayerManager::instance();
+  std::shared_ptr<GameState> gameState = std::make_shared<state::GameState>();
+  std::vector<Player*> players;
+  players.push_back((*PM)[0]);
+  // players.push_back((*PM)[1]);
+  gameState->SetPlayers(players);
+  std::shared_ptr<Moteur> moteur = make_shared<Moteur>(gameState, false);
+
+  std::cout << "nb enemies: " << gameState->GetMap()->GetFloors()[0]->GetCurrentRoom()->GetEnemies().size() <<std::endl;
+  std::cout << "is he alive " <<gameState->GetMap()->GetFloors()[0]->GetCurrentRoom()->GetEnemies()[0]->GetIsEntityAlive() << std::endl;
+  std::cout << "is fight over/won" << gameState->GetMap()->GetFloors()[0]->GetCurrentRoom()->GetIsFightWon() << std::endl;
+
+  // AI_Random* ai2 = new AI_Random (gameState, moteur,1);
+
+  //int entityTurn = 0;
+  //int floorNb = 0;
+
+  Rendu * rendu = new Rendu(gameState);
+  sf::RenderWindow window(sf::VideoMode(rendu->GetDimensionX(), rendu->GetDimensionY()), "Slay the Avatar");
+
+  sf::Event event;
+  sf::Sprite sprite;
+  rendu->SetTextureMap(1);
+  sprite.setTexture(rendu->GetTextureMap().getTexture());
+  bool pause = false;
+
+
+  moteur->ReadCommand(val);
+
+  std::cout << "This is a replay" << std::endl;
+  std::cout << "press a key to pause or unpause" << std::endl;
+  sleep(1);
+  std::cout << "beginning...." << std::endl;
+  bool end = false;
+
+
+
+  while(window.isOpen() && !end){
+
+    window.clear(sf::Color::White);
+    window.draw(sprite);
+    window.display();
+
+    while (window.pollEvent(event)){
+      if (event.type == sf::Event::Closed){
+
+        window.close();
+      }
+      if(event.type == sf::Event::KeyReleased){
+        if(pause == false){
+          pause = true;
+        } else pause = false;
+      }
+    }
+
+    if(!pause){
+      if(moteur->GetCommands().size() > 0){
+          moteur->Update(); // le moteur est toujours vide->un ennemi doit être en train de jouer->passer à l'ennemi suivant
+          //floorNb =  gameState->GetMap()->GetCurrentFloor();
+        //  entityTurn =  gameState->GetMap()->GetFloors()[floorNb]->GetCurrentRoom()->GetEntityTurn() ;
+          if(!rendu->GetGameState()->GetIsInsideRoom()){
+            rendu->SetTextureMap(1);
+            sprite.setTexture(rendu->GetTextureMap().getTexture());
+            window.clear(sf::Color::White);
+            window.draw(sprite);
+            window.display();
+          }
+          else{
+            rendu->SetTextureRoom();
+            rendu->DrawInsideRoom();
+            sprite.setTexture(rendu->GetTexture().getTexture());
+            window.clear(sf::Color::White);
+            window.draw(sprite);
+            window.display();
+          }
+          sleep(0.3);
+      } else{
+        end = true;
+        std::cout << "Reached the end. Thank you for watching." << std::endl;
+      }
+    }
+  }
+}
 
 void engineThread(std::shared_ptr<Moteur> moteur, std::shared_ptr<GameState> gameState, bool* run, bool* pause, mutex* mtx){
   mtx->lock();
@@ -59,7 +154,7 @@ void testThread(){
   std::vector<Player*> players;
   players.push_back((*PM)[0]);
   gameState->SetPlayers(players);
-  std::shared_ptr<Moteur> moteur = make_shared<Moteur>(gameState);
+  std::shared_ptr<Moteur> moteur = make_shared<Moteur>(gameState, false);
 
   Rendu * rendu = new Rendu(gameState);
   sf::RenderWindow window(sf::VideoMode(rendu->GetDimensionX(), rendu->GetDimensionY()), "Slay the Avatar");
@@ -120,7 +215,7 @@ void testDeepAI(){
   players.push_back((*PM)[0]);
   // players.push_back((*PM)[1]);
   gameState->SetPlayers(players);
-  std::shared_ptr<Moteur> moteur = make_shared<Moteur>(gameState);
+  std::shared_ptr<Moteur> moteur = make_shared<Moteur>(gameState, false);
 
   AI_Deep* ai1 = new AI_Deep(gameState, moteur,0);
   // AI_Random* ai2 = new AI_Random (gameState, moteur,1);
@@ -1163,7 +1258,8 @@ int main(int argc,char* argv[])
   SkillManager::instance();
   CardManager::instance();
   PlayerManager::instance();
-  srand(time(NULL));
+  time_t seedtime = time(NULL);
+  srand(seedtime);
   //Exemple exemple;
   //exemple.setX(53);
 
@@ -1200,6 +1296,8 @@ int main(int argc,char* argv[])
 
   if (argc == 2 and std::string(argv[1] )== "thread")
     testThread();
+  if (argc == 2 and std::string(argv[1] )== "replay")
+    testReplay();
 
     delete SkillManager::instance();
     delete CardManager::instance();

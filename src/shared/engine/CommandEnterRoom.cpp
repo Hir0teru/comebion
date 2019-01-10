@@ -51,6 +51,7 @@ void CommandEnterRoom::Undo (std::shared_ptr<state::GameState>& gameState){
 
 Json::Value CommandEnterRoom::Serialize () {
   Json::Value val;
+  val["typeCmd"] = "EnterRoom";
   return val;
 }
  CommandEnterRoom* CommandEnterRoom::Deserialize (Json::Value in){

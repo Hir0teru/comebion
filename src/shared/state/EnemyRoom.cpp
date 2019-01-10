@@ -5,7 +5,7 @@ using namespace state;
 
 EnemyRoom::~EnemyRoom(){}
 
-EnemyRoom::EnemyRoom (int element, std::vector<std::unique_ptr<Enemy>> enemies): Room(element, false, true, false), turn(0), isGameLost(false)
+EnemyRoom::EnemyRoom (int element, std::vector<std::unique_ptr<Enemy>> enemies): Room(element, false, true, false), turn(0), isGameLost(false), isFightWon(false)
 {
   PlayerManager* PM = PlayerManager::instance();
   if (enemies.size() <= 0) {
@@ -14,6 +14,9 @@ EnemyRoom::EnemyRoom (int element, std::vector<std::unique_ptr<Enemy>> enemies):
     std::cout<<"too many enemies "<< enemies.size()<<std::endl;
     throw std::out_of_range("too many enemies");
   } else {
+    for(int i = 0; i < (int)enemies.size();i++){
+      enemies[i]->SetId(i+2);
+    }
     this->enemies = std::move(enemies);
   }
 

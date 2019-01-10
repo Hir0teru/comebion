@@ -69,8 +69,11 @@ void CommandDraw::Undo (std::shared_ptr<state::GameState>& gameState){
 
 Json::Value CommandDraw::Serialize () {
   Json::Value val;
+  val["typeCmd"] = "Draw";
+  val["entityID"] = entityID;
   return val;
 }
  CommandDraw* CommandDraw::Deserialize (Json::Value in){
+   entityID = in["entityID"].asInt();
   return this;
 }

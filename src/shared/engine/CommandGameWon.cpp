@@ -20,6 +20,7 @@ void CommandGameWon::Undo (std::shared_ptr<state::GameState>& gameState){
 
 Json::Value CommandGameWon::Serialize () {
   Json::Value val;
+  val["typeCmd"] = "GameWon";
   return val;
 }
  CommandGameWon* CommandGameWon::Deserialize (Json::Value in){
