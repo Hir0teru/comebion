@@ -45,9 +45,6 @@ void testReplay(){
   gameState->SetPlayers(players);
   std::shared_ptr<Moteur> moteur = make_shared<Moteur>(gameState, false);
 
-  std::cout << "nb enemies: " << gameState->GetMap()->GetFloors()[0]->GetCurrentRoom()->GetEnemies().size() <<std::endl;
-  std::cout << "is he alive " <<gameState->GetMap()->GetFloors()[0]->GetCurrentRoom()->GetEnemies()[0]->GetIsEntityAlive() << std::endl;
-  std::cout << "is fight over/won" << gameState->GetMap()->GetFloors()[0]->GetCurrentRoom()->GetIsFightWon() << std::endl;
 
   // AI_Random* ai2 = new AI_Random (gameState, moteur,1);
 
