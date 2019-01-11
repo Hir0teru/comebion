@@ -31,7 +31,7 @@ sf::RenderWindow& View::GetWindow (){
   return window;
 }
 
-void View::Draw (){
+void View::Draw (std::mutex* mtx, bool* pause, bool* run){
   window.create(sf::VideoMode(rendu -> GetDimensionX(), rendu -> GetDimensionY()), "Slay the Avatar");
   // std::cout << "press a key for next step" << std::endl;
   sf::Event event;
@@ -42,7 +42,7 @@ void View::Draw (){
   rendu -> SetTextureMap(1);
   sprite.setTexture(rendu -> GetTextureMap().getTexture());
   int cardSelected = -1;
-  while(window.isOpen()){
+  while(*run){
 
     window.clear(sf::Color::White);
     window.draw(sprite);
@@ -50,33 +50,27 @@ void View::Draw (){
 
     while (window.pollEvent(event)){
       if (event.type == sf::Event::Closed){
-
+        *run = false;
         window.close();
       }
       if(event.type == sf::Event::KeyReleased){
-        // moteur -> Update();
-        if(!gameState -> GetIsInsideRoom()){
-          rendu -> SetTextureMap(1);
-          sprite.setTexture(rendu -> GetTextureMap().getTexture());
-        }
-        else{
-          rendu -> SetTextureRoom();
-          rendu -> DrawInsideRoom();
-          sprite.setTexture(rendu -> GetTexture().getTexture());
-          }
-        } else if(event.type == sf::Event::MouseButtonReleased){
+          if(!(*pause)){
+            *pause = true;
+          } else *pause = false;
+        } else if(event.type == sf::Event::MouseButtonReleased && !*pause && moteur->GetCommands().empty()){
+          mtx->lock();
           std::cout << "x = " << sf::Mouse::getPosition(window).x << std::endl;
           std::cout << "y = " << sf::Mouse::getPosition(window).y << std::endl;
 
-          if(!gameState -> GetIsInsideRoom()){
+          if(!gameState -> GetIsInsideRoom()){ //on map
             if((int) sf::Mouse::getPosition(window).x > 505 && (int) sf::Mouse::getPosition(window).x < 620 &&
             (int) sf::Mouse::getPosition(window).y > 505 && (int) sf::Mouse::getPosition(window).y < 535){
                 std::cout << "clicked on enter room" << std::endl;
                 moteur -> AddCommand(std::make_shared<CommandEnterRoom>()); //salle d'ennemy
-                moteur -> Update();
-                rendu -> SetTextureRoom();
-                rendu -> DrawInsideRoom();
-                sprite.setTexture(rendu -> GetTexture().getTexture());
+                // moteur -> Update();
+                // rendu -> SetTextureRoom();
+                // rendu -> DrawInsideRoom();
+                // sprite.setTexture(rendu -> GetTexture().getTexture());
               }
           }
           else{
@@ -97,12 +91,12 @@ void View::Draw (){
                 (int) sf::Mouse::getPosition(window).x > 885 && (int) sf::Mouse::getPosition(window).x < 995 &&
                 (int) sf::Mouse::getPosition(window).y > 655 && (int) sf::Mouse::getPosition(window).y < 688){
                   std::cout << " clicked on next turn" << std::endl;
-                  // moteur -> AddCommand(std::make_shared<CommandNextEntity>());
-                  moteur -> Update();
-                  rendu -> UpdateTexturesCards();
-                  rendu -> UpdateTexturesPiles();
-                  rendu -> DrawInsideRoom();
-                  sprite.setTexture(rendu -> GetTexture().getTexture());
+                  moteur -> AddCommand(std::make_shared<CommandNextEntity>());
+                  //moteur -> Update();
+                  // rendu -> UpdateTexturesCards();
+                  // rendu -> UpdateTexturesPiles();
+                  // rendu -> DrawInsideRoom();
+                  // sprite.setTexture(rendu -> GetTexture().getTexture());
 
               } else if((gameState ->GetMap() ->  GetFloors()[gameState -> GetMap() -> GetCurrentFloor()] -> GetCurrentRoom() -> GetIsSpecialTrainingRoom() ||
                     (gameState ->GetMap() ->  GetFloors()[gameState -> GetMap() -> GetCurrentFloor()] -> GetCurrentRoom() -> GetIsEnemyRoom() &&
@@ -110,24 +104,30 @@ void View::Draw (){
                 (int) sf::Mouse::getPosition(window).x > 488 && (int) sf::Mouse::getPosition(window).x < 595 &&
                 (int) sf::Mouse::getPosition(window).y > 460 && (int) sf::Mouse::getPosition(window).y < 486){
                   std::cout << " clicked on pass" << std::endl;
-                  moteur -> AddCommand(std::shared_ptr<CommandExitRoom>());
-                  moteur -> Update();
-                  rendu -> SetTextureRoom();
-                  rendu -> DrawInsideRoom();
-                  sprite.setTexture(rendu -> GetTexture().getTexture());
+                  moteur -> AddCommand(std::make_shared<CommandNextEntity>());
+                  // rendu -> SetTextureRoom();
+                  // rendu -> DrawInsideRoom();
+                  // sprite.setTexture(rendu -> GetTexture().getTexture());
 
               } else if(gameState ->GetMap() ->  GetFloors()[gameState -> GetMap() -> GetCurrentFloor()] -> GetCurrentRoom() -> GetIsSleepRoom() &&
                 (int) sf::Mouse::getPosition(window).x > 355 && (int) sf::Mouse::getPosition(window).x < 465 &&
                 (int) sf::Mouse::getPosition(window).y > 290 && (int) sf::Mouse::getPosition(window).y < 315){
                   std::cout << " clicked on Heal" << std::endl;
+                  int heal = gameState ->GetMap() ->  GetFloors()[gameState -> GetMap() -> GetCurrentFloor()] -> GetCurrentRoom()->GetHeal();
+                  int entityID = gameState ->GetMap() ->  GetFloors()[gameState -> GetMap() -> GetCurrentFloor()] -> GetCurrentRoom()->GetEntityTurn();
+                  moteur->AddCommand(std::make_shared<CommandHeal>(heal, entityID ));
 
               } else if(gameState ->GetMap() ->  GetFloors()[gameState -> GetMap() -> GetCurrentFloor()] -> GetCurrentRoom() -> GetIsSleepRoom() &&
                 (int) sf::Mouse::getPosition(window).x > 545 && (int) sf::Mouse::getPosition(window).x < 655 &&
                 (int) sf::Mouse::getPosition(window).y > 290 && (int) sf::Mouse::getPosition(window).y < 315){
                   std::cout << " clicked on Meditate" << std::endl;
+                  int entityID = gameState ->GetMap() ->  GetFloors()[gameState -> GetMap() -> GetCurrentFloor()] -> GetCurrentRoom()->GetEntityTurn();
+                  int statAttack = gameState->GetPlayers()[entityID]->GetStatAttack();
+                  int statBlock= gameState->GetPlayers()[entityID]->GetStatBlock();
+                  moteur->AddCommand(std::make_shared<CommandChangeStat>(entityID, statAttack + 2,statBlock + 2));
               }
 
-            } else{
+            } else{ // a card was selected
               int i = 0;
               bool res = false;
               while(!res && i <(int) rendu -> GetTextureCards().size()){
@@ -145,9 +145,13 @@ void View::Draw (){
               while(!res && i < (int) rendu -> GetTexturePlayers().size()){
                 if(rendu -> GetTexturePlayers()[i] -> Click(sf::Mouse::getPosition(window).x, sf::Mouse::getPosition(window).y)){
                   std::cout << "player " << i<< std::endl;
-                  rendu -> GetTextureCards()[cardSelected] -> SetY(rendu -> GetTextureCards()[cardSelected] -> GetY() + 20);
+                  int currentFloor = gameState -> GetMap() ->  GetCurrentFloor();
+                  int entityTurn = gameState -> GetMap() ->  GetFloors()[currentFloor]->GetCurrentRoom()->GetEntityTurn();
+                  moteur->AddCommand((std::make_shared<CommandPlayCard>(entityTurn, i, cardSelected)));
+                  //rendu -> GetTextureCards()[cardSelected] -> SetY(rendu -> GetTextureCards()[cardSelected] -> GetY() + 20);
                   cardSelected = -1;
-                  rendu -> DrawInsideRoom();
+                  // rendu -> SetTextureRoom();
+                  // rendu -> DrawInsideRoom();
                   res = true;
                 }
                 i+=1;
@@ -156,9 +160,13 @@ void View::Draw (){
               while(!res && i < (int) rendu -> GetTextureEnemies().size()){
                 if(rendu -> GetTextureEnemies()[i] -> Click(sf::Mouse::getPosition(window).x, sf::Mouse::getPosition(window).y)){
                   std::cout << "enemy " << i<< std::endl;
-                  rendu -> GetTextureCards()[cardSelected] -> SetY(rendu -> GetTextureCards()[cardSelected] -> GetY() + 20);
+                  int currentFloor = gameState -> GetMap() ->  GetCurrentFloor();
+                  int entityTurn = gameState -> GetMap() ->  GetFloors()[currentFloor]->GetCurrentRoom()->GetEntityTurn();
+                  //rendu -> GetTextureCards()[cardSelected] -> SetY(rendu -> GetTextureCards()[cardSelected] -> GetY() + 20);
+                  moteur->AddCommand((std::make_shared<CommandPlayCard>(entityTurn, i+2, cardSelected)));
                   cardSelected = -1;
-                  rendu -> DrawInsideRoom();
+                  //rendu -> SetTextureRoom();
+                //  rendu -> DrawInsideRoom();
                   res = true;
                 }
                 i+=1;
@@ -169,6 +177,19 @@ void View::Draw (){
                 rendu -> DrawInsideRoom();
               }
             }
+        }
+        mtx->unlock();
+        if(cardSelected == -1){
+          //int currentFloor = gameState -> GetMap() ->  GetCurrentFloor();
+          //int entityTurn = gameState -> GetMap() ->  GetFloors()[currentFloor]->GetCurrentRoom()
+          if(gameState->GetIsInsideRoom()){
+            rendu -> SetTextureRoom();
+            rendu -> DrawInsideRoom();
+            sprite.setTexture(rendu -> GetTexture().getTexture());
+          } else{
+            rendu -> SetTextureMap(1);
+            sprite.setTexture(rendu -> GetTextureMap().getTexture());
+          }
         }
       }
     }

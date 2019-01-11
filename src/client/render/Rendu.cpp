@@ -14,6 +14,8 @@ using namespace state;
       dimensionX = 1080;
       dimensionY = 720;
       this -> gameState = gameState;
+      renderState = 0; //0 = map, 1 = inside room, 2 = inside enemyroom and choosing card, 3 = game lost
+      selectedCard = -1;
     }
 
     Rendu::~Rendu (){
@@ -120,6 +122,36 @@ using namespace state;
       sprite.setTexture(newBackground);
       sprite.scale(1080/dimensionX, 720/dimensionY);
       background.draw(sprite);
+
+      sf::Text text;
+      sf::Font font;
+      if (!font.loadFromFile("res/text_fonts/attack of the cucumbers.ttf")){
+        std::cout <<"error with font name" << std::endl;
+        throw std::invalid_argument("error with argument");
+      }
+      text.setFont(font);
+      int currentFloor = gameState -> GetMap() ->  GetCurrentFloor();
+      int entityTurn = gameState -> GetMap() ->  GetFloors()[currentFloor]->GetCurrentRoom()->GetEntityTurn();
+      if(entityTurn >=2){
+        text.setString("Playing : enemy " + std::to_string(entityTurn));
+      } else text.setString("Playing : player " + std::to_string(entityTurn));
+      int scale = 1.;
+      text.setColor(sf::Color::White);
+      text.setCharacterSize(15 * scale);
+      text.setStyle(sf::Text::Bold);
+      text.move(480 * scale, 10 * scale);
+      textureMap.draw(text);
+      text.move(0 , 2 );
+      background.draw(text);
+      text.move(2 , 0 );
+      background.draw(text);
+      text.move(0 , -2 );
+      background.draw(text);
+      text.setColor(sf::Color::Black);
+      text.move(-1, 1);
+      background.draw(text);
+
+
       background.display();
     }
 
@@ -750,6 +782,7 @@ void Rendu::UpdateTexturesCards(){
 
 void Rendu::UpdateTexturesEnemies(){
   float scale = dimensionX / 1080.;
+  textureEnemies.clear();
   int floorNb = gameState -> GetMap() -> GetCurrentFloor();
   std::shared_ptr<Room>& room = gameState -> GetMap() -> GetFloors()[floorNb] -> GetCurrentRoom();
   std::vector<std::unique_ptr<Enemy>>& enemies =room -> GetEnemies();
@@ -762,4 +795,20 @@ void Rendu::UpdateTexturesEnemies(){
       x-= 250;
     }
   }
+}
+
+int Rendu::GetSelectedCard(){
+  return selectedCard;
+}
+
+void Rendu::SetSelectedCard(int selectedCard){
+  this -> selectedCard = selectedCard;
+}
+
+int Rendu::GetRenderState(){
+  return renderState;
+}
+
+void Rendu::SetRenderState(int renderState){
+  this->renderState = renderState;
 }

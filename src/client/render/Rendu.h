@@ -47,6 +47,8 @@ namespace render {
     /// 		
     sf::RenderTexture texture;
     sf::RenderTexture textureMap;
+    int selectedCard;
+    int renderState;
     // Operations
   public:
     Rendu ();
@@ -95,6 +97,10 @@ namespace render {
     void UpdateTexturesPlayers ();
     void UpdateTexturesEnemies ();
     void UpdateTexturesPiles ();
+    int GetSelectedCard ();
+    void SetSelectedCard (int selectedCard);
+    int GetRenderState ();
+    void SetRenderState (int renderState);
     // Setters and Getters
   };
 

@@ -536,39 +536,101 @@ void testRandomAI(){
   }
 }
 
+void engineThreadTest(std::shared_ptr<Moteur> moteur, std::shared_ptr<GameState> gameState, bool* run, bool* pause, mutex* mtx){
+  //mtx->lock();
+  //AI_Deep* ai1 = new AI_Deep(gameState, moteur,0);
+  //mtx->unlock();
+  while (*run){
+    if (!*pause){
+      mtx->lock();
+      if(moteur->GetCommands().size() <= 0){
+        // ai1->Play();
+        // if (moteur->GetCommands().size() <= 0){
+        //   moteur->Update();
+        // }
+      } else {
+        std::cout << "updating ..." << std::endl;
+        moteur->Update();
+
+      }
+      mtx->unlock();
+      // sleep(0.3);
+      std::this_thread::sleep_for(0.01s);
+    }
+  }
+}
 
 void test(){
+  mutex* mtx = new mutex;
+  bool* run = new bool;
+
   PlayerManager* PM = PlayerManager::instance();
   std::shared_ptr<GameState> gameState = std::make_shared<state::GameState>();
   std::vector<Player*> players;
   players.push_back((*PM)[0]);
   players.push_back((*PM)[1]);
   gameState->SetPlayers(players);
-  std::shared_ptr<Moteur> moteur = make_shared<Moteur>(gameState);
-  // moteur->AddCommand(std::make_shared<CommandChangeRoom>());
-  // moteur->AddCommand(std::make_shared<CommandChangeRoom>());
-  // moteur->AddCommand(std::make_shared<CommandChangeRoom>());
-  // moteur->AddCommand(std::make_shared<CommandEnterRoom>());
-  // moteur->AddCommand(std::make_shared<CommandShuffle>(0));
-  // moteur->AddCommand(std::make_shared<CommandDraw>(0)); // on pioche 5 cartes
-  // moteur->AddCommand(std::make_shared<CommandDraw>(0));
-  // moteur->AddCommand(std::make_shared<CommandDraw>(0));
-  // moteur->AddCommand(std::make_shared<CommandDraw>(0));
-  // moteur->AddCommand(std::make_shared<CommandDraw>(0));
-  // moteur->Update();
-  // moteur->Update();
-  // moteur->Update();
-  // moteur->Update();
-  // moteur->Update();
-  // moteur->Update();
-  // moteur->Update();
-  // moteur->AddCommand(std::make_shared<CommandEndFight>());
-  // moteur->Update();
-// gameState->GetMap()->GetFloors()[gameState->GetMap()->GetCurrentFloor()]->GetCurrentRoom()->SetIsFightWon(true) ;
+  std::shared_ptr<Moteur> moteur = make_shared<Moteur>(gameState, false);
 
   View* view = new View(gameState, moteur);
 
-  view->Draw();
+  //view->Draw();
+
+  // Rendu * rendu = new Rendu(gameState);
+  // sf::RenderWindow window(sf::VideoMode(rendu->GetDimensionX(), rendu->GetDimensionY()), "Slay the Avatar");
+  *run = true;
+  // sf::Event event;
+  // sf::Sprite sprite;
+  // rendu->SetTextureMap(1);
+  // sprite.setTexture(rendu->GetTextureMap().getTexture());
+  bool* pause = new bool;
+  *pause = false;
+  std::cout << "press a key to pause or unpause" << std::endl;
+  sleep(1);
+  std::cout << "beginning...." << std::endl;
+
+  std::thread test(&engineThreadTest, moteur, gameState, run, pause, mtx);
+  view->Draw(mtx,pause,run);
+  // while(*run){
+  //   window.clear(sf::Color::White);
+  //   window.draw(sprite);
+  //   window.display();
+  //
+  //   while (window.pollEvent(event)){
+  //     if (event.type == sf::Event::Closed){
+  //       window.close();
+  //       *run = false;
+  //     }
+  //     if(event.type == sf::Event::KeyReleased){
+  //       if(!(*pause)){
+  //         *pause = true;
+  //       } else *pause = false;
+  //     }
+  //   }
+  //   if(!(*pause)){
+  //     mtx->lock();
+  //     if(!rendu->GetGameState()->GetIsInsideRoom()){
+  //       rendu->SetTextureMap(1);
+  //       sprite.setTexture(rendu->GetTextureMap().getTexture());
+  //     } else {
+  //       rendu->SetTextureRoom();
+  //       rendu->DrawInsideRoom();
+  //       sprite.setTexture(rendu->GetTexture().getTexture());
+  //     }
+  //     mtx->unlock();
+  //     window.clear(sf::Color::White);
+  //     window.draw(sprite);
+  //     window.display();
+  //   }
+  // }
+  test.join();
+  ///viewtest.join();
+  delete run;
+  delete pause;
+  delete mtx;
+
+
+
 }
 
 void testEngine(){

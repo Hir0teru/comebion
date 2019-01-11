@@ -18,6 +18,13 @@ void CommandEndFight::Execute (std::shared_ptr<state::GameState>& gameState){
   if (!isFightWon){
     gameState->GetRules()->SetIsGameLost(true);
     gameState->GetRules()->SetIsGameOver(true);
+  } else{
+    for(state::Player* player : gameState->GetPlayers()){
+      if(!player->GetIsEntityAlive()){
+        player->SetLife(1);
+        player->SetIsEntityAlive(true);
+      }
+    }
   }
 
   room->SetIsGameLost(!isFightWon);

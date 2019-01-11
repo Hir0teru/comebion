@@ -4,6 +4,7 @@
 
 #include <memory>
 #include <SFML/Graphics.hpp>
+#include <mutex>
 
 namespace render {
   class Rendu;
@@ -38,7 +39,7 @@ namespace render {
     std::unique_ptr<Rendu>& GetRendu ();
     std::shared_ptr<state::GameState>& GetGameState ();
     sf::RenderWindow& GetWindow ();
-    void Draw ();
+    void Draw (std::mutex* mtx, bool* pause, bool* run);
     // Setters and Getters
   };
 

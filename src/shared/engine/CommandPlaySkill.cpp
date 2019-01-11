@@ -81,10 +81,6 @@ void CommandPlaySkill::Execute (std::shared_ptr<state::GameState>& gameState){
 
       if (entityTarget->GetLife() == 0){
         CommandDie commandDie(entityTarget->GetId());
-        if (entityTarget->GetIsPlayer()){
-          CommandChangeReward commandChangeReward(entityTarget->GetId());
-          commandChangeReward.Execute(gameState);
-        }
         commandDie.Execute(gameState);
 
         bool fightWon = true;
