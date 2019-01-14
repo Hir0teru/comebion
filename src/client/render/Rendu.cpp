@@ -16,6 +16,7 @@ using namespace state;
       this -> gameState = gameState;
       renderState = 0; //0 = map, 1 = inside room, 2 = inside enemyroom and choosing card, 3 = game lost
       selectedCard = -1;
+      this->loadTextures = new LoadTextures();
     }
 
     Rendu::~Rendu (){
@@ -252,7 +253,7 @@ using namespace state;
         std::cout << "Max number of pile texture is 2. Can not add any more";
         throw std::invalid_argument("error with newSize of texturePiles");
       }
-      texturePiles.push_back(std::make_unique<Editeur>(x, y, scale, image, number));
+      texturePiles.push_back(std::make_unique<Editeur>(x, y, scale, image, number, *loadTextures));
     }
 
     void Rendu::AddTextureCard (int x, int y, float scale, state::Card * card, int statAttack, int statBlock){
@@ -260,7 +261,7 @@ using namespace state;
         std::cout << "Max number of card texture is 7. Can not add any more";
         throw std::invalid_argument("error with newSize of textureCards");
       }
-      textureCards.push_back(std::make_unique<Editeur>(x, y, scale, card, statAttack, statBlock));
+      textureCards.push_back(std::make_unique<Editeur>(x, y, scale, card, statAttack, statBlock,*loadTextures));
     }
 
     void Rendu::AddTexturePlayer (int x, int y, float scale, state::Player* player){
@@ -268,7 +269,7 @@ using namespace state;
         std::cout << "Max number of player texture is 2. Can not add any more";
         throw std::invalid_argument("error with newSize of texturePlayers");
       }
-      texturePlayers.push_back(std::make_unique<Editeur>(x, y, scale, player));
+      texturePlayers.push_back(std::make_unique<Editeur>(x, y, scale, player, *loadTextures));
     }
 
     void Rendu::AddTextureEnemy (int x , int y, float scale, std::unique_ptr<state::Enemy>& enemy){
@@ -276,7 +277,7 @@ using namespace state;
         std::cout << "Max number of pile texture is 3. Can not add any more";
         throw std::invalid_argument("error with newSize of textureEnemies");
       }
-      textureEnemies.push_back(std::make_unique<Editeur>(x, y, scale, enemy));
+      textureEnemies.push_back(std::make_unique<Editeur>(x, y, scale, enemy, *loadTextures));
     }
 
 

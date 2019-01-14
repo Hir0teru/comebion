@@ -7,6 +7,9 @@
 #include <SFML/Graphics.hpp>
 #include <string>
 
+namespace render {
+  class LoadTextures;
+};
 namespace state {
   class GameState;
 };
@@ -25,6 +28,7 @@ namespace state {
 #include "state/GameState.h"
 #include "Editeur.h"
 #include "state/Enemy.h"
+#include "LoadTextures.h"
 #include "state/SpecialTrainingRoom.h"
 #include "state/SleepRoom.h"
 #include "state/EnemyRoom.h"
@@ -35,6 +39,8 @@ namespace render {
   class Rendu {
     // Associations
     // Attributes
+  public:
+    LoadTextures* loadTextures;
   private:
     int dimensionX;
     int dimensionY;

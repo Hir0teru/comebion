@@ -15,7 +15,9 @@ Editeur::Editeur(){
 
 }
 
-Editeur::Editeur (int x, int y, float scale,  std::string image, int number){
+// editor for pile
+
+Editeur::Editeur (int x, int y, float scale,  std::string image, int number, LoadTextures loadTextures){
     this -> x = x;
     this -> y = y;
 
@@ -56,7 +58,7 @@ Editeur::Editeur (int x, int y, float scale,  std::string image, int number){
 
   }
 
-Editeur::Editeur( int x, int y, float scale,state::Card* card, int statAttack, int statBlock){
+Editeur::Editeur( int x, int y, float scale,state::Card* card, int statAttack, int statBlock, LoadTextures loadTextures){
   this -> x = x;
   this -> y = y;
 
@@ -618,7 +620,7 @@ Editeur::Editeur( int x, int y, float scale,state::Card* card, int statAttack, i
 }
 
 
-Editeur::Editeur (int x, int y, float scale, state::Player* player){
+Editeur::Editeur (int x, int y, float scale, state::Player* player, LoadTextures loadTextures){
   this -> x = x;
   this -> y = y;
 
@@ -1025,7 +1027,7 @@ Editeur::Editeur (int x, int y, float scale, state::Player* player){
 }
 
 
-Editeur::Editeur(int x, int y, float scale, std::unique_ptr<state::Enemy>& enemy){
+Editeur::Editeur(int x, int y, float scale, std::unique_ptr<state::Enemy>& enemy, LoadTextures loadTextures){
 
   this -> x = x;
   this -> y = y;

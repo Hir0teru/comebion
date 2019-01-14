@@ -6,6 +6,9 @@
 #include <string>
 #include <memory>
 
+namespace render {
+  class LoadTextures;
+};
 namespace state {
   class Card;
   class Player;
@@ -13,6 +16,7 @@ namespace state {
   class Entity;
 }
 
+#include "LoadTextures.h"
 #include "state/Enemy.h"
 #include "state/Entity.h"
 #include "state/Player.h"
@@ -32,10 +36,10 @@ namespace render {
   public:
     Editeur ();
     ~Editeur ();
-    Editeur (int x, int y, float scale, std::string image, int number);
-    Editeur (int x, int y, float scale, state::Card* card, int statAttack, int statBlock);
-    Editeur (int x, int y, float scale, state::Player* player);
-    Editeur (int x, int y, float scale, std::unique_ptr<state::Enemy>& enemy);
+    Editeur (int x, int y, float scale, std::string image, int number, LoadTextures loadTextures);
+    Editeur (int x, int y, float scale, state::Card* card, int statAttack, int statBlock, LoadTextures loadTextures);
+    Editeur (int x, int y, float scale, state::Player* player, LoadTextures loadTextures);
+    Editeur (int x, int y, float scale, std::unique_ptr<state::Enemy>& enemy, LoadTextures loadTextures);
     bool Click (int x, int y);
     int const GetX ();
     void SetX (int x);
