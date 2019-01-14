@@ -31,7 +31,6 @@ Deck::Deck (int element, int size){
 }
 
 Deck::~Deck(){
-  std::cout << "Deck destroyed" << std::endl;
 }
 
 std::vector<Card*> Deck::GetCards (){

@@ -1,3 +1,5 @@
+#include <cstdlib>
+#include <fstream>
 #include <iostream>
 #include <memory>
 #include <mutex>
@@ -5,13 +7,13 @@
 #include <thread>
 #include <vector>
 
-#include <cstdlib>
 #include <stdio.h>
 #include <stdlib.h>
-#include <sys/types.h>
 #include <time.h>
 #include <unistd.h>
-#include <fstream>
+#include <SFML/Graphics.hpp>
+#include <SFML/Network.hpp>
+#include <sys/types.h>
 
 // Les lignes suivantes ne servent qu'à vérifier que la compilation avec SFML fonctionne
 #include <SFML/Graphics.hpp>
@@ -20,13 +22,57 @@
 #include "engine.h"
 #include "render.h"
 #include "state.h"
+#include "networkManager.h"
 
 using namespace ai;
 using namespace engine;
 using namespace render;
 using namespace state;
 using namespace std;
+using namespace networkManager;
 
+void testGet(){
+  std::cout<<"Connection to server"<<std::endl;
+  NetworkManager* NM = NetworkManager::instance();
+  std::cout<<"GET request sent"<<std::endl;
+  Json::Value out = NM->Get("/version");
+  std::cout<<"GET request done"<<std::endl;
+  std::cout<<out.toStyledString()<<std::endl;
+  std::cout<<"End of connection"<<std::endl;
+}
+
+void testPut(){
+  std::cout<<"Connection to server"<<std::endl;
+  Json::Value test;
+  test["name"] = "Bobibob";
+  test["age"] = 42;
+  NetworkManager* NM = NetworkManager::instance();
+  std::cout<<"PUT request sent"<<std::endl;
+  Json::Value out = NM->Put("/user", test);
+  std::cout<<"PUT request done"<<std::endl;
+  std::cout<<out.toStyledString()<<std::endl;
+  std::cout<<"End of connection"<<std::endl;
+}
+
+void testPost(){
+  std::cout<<"Connection to server"<<std::endl;
+  Json::Value test;
+  test["name"] = "Poney";
+  NetworkManager* NM = NetworkManager::instance();
+  std::cout<<"POST request sent"<<std::endl;
+  NM->Post("/user/1", test);
+  std::cout<<"POST request done"<<std::endl;
+  std::cout<<"End of connection"<<std::endl;
+}
+
+void testDelete(){
+  std::cout<<"Connection to server"<<std::endl;
+  NetworkManager* NM = NetworkManager::instance();
+  std::cout<<"DELETE request sent"<<std::endl;
+  NM->Delete("/user/1");
+  std::cout<<"DELETE request done"<<std::endl;
+  std::cout<<"End of connection"<<std::endl;
+}
 
 void testMulti(){
   PlayerManager* PM = PlayerManager::instance();
@@ -1410,40 +1456,38 @@ int main(int argc,char* argv[])
 
   if (argc == 2 and std::string(argv[1]) == "state")
     testState();
-
-
-  if (argc == 2 and std::string(argv[1] )== "render")
+  if (argc == 2 and std::string(argv[1])== "render")
     testSFML();
-
-  if (argc == 2 and std::string(argv[1] )== "render2")
+  if (argc == 2 and std::string(argv[1])== "render2")
     testSFML2();
-
-  if (argc == 2 and std::string(argv[1] )== "engine")
+  if (argc == 2 and std::string(argv[1])== "engine")
     testEngine();
-
-  if (argc == 2 and std::string(argv[1] )== "test")
+  if (argc == 2 and std::string(argv[1])== "test")
     test();
-
-  if (argc == 2 and std::string(argv[1] )== "random_ai")
+  if (argc == 2 and std::string(argv[1])== "random_ai")
     testRandomAI();
-
-  if (argc == 2 and std::string(argv[1] )== "heuristic_ai")
+  if (argc == 2 and std::string(argv[1])== "heuristic_ai")
     testHeurAI();
-
   if (argc == 2 and std::string(argv[1] )== "deep_ai")
     testDeepAI();
-
-  if (argc == 2 and std::string(argv[1] )== "deep_ai")
+  if (argc == 2 and std::string(argv[1])== "deep_ai")
     testDeepAI();
-
-  if (argc == 2 and std::string(argv[1] )== "thread")
+  if (argc == 2 and std::string(argv[1])== "thread")
     testThread();
-  if (argc == 2 and std::string(argv[1] )== "play")
+  if (argc == 2 and std::string(argv[1])== "play")
     testReplay();
-  if (argc == 2 and std::string(argv[1] )== "multi")
+  if (argc == 2 and std::string(argv[1])== "multi")
     testMulti();
-    delete SkillManager::instance();
-    delete CardManager::instance();
-    delete PlayerManager::instance();
-    return 0;
+  if (argc == 2 and std::string(argv[1])== "get")
+    testGet();
+  if (argc == 2 and std::string(argv[1])== "put")
+    testPut();
+  if (argc == 2 and std::string(argv[1])== "post")
+    testPost();
+  if (argc == 2 and std::string(argv[1])== "delete")
+    testDelete();
+  delete SkillManager::instance();
+  delete CardManager::instance();
+  delete PlayerManager::instance();
+  return 0;
 }

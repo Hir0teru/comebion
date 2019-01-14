@@ -3,4 +3,5 @@ build
 bin
 nbproject
 src/shared/*/*.h
+src/client/*/*.h
 *.dia.autosave

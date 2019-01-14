@@ -696,6 +696,7 @@ struct stdlib_includes {
    int sfmlGraphics;
    int jsoncpp;
    int jeayeson;
+   int sfmlNetwork;
 };
 
 void print_include_stdlib(struct stdlib_includes* si,char* name) {
@@ -802,6 +803,11 @@ void print_include_stdlib(struct stdlib_includes* si,char* name) {
        && (strstr(name,"json_") == name)) {
            print ("#include <jeayeson.hpp>\n");
            si->jeayeson = 1;
+       }
+       if (!si->sfmlNetwork
+       && (strstr(name,"sf::Http") == name)) {
+           print ("#include <SFML/Network.hpp>\n");
+           si->sfmlNetwork = 1;
        }
     }
 }
