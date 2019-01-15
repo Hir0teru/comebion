@@ -1027,8 +1027,8 @@ void testBuff(){
 
 void testCard(){
   std::cout << "#### Test of class Card ####" << std::endl;
-  Card* card1 = new Card((std::string) "test", -1, -1,(std::string) "", -1, -1, -1, -1, -1, -1, std::make_unique<Debuff>(), std::make_unique<Buff>());
-  Card* card2 = new Card((std::string) "test", -1, 4,(std::string) "", 5, -1, -1, -1, -1, -1, std::make_unique<Debuff>(), std::make_unique<Buff>());
+  Card* card1 = new Card((std::string) "test", -1, -1,0, -1, -1, -1, -1, -1, -1, std::make_unique<Debuff>(), std::make_unique<Buff>());
+  Card* card2 = new Card((std::string) "test", -1, 4,0, 5, -1, -1, -1, -1, -1, std::make_unique<Debuff>(), std::make_unique<Buff>());
   if (card1->GetCost() < 0){
     delete card1;
     delete card2;
@@ -1161,20 +1161,20 @@ void testEnemySkill(){
   EnemySkill* enemyskill1;
   EnemySkill* enemyskill2;
   try{
-    enemyskill1 = new EnemySkill(-1, -1, -1, std::make_unique<Buff>(), std::make_unique<Debuff>(),(std::string) "", -1, -1);
+    enemyskill1 = new EnemySkill(-1, -1, -1, std::make_unique<Buff>(), std::make_unique<Debuff>(),0, -1, -1);
     throw std::invalid_argument("Invalid Target");
   } catch (std::out_of_range){
-    enemyskill1 = new EnemySkill(-1, -1, -1, std::make_unique<Buff>(), std::make_unique<Debuff>(),(std::string) "", -1, 2);
+    enemyskill1 = new EnemySkill(-1, -1, -1, std::make_unique<Buff>(), std::make_unique<Debuff>(),0, -1, 2);
   } catch (std::invalid_argument){
     std::cout << "invalid_target_minus"<<std::endl;
     throw "Invalid target";
   }
 
   try{
-    enemyskill2 = new EnemySkill(-1, -1, -1, std::make_unique<Buff>(), std::make_unique<Debuff>(),(std::string) "", -1, 4);
+    enemyskill2 = new EnemySkill(-1, -1, -1, std::make_unique<Buff>(), std::make_unique<Debuff>(),0, -1, 4);
     throw std::invalid_argument("Invalid Target");
   } catch (std::out_of_range){
-    enemyskill2 = new EnemySkill(-1, -1, -1, std::make_unique<Buff>(), std::make_unique<Debuff>(),(std::string) "", -1, 2);
+    enemyskill2 = new EnemySkill(-1, -1, -1, std::make_unique<Buff>(), std::make_unique<Debuff>(),0, -1, 2);
   } catch (std::invalid_argument){
     std::cout << "invalid_target_plus"<<std::endl;
     throw "Invalid target";

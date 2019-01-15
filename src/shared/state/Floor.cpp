@@ -39,12 +39,15 @@ Floor::Floor (int floorNumber, int element){
       std::vector<std::unique_ptr<Enemy>> enemies;
       std::unique_ptr<Enemy> enemy= std::make_unique<Enemy>(element, 2);
       enemy->SetId(2);
+      enemy->SetLife(10);
       enemies.push_back(std::move(enemy));
       std::unique_ptr<Enemy> enemy11= std::make_unique<Enemy>(element, 2);
       enemy11->SetId(3);
+      enemy11->SetLife(10);
       enemies.push_back(std::move(enemy11));
       std::unique_ptr<Enemy> enemy111= std::make_unique<Enemy>(element, 2);
       enemy111->SetId(4);
+      enemy111->SetLife(10);
       enemies.push_back(std::move(enemy111));
       // if(rand()%100 > 40){
       //   std::unique_ptr<Enemy> enemy1= std::make_unique<Enemy>(element, 2);

@@ -11,16 +11,16 @@ namespace render {
   class LoadTextures {
     // Attributes
   public:
-    sf::Sprite TexturePile;
-    std::vector<sf::Sprite> TextureCard;
-    std::vector<sf::Sprite> TextureIcon;
-    std::vector<sf::Sprite> TexturePlayer;
-    std::vector<sf::Sprite> TextureEnemy;
-    std::vector<sf::Sprite> TextureElement;
-    std::vector<sf::Sprite> TextureBackGround;
-    sf::Sprite TextureButton;
-    std::vector<sf::Sprite> TextureMapBackground;
-    std::vector<sf::Sprite> TextureMapIcon;
+    sf::Texture texturePile;
+    std::vector<sf::Texture> textureCard;
+    std::vector<sf::Texture> textureIcon;
+    std::vector<sf::Texture> texturePlayer;
+    std::vector<sf::Texture> textureEnemy;
+    std::vector<sf::Texture> textureElement;
+    std::vector<sf::Texture> textureBackGround;
+    sf::Texture textureButton;
+    std::vector<sf::Texture> textureMapBackground;
+    std::vector<sf::Texture> textureMapIcon;
     // Operations
   public:
     LoadTextures ();

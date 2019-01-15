@@ -32,6 +32,9 @@ namespace render {
     int x;
     int y;
     sf::RenderTexture  texture;
+    sf::Sprite spritePile;
+    sf::Text textPile;
+    sf::Font fontPile;
     // Operations
   public:
     Editeur ();
@@ -50,6 +53,8 @@ namespace render {
     void SetEditeurCard (float scale, state::Card* card, int statAttack, int statBlock);
     void SetEditeurEnemy (float scale, std::unique_ptr<state::Enemy>& enemy);
     void SetEditeurPile (float scale, std::string image, int number);
+    sf::Sprite GetSpritePile ();
+    sf::Text GetTextPile ();
     // Setters and Getters
   };
 

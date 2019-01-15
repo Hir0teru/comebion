@@ -41,6 +41,7 @@ namespace render {
     // Attributes
   public:
     LoadTextures* loadTextures;
+    sf::Text turn;
   private:
     int dimensionX;
     int dimensionY;
@@ -72,7 +73,7 @@ namespace render {
     std::vector<std::unique_ptr<Editeur>>& GetTextureEnemies ();
     std::vector<std::unique_ptr<Editeur>>& GetTexturePlayers ();
     sf::RenderTexture& GetBackground ();
-    void SetBackground (std::string image);
+    void SetBackground (std::string image, int type);
     int GetDimensionX ();
     int GetDimensionY ();
     void SetDimensionX (int dimensionX);
@@ -107,6 +108,7 @@ namespace render {
     void SetSelectedCard (int selectedCard);
     int GetRenderState ();
     void SetRenderState (int renderState);
+    void Update ();
     // Setters and Getters
   };
 

@@ -17,6 +17,7 @@ using namespace state;
       renderState = 0; //0 = map, 1 = inside room, 2 = inside enemyroom and choosing card, 3 = game lost
       selectedCard = -1;
       this->loadTextures = new LoadTextures();
+      renderState = -1;
     }
 
     Rendu::~Rendu (){
@@ -64,6 +65,12 @@ using namespace state;
             sprite.setTexture(pile -> GetTexture().getTexture());
             sprite.setPosition(pile -> GetX(), pile -> GetY());
             texture.draw(sprite);
+            // pile->GetSpritePile().move(pile->GetX(), pile->GetY());
+            // pile->GetTextPile().move(pile->GetX(), pile->GetY());
+            // texture.draw(pile->GetSpritePile());
+            // texture.draw(pile->GetTextPile());
+            // pile->GetSpritePile().move(-pile->GetX(), -pile->GetY());
+            // pile->GetTextPile().move(-pile->GetX(), -pile->GetY());
           }
         }
         for (auto& card : textureCards){
@@ -109,18 +116,19 @@ using namespace state;
     sf::RenderTexture& Rendu::GetBackground (){
       return background;
     }
-    void Rendu::SetBackground (std::string image){
+    void Rendu::SetBackground (std::string image, int type){
       if(!background.create(dimensionX, dimensionY)){
         throw std::invalid_argument("error with background creation");
       }
-      sf::Texture newBackground;
-      if (!newBackground.loadFromFile(image)){
-        std::cout << "error with background image";
-        throw std::invalid_argument("error with input");
-      }
+      // sf::Texture newBackground;
+      // if (!newBackground.loadFromFile(image)){
+      //   std::cout << "error with background image";
+      //   throw std::invalid_argument("error with input");
+      // }
       background.clear(sf::Color::Transparent);
       sf::Sprite sprite;
-      sprite.setTexture(newBackground);
+      // sprite.setTexture(newBackground);
+      sprite.setTexture(loadTextures->textureBackGround[type]);
       sprite.scale(1080/dimensionX, 720/dimensionY);
       background.draw(sprite);
 
@@ -131,6 +139,7 @@ using namespace state;
         throw std::invalid_argument("error with argument");
       }
       text.setFont(font);
+      turn = text;
       int currentFloor = gameState -> GetMap() ->  GetCurrentFloor();
       int entityTurn = gameState -> GetMap() ->  GetFloors()[currentFloor]->GetCurrentRoom()->GetEntityTurn();
       if(entityTurn >=2){
@@ -439,9 +448,11 @@ void Rendu::SetTextureRoom(){
   texturePiles.clear();
   int floorNb = gameState -> GetMap() -> GetCurrentFloor();
   std::shared_ptr<Room>& room = gameState -> GetMap() -> GetFloors()[floorNb] -> GetCurrentRoom();
-
-
-  SetBackground(room -> GetImageInsideRoom());
+  int type;
+  if (gameState->GetIsGameLost()) type = 5;
+  else if(room->GetIsSleepRoom()) type = 0;
+  else type = room->GetElement();
+  SetBackground(room -> GetImageInsideRoom(), type);
 
 
 
@@ -587,7 +598,7 @@ void Rendu::SetTextureRoom(){
     else{
       // batlle room
       if( room -> GetIsGameLost()){
-        SetBackground("res/textures/background/you_died.jpg");
+        SetBackground("res/textures/background/you_died.jpg", 5);
       } else if( !room -> GetIsFightWon()){
         sf::Texture tmptexture;
         if(!tmptexture.loadFromFile("res/textures/other/button1.png")){
@@ -756,8 +767,9 @@ void Rendu::UpdateTexturesPlayers(){
   for (auto player : players){
     if(player -> GetIsEntityAlive()){
       AddTexturePlayer(x* scale/1.5, y * scale/1.5, scale/1.5, player);
-      x+= 250;
+
     }
+    x+= 250;
   }
 }
 
@@ -793,8 +805,9 @@ void Rendu::UpdateTexturesEnemies(){
   for (auto& enemy : enemies){
     if(enemy -> GetIsEntityAlive()){
       AddTextureEnemy(x* scale/1.5, y * scale/1.5, scale/1.5, enemy);
-      x-= 250;
+
     }
+    x-= 250;
   }
 }
 
@@ -812,4 +825,29 @@ int Rendu::GetRenderState(){
 
 void Rendu::SetRenderState(int renderState){
   this->renderState = renderState;
+}
+
+
+
+
+void Rendu::Update(){
+  int floorNb = gameState -> GetMap() -> GetCurrentFloor();
+  std::shared_ptr<Room>& room = gameState -> GetMap() -> GetFloors()[floorNb] -> GetCurrentRoom();
+  if(!gameState->GetIsInsideRoom() && renderState != 0){ //first time on map
+    this->SetTextureMap(1);
+    this->renderState = 0;
+  } else if(gameState->GetIsInsideRoom() && renderState != 1 ){ //first time on room
+    this->SetTextureRoom();
+    this->renderState = 1;
+  } else if(gameState->GetIsInsideRoom() && room->GetIsEnemyRoom() && room->GetIsFightWon() && renderState!=2){ //first fight won
+    this->SetTextureRoom();
+    this->renderState = 2;
+  } else if(gameState->GetIsInsideRoom() && renderState == 1){ //updateRoom while fighting
+      this->UpdateTexturesCards();
+      this->UpdateTexturesPiles();
+      this->UpdateTexturesEnemies();
+      this->UpdateTexturesPlayers();
+  } else if((gameState->GetIsInsideRoom() && renderState == 2 && room->GetIsEnemyRoom() && room->GetIsFightWon()) || room->GetIsSpecialTrainingRoom()){
+
+  }
 }
