@@ -27,37 +27,43 @@ Editeur::Editeur (int x, int y, float scale,  std::string image, int number, Loa
     }
     texture.clear(sf::Color::Transparent);
 
-    sf::Sprite sprite;
+    //sf::Sprite sprite;
     sf::Texture texturePile;
-    if (!texturePile.loadFromFile(image)){
-      std::cout << "error with image" << std::endl;
-      throw std::invalid_argument("error with argument");
-    }
-    sprite.setTexture(texturePile);
-    sprite.scale(scale, scale);
+    // if (!texturePile.loadFromFile(image)){
+    //   std::cout << "error with image" << std::endl;
+    //   throw std::invalid_argument("error with argument");
+    // }
+    // if (!texturePile.loadFromImage(loadTextures.texturePile)){
+    //   std::cout << "error with image" << std::endl;
+    //   throw std::invalid_argument("error with argument");
+    // }
+    // texturePile = loadTextures.texturePile;
+    spritePile.setTexture(loadTextures.texturePile);
+    spritePile.scale(scale, scale);
 
-    sf::Font font;
+    //sf::Font font;
 
-    if (!font.loadFromFile("res/text_fonts/attack of the cucumbers.ttf")){
+    if (!fontPile.loadFromFile("res/text_fonts/attack of the cucumbers.ttf")){
       std::cout <<"error with font name" << std::endl;
       throw std::invalid_argument("error with argument");
     }
-    sf::Text text;
-    text.setFont(font);
-    text.setString(std::to_string(number));
-    text.setColor(sf::Color::White);
-    text.setCharacterSize(50 * scale);
-    text.move(200 * scale, 500 * scale);
-    text.setStyle(sf::Text::Bold);
+    //sf::Text text;
+    textPile.setFont(fontPile);
+    textPile.setString(std::to_string(number));
+    textPile.setColor(sf::Color::White);
+    textPile.setCharacterSize(50 * scale);
+    textPile.move(200 * scale, 500 * scale);
+    textPile.setStyle(sf::Text::Bold);
 
-    texture.draw(sprite);
+    texture.draw(spritePile);
 
-    texture.draw(text);
+    texture.draw(textPile);
     texture.display();
 
 
   }
 
+//editeur for card
 Editeur::Editeur( int x, int y, float scale,state::Card* card, int statAttack, int statBlock, LoadTextures loadTextures){
   this -> x = x;
   this -> y = y;
@@ -78,48 +84,55 @@ Editeur::Editeur( int x, int y, float scale,state::Card* card, int statAttack, i
   }
   texture.clear(sf::Color::Transparent);
   sf::Texture cardtexture;
+  sf::Sprite spriteCard;
 
   //choose good back card according to the element
   int element = card -> GetElement();
   sf::Color tmpColor;
   if (element == 1){
     tmpColor = sf::Color(0,100,100);
-    if( !cardtexture.loadFromFile("res/textures/cards/card_air.png")){
-      std::cout << "error with cardtexture name" << std::endl;
-      throw std::invalid_argument("error with argument");
-    }
+    // if( !cardtexture.loadFromFile("res/textures/cards/card_air.png")){
+    //   std::cout << "error with cardtexture name" << std::endl;
+    //   throw std::invalid_argument("error with argument");
+    // }
+    cardtexture = loadTextures.textureCard[0];
   }
   else{
   if (element == 2 ){
     tmpColor = sf::Color::Blue;
-    if( !cardtexture.loadFromFile("res/textures/cards/card_water.png")){
-      std::cout << "error with cardtexture name" << std::endl;
-      throw std::invalid_argument("error with argument");
-    }
+    // if( !cardtexture.loadFromFile("res/textures/cards/card_water.png")){
+    //   std::cout << "error with cardtexture name" << std::endl;
+    //   throw std::invalid_argument("error with argument");
+    // }
+    cardtexture = loadTextures.textureCard[1];
 
   }
   else{
   if (element == 3 ){
     tmpColor = sf::Color(0, 128, 0);
-    if( !cardtexture.loadFromFile("res/textures/cards/card_earth.png")){
-      std::cout << "error with cardtexture name" << std::endl;
-      throw std::invalid_argument("error with argument");
-    }
+    // if( !cardtexture.loadFromFile("res/textures/cards/card_earth.png")){
+    //   std::cout << "error with cardtexture name" << std::endl;
+    //   throw std::invalid_argument("error with argument");
+    // }
+    cardtexture = loadTextures.textureCard[2];
   }
   else{
   if (element == 4 ){
     tmpColor = sf::Color::Red;
-    if( !cardtexture.loadFromFile("res/textures/cards/card_fire.png")){
-      std::cout << "error with cardtexture name" << std::endl;
-      throw std::invalid_argument("error with argument");
-    }
+    // if( !cardtexture.loadFromFile("res/textures/cards/card_fire.png")){
+    //   std::cout << "error with cardtexture name" << std::endl;
+    //   throw std::invalid_argument("error with argument");
+    // }
+    cardtexture = loadTextures.textureCard[3];
   }
   else{
   tmpColor = sf::Color::Black;
-  if (!cardtexture.loadFromFile("res/textures/cards/card_air.png")){
-    std::cout << "error with cardtexture name" << std::endl;
-    throw std::invalid_argument("error with argument");
-  }}}}}
+  // if (!cardtexture.loadFromFile("res/textures/cards/card_air.png")){
+  //   std::cout << "error with cardtexture name" << std::endl;
+  //   throw std::invalid_argument("error with argument");
+  //}
+  cardtexture = loadTextures.textureCard[0];
+  }}}}
 
 //name card
   sf::Text name;
@@ -132,7 +145,7 @@ Editeur::Editeur( int x, int y, float scale,state::Card* card, int statAttack, i
 
 
   //Fond de carte
-  sf::Sprite spriteCard;
+
   spriteCard.setTexture(cardtexture);
   spriteCard.scale(scale, scale);
 
@@ -142,12 +155,13 @@ Editeur::Editeur( int x, int y, float scale,state::Card* card, int statAttack, i
 
   // Image de carte
   sf::Sprite spriteImage;
-  sf::Texture imtexture;
-  if (!imtexture.loadFromFile(card -> GetImage())){
-    std::cout << "error with imtexture name" << std::endl;
-    throw std::invalid_argument("error with argument");
-  }
-  spriteImage.setTexture(imtexture);
+  // sf::Texture imtexture;
+  // if (!imtexture.loadFromFile(card -> GetImage())){
+  //   std::cout << "error with imtexture name" << std::endl;
+  //   throw std::invalid_argument("error with argument");
+  // }
+  // spriteImage.setTexture(imtexture);
+  spriteImage.setTexture(loadTextures.textureIcon[card->GetImage()]);
   spriteImage.move(100*scale,120*scale);
   spriteImage.scale(scale, scale);
 
@@ -160,13 +174,14 @@ Editeur::Editeur( int x, int y, float scale,state::Card* card, int statAttack, i
   int positionY = 340;
 
   if (card -> GetAttack() > 0){
-      sf::Texture tmptexture;
-      if(!tmptexture.loadFromFile("res/textures/icons/attack.png")){
-        std::cout << "error with attack"<<std::endl;
-        throw std::invalid_argument("error with argument");
-      }
+      //sf::Texture tmptexture;
+      // if(!tmptexture.loadFromFile("res/textures/icons/attack.png")){
+      //   std::cout << "error with attack"<<std::endl;
+      //   throw std::invalid_argument("error with argument");
+      // }
       sf::Sprite tmpsprite;
-      tmpsprite.setTexture(tmptexture);
+      // tmpsprite.setTexture(tmptexture);
+      tmpsprite.setTexture(loadTextures.textureIcon[3]);
       tmpsprite.move(positionX*scale, positionY*scale);
       tmpsprite.scale(scale/4, scale/4);
       texture.draw(tmpsprite);
@@ -191,13 +206,14 @@ Editeur::Editeur( int x, int y, float scale,state::Card* card, int statAttack, i
   }
   if (card -> GetDebuff() -> GetAttackMinus() > 0){
 
-    sf::Texture tmptexture;
-    if(!tmptexture.loadFromFile("res/textures/icons/attack_down.png")){
-      std::cout << "error with attack_down"<<std::endl;
-      throw std::invalid_argument("error with argument");
-    }
+    // sf::Texture tmptexture;
+    // if(!tmptexture.loadFromFile("res/textures/icons/attack_down.png")){
+    //   std::cout << "error with attack_down"<<std::endl;
+    //   throw std::invalid_argument("error with argument");
+    // }
     sf::Sprite tmpsprite;
-    tmpsprite.setTexture(tmptexture);
+    // tmpsprite.setTexture(tmptexture);
+    tmpsprite.setTexture(loadTextures.textureIcon[1]);
     tmpsprite.move(positionX*scale, positionY*scale);
     tmpsprite.scale(scale/6, scale/4);
     texture.draw(tmpsprite);
@@ -223,13 +239,14 @@ Editeur::Editeur( int x, int y, float scale,state::Card* card, int statAttack, i
   }
   if (card -> GetDebuff() -> GetBlockMinus() > 0){
 
-    sf::Texture tmptexture;
-    if(!tmptexture.loadFromFile("res/textures/icons/block_down.png")){
-      std::cout << "error with block_down"<<std::endl;
-      throw std::invalid_argument("error with argument");
-    }
+    // sf::Texture tmptexture;
+    // if(!tmptexture.loadFromFile("res/textures/icons/block_down.png")){
+    //   std::cout << "error with block_down"<<std::endl;
+    //   throw std::invalid_argument("error with argument");
+    // }
     sf::Sprite tmpsprite;
-    tmpsprite.setTexture(tmptexture);
+    // tmpsprite.setTexture(tmptexture);
+    tmpsprite.setTexture(loadTextures.textureIcon[4]);
     tmpsprite.move(positionX*scale, positionY*scale);
     tmpsprite.scale(scale/4, scale/4);
     texture.draw(tmpsprite);
@@ -253,13 +270,14 @@ Editeur::Editeur( int x, int y, float scale,state::Card* card, int statAttack, i
 
   }
   if (card -> GetBlock() > 0){
-    sf::Texture tmptexture;
-    if(!tmptexture.loadFromFile("res/textures/icons/block.png")){
-      std::cout << "error with block"<<std::endl;
-      throw std::invalid_argument("error with argument");
-    }
+    // sf::Texture tmptexture;
+    // if(!tmptexture.loadFromFile("res/textures/icons/block.png")){
+    //   std::cout << "error with block"<<std::endl;
+    //   throw std::invalid_argument("error with argument");
+    // }
     sf::Sprite tmpsprite;
-    tmpsprite.setTexture(tmptexture);
+    // tmpsprite.setTexture(tmptexture);
+    tmpsprite.setTexture(loadTextures.textureIcon[6]);
     tmpsprite.move(positionX*scale, positionY*scale);
     tmpsprite.scale(scale/4, scale/4);
     texture.draw(tmpsprite);
@@ -284,13 +302,14 @@ Editeur::Editeur( int x, int y, float scale,state::Card* card, int statAttack, i
   }
   if (card -> GetBuff() -> GetBlockPlus()> 0){
 
-    sf::Texture tmptexture;
-    if(!tmptexture.loadFromFile("res/textures/icons/block_up.png")){
-      std::cout << "error with block_up"<<std::endl;
-      throw std::invalid_argument("error with argument");
-    }
+    // sf::Texture tmptexture;
+    // if(!tmptexture.loadFromFile("res/textures/icons/block_up.png")){
+    //   std::cout << "error with block_up"<<std::endl;
+    //   throw std::invalid_argument("error with argument");
+    // }
     sf::Sprite tmpsprite;
-    tmpsprite.setTexture(tmptexture);
+    // tmpsprite.setTexture(tmptexture);
+    tmpsprite.setTexture(loadTextures.textureIcon[5]);
     tmpsprite.move(positionX*scale, positionY*scale);
     tmpsprite.scale(scale/4, scale/4);
     texture.draw(tmpsprite);
@@ -315,13 +334,14 @@ Editeur::Editeur( int x, int y, float scale,state::Card* card, int statAttack, i
   }
   if (card -> GetBuff() -> GetAttackPlus() > 0){
 
-    sf::Texture tmptexture;
-    if(!tmptexture.loadFromFile("res/textures/icons/attack_up.png")){
-      std::cout << "error with attack_up"<<std::endl;
-      throw std::invalid_argument("error with argument");
-    }
+    // sf::Texture tmptexture;
+    // if(!tmptexture.loadFromFile("res/textures/icons/attack_up.png")){
+    //   std::cout << "error with attack_up"<<std::endl;
+    //   throw std::invalid_argument("error with argument");
+    // }
     sf::Sprite tmpsprite;
-    tmpsprite.setTexture(tmptexture);
+    // tmpsprite.setTexture(tmptexture);
+    tmpsprite.setTexture(loadTextures.textureIcon[2]);
     tmpsprite.move((positionX)*scale, (positionY) *scale);
     tmpsprite.scale(scale/4, scale/4);
     texture.draw(tmpsprite);
@@ -346,13 +366,14 @@ Editeur::Editeur( int x, int y, float scale,state::Card* card, int statAttack, i
   }
   if (card -> GetBuff() -> GetHeal() > 0){
 
-    sf::Texture tmptexture;
-    if(!tmptexture.loadFromFile("res/textures/icons/heal_buff.png")){
-      std::cout << "error with heal"<<std::endl;
-      throw std::invalid_argument("error with argument");
-    }
+    // sf::Texture tmptexture;
+    // if(!tmptexture.loadFromFile("res/textures/icons/heal_buff.png")){
+    //   std::cout << "error with heal"<<std::endl;
+    //   throw std::invalid_argument("error with argument");
+    // }
     sf::Sprite tmpsprite;
-    tmpsprite.setTexture(tmptexture);
+    // tmpsprite.setTexture(tmptexture);
+    tmpsprite.setTexture(loadTextures.textureIcon[11]);
     tmpsprite.move(positionX*scale, positionY*scale);
     tmpsprite.scale(scale/4, scale/4);
     texture.draw(tmpsprite);
@@ -377,13 +398,14 @@ Editeur::Editeur( int x, int y, float scale,state::Card* card, int statAttack, i
   }
   if (card -> GetBuff() -> GetEvade() > 0){
 
-    sf::Texture tmptexture;
-    if(!tmptexture.loadFromFile("res/textures/icons/evade.png")){
-      std::cout << "error with evade"<<std::endl;
-      throw std::invalid_argument("error with argument");
-    }
+    // sf::Texture tmptexture;
+    // if(!tmptexture.loadFromFile("res/textures/icons/evade.png")){
+    //   std::cout << "error with evade"<<std::endl;
+    //   throw std::invalid_argument("error with argument");
+    // }
     sf::Sprite tmpsprite;
-    tmpsprite.setTexture(tmptexture);
+    // tmpsprite.setTexture(tmptexture);
+    tmpsprite.setTexture(loadTextures.textureIcon[9]);
     tmpsprite.move(positionX*scale, positionY*scale);
     tmpsprite.scale(scale/4, scale/4);
     texture.draw(tmpsprite);
@@ -408,13 +430,14 @@ Editeur::Editeur( int x, int y, float scale,state::Card* card, int statAttack, i
   }
   if (card -> GetBuff() -> GetRetaliate() > 0){
 
-    sf::Texture tmptexture;
-    if(!tmptexture.loadFromFile("res/textures/icons/retaliate.png")){
-      std::cout << "error with retaliate"<<std::endl;
-      throw std::invalid_argument("error with argument");
-    }
+    // sf::Texture tmptexture;
+    // if(!tmptexture.loadFromFile("res/textures/icons/retaliate.png")){
+    //   std::cout << "error with retaliate"<<std::endl;
+    //   throw std::invalid_argument("error with argument");
+    // }
     sf::Sprite tmpsprite;
-    tmpsprite.setTexture(tmptexture);
+    // tmpsprite.setTexture(tmptexture);
+    tmpsprite.setTexture(loadTextures.textureIcon[13]);
     tmpsprite.move(positionX*scale, positionY*scale);
     tmpsprite.scale(scale/4, scale/4);
     texture.draw(tmpsprite);
@@ -436,78 +459,17 @@ Editeur::Editeur( int x, int y, float scale,state::Card* card, int statAttack, i
       positionX += 60;  //200 = limit
     }
   }
-  if (card -> GetDraw() > 0){
-
-    sf::Texture tmptexture;
-    if(!tmptexture.loadFromFile("res/textures/icons/special_training.png")){
-      std::cout << "error with draw"<<std::endl;
-      throw std::invalid_argument("error with argument");
-    }
-    sf::Sprite tmpsprite;
-    tmpsprite.setTexture(tmptexture);
-    tmpsprite.move(positionX*scale, positionY*scale);
-    tmpsprite.scale(scale/4, scale/4);
-    texture.draw(tmpsprite);
-    //text for value of attack/buff/debuff/block
-    sf::Text tmptext;
-    tmptext.setString(std::to_string(card -> GetDraw()));
-    tmptext.setFont(font);
-    tmptext.setStyle(1);
-    tmptext.setCharacterSize(25 * scale);
-    tmptext.setColor(tmpColor);
-    tmptext.move((positionX + 45) * scale, (positionY + 25) * scale);
-    texture.draw(tmptext);
-
-    if (positionX == 250){
-      positionX = 70;
-      positionY +=70;
-    }
-    else{
-      positionX += 60;  //200 = limit
-    }
-  }
-
-  if (card -> GetDiscard() > 0){
-
-    sf::Texture tmptexture;
-    if(!tmptexture.loadFromFile("res/textures/icons/special_training.png")){
-      std::cout << "error with discard"<<std::endl;
-      throw std::invalid_argument("error with argument");
-    }
-    sf::Sprite tmpsprite;
-    tmpsprite.setTexture(tmptexture);
-    tmpsprite.move(positionX*scale, positionY*scale);
-    tmpsprite.scale(scale/4, scale/4);
-    tmpsprite.setColor(sf::Color::Black);
-    texture.draw(tmpsprite);
-    //text for value of attack/buff/debuff/block
-    sf::Text tmptext;
-    tmptext.setString(std::to_string(card -> GetDiscard()));
-    tmptext.setFont(font);
-    tmptext.setStyle(1);
-    tmptext.setCharacterSize(25 * scale);
-    tmptext.setColor(tmpColor);
-    tmptext.move((positionX + 45) * scale, (positionY + 25) * scale);
-    texture.draw(tmptext);
-
-    if (positionX == 250){
-      positionX = 70;
-      positionY +=70;
-    }
-    else{
-      positionX += 60;  //200 = limit
-    }
-  }
 
   if (card -> GetHeal() > 0){
 
-    sf::Texture tmptexture;
-    if(!tmptexture.loadFromFile("res/textures/icons/heal.png")){
-      std::cout << "error with heal(card)"<<std::endl;
-      throw std::invalid_argument("error with argument");
-    }
+    // sf::Texture tmptexture;
+    // if(!tmptexture.loadFromFile("res/textures/icons/heal.png")){
+    //   std::cout << "error with heal(card)"<<std::endl;
+    //   throw std::invalid_argument("error with argument");
+    // }
     sf::Sprite tmpsprite;
-    tmpsprite.setTexture(tmptexture);
+    // tmpsprite.setTexture(tmptexture);
+    tmpsprite.setTexture(loadTextures.textureIcon[12]);
     tmpsprite.move(positionX*scale, positionY*scale);
     tmpsprite.scale(scale/4, scale/4);
     texture.draw(tmpsprite);
@@ -533,13 +495,14 @@ Editeur::Editeur( int x, int y, float scale,state::Card* card, int statAttack, i
 //Target:
   if (card -> GetTarget() == 0 ){
 
-    sf::Texture tmptexture;
-    if(!tmptexture.loadFromFile("res/textures/icons/target.png")){
-      std::cout << "error with target"<<std::endl;
-      throw std::invalid_argument("error with argument");
-    }
+    // sf::Texture tmptexture;
+    // if(!tmptexture.loadFromFile("res/textures/icons/target.png")){
+    //   std::cout << "error with target"<<std::endl;
+    //   throw std::invalid_argument("error with argument");
+    // }
     sf::Sprite tmpsprite;
-    tmpsprite.setTexture(tmptexture);
+    // tmpsprite.setTexture(tmptexture);
+    tmpsprite.setTexture(loadTextures.textureIcon[16]);
     tmpsprite.move(325*scale, 50*scale);
     tmpsprite.scale(scale/6, scale/6);
     tmpsprite.setColor(sf::Color(0,128,0));
@@ -548,13 +511,14 @@ Editeur::Editeur( int x, int y, float scale,state::Card* card, int statAttack, i
 
   if (card -> GetTarget() == 1 ){
 
-    sf::Texture tmptexture;
-    if(!tmptexture.loadFromFile("res/textures/icons/target.png")){
-      std::cout << "error with target"<<std::endl;
-      throw std::invalid_argument("error with argument");
-    }
+    // sf::Texture tmptexture;
+    // if(!tmptexture.loadFromFile("res/textures/icons/target.png")){
+    //   std::cout << "error with target"<<std::endl;
+    //   throw std::invalid_argument("error with argument");
+    // }
     sf::Sprite tmpsprite;
-    tmpsprite.setTexture(tmptexture);
+    // tmpsprite.setTexture(tmptexture);
+    tmpsprite.setTexture(loadTextures.textureIcon[16]);
     tmpsprite.move(325*scale, 50*scale);
     tmpsprite.scale(scale/6, scale/6);
     tmpsprite.setColor(sf::Color::Red);
@@ -563,19 +527,22 @@ Editeur::Editeur( int x, int y, float scale,state::Card* card, int statAttack, i
 
   if (card -> GetTarget() == 2 ){
 
-    sf::Texture tmptexture;
-    if(!tmptexture.loadFromFile("res/textures/icons/target.png")){
-      std::cout << "error with target"<<std::endl;
-      throw std::invalid_argument("error with argument");
-    }
+    // sf::Texture tmptexture;
+    // if(!tmptexture.loadFromFile("res/textures/icons/target.png")){
+    //   std::cout << "error with target"<<std::endl;
+    //   throw std::invalid_argument("error with argument");
+    // }
     sf::Sprite tmpsprite;
     sf::Sprite tmpsprite2;
-    tmpsprite.setTexture(tmptexture);
+    // tmpsprite.setTexture(tmptexture);
+    tmpsprite.setTexture(loadTextures.textureIcon[16]);
+    // tmpsprite2.setTexture(tmptexture);
+    tmpsprite2.setTexture(loadTextures.textureIcon[16]);
     tmpsprite.move(315*scale, 50*scale);
     tmpsprite.scale(scale/6, scale/6);
     tmpsprite.setColor(sf::Color::Red);
     texture.draw(tmpsprite);
-    tmpsprite2.setTexture(tmptexture);
+    // tmpsprite2.setTexture(tmptexture);
     tmpsprite2.move(330*scale, 50*scale);
     tmpsprite2.scale(scale/6, scale/6);
     tmpsprite2.setColor(sf::Color::Red);
@@ -584,19 +551,22 @@ Editeur::Editeur( int x, int y, float scale,state::Card* card, int statAttack, i
 
   if (card -> GetTarget() == 3 ){
 
-    sf::Texture tmptexture;
-    if(!tmptexture.loadFromFile("res/textures/icons/target.png")){
-      std::cout << "error with target"<<std::endl;
-      throw std::invalid_argument("error with argument");
-    }
+    // sf::Texture tmptexture;
+    // if(!tmptexture.loadFromFile("res/textures/icons/target.png")){
+    //   std::cout << "error with target"<<std::endl;
+    //   throw std::invalid_argument("error with argument");
+    // }
     sf::Sprite tmpsprite;
-    tmpsprite.setTexture(tmptexture);
+    sf::Sprite tmpsprite2;
+    // tmpsprite.setTexture(tmptexture);
+    tmpsprite.setTexture(loadTextures.textureIcon[16]);
+    // tmpsprite2.setTexture(tmptexture);
+    tmpsprite2.setTexture(loadTextures.textureIcon[16]);
     tmpsprite.move(315*scale, 50*scale);
     tmpsprite.scale(scale/6, scale/6);
     tmpsprite.setColor(sf::Color(0,128,0));
     texture.draw(tmpsprite);
-    sf::Sprite tmpsprite2;
-    tmpsprite2.setTexture(tmptexture);
+    // tmpsprite2.setTexture(tmptexture);
     tmpsprite2.move(330*scale, 50*scale);
     tmpsprite2.scale(scale/6, scale/6);
     tmpsprite2.setColor(sf::Color(0,128,0));
@@ -619,7 +589,7 @@ Editeur::Editeur( int x, int y, float scale,state::Card* card, int statAttack, i
 
 }
 
-
+//editor for player
 Editeur::Editeur (int x, int y, float scale, state::Player* player, LoadTextures loadTextures){
   this -> x = x;
   this -> y = y;
@@ -630,14 +600,15 @@ Editeur::Editeur (int x, int y, float scale, state::Player* player, LoadTextures
   }
   texture.clear(sf::Color::Transparent);
 
-  sf::Texture playerTexture;
-  if (!playerTexture.loadFromFile(player -> GetImage())){
-    std::cout << "error with player image" << std::endl;
-    throw std::invalid_argument("error with argument");
-  }
+  // sf::Texture playerTexture;
+  // if (!playerTexture.loadFromFile(player -> GetImage())){
+  //   std::cout << "error with player image" << std::endl;
+  //   throw std::invalid_argument("error with argument");
+  // }
 
   sf::Sprite playerSprite;
-  playerSprite.setTexture(playerTexture);
+  // playerSprite.setTexture(playerTexture);
+  playerSprite.setTexture(loadTextures.texturePlayer[player->GetId()]);
   playerSprite.move( scale,80* scale);
   playerSprite.scale( scale/1.5, scale/1.5);
 
@@ -667,27 +638,27 @@ Editeur::Editeur (int x, int y, float scale, state::Player* player, LoadTextures
 
   // Element:
 
-  sf::Texture elementTexture;
-  if (player -> GetElement() == 1 && !elementTexture.loadFromFile("res/textures/icons/air.png")){
-    throw std::invalid_argument("error with image air");
-  }
-  else{
-    if (player -> GetElement() == 2 && !elementTexture.loadFromFile("res/textures/icons/water.png")){
-      throw std::invalid_argument("error with image air");
-    }
-    else{
-      if (player -> GetElement() == 3 && !elementTexture.loadFromFile("res/textures/icons/earth.png")){
-        throw std::invalid_argument("error with image air");
-      }
-      else{
-        if (player -> GetElement() == 4 && !elementTexture.loadFromFile("res/textures/icons/fire.png")){
-          throw std::invalid_argument("error with image air");
-        }
-      }
-    }
-  }
+  // sf::Texture elementTexture;
+  // if (player -> GetElement() == 1 && !elementTexture.loadFromFile("res/textures/icons/air.png")){
+  //   throw std::invalid_argument("error with image air");
+  // }
+  // else{
+  //   if (player -> GetElement() == 2 && !elementTexture.loadFromFile("res/textures/icons/water.png")){
+  //     throw std::invalid_argument("error with image air");
+  //   }
+  //   else{
+  //     if (player -> GetElement() == 3 && !elementTexture.loadFromFile("res/textures/icons/earth.png")){
+  //       throw std::invalid_argument("error with image air");
+  //     }
+  //     else{
+  //       if (player -> GetElement() == 4 && !elementTexture.loadFromFile("res/textures/icons/fire.png")){
+  //         throw std::invalid_argument("error with image air");
+  //       }
+  //     }
+  //   }
+  // }
   sf::Sprite elementSprite;
-  elementSprite.setTexture(elementTexture);
+  elementSprite.setTexture(loadTextures.textureElement[player->GetElement() - 1]);
   elementSprite.move(170 * scale, 275 * scale);
   elementSprite.scale(scale/6, scale/6);
 
@@ -732,13 +703,14 @@ Editeur::Editeur (int x, int y, float scale, state::Player* player, LoadTextures
   //Block:
 
   if (player -> GetBlock() > 0){
-    sf::Texture tmptexture;
-    if(!tmptexture.loadFromFile("res/textures/icons/block.png")){
-      std::cout << "error with attack up"<<std::endl;
-      throw std::invalid_argument("error with argument");
-    }
+    // sf::Texture tmptexture;
+    // if(!tmptexture.loadFromFile("res/textures/icons/block.png")){
+    //   std::cout << "error with attack up"<<std::endl;
+    //   throw std::invalid_argument("error with argument");
+    // }
     sf::Sprite tmpsprite;
-    tmpsprite.setTexture(tmptexture);
+    // tmpsprite.setTexture(tmptexture);
+    tmpsprite.setTexture(loadTextures.textureIcon[6]);
     tmpsprite.move(-15, 290 *scale);
     tmpsprite.scale(scale/4, scale/4);
     texture.draw(tmpsprite);
@@ -784,13 +756,14 @@ Editeur::Editeur (int x, int y, float scale, state::Player* player, LoadTextures
   int positionY = 330;
 
   if (player -> GetBuff().GetAttackPlus() > 0){
-    sf::Texture tmptexture;
-    if(!tmptexture.loadFromFile("res/textures/icons/attack_up.png")){
-      std::cout << "error with attack up"<<std::endl;
-      throw std::invalid_argument("error with argument");
-    }
+    // sf::Texture tmptexture;
+    // if(!tmptexture.loadFromFile("res/textures/icons/attack_up.png")){
+    //   std::cout << "error with attack up"<<std::endl;
+    //   throw std::invalid_argument("error with argument");
+    // }
     sf::Sprite tmpsprite;
-    tmpsprite.setTexture(tmptexture);
+    // tmpsprite.setTexture(tmptexture);
+    tmpsprite.setTexture(loadTextures.textureIcon[2]);
     tmpsprite.move(positionX*scale, positionY*scale);
     tmpsprite.scale(scale/6, scale/6);
     texture.draw(tmpsprite);
@@ -818,13 +791,14 @@ Editeur::Editeur (int x, int y, float scale, state::Player* player, LoadTextures
   }
 
   if (player -> GetBuff().GetBlockPlus() > 0){
-      sf::Texture tmptexture;
-      if(!tmptexture.loadFromFile("res/textures/icons/block_up.png")){
-        std::cout << "error with attack up"<<std::endl;
-        throw std::invalid_argument("error with argument");
-      }
+      // sf::Texture tmptexture;
+      // if(!tmptexture.loadFromFile("res/textures/icons/block_up.png")){
+      //   std::cout << "error with attack up"<<std::endl;
+      //   throw std::invalid_argument("error with argument");
+      // }
       sf::Sprite tmpsprite;
-      tmpsprite.setTexture(tmptexture);
+      // tmpsprite.setTexture(tmptexture);
+      tmpsprite.setTexture(loadTextures.textureIcon[5]);
       tmpsprite.move(positionX*scale, positionY*scale);
       tmpsprite.scale(scale/6, scale/6);
       texture.draw(tmpsprite);
@@ -852,13 +826,14 @@ Editeur::Editeur (int x, int y, float scale, state::Player* player, LoadTextures
     }
 
     if (player -> GetBuff().GetEvade() > 0){
-        sf::Texture tmptexture;
-        if(!tmptexture.loadFromFile("res/textures/icons/evade.png")){
-          std::cout << "error with attack up"<<std::endl;
-          throw std::invalid_argument("error with argument");
-        }
+        // sf::Texture tmptexture;
+        // if(!tmptexture.loadFromFile("res/textures/icons/evade.png")){
+        //   std::cout << "error with attack up"<<std::endl;
+        //   throw std::invalid_argument("error with argument");
+        // }
         sf::Sprite tmpsprite;
-        tmpsprite.setTexture(tmptexture);
+        // tmpsprite.setTexture(tmptexture);
+        tmpsprite.setTexture(loadTextures.textureIcon[9]);
         tmpsprite.move(positionX*scale, positionY*scale);
         tmpsprite.scale(scale/6, scale/6);
         texture.draw(tmpsprite);
@@ -886,13 +861,14 @@ Editeur::Editeur (int x, int y, float scale, state::Player* player, LoadTextures
       }
 
       if (player -> GetBuff().GetHeal() > 0){
-          sf::Texture tmptexture;
-          if(!tmptexture.loadFromFile("res/textures/icons/heal.png")){
-            std::cout << "error with attack up"<<std::endl;
-            throw std::invalid_argument("error with argument");
-          }
+          // sf::Texture tmptexture;
+          // if(!tmptexture.loadFromFile("res/textures/icons/heal.png")){
+          //   std::cout << "error with attack up"<<std::endl;
+          //   throw std::invalid_argument("error with argument");
+          // }
           sf::Sprite tmpsprite;
-          tmpsprite.setTexture(tmptexture);
+          // tmpsprite.setTexture(tmptexture);
+          tmpsprite.setTexture(loadTextures.textureIcon[12]);
           tmpsprite.move(positionX *scale, positionY *scale);
           tmpsprite.scale(scale/6, scale/6);
           texture.draw(tmpsprite);
@@ -920,13 +896,14 @@ Editeur::Editeur (int x, int y, float scale, state::Player* player, LoadTextures
         }
 
         if (player -> GetBuff().GetRetaliate() > 0){
-            sf::Texture tmptexture;
-            if(!tmptexture.loadFromFile("res/textures/icons/retaliate.png")){
-              std::cout << "error with attack up"<<std::endl;
-              throw std::invalid_argument("error with argument");
-            }
+            // sf::Texture tmptexture;
+            // if(!tmptexture.loadFromFile("res/textures/icons/retaliate.png")){
+            //   std::cout << "error with attack up"<<std::endl;
+            //   throw std::invalid_argument("error with argument");
+            // }
             sf::Sprite tmpsprite;
-            tmpsprite.setTexture(tmptexture);
+            // tmpsprite.setTexture(tmptexture);
+            tmpsprite.setTexture(loadTextures.textureIcon[13]);
             tmpsprite.move(positionX*scale,  positionY  *scale);
             tmpsprite.scale(scale/6, scale/6);
             texture.draw(tmpsprite);
@@ -954,13 +931,14 @@ Editeur::Editeur (int x, int y, float scale, state::Player* player, LoadTextures
           }
 
           if (player -> GetDebuff().GetBlockMinus() > 0){
-              sf::Texture tmptexture;
-              if(!tmptexture.loadFromFile("res/textures/icons/block_down.png")){
-                // std::cout << "error with attack up"<<std::endl;
-                throw std::invalid_argument("error with argument");
-              }
+              // sf::Texture tmptexture;
+              // if(!tmptexture.loadFromFile("res/textures/icons/block_down.png")){
+              //   // std::cout << "error with attack up"<<std::endl;
+              //   throw std::invalid_argument("error with argument");
+              // }
               sf::Sprite tmpsprite;
-              tmpsprite.setTexture(tmptexture);
+              // tmpsprite.setTexture(tmptexture);
+              tmpsprite.setTexture(loadTextures.textureIcon[4]);
               tmpsprite.move(positionX*scale, positionY*scale);
               tmpsprite.scale(scale/6, scale/6);
               texture.draw(tmpsprite);
@@ -988,13 +966,14 @@ Editeur::Editeur (int x, int y, float scale, state::Player* player, LoadTextures
             }
 
             if (player -> GetDebuff().GetAttackMinus() > 0){
-                sf::Texture tmptexture;
-                if(!tmptexture.loadFromFile("res/textures/icons/attack_down.png")){
-                  std::cout << "error with attack up"<<std::endl;
-                  throw std::invalid_argument("error with argument");
-                }
+                // sf::Texture tmptexture;
+                // if(!tmptexture.loadFromFile("res/textures/icons/attack_down.png")){
+                //   std::cout << "error with attack up"<<std::endl;
+                //   throw std::invalid_argument("error with argument");
+                // }
                 sf::Sprite tmpsprite;
-                tmpsprite.setTexture(tmptexture);
+                // tmpsprite.setTexture(tmptexture);
+                tmpsprite.setTexture(loadTextures.textureIcon[1]);
                 tmpsprite.move(positionX*scale, positionY*scale);
                 tmpsprite.scale(scale/6, scale/6);
                 texture.draw(tmpsprite);
@@ -1037,15 +1016,24 @@ Editeur::Editeur(int x, int y, float scale, std::unique_ptr<state::Enemy>& enemy
     throw std::invalid_argument("error with argument");
   }
   texture.clear(sf::Color::Transparent);
-
-  sf::Texture enemyTexture;
-  if (!enemyTexture.loadFromFile(enemy -> GetImage())){
-    std::cout << "error with enemy image" << std::endl;
-    throw std::invalid_argument("error with argument");
-  }
-
   sf::Sprite enemySprite;
-  enemySprite.setTexture(enemyTexture);
+
+  // sf::Texture enemyTexture;
+  if(enemy->GetType() == 0){
+    enemySprite.setTexture(loadTextures.textureEnemy[enemy->GetElement()*4 - 1]);
+  }
+  else if(enemy->GetType() == -1){//fire dragon
+    enemySprite.setTexture(loadTextures.textureEnemy[12]);
+  } else{
+    enemySprite.setTexture(loadTextures.textureEnemy[enemy->GetElement()*4 - 1 - enemy->GetType()]);
+  }
+  // if (!enemyTexture.loadFromFile(enemy -> GetImage())){
+  //   std::cout << "error with enemy image" << std::endl;
+  //   throw std::invalid_argument("error with argument");
+  // }
+
+
+  // enemySprite.setTexture(enemyTexture);
   enemySprite.move(0, 80 *scale);
   enemySprite.scale(  scale/1.5,  scale/1.5);
 
@@ -1075,27 +1063,28 @@ Editeur::Editeur(int x, int y, float scale, std::unique_ptr<state::Enemy>& enemy
 
 // Element:
 
-  sf::Texture elementTexture;
-  if (enemy -> GetElement() == 1 && !elementTexture.loadFromFile("res/textures/icons/air.png")){
-    throw std::invalid_argument("error with image air");
-  }
-  else{
-    if (enemy -> GetElement() == 2 && !elementTexture.loadFromFile("res/textures/icons/water.png")){
-      throw std::invalid_argument("error with image air");
-    }
-    else{
-      if (enemy -> GetElement() == 3 && !elementTexture.loadFromFile("res/textures/icons/earth.png")){
-        throw std::invalid_argument("error with image air");
-      }
-      else{
-        if (enemy -> GetElement() == 4 && !elementTexture.loadFromFile("res/textures/icons/fire.png")){
-          throw std::invalid_argument("error with image air");
-        }
-      }
-    }
-  }
+  // sf::Texture elementTexture;
+  // if (enemy -> GetElement() == 1 && !elementTexture.loadFromFile("res/textures/icons/air.png")){
+  //   throw std::invalid_argument("error with image air");
+  // }
+  // else{
+  //   if (enemy -> GetElement() == 2 && !elementTexture.loadFromFile("res/textures/icons/water.png")){
+  //     throw std::invalid_argument("error with image air");
+  //   }
+  //   else{
+  //     if (enemy -> GetElement() == 3 && !elementTexture.loadFromFile("res/textures/icons/earth.png")){
+  //       throw std::invalid_argument("error with image air");
+  //     }
+  //     else{
+  //       if (enemy -> GetElement() == 4 && !elementTexture.loadFromFile("res/textures/icons/fire.png")){
+  //         throw std::invalid_argument("error with image air");
+  //       }
+  //     }
+  //   }
+  // }
   sf::Sprite elementSprite;
-  elementSprite.setTexture(elementTexture);
+  // elementSprite.setTexture(elementTexture);
+  elementSprite.setTexture(loadTextures.textureElement[enemy->GetElement() - 1]);
   elementSprite.move(170 * scale, 275 * scale);
   elementSprite.scale(scale/6, scale/6);
 
@@ -1178,20 +1167,55 @@ int positionX = 10;
 int positionY = 330;
 
 if (enemy -> GetBuff().GetAttackPlus() > 0){
-    intent *= 1.5;
-    sf::Texture tmptexture;
-    if(!tmptexture.loadFromFile("res/textures/icons/attack_up.png")){
-      std::cout << "error with attack up"<<std::endl;
-      throw std::invalid_argument("error with argument");
-    }
+  // sf::Texture tmptexture;
+  // if(!tmptexture.loadFromFile("res/textures/icons/attack_up.png")){
+  //   std::cout << "error with attack up"<<std::endl;
+  //   throw std::invalid_argument("error with argument");
+  // }
+  sf::Sprite tmpsprite;
+  // tmpsprite.setTexture(tmptexture);
+  tmpsprite.setTexture(loadTextures.textureIcon[2]);
+  tmpsprite.move(positionX*scale, positionY*scale);
+  tmpsprite.scale(scale/6, scale/6);
+  texture.draw(tmpsprite);
+  //text for value of attack/buff/debuff/block
+  sf::Text tmptext;
+  tmptext.setString(std::to_string(enemy -> GetBuff(). GetAttackPlus()));
+  tmptext.setFont(lifefont);
+  tmptext.setStyle(1);
+  tmptext.setCharacterSize(18 * scale);
+  tmptext.setColor(sf::Color::Black);
+  tmptext.move((positionX + 10) * scale, (positionY + 15) * scale);
+  texture.draw(tmptext);
+  tmptext.setCharacterSize(15 * scale);
+  tmptext.setColor(sf::Color::White);
+  tmptext.move(0,2 * scale);
+  texture.draw(tmptext);
+
+  if (positionX +40 > 200){
+    positionX = 10;
+    positionY +=35;
+  }
+  else{
+    positionX += 40;  //200 = limit
+  }
+}
+
+if (enemy -> GetBuff().GetBlockPlus() > 0){
+    // sf::Texture tmptexture;
+    // if(!tmptexture.loadFromFile("res/textures/icons/block_up.png")){
+    //   std::cout << "error with attack up"<<std::endl;
+    //   throw std::invalid_argument("error with argument");
+    // }
     sf::Sprite tmpsprite;
-    tmpsprite.setTexture(tmptexture);
+    // tmpsprite.setTexture(tmptexture);
+    tmpsprite.setTexture(loadTextures.textureIcon[5]);
     tmpsprite.move(positionX*scale, positionY*scale);
     tmpsprite.scale(scale/6, scale/6);
     texture.draw(tmpsprite);
     //text for value of attack/buff/debuff/block
     sf::Text tmptext;
-    tmptext.setString(std::to_string(enemy -> GetBuff(). GetAttackPlus()));
+    tmptext.setString(std::to_string(enemy -> GetBuff(). GetBlockPlus()));
     tmptext.setFont(lifefont);
     tmptext.setStyle(1);
     tmptext.setCharacterSize(18 * scale);
@@ -1212,20 +1236,21 @@ if (enemy -> GetBuff().GetAttackPlus() > 0){
     }
   }
 
-  if (enemy -> GetBuff().GetBlockPlus() > 0){
-      sf::Texture tmptexture;
-      if(!tmptexture.loadFromFile("res/textures/icons/block_up.png")){
-        std::cout << "error with attack up"<<std::endl;
-        throw std::invalid_argument("error with argument");
-      }
+  if (enemy -> GetBuff().GetEvade() > 0){
+      // sf::Texture tmptexture;
+      // if(!tmptexture.loadFromFile("res/textures/icons/evade.png")){
+      //   std::cout << "error with attack up"<<std::endl;
+      //   throw std::invalid_argument("error with argument");
+      // }
       sf::Sprite tmpsprite;
-      tmpsprite.setTexture(tmptexture);
+      // tmpsprite.setTexture(tmptexture);
+      tmpsprite.setTexture(loadTextures.textureIcon[9]);
       tmpsprite.move(positionX*scale, positionY*scale);
       tmpsprite.scale(scale/6, scale/6);
       texture.draw(tmpsprite);
       //text for value of attack/buff/debuff/block
       sf::Text tmptext;
-      tmptext.setString(std::to_string(enemy -> GetBuff(). GetBlockPlus()));
+      tmptext.setString(std::to_string(enemy -> GetBuff(). GetEvade()));
       tmptext.setFont(lifefont);
       tmptext.setStyle(1);
       tmptext.setCharacterSize(18 * scale);
@@ -1246,20 +1271,21 @@ if (enemy -> GetBuff().GetAttackPlus() > 0){
       }
     }
 
-    if (enemy -> GetBuff().GetEvade() > 0){
-        sf::Texture tmptexture;
-        if(!tmptexture.loadFromFile("res/textures/icons/evade.png")){
-          std::cout << "error with attack up"<<std::endl;
-          throw std::invalid_argument("error with argument");
-        }
+    if (enemy -> GetBuff().GetHeal() > 0){
+        // sf::Texture tmptexture;
+        // if(!tmptexture.loadFromFile("res/textures/icons/heal.png")){
+        //   std::cout << "error with attack up"<<std::endl;
+        //   throw std::invalid_argument("error with argument");
+        // }
         sf::Sprite tmpsprite;
-        tmpsprite.setTexture(tmptexture);
-        tmpsprite.move(positionX*scale, positionY*scale);
+        // tmpsprite.setTexture(tmptexture);
+        tmpsprite.setTexture(loadTextures.textureIcon[12]);
+        tmpsprite.move(positionX *scale, positionY *scale);
         tmpsprite.scale(scale/6, scale/6);
         texture.draw(tmpsprite);
         //text for value of attack/buff/debuff/block
         sf::Text tmptext;
-        tmptext.setString(std::to_string(enemy -> GetBuff(). GetEvade()));
+        tmptext.setString(std::to_string(enemy -> GetBuff(). GetHeal()));
         tmptext.setFont(lifefont);
         tmptext.setStyle(1);
         tmptext.setCharacterSize(18 * scale);
@@ -1280,20 +1306,21 @@ if (enemy -> GetBuff().GetAttackPlus() > 0){
         }
       }
 
-      if (enemy -> GetBuff().GetHeal() > 0){
-          sf::Texture tmptexture;
-          if(!tmptexture.loadFromFile("res/textures/icons/heal.png")){
-            std::cout << "error with attack up"<<std::endl;
-            throw std::invalid_argument("error with argument");
-          }
+      if (enemy -> GetBuff().GetRetaliate() > 0){
+          // sf::Texture tmptexture;
+          // if(!tmptexture.loadFromFile("res/textures/icons/retaliate.png")){
+          //   std::cout << "error with attack up"<<std::endl;
+          //   throw std::invalid_argument("error with argument");
+          // }
           sf::Sprite tmpsprite;
-          tmpsprite.setTexture(tmptexture);
-          tmpsprite.move(positionX *scale, positionY *scale);
+          // tmpsprite.setTexture(tmptexture);
+          tmpsprite.setTexture(loadTextures.textureIcon[13]);
+          tmpsprite.move(positionX*scale,  positionY  *scale);
           tmpsprite.scale(scale/6, scale/6);
           texture.draw(tmpsprite);
           //text for value of attack/buff/debuff/block
           sf::Text tmptext;
-          tmptext.setString(std::to_string(enemy -> GetBuff(). GetHeal()));
+          tmptext.setString(std::to_string(enemy -> GetBuff(). GetRetaliate()));
           tmptext.setFont(lifefont);
           tmptext.setStyle(1);
           tmptext.setCharacterSize(18 * scale);
@@ -1314,20 +1341,21 @@ if (enemy -> GetBuff().GetAttackPlus() > 0){
           }
         }
 
-        if (enemy -> GetBuff().GetRetaliate() > 0){
-            sf::Texture tmptexture;
-            if(!tmptexture.loadFromFile("res/textures/icons/retaliate.png")){
-              std::cout << "error with attack up"<<std::endl;
-              throw std::invalid_argument("error with argument");
-            }
+        if (enemy -> GetDebuff().GetBlockMinus() > 0){
+            // sf::Texture tmptexture;
+            // if(!tmptexture.loadFromFile("res/textures/icons/block_down.png")){
+            //   // std::cout << "error with attack up"<<std::endl;
+            //   throw std::invalid_argument("error with argument");
+            // }
             sf::Sprite tmpsprite;
-            tmpsprite.setTexture(tmptexture);
-            tmpsprite.move(positionX*scale, positionY  *scale);
+            // tmpsprite.setTexture(tmptexture);
+            tmpsprite.setTexture(loadTextures.textureIcon[4]);
+            tmpsprite.move(positionX*scale, positionY*scale);
             tmpsprite.scale(scale/6, scale/6);
             texture.draw(tmpsprite);
             //text for value of attack/buff/debuff/block
             sf::Text tmptext;
-            tmptext.setString(std::to_string(enemy -> GetBuff(). GetRetaliate()));
+            tmptext.setString(std::to_string(enemy -> GetDebuff(). GetBlockMinus()));
             tmptext.setFont(lifefont);
             tmptext.setStyle(1);
             tmptext.setCharacterSize(18 * scale);
@@ -1348,20 +1376,21 @@ if (enemy -> GetBuff().GetAttackPlus() > 0){
             }
           }
 
-          if (enemy -> GetDebuff().GetBlockMinus() > 0){
-              sf::Texture tmptexture;
-              if(!tmptexture.loadFromFile("res/textures/icons/block_down.png")){
-                // std::cout << "error with attack up"<<std::endl;
-                throw std::invalid_argument("error with argument");
-              }
+          if (enemy -> GetDebuff().GetAttackMinus() > 0){
+              // sf::Texture tmptexture;
+              // if(!tmptexture.loadFromFile("res/textures/icons/attack_down.png")){
+              //   std::cout << "error with attack up"<<std::endl;
+              //   throw std::invalid_argument("error with argument");
+              // }
               sf::Sprite tmpsprite;
-              tmpsprite.setTexture(tmptexture);
+              // tmpsprite.setTexture(tmptexture);
+              tmpsprite.setTexture(loadTextures.textureIcon[1]);
               tmpsprite.move(positionX*scale, positionY*scale);
               tmpsprite.scale(scale/6, scale/6);
               texture.draw(tmpsprite);
               //text for value of attack/buff/debuff/block
               sf::Text tmptext;
-              tmptext.setString(std::to_string(enemy -> GetDebuff(). GetBlockMinus()));
+              tmptext.setString(std::to_string(enemy -> GetDebuff(). GetAttackMinus()));
               tmptext.setFont(lifefont);
               tmptext.setStyle(1);
               tmptext.setCharacterSize(18 * scale);
@@ -1382,47 +1411,13 @@ if (enemy -> GetBuff().GetAttackPlus() > 0){
               }
             }
 
-            if (enemy -> GetDebuff().GetAttackMinus() > 0){
-                intent *= 0.5;
-                sf::Texture tmptexture;
-                if(!tmptexture.loadFromFile("res/textures/icons/attack_down.png")){
-                  std::cout << "error with attack up"<<std::endl;
-                  throw std::invalid_argument("error with argument");
-                }
-                sf::Sprite tmpsprite;
-                tmpsprite.setTexture(tmptexture);
-                tmpsprite.move(positionX*scale, positionY*scale);
-                tmpsprite.scale(scale/6, scale/6);
-                texture.draw(tmpsprite);
-                //text for value of attack/buff/debuff/block
-                sf::Text tmptext;
-                tmptext.setString(std::to_string(enemy -> GetDebuff(). GetAttackMinus()));
-                tmptext.setFont(lifefont);
-                tmptext.setStyle(1);
-                tmptext.setCharacterSize(18 * scale);
-                tmptext.setColor(sf::Color::Black);
-                tmptext.move((positionX + 10) * scale, (positionY + 15) * scale);
-                texture.draw(tmptext);
-                tmptext.setCharacterSize(15 * scale);
-                tmptext.setColor(sf::Color::White);
-                tmptext.move(0,2 * scale);
-                texture.draw(tmptext);
-
-                if (positionX +40 > 200){
-                  positionX = 10;
-                  positionY +=35;
-                }
-                else{
-                  positionX += 40;  //200 = limit
-                }
-              }
-
-  sf::Texture intenttext;
-  if(!intenttext.loadFromFile(enemy -> GetSkills()[enemy -> GetIntent()] -> GetIntentImage())){
-    throw std::invalid_argument("error with intentImage");
-  }
+  // sf::Texture intenttext;
+  // if(!intenttext.loadFromFile(enemy -> GetSkills()[enemy -> GetIntent()] -> GetIntentImage())){
+  //   throw std::invalid_argument("error with intentImage");
+  // }
   sf::Sprite intentSprite;
-  intentSprite.setTexture(intenttext);
+  // intentSprite.setTexture(intenttext);
+  intentSprite.setTexture(loadTextures.textureIcon[enemy -> GetSkills()[enemy -> GetIntent()] -> GetIntentImage()]);
   intentSprite.scale(scale/3, scale/3);
   intentSprite.move(70 * scale,250 * scale);
   texture.draw(intentSprite);
@@ -1560,11 +1555,11 @@ void Editeur::SetEditeurCard( float scale, state::Card* card, int statAttack , i
   // Image de carte
   sf::Sprite spriteImage;
   sf::Texture imtexture;
-  if (!imtexture.loadFromFile(card -> GetImage())){
+  if (!imtexture.loadFromFile("res/textures/icons/attack.png")){
     std::cout << "error with imtexture name" << std::endl;
     throw std::invalid_argument("error with argument");
   }
-  spriteImage.setTexture(imtexture);
+  // spriteImage.setTexture(loadTextures.textureIcon[card->GetImage()]);
   spriteImage.move(100*scale,120*scale);
   spriteImage.scale(scale, scale);
 
@@ -2828,9 +2823,9 @@ if (enemy -> GetBuff().GetAttackPlus() > 0){
               }
 
   sf::Texture intenttext;
-  if(!intenttext.loadFromFile(enemy -> GetSkills()[enemy -> GetIntent()] -> GetIntentImage())){
-    throw std::invalid_argument("error with intentImage");
-  }
+  // if(!intenttext.loadFromFile(enemy -> GetSkills()[enemy -> GetIntent()] -> GetIntentImage())){
+  //   throw std::invalid_argument("error with intentImage");
+  // }
   sf::Sprite intentSprite;
   intentSprite.setTexture(intenttext);
   intentSprite.scale(scale/3, scale/3);
@@ -2893,3 +2888,11 @@ void Editeur::SetEditeurPile ( float scale,  std::string image, int number){
     texture.display();
 
   }
+
+  sf::Sprite Editeur::GetSpritePile(){
+    return spritePile;
+  }
+
+sf::Text Editeur::GetTextPile(){
+  return textPile;
+}

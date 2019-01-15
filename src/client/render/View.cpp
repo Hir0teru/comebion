@@ -93,22 +93,29 @@ void View::Draw (std::mutex* mtx, bool* pause, bool* run){
                   std::cout << " clicked on next turn" << std::endl;
                   moteur -> AddCommand(std::make_shared<CommandNextEntity>());
                   //moteur -> Update();
-                  // rendu -> UpdateTexturesCards();
-                  // rendu -> UpdateTexturesPiles();
-                  // rendu -> DrawInsideRoom();
-                  // sprite.setTexture(rendu -> GetTexture().getTexture());
+                   rendu -> UpdateTexturesCards();
+                   rendu -> UpdateTexturesPiles();
+                   rendu -> DrawInsideRoom();
+                   sprite.setTexture(rendu -> GetTexture().getTexture());
 
               } else if((gameState ->GetMap() ->  GetFloors()[gameState -> GetMap() -> GetCurrentFloor()] -> GetCurrentRoom() -> GetIsSpecialTrainingRoom() ||
                     (gameState ->GetMap() ->  GetFloors()[gameState -> GetMap() -> GetCurrentFloor()] -> GetCurrentRoom() -> GetIsEnemyRoom() &&
-                    gameState -> GetMap() -> GetFloors()[gameState ->GetMap() ->  GetCurrentFloor()] -> GetCurrentRoom() -> GetIsFightWon()))&&
+                     gameState -> GetMap() -> GetFloors()[gameState ->GetMap() ->  GetCurrentFloor()] -> GetCurrentRoom() -> GetIsFightWon()))&&
                 (int) sf::Mouse::getPosition(window).x > 488 && (int) sf::Mouse::getPosition(window).x < 595 &&
                 (int) sf::Mouse::getPosition(window).y > 460 && (int) sf::Mouse::getPosition(window).y < 486){
                   std::cout << " clicked on pass" << std::endl;
                   moteur -> AddCommand(std::make_shared<CommandNextEntity>());
-                  // rendu -> SetTextureRoom();
-                  // rendu -> DrawInsideRoom();
+                   rendu -> UpdateTexturesCards();
+                   rendu -> DrawInsideRoom();
                   // sprite.setTexture(rendu -> GetTexture().getTexture());
 
+              }  else if((gameState ->GetMap() ->  GetFloors()[gameState -> GetMap() -> GetCurrentFloor()] -> GetCurrentRoom() -> GetIsSpecialTrainingRoom() ||
+                    (gameState ->GetMap() ->  GetFloors()[gameState -> GetMap() -> GetCurrentFloor()] -> GetCurrentRoom() -> GetIsEnemyRoom() &&
+                    gameState -> GetMap() -> GetFloors()[gameState ->GetMap() ->  GetCurrentFloor()] -> GetCurrentRoom() -> GetIsFightWon()))&& cardSelected > -1){
+
+                  int entityID = gameState ->GetMap() ->  GetFloors()[gameState -> GetMap() -> GetCurrentFloor()] -> GetCurrentRoom()->GetEntityTurn();
+                  moteur -> AddCommand(std::make_shared<CommandAddCard>(entityID, cardSelected, gameState->GetPlayers()[entityID]->GetDeck()->GetCards().size() == 15));
+                  moteur -> AddCommand(std::make_shared<CommandNextEntity>());
               } else if(gameState ->GetMap() ->  GetFloors()[gameState -> GetMap() -> GetCurrentFloor()] -> GetCurrentRoom() -> GetIsSleepRoom() &&
                 (int) sf::Mouse::getPosition(window).x > 355 && (int) sf::Mouse::getPosition(window).x < 465 &&
                 (int) sf::Mouse::getPosition(window).y > 290 && (int) sf::Mouse::getPosition(window).y < 315){
@@ -116,6 +123,7 @@ void View::Draw (std::mutex* mtx, bool* pause, bool* run){
                   int heal = gameState ->GetMap() ->  GetFloors()[gameState -> GetMap() -> GetCurrentFloor()] -> GetCurrentRoom()->GetHeal();
                   int entityID = gameState ->GetMap() ->  GetFloors()[gameState -> GetMap() -> GetCurrentFloor()] -> GetCurrentRoom()->GetEntityTurn();
                   moteur->AddCommand(std::make_shared<CommandHeal>(heal, entityID ));
+                  moteur -> AddCommand(std::make_shared<CommandNextEntity>());
 
               } else if(gameState ->GetMap() ->  GetFloors()[gameState -> GetMap() -> GetCurrentFloor()] -> GetCurrentRoom() -> GetIsSleepRoom() &&
                 (int) sf::Mouse::getPosition(window).x > 545 && (int) sf::Mouse::getPosition(window).x < 655 &&
@@ -125,6 +133,7 @@ void View::Draw (std::mutex* mtx, bool* pause, bool* run){
                   int statAttack = gameState->GetPlayers()[entityID]->GetStatAttack();
                   int statBlock= gameState->GetPlayers()[entityID]->GetStatBlock();
                   moteur->AddCommand(std::make_shared<CommandChangeStat>(entityID, statAttack + 2,statBlock + 2));
+                  moteur -> AddCommand(std::make_shared<CommandNextEntity>());
               }
 
             } else{ // a card was selected

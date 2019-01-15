@@ -10,7 +10,7 @@ EnemySkill::EnemySkill ()
 }
 
 EnemySkill::EnemySkill (int attack, int heal, int block, std::unique_ptr<Buff> buff,
-   std::unique_ptr<Debuff> debuff, std::string intentimage, int cooldown, int target){
+   std::unique_ptr<Debuff> debuff, int intentimage, int cooldown, int target){
      if (attack < 0) {
        this->attack = 0;
      }
@@ -79,7 +79,7 @@ Buff* EnemySkill::GetBuff (){
 Debuff* EnemySkill::GetDebuff (){
   return debuff.get();
 }
-std::string EnemySkill::GetIntentImage (){
+int EnemySkill::GetIntentImage (){
   return intentImage;
 }
 int EnemySkill::GetCooldown (){

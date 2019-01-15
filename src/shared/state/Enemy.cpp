@@ -22,6 +22,7 @@ Enemy::Enemy (){
     // skills.push_back((*SM)[i]);
   }
   intent = 0;
+  type = 1;
 }
 
 
@@ -30,6 +31,7 @@ Enemy::Enemy (){
 
 Enemy::Enemy(int element, int nb):Enemy(){
   SkillManager* SM = SkillManager::instance();
+  this->type = nb;
   this->SetElement(element);
   this -> SetIsEntityAlive(true);
   this->SetIsPlayer(false);
@@ -179,4 +181,12 @@ void Enemy::SetReward (std::vector<Card*> newReward){
   else{
     this->reward = newReward;
   }
+}
+
+int Enemy::GetType(){
+  return type;
+}
+
+void Enemy::SetType(int type){
+  this->type = type;
 }

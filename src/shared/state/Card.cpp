@@ -23,13 +23,13 @@ Card::Card (std::string type, int element){
   if (type == "basic attack"){
     attack = 5;
     block = 0;
-    image = "/home/ombre/Documents/Projet/comebion/res/textures/cards/bending/air_bending/1.png";
+    image = 3;
   }
   /// Nombre de block créé par la carte (à destination du joueur)
   else {
     block = 5;
     attack = 0;
-    image = "/home/ombre/Documents/Projet/comebion/res/textures/cards/bending/air_bending/2.png";
+    image = 6;
   }
 
   /// Nombre de cartes pichées
@@ -44,7 +44,7 @@ Card::Card (std::string type, int element){
   buff = std::move(std::make_unique<Buff>());
 };
 
-Card::Card (std::string name, int cost, int target, std::string image, int element, int attack, int block, int draw, int discard,  int heal, std::unique_ptr<Debuff> debuff, std::unique_ptr<Buff> buff){
+Card::Card (std::string name, int cost, int target, int image, int element, int attack, int block, int draw, int discard,  int heal, std::unique_ptr<Debuff> debuff, std::unique_ptr<Buff> buff){
 
   this->name = name;
   /// Coût de la carte en energie
@@ -131,7 +131,7 @@ int Card::GetTarget (){
   return target;
 };
 
-std::string Card::GetImage (){
+int Card::GetImage (){
   return image;
 };
 
