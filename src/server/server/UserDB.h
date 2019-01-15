@@ -3,7 +3,7 @@
 
 #include "User.h"
 
-/// class UserDB - 
+/// class UserDB -
 class UserDB {
   // Associations
   // Attributes
@@ -17,6 +17,7 @@ public:
   int addUser (unique_ptr<User> user);
   void setUser (int id, unique_ptr<User> user);
   void removeUser (int id);
+  map<int,unique_ptr<User> >& getUsers();
 };
 
 #endif

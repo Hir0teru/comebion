@@ -1,4 +1,4 @@
-/** 
+/**
  * @file UserDB.cpp
  * @author Philippe-Henri Gosselin
  * @date 9 décembre 2015
@@ -8,7 +8,7 @@
 #include "UserDB.hpp"
 
 UserDB::UserDB() : idseq(1) {
-    
+
 }
 
 const User* UserDB::getUser (int id) const {
@@ -38,4 +38,6 @@ void UserDB::removeUser (int id) {
     users.erase(ite);
 }
 
-
+map<int,unique_ptr<User> >& UserDB::getUsers () {
+    return users;
+}

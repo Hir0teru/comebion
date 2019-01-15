@@ -7,18 +7,20 @@ using namespace networkManager;
 NetworkManager* NetworkManager::inst;
 
 NetworkManager::NetworkManager(){
+}
+
+void NetworkManager::InitConnection(){
   Json::Value jsonInit;
   Json::Value jsonOut;
   http.setHost(url, port);
   name = rand();
   jsonInit["name"] = name;
-
+  if (this->id >= 0){
+    this->Delete("/user/"+std::to_string(id));
+    this->id = -1;
+  }
   jsonOut = this->Put("/user", jsonInit);
   this->id = jsonOut["id"].asInt();
-}
-
-void NetworkManager::InitConnection(){
-  http.setHost(url, port);
 }
 
 NetworkManager* NetworkManager::instance (){
@@ -119,7 +121,6 @@ std::string NetworkManager::GetUrl (){
 
 void NetworkManager::SetUrl (std::string url){
   this->url = url;
-  this->InitConnection();
 }
 
 int NetworkManager::GetPort (){
@@ -128,7 +129,6 @@ int NetworkManager::GetPort (){
 
 void NetworkManager::SetPort (int port){
   this->port = port;
-  this->InitConnection();
 }
 
 int NetworkManager::GetId (){
@@ -148,6 +148,6 @@ void NetworkManager::SetName (int name){
 }
 
 NetworkManager::~NetworkManager (){
-  this->Delete("/user/"+std::to_string(id));
-  std::cout<<"User "<<id<<" deleted"<<std::endl;
+  // this->Delete("/user/"+std::to_string(id));
+  // std::cout<<"User "<<id<<" deleted"<<std::endl;
 }

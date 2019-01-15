@@ -13,10 +13,19 @@ UserService::UserService (UserDB& userDB) : AbstractService("/user"),
 }
 
 HttpStatus UserService::get (Json::Value& out, int id) const {
-  const User* user = userDB.getUser(id);
-  if (!user)
-      throw ServiceException(HttpStatus::NOT_FOUND,"Invalid user id");
-  out["name"] = user->name;
+  if (id >= 0){
+    const User* user = userDB.getUser(id);
+    if (!user)
+        throw ServiceException(HttpStatus::NOT_FOUND,"Invalid user id");
+    out["name"] = user->name;
+  } else {
+    for (auto it=userDB.getUsers().begin(); it!=userDB.getUsers().end(); ++it) {
+      Json::Value val;
+      val["name"] = it->second->name;
+      out.append(val);
+    }
+  }
+
   return HttpStatus::OK;
 }
 
@@ -33,9 +42,13 @@ HttpStatus UserService::post (const Json::Value& in, int id) {
 }
 
 HttpStatus UserService::put (Json::Value& out, const Json::Value& in) {
+  if (userDB.getUsers().size() <= 1 ){
     int name = in["name"].asInt();
     out["id"] = userDB.addUser(std::make_unique<User>(name));
     return HttpStatus::CREATED;
+  } else {
+    return HttpStatus::NO_CONTENT;
+  }
 }
 
 HttpStatus UserService::remove (int id) {

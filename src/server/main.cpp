@@ -196,25 +196,21 @@ int main(int argc,char* argv[])
   if (argc == 2 and std::string(argv[1] )== "record")
     testRecord();
 
-  if (argc == 3 and std::string(argv[1] )== "listen"){
+  if (argc == 2 and std::string(argv[1] )== "listen"){
     try {
         ServicesManager servicesManager;
        servicesManager.registerService(std::make_unique<VersionService>());
 
         UserDB userDB;
-        userDB.addUser(std::make_unique<User>(73));
+        // userDB.addUser(std::make_unique<User>(73));
        servicesManager.registerService(std::make_unique<UserService>(std::ref(userDB)));
 
         struct MHD_Daemon *d;
-        if (argc != 3) {
-            printf("%s listen PORT\n", argv[0]);
-            return 1;
-        }
         d = MHD_start_daemon(// MHD_USE_SELECT_INTERNALLY | MHD_USE_DEBUG | MHD_USE_POLL,
                 MHD_USE_SELECT_INTERNALLY | MHD_USE_DEBUG,
                 // MHD_USE_THREAD_PER_CONNECTION | MHD_USE_DEBUG | MHD_USE_POLL,
                 // MHD_USE_THREAD_PER_CONNECTION | MHD_USE_DEBUG,
-                atoi(argv[2]),
+                8080,
                 NULL, NULL,
                 &main_handler, (void*) &servicesManager,
                 MHD_OPTION_NOTIFY_COMPLETED, request_completed, NULL,

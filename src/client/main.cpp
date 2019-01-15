@@ -31,11 +31,50 @@ using namespace state;
 using namespace std;
 using namespace networkManager;
 
+void testNetwork(std::string url, int port){
+  std::cout<<"Connection to server"<<std::endl;
+  NetworkManager* NM = NetworkManager::instance();
+  NM->SetUrl(url);
+  NM->SetPort(port);
+  NM->InitConnection();
+  Json::Value players = NM->Get("/user/-1");
+  std::cout<<players.toStyledString()<<std::endl;
+  std::cout << "Pressez <entrée> pour continuer" << std::endl;
+  (void) getc(stdin);
+  NM->Delete("/user/" + std::to_string(NM->GetId()));
+  players = NM->Get("/user/-1");
+  std::cout<<players.toStyledString()<<std::endl;
+  std::cout << "Pressez <entrée> pour terminer" << std::endl;
+  (void) getc(stdin);
+}
+
+void testLobby(std::string url, int port){
+  std::cout<<"Connection to server"<<std::endl;
+  NetworkManager* NM = NetworkManager::instance();
+  NM->SetUrl(url);
+  NM->SetPort(port);
+  NM->InitConnection();
+  Json::Value players = NM->Get("/user/-1");
+  // tant que y a pas deux joueurs connectes
+  while (players.size() != 2)
+  {
+    // attendre
+    std::this_thread::sleep_for(std::chrono::milliseconds(1000));
+    // recuperer le nombre de joueur
+    players = NM->Get("/user/-1");
+  }
+  std::cout<<"Connected with user id "<<NM->GetId()<<std::endl;
+  while(1){
+
+  }
+}
+
 void testGet(std::string url, int port){
   std::cout<<"Connection to server"<<std::endl;
   NetworkManager* NM = NetworkManager::instance();
   NM->SetUrl(url);
   NM->SetPort(port);
+  NM->InitConnection();
   std::cout<<"GET request sent"<<std::endl;
   Json::Value out = NM->Get("/version");
   std::cout<<"GET request done"<<std::endl;
@@ -50,6 +89,7 @@ void testPut(std::string url, int port){
   NetworkManager* NM = NetworkManager::instance();
   NM->SetUrl(url);
   NM->SetPort(port);
+  NM->InitConnection();
   std::cout<<"PUT request sent"<<std::endl;
   Json::Value out = NM->Put("/user", test);
   std::cout<<"PUT request done"<<std::endl;
@@ -64,6 +104,7 @@ void testPost(std::string url, int port){
   NetworkManager* NM = NetworkManager::instance();
   NM->SetUrl(url);
   NM->SetPort(port);
+  NM->InitConnection();
   std::cout<<"POST request sent"<<std::endl;
   NM->Post("/user/1", test);
   std::cout<<"POST request done"<<std::endl;
@@ -75,6 +116,7 @@ void testDelete(std::string url, int port){
   NetworkManager* NM = NetworkManager::instance();
   NM->SetUrl(url);
   NM->SetPort(port);
+  NM->InitConnection();
   std::cout<<"DELETE request sent"<<std::endl;
   NM->Delete("/user/1");
   std::cout<<"DELETE request done"<<std::endl;
@@ -1520,6 +1562,26 @@ int main(int argc,char* argv[])
       testDelete(argv[2], std::stoi(argv[3]));
     } else {
       std::cout<<"Use bin/client delete URL PORT. default: bin/client delete http://localhost/ 8080"<<std::endl;
+    }
+  }
+
+  if (std::string(argv[1])== "lobby"){
+    if (argc == 2){
+      testLobby("http://localhost/", 8080);
+    } else if (argc == 4){
+      testLobby(argv[2], std::stoi(argv[3]));
+    } else {
+      std::cout<<"Use bin/client lobby URL PORT. default: bin/client lobby http://localhost/ 8080"<<std::endl;
+    }
+  }
+
+  if (std::string(argv[1])== "network"){
+    if (argc == 2){
+      testNetwork("http://localhost/", 8080);
+    } else if (argc == 4){
+      testNetwork(argv[2], std::stoi(argv[3]));
+    } else {
+      std::cout<<"Use bin/client network URL PORT. default: bin/client network http://localhost/ 8080"<<std::endl;
     }
   }
   delete SkillManager::instance();
