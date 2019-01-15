@@ -202,7 +202,7 @@ int main(int argc,char* argv[])
        servicesManager.registerService(std::make_unique<VersionService>());
 
         UserDB userDB;
-        userDB.addUser(std::make_unique<User>("Paul",23));
+        userDB.addUser(std::make_unique<User>(73));
        servicesManager.registerService(std::make_unique<UserService>(std::ref(userDB)));
 
         struct MHD_Daemon *d;

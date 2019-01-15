@@ -1,4 +1,4 @@
-/** 
+/**
  * @file User.cpp
  * @author Philippe-Henri Gosselin
  * @date 9 décembre 2015
@@ -7,6 +7,6 @@
 
 #include "User.hpp"
 
-User::User (string name, int age) : name(name),age(age) {
-    
+User::User (int name) : name(name) {
+
 }

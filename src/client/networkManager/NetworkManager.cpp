@@ -7,7 +7,14 @@ using namespace networkManager;
 NetworkManager* NetworkManager::inst;
 
 NetworkManager::NetworkManager(){
+  Json::Value jsonInit;
+  Json::Value jsonOut;
   http.setHost(url, port);
+  name = rand();
+  jsonInit["name"] = name;
+
+  jsonOut = this->Put("/user", jsonInit);
+  this->id = jsonOut["id"].asInt();
 }
 
 void NetworkManager::InitConnection(){
@@ -26,7 +33,7 @@ Json::Value NetworkManager::Get (std::string uri){
 
   sf::Http::Request request;
   request.setMethod(sf::Http::Request::Get);
-  request.setUri("/version");
+  request.setUri(uri);
   request.setHttpVersion(1, 1); // HTTP 1.1
 
   sf::Http::Response response = http.sendRequest(request);
@@ -112,6 +119,7 @@ std::string NetworkManager::GetUrl (){
 
 void NetworkManager::SetUrl (std::string url){
   this->url = url;
+  this->InitConnection();
 }
 
 int NetworkManager::GetPort (){
@@ -120,4 +128,26 @@ int NetworkManager::GetPort (){
 
 void NetworkManager::SetPort (int port){
   this->port = port;
+  this->InitConnection();
+}
+
+int NetworkManager::GetId (){
+  return id;
+}
+
+void NetworkManager::SetId (int id){
+  this->id = id;
+}
+
+int NetworkManager::GetName (){
+  return name;
+}
+
+void NetworkManager::SetName (int name){
+  this->name = name;
+}
+
+NetworkManager::~NetworkManager (){
+  this->Delete("/user/"+std::to_string(id));
+  std::cout<<"User "<<id<<" deleted"<<std::endl;
 }

@@ -31,9 +31,11 @@ using namespace state;
 using namespace std;
 using namespace networkManager;
 
-void testGet(){
+void testGet(std::string url, int port){
   std::cout<<"Connection to server"<<std::endl;
   NetworkManager* NM = NetworkManager::instance();
+  NM->SetUrl(url);
+  NM->SetPort(port);
   std::cout<<"GET request sent"<<std::endl;
   Json::Value out = NM->Get("/version");
   std::cout<<"GET request done"<<std::endl;
@@ -41,12 +43,13 @@ void testGet(){
   std::cout<<"End of connection"<<std::endl;
 }
 
-void testPut(){
+void testPut(std::string url, int port){
   std::cout<<"Connection to server"<<std::endl;
   Json::Value test;
-  test["name"] = "Bobibob";
-  test["age"] = 42;
+  test["name"] = 42;
   NetworkManager* NM = NetworkManager::instance();
+  NM->SetUrl(url);
+  NM->SetPort(port);
   std::cout<<"PUT request sent"<<std::endl;
   Json::Value out = NM->Put("/user", test);
   std::cout<<"PUT request done"<<std::endl;
@@ -54,20 +57,24 @@ void testPut(){
   std::cout<<"End of connection"<<std::endl;
 }
 
-void testPost(){
+void testPost(std::string url, int port){
   std::cout<<"Connection to server"<<std::endl;
   Json::Value test;
-  test["name"] = "Poney";
+  test["name"] = 72;
   NetworkManager* NM = NetworkManager::instance();
+  NM->SetUrl(url);
+  NM->SetPort(port);
   std::cout<<"POST request sent"<<std::endl;
   NM->Post("/user/1", test);
   std::cout<<"POST request done"<<std::endl;
   std::cout<<"End of connection"<<std::endl;
 }
 
-void testDelete(){
+void testDelete(std::string url, int port){
   std::cout<<"Connection to server"<<std::endl;
   NetworkManager* NM = NetworkManager::instance();
+  NM->SetUrl(url);
+  NM->SetPort(port);
   std::cout<<"DELETE request sent"<<std::endl;
   NM->Delete("/user/1");
   std::cout<<"DELETE request done"<<std::endl;
@@ -1446,6 +1453,7 @@ int main(int argc,char* argv[])
   SkillManager::instance();
   CardManager::instance();
   PlayerManager::instance();
+  NetworkManager::instance();
   time_t seedtime = time(NULL);
   srand(seedtime);
   //Exemple exemple;
@@ -1478,16 +1486,45 @@ int main(int argc,char* argv[])
     testReplay();
   if (argc == 2 and std::string(argv[1])== "multi")
     testMulti();
-  if (argc == 2 and std::string(argv[1])== "get")
-    testGet();
-  if (argc == 2 and std::string(argv[1])== "put")
-    testPut();
-  if (argc == 2 and std::string(argv[1])== "post")
-    testPost();
-  if (argc == 2 and std::string(argv[1])== "delete")
-    testDelete();
+  if (std::string(argv[1])== "get"){
+    if (argc == 2){
+      testGet("http://localhost/", 8080);
+    } else if (argc == 4){
+      testGet(argv[2], std::stoi(argv[3]));
+    } else {
+      std::cout<<"Use bin/client get URL PORT. default: bin/client get http://localhost/ 8080"<<std::endl;
+    }
+  }
+  if (std::string(argv[1])== "post"){
+    if (argc == 2){
+      testPost("http://localhost/", 8080);
+    } else if (argc == 4){
+      testPost(argv[2], std::stoi(argv[3]));
+    } else {
+      std::cout<<"Use bin/client post URL PORT. default: bin/client post http://localhost/ 8080"<<std::endl;
+    }
+  }
+  if (std::string(argv[1])== "put"){
+    if (argc == 2){
+      testPut("http://localhost/", 8080);
+    } else if (argc == 4){
+      testPut(argv[2], std::stoi(argv[3]));
+    } else {
+      std::cout<<"Use bin/client put URL PORT. default: bin/client put http://localhost/ 8080"<<std::endl;
+    }
+  }
+  if (std::string(argv[1])== "delete"){
+    if (argc == 2){
+      testDelete("http://localhost/", 8080);
+    } else if (argc == 4){
+      testDelete(argv[2], std::stoi(argv[3]));
+    } else {
+      std::cout<<"Use bin/client delete URL PORT. default: bin/client delete http://localhost/ 8080"<<std::endl;
+    }
+  }
   delete SkillManager::instance();
   delete CardManager::instance();
   delete PlayerManager::instance();
+  delete NetworkManager::instance();
   return 0;
 }
