@@ -2,6 +2,8 @@
 #include "engine.h"
 #include "state.h"
 #include <iostream>
+#include <stdexcept>
+#include <SFML/Graphics.hpp>
 
 using namespace render;
 using namespace engine;
@@ -203,4 +205,165 @@ void View::Draw (std::mutex* mtx, bool* pause, bool* run){
       }
     }
   }
+}
+
+
+void View::Intro(std::mutex* mtx,bool* pause,bool* run, int* next){
+  window.create(sf::VideoMode(rendu -> GetDimensionX(), rendu -> GetDimensionY()), "Slay the Avatar - Intro");
+  // std::cout << "press a key for next step" << std::endl;
+  sf::Event event;
+  sf::Sprite sprite;
+  SetIntro();
+  sprite.setTexture(introTexture.getTexture());
+  *next = -1;
+  while(*run && *next == -1){
+
+    window.clear(sf::Color::White);
+    window.draw(sprite);
+    window.display();
+
+    while (window.pollEvent(event)){
+      if (event.type == sf::Event::Closed){
+        *run = false;
+        window.close();
+      }
+      if(event.type == sf::Event::MouseButtonReleased){
+          //mtx->lock();
+          int x = sf::Mouse::getPosition(window).x;
+          int y = sf::Mouse::getPosition(window).y;
+          std::cout << "x = " << x << std::endl;
+          std::cout << "y = " << y << std::endl;
+
+          if(x >= 105 && x < 215 && y>= 505 && y< 537){
+            *next = 0;
+            std::cout << "clicked on Solo" << std::endl;
+          }
+          if(x >= 353 && x < 468 && y>= 505 && y< 537){
+            *next = 1;
+            std::cout << "clicked on Multi" << std::endl;
+          }
+          if(x >= 605 && x < 717 && y>= 505 && y< 537){
+            *next = 2;
+            std::cout << "clicked on 1 IA" << std::endl;
+          }
+          if(x >= 855 && x < 919 && y>= 505 && y< 537){
+            *next = 3;
+            std::cout << "clicked on 2 IA" << std::endl;
+          }
+          //mtx->unlock()
+      }
+    }
+  }
+}
+
+
+void View::SetIntro(){
+  if(!introTexture.create(1080, 720)){
+    throw std::invalid_argument("error with intro creation");
+  }
+  int scale = 1.;
+  introTexture.clear(sf::Color::Transparent);
+  sf::Sprite sprite1;
+  sf::Texture texture1;
+  sf::Sprite sprite2;
+  sf::Texture texture2;
+  sf::Sprite sprite3;
+  sf::Texture texture3;
+  sf::Font font;
+  sf::Text text;
+
+  if(!texture1.loadFromFile("res/textures/background/introfin.jpg")){ throw std::invalid_argument("error");}
+  sprite1.setTexture(texture1);
+
+  introTexture.draw(sprite1);
+
+  if(!texture2.loadFromFile("res/textures/background/slay the avatar2.png")){ throw std::invalid_argument("error");}
+  sprite2.setTexture(texture2);
+  sprite2.scale(0.7, 0.7);
+  sprite2.setPosition(300, 0);
+
+  introTexture.draw(sprite2);
+
+  if(!texture3.loadFromFile("res/textures/other/button1.png")){ throw std::invalid_argument("error");}
+  sprite3.setTexture(texture3);
+  sprite3.setPosition(100, 500);
+  introTexture.draw(sprite3);
+  sprite3.move(250, 0);
+  introTexture.draw(sprite3);
+  sprite3.move(250, 0);
+  introTexture.draw(sprite3);
+  sprite3.move(250, 0);
+  introTexture.draw(sprite3);
+
+  int x = 138;
+  int pas = 250;
+  if (!font.loadFromFile("res/text_fonts/attack of the cucumbers.ttf")){throw std::invalid_argument("error");}
+  text.setFont(font);
+  text.setString("Solo");
+  text.setColor(sf::Color::Black);
+  text.setCharacterSize(15 * scale);
+  text.setStyle(sf::Text::Bold);
+  text.move(x * scale, 510 * scale);
+  introTexture.draw(text);
+  text.move(0 , 2 );
+  introTexture.draw(text);
+  text.move(2 , 0 );
+  introTexture.draw(text);
+  text.move(0 , -2 );
+  introTexture.draw(text);
+  text.setColor(sf::Color::White);
+  text.move(-1, 1);
+  introTexture.draw(text);
+
+  text.setString("Multi");
+  text.setColor(sf::Color::Black);
+  text.setCharacterSize(15 * scale);
+  text.setStyle(sf::Text::Bold);
+  text.move(pas * scale, 0);
+  introTexture.draw(text);
+  text.move(0 , 2 );
+  introTexture.draw(text);
+  text.move(2 , 0 );
+  introTexture.draw(text);
+  text.move(0 , -2 );
+  introTexture.draw(text);
+  text.setColor(sf::Color::White);
+  text.move(-1, 1);
+  introTexture.draw(text);
+
+  text.setString("1 IA");
+  text.setColor(sf::Color::Black);
+  text.setCharacterSize(15 * scale);
+  text.setStyle(sf::Text::Bold);
+  text.move(pas * scale, 0);
+  introTexture.draw(text);
+  text.move(0 , 2 );
+  introTexture.draw(text);
+  text.move(2 , 0 );
+  introTexture.draw(text);
+  text.move(0 , -2 );
+  introTexture.draw(text);
+  text.setColor(sf::Color::White);
+  text.move(-1, 1);
+  introTexture.draw(text);
+
+  text.setString("2 IA");
+  text.setColor(sf::Color::Black);
+  text.setCharacterSize(15 * scale);
+  text.setStyle(sf::Text::Bold);
+  text.move(pas * scale, 0);
+  introTexture.draw(text);
+  text.move(0 , 2 );
+  introTexture.draw(text);
+  text.move(2 , 0 );
+  introTexture.draw(text);
+  text.move(0 , -2 );
+  introTexture.draw(text);
+  text.setColor(sf::Color::White);
+  text.move(-1, 1);
+  introTexture.draw(text);
+
+
+
+  introTexture.display();
 }
