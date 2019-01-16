@@ -150,7 +150,7 @@ using namespace state;
       text.setCharacterSize(15 * scale);
       text.setStyle(sf::Text::Bold);
       text.move(480 * scale, 10 * scale);
-      textureMap.draw(text);
+      background.draw(text);
       text.move(0 , 2 );
       background.draw(text);
       text.move(2 , 0 );

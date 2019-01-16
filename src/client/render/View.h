@@ -31,6 +31,7 @@ namespace render {
     std::shared_ptr<state::GameState> gameState;
     sf::RenderWindow window;
     std::shared_ptr<engine::Moteur> moteur;
+    sf::RenderTexture introTexture;
     // Operations
   public:
     View ();
@@ -40,6 +41,8 @@ namespace render {
     std::shared_ptr<state::GameState>& GetGameState ();
     sf::RenderWindow& GetWindow ();
     void Draw (std::mutex* mtx, bool* pause, bool* run);
+    void Intro (std::mutex* mtx, bool* pause, bool* run, int* next);
+    void SetIntro ();
     // Setters and Getters
   };
 

@@ -31,6 +31,31 @@ using namespace state;
 using namespace std;
 using namespace networkManager;
 
+void testIntro(){
+
+  mutex* mtx = new mutex;
+  bool* run = new bool;
+  bool* pause = new bool;
+  *run = true;
+  *pause = false;
+  int* next = new int;
+  *next = -1;
+
+  PlayerManager* PM = PlayerManager::instance();
+  std::shared_ptr<GameState> gameState = std::make_shared<state::GameState>();
+  std::vector<Player*> players;
+  players.push_back((*PM)[0]);
+  players.push_back((*PM)[1]);
+  gameState->SetPlayers(players);
+  std::shared_ptr<Moteur> moteur = make_shared<Moteur>(gameState, false);
+
+  View* view = new View(gameState, moteur);
+
+  view->Intro(mtx, pause, run, next);
+
+}
+
+
 void testNetwork(std::string url, int port){
   std::cout<<"Connection to server"<<std::endl;
   NetworkManager* NM = NetworkManager::instance();
@@ -1528,6 +1553,8 @@ int main(int argc,char* argv[])
     testReplay();
   if (argc == 2 and std::string(argv[1])== "multi")
     testMulti();
+    if (argc == 2 and std::string(argv[1])== "intro")
+      testIntro();
   if (std::string(argv[1])== "get"){
     if (argc == 2){
       testGet("http://localhost/", 8080);
