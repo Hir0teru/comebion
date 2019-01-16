@@ -28,7 +28,7 @@ exec_program(${DIA2CODE} ARGS -ns render -d ../src/client -t cpp ../src/render.d
 exec_program(${DIA2CODE} ARGS -ns engine -d ../src/shared -t cpp ../src/engine.dia)
 exec_program(${DIA2CODE} ARGS -ns ai     -d ../src/shared -t cpp ../src/ai.dia)
 exec_program(${DIA2CODE} ARGS -ns client -d ../src/client -t cpp ../src/module.dia)
-exec_program(${DIA2CODE} ARGS -ns server -d ../src/server -t cpp ../src/server.dia)
+#exec_program(${DIA2CODE} ARGS -ns server -d ../src/server -t cpp ../src/server.dia)
 exec_program(${DIA2CODE} ARGS -ns networkManager -d ../src/client -t cpp ../src/networkManager.dia)
 
 # Sources
