@@ -237,10 +237,12 @@ void View::Intro(std::mutex* mtx,bool* pause,bool* run, int* next){
           if(x >= 105 && x < 215 && y>= 505 && y< 537){
             *next = 0;
             std::cout << "clicked on Solo" << std::endl;
+            window.close();
           }
           if(x >= 353 && x < 468 && y>= 505 && y< 537){
             *next = 1;
             std::cout << "clicked on Multi" << std::endl;
+            window.close();
           }
           if(x >= 605 && x < 717 && y>= 505 && y< 537){
             *next = 2;
@@ -249,6 +251,7 @@ void View::Intro(std::mutex* mtx,bool* pause,bool* run, int* next){
           if(x >= 855 && x < 919 && y>= 505 && y< 537){
             *next = 3;
             std::cout << "clicked on 2 IA" << std::endl;
+            window.close();
           }
           //mtx->unlock()
       }
@@ -331,7 +334,7 @@ void View::SetIntro(){
   text.move(-1, 1);
   introTexture.draw(text);
 
-  text.setString("1 IA");
+  text.setString("Quitter");
   text.setColor(sf::Color::Black);
   text.setCharacterSize(15 * scale);
   text.setStyle(sf::Text::Bold);

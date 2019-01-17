@@ -92,31 +92,6 @@ void testRun(std::string url, int port){
   (void) getc(stdin);
 }
 
-void testIntro(){
-
-  mutex* mtx = new mutex;
-  bool* run = new bool;
-  bool* pause = new bool;
-  *run = true;
-  *pause = false;
-  int* next = new int;
-  *next = -1;
-
-  PlayerManager* PM = PlayerManager::instance();
-  std::shared_ptr<GameState> gameState = std::make_shared<state::GameState>();
-  std::vector<Player*> players;
-  players.push_back((*PM)[0]);
-  players.push_back((*PM)[1]);
-  gameState->SetPlayers(players);
-  std::shared_ptr<Moteur> moteur = make_shared<Moteur>(gameState, false);
-
-  View* view = new View(gameState, moteur);
-
-  view->Intro(mtx, pause, run, next);
-
-}
-
-
 void testNetwork(std::string url, int port){
   std::cout<<"Connection to server"<<std::endl;
   NetworkManager* NM = NetworkManager::instance();
@@ -1576,6 +1551,39 @@ void testState(){
 
 }
 
+void testIntro(std::string url, int port){
+
+  mutex* mtx = new mutex;
+  bool* run = new bool;
+  bool* pause = new bool;
+  *run = true;
+  *pause = false;
+  int* next = new int;
+  *next = -1;
+
+  PlayerManager* PM = PlayerManager::instance();
+  std::shared_ptr<GameState> gameState = std::make_shared<state::GameState>();
+  std::vector<Player*> players;
+  players.push_back((*PM)[0]);
+  players.push_back((*PM)[1]);
+  gameState->SetPlayers(players);
+  std::shared_ptr<Moteur> moteur = make_shared<Moteur>(gameState, false);
+
+  View* view = new View(gameState, moteur);
+
+  view->Intro(mtx, pause, run, next);
+
+  if (*next == 0){
+    test();
+  } else if (*next == 1){
+    testNetwork(url, port);
+  } else if (*next == 2){
+
+  } else if (*next == 3){
+    testMulti();
+  }
+}
+
 int main(int argc,char* argv[])
 {
   SkillManager::instance();
@@ -1614,8 +1622,6 @@ int main(int argc,char* argv[])
     testReplay();
   if (argc == 2 and std::string(argv[1])== "multi")
     testMulti();
-    if (argc == 2 and std::string(argv[1])== "intro")
-      testIntro();
   if (std::string(argv[1])== "get"){
     if (argc == 2){
       testGet("http://localhost/", 8080);
@@ -1681,6 +1687,15 @@ int main(int argc,char* argv[])
       } else {
         std::cout<<"Use bin/client network URL PORT. default: bin/client network http://localhost/ 8080"<<std::endl;
       }
+  }
+  if (std::string(argv[1])== "intro"){
+    if (argc == 2){
+      testIntro("http://localhost/", 8080);
+    } else if (argc == 4){
+      testIntro(argv[2], std::stoi(argv[3]));
+    } else {
+      std::cout<<"Use bin/client intro URL PORT. default: bin/client intro http://localhost/ 8080"<<std::endl;
+    }
   }
   delete SkillManager::instance();
   delete CardManager::instance();
