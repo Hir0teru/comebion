@@ -90,8 +90,8 @@ namespace render {
     void RemovePile (int index);
     void AddTexturePile (int x, int y, float scale, std::string image, int number);
     void AddTextureCard (int x, int y, float scale, state::Card * card, int statAttack, int statBlock);
-    void AddTexturePlayer (int x, int y, float scale, state::Player* player);
-    void AddTextureEnemy (int x, int y, float scale, std::unique_ptr<state::Enemy>& enemy);
+    void AddTexturePlayer (int x, int y, float scale, state::Player* player, int i);
+    void AddTextureEnemy (int x, int y, float scale, std::unique_ptr<state::Enemy>& enemy, int i);
     void RemoveEnemies ();
     void RemovePlayers ();
     void RemovePiles ();

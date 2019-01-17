@@ -25,6 +25,7 @@ void CommandEndFight::Execute (std::shared_ptr<state::GameState>& gameState){
         player->SetIsEntityAlive(true);
       }
     }
+    room->SetEntityTurn(0);
   }
 
   room->SetIsGameLost(!isFightWon);

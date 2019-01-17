@@ -35,6 +35,7 @@ namespace render {
     sf::Sprite spritePile;
     sf::Text textPile;
     sf::Font fontPile;
+    int id;
     // Operations
   public:
     Editeur ();
@@ -55,6 +56,8 @@ namespace render {
     void SetEditeurPile (float scale, std::string image, int number);
     sf::Sprite GetSpritePile ();
     sf::Text GetTextPile ();
+    int GetId ();
+    void SetId (int id);
     // Setters and Getters
   };
 

@@ -141,7 +141,12 @@ void CommandNextEntity::Execute (std::shared_ptr<state::GameState>& gameState){
               gameState->GetMap()->GetFloors()[floorNb]->GetCurrentRoom()->GetIsFightWon())){
       if(entityTurn == 0 && nbPlayer ==2){
         entityTurn = 1;
-      } else entityTurn = 0;
+      } else {
+        entityTurn = 0;
+        CommandExitRoom commandExitRoom;
+        commandExitRoom.Execute(gameState);
+      }
+
     }
   std::cout<<"Set next entity : " << entityTurn << std::endl;
   gameState->GetMap()->GetFloors()[floorNb]->GetCurrentRoom()->SetEntityTurn(entityTurn);

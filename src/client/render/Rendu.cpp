@@ -273,20 +273,26 @@ using namespace state;
       textureCards.push_back(std::make_unique<Editeur>(x, y, scale, card, statAttack, statBlock,*loadTextures));
     }
 
-    void Rendu::AddTexturePlayer (int x, int y, float scale, state::Player* player){
+    void Rendu::AddTexturePlayer (int x, int y, float scale, state::Player* player, int i){
       if (!((int) texturePlayers.size() < 2)){
         std::cout << "Max number of player texture is 2. Can not add any more";
         throw std::invalid_argument("error with newSize of texturePlayers");
       }
-      texturePlayers.push_back(std::make_unique<Editeur>(x, y, scale, player, *loadTextures));
+      std::unique_ptr<Editeur> texture = std::make_unique<Editeur>(x, y, scale, player, *loadTextures);
+      texture->SetId(i);
+      texturePlayers.push_back(std::move(texture));
+      // texturePlayers.end()->SetId(i);
     }
 
-    void Rendu::AddTextureEnemy (int x , int y, float scale, std::unique_ptr<state::Enemy>& enemy){
+    void Rendu::AddTextureEnemy (int x , int y, float scale, std::unique_ptr<state::Enemy>& enemy, int i){
       if (!((int) textureEnemies.size() < 3)){
         std::cout << "Max number of pile texture is 3. Can not add any more";
         throw std::invalid_argument("error with newSize of textureEnemies");
       }
-      textureEnemies.push_back(std::make_unique<Editeur>(x, y, scale, enemy, *loadTextures));
+      std::unique_ptr<Editeur> texture = std::make_unique<Editeur>(x, y, scale, enemy, *loadTextures);
+      texture->SetId(i);
+      textureEnemies.push_back(std::move(texture));
+      // textureEnemies.end()->SetId(i);
     }
 
 
@@ -640,11 +646,13 @@ void Rendu::SetTextureRoom(){
 
         int x = 10;
         int y = 300;
+        int i = 0;
         for (auto player : players){
           if(player -> GetIsEntityAlive()){
-            AddTexturePlayer(x* scale/1.5, y * scale/1.5, scale/1.5, player);
+            AddTexturePlayer(x* scale/1.5, y * scale/1.5, scale/1.5, player, i);
             x+= 250;
           }
+          i++;
 
         }
 
@@ -652,11 +660,13 @@ void Rendu::SetTextureRoom(){
 
          x = 1300;
          y = 300;
+         i = 2;
         for (auto& enemy : enemies){
           if(enemy -> GetIsEntityAlive()){
-            AddTextureEnemy(x* scale/1.5, y * scale/1.5, scale/1.5, enemy);
+            AddTextureEnemy(x* scale/1.5, y * scale/1.5, scale/1.5, enemy, i);
             x-= 250;
           }
+          i++;
         }
         int entityTurn =  room -> GetEntityTurn(); //0, 1 = joueurs, 2,3,4 = ennemis
         if( entityTurn >= 0 && entityTurn < 2){
@@ -764,11 +774,13 @@ void Rendu::UpdateTexturesPlayers(){
 
   int x = 10;
   int y = 300;
+  int i = 0;
   for (auto player : players){
     if(player -> GetIsEntityAlive()){
-      AddTexturePlayer(x* scale/1.5, y * scale/1.5, scale/1.5, player);
+      AddTexturePlayer(x* scale/1.5, y * scale/1.5, scale/1.5, player, i);
 
     }
+    i++;
     x+= 250;
   }
 }
@@ -802,11 +814,13 @@ void Rendu::UpdateTexturesEnemies(){
 
    int x = 1300;
    int y = 300;
+   int i = 2;
   for (auto& enemy : enemies){
     if(enemy -> GetIsEntityAlive()){
-      AddTextureEnemy(x* scale/1.5, y * scale/1.5, scale/1.5, enemy);
+      AddTextureEnemy(x* scale/1.5, y * scale/1.5, scale/1.5, enemy, i);
 
     }
+    i++;
     x-= 250;
   }
 }

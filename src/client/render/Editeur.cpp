@@ -1157,6 +1157,9 @@ if (enemy -> GetBlock() > 0){
 
 //Intent:
 float intent = enemy -> GetSkills()[enemy -> GetIntent()] -> GetAttack();
+if(intent > 0){
+  intent += enemy->GetStatAttack();
+}
 
 
 
@@ -1167,6 +1170,7 @@ int positionX = 10;
 int positionY = 330;
 
 if (enemy -> GetBuff().GetAttackPlus() > 0){
+  intent = intent * 1.5;
   // sf::Texture tmptexture;
   // if(!tmptexture.loadFromFile("res/textures/icons/attack_up.png")){
   //   std::cout << "error with attack up"<<std::endl;
@@ -1377,6 +1381,7 @@ if (enemy -> GetBuff().GetBlockPlus() > 0){
           }
 
           if (enemy -> GetDebuff().GetAttackMinus() > 0){
+            intent = intent * 0.5;
               // sf::Texture tmptexture;
               // if(!tmptexture.loadFromFile("res/textures/icons/attack_down.png")){
               //   std::cout << "error with attack up"<<std::endl;
@@ -1422,7 +1427,7 @@ if (enemy -> GetBuff().GetBlockPlus() > 0){
   intentSprite.move(70 * scale,250 * scale);
   texture.draw(intentSprite);
 
-  if(enemy -> GetSkills()[enemy -> GetIntent()] -> GetAttack() > 0){
+  if(intent > 0){
     sf::Text tmptext;
     tmptext.setString(std::to_string((int) intent));
     tmptext.setFont(lifefont);
@@ -2895,4 +2900,12 @@ void Editeur::SetEditeurPile ( float scale,  std::string image, int number){
 
 sf::Text Editeur::GetTextPile(){
   return textPile;
+}
+
+int Editeur::GetId(){
+  return id;
+}
+
+void Editeur::SetId(int id){
+  this->id = id;
 }
