@@ -69,10 +69,13 @@ void Moteur::Update (){
     }
     if (!jsonToSend.empty() && network){
       NetworkManager* NM = NetworkManager::instance();
-      Json::Value jsonIn;
-      jsonIn["entityID"] = 2;
-      jsonIn["block"] = 10;
-      NM->Put ("/command", jsonIn);
+      int floorNb =  gameState -> GetMap() -> GetCurrentFloor();
+      int entityTurn = gameState->GetMap()->GetFloors()[floorNb]->GetCurrentRoom() -> GetEntityTurn();
+      if(entityTurn < 2){
+        jsonToSend["author"] = entityTurn;
+        NM->Put ("/command", jsonToSend);
+      }
+
       //
       // std::cout << "command " << jsonToSend.toStyledString() << " sent to server" << std::endl;
       //

@@ -87,21 +87,21 @@ Json::Value CommandAddBuff::Serialize () {
   Json::Value val;
   val["typeCmd"] = "AddBuff";
   val["entityID"] = entityID;
-  val["blockPlus"] = buff.GetBlockPlus();
-  val["attackPlus"] = buff.GetAttackPlus();
-  val["heal"] = buff.GetHeal();
-  val["evade"] = buff.GetEvade();
-  val["retaliate"] = buff.GetRetaliate();
+  val["buff_BP"] = buff.GetBlockPlus();
+  val["buff_AP"] = buff.GetAttackPlus();
+  val["buff_H"] = buff.GetHeal();
+  val["buff_E"] = buff.GetEvade();
+  val["buff_R"] = buff.GetRetaliate();
   return val;
 }
  CommandAddBuff* CommandAddBuff::Deserialize ( Json::Value in){
    entityID = in["entityID"].asInt();
    state::Buff tmpbuff;
-   tmpbuff.SetBlockPlus(in["blockPlus"].asInt());
-   tmpbuff.SetAttackPlus(in["attackPlus"].asInt());
-   tmpbuff.SetHeal(in["heal"].asInt());
-   tmpbuff.SetEvade(in["evade"].asInt());
-   tmpbuff.SetRetaliate(in["retaliate"].asInt());
+   tmpbuff.SetBlockPlus(in["buff_BP"].asInt());
+   tmpbuff.SetAttackPlus(in["buff_AP"].asInt());
+   tmpbuff.SetHeal(in["buff_H"].asInt());
+   tmpbuff.SetEvade(in["buff_E"].asInt());
+   tmpbuff.SetRetaliate(in["buff_R"].asInt());
    buff = tmpbuff;
   return this;
 }

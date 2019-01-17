@@ -1,4 +1,4 @@
-/** 
+/**
  * @file Cmd.hpp
  * @author Philippe-Henri Gosselin
  * @date 9 décembre 2015
@@ -10,7 +10,7 @@
 
 #include <string>
 
-using std::string;
+//using std::string;
 
 #include "Cmd.h"
 

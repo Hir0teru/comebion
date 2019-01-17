@@ -2,6 +2,7 @@
 #define CommandDB__H
 
 #include "Cmd.h"
+#include <vector>
 
 /// class CommandDB -
 class CommandDB {
@@ -9,15 +10,18 @@ class CommandDB {
   // Attributes
 protected:
   int idseq;
-  map<int,unique_ptr<Cmd> > commands;
+  std::vector<unique_ptr<Cmd> > commandsJ1;
+  std::vector<unique_ptr<Cmd> > commandsJ2;
+
   // Operations
 public:
   CommandDB ();
-  const Cmd* getCommand (int id) const;
+  // std::vector <Cmd*> getCommand (int id) const;
   int addCommand (unique_ptr<Cmd> command);
   void setCommand (int id, unique_ptr<Cmd> command);
   void removeCommand (int id);
-  map<int,unique_ptr<Cmd> >& getCommands();
+  void removeCommands(int id);
+  std::vector<unique_ptr<Cmd> >& getCommands(int id);
 };
 
 #endif

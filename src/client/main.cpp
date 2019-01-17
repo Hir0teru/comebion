@@ -71,7 +71,7 @@ void testRun(std::string url, int port){
   moteur->AddCommand(std::make_shared<CommandEnterRoom>());
   moteur->Update();
 
-  Json::Value test = NM->Get("/command/-1");
+  Json::Value test = NM->Get("/command/1");
   std::cout << test.toStyledString() << std::endl;
   //need to do : send une seed pour le rand() s'il n'y en n'a pas/récuperer cette seed
   // Json::Value val;

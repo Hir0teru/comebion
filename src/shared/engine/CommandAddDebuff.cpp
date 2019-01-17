@@ -67,14 +67,14 @@ Json::Value CommandAddDebuff::Serialize () {
   Json::Value val;
   val["typeCmd"] = "AddDebuff";
   val["entityID"] = entityID;
-  val["AttackMinus"] = debuff.GetAttackMinus();
-  val["BlockMinus"] = debuff.GetBlockMinus();
+  val["debuff_AM"] = debuff.GetAttackMinus();
+  val["debuff_BM"] = debuff.GetBlockMinus();
   return val;
 }
  CommandAddDebuff* CommandAddDebuff::Deserialize ( Json::Value in){
    state::Debuff tmpdebuff;
-   tmpdebuff.SetAttackMinus(in["AttackMinus"].asInt());
-   tmpdebuff.SetBlockMinus(in["BlockMinus"].asInt());
+   tmpdebuff.SetAttackMinus(in["debuff_AM"].asInt());
+   tmpdebuff.SetBlockMinus(in["debuff_BM"].asInt());
    entityID = in["entityID"].asInt();
    debuff = tmpdebuff;
   return this;
