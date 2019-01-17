@@ -1,15 +1,33 @@
-  #include "Moteur.h"
+#include "Moteur.h"
 #include "engine.h"
 #include <stdexcept>
 #include <iostream>
 #include <fstream>
+#include <SFML/Network.hpp>
+#include <microhttpd.h>
+
+
+#include <cstdlib>
+#include <sstream>
+#include <string>
+#include <thread>
+#include <vector>
+#include <unistd.h>
+#include <sys/types.h>
+
+#include "networkManager.h"
+
 
 using namespace engine;
+using namespace networkManager;
 
 // Operations
 
 Moteur::Moteur (){
 
+}
+Moteur::Moteur (std::shared_ptr<state::GameState>& gameState, bool record, bool network) : record(record), network(network){
+  this -> gameState = gameState;
 }
 Moteur::Moteur (std::shared_ptr<state::GameState>& gameState, bool record) : record(record){
   this -> gameState = gameState;
@@ -33,18 +51,37 @@ void Moteur::AddCommand (std::shared_ptr<Command> command){
 }
 void Moteur::Update (){
   if(!commands.empty()){
+    Json::Value jsonToSend;
     try{
       commands[0] -> Execute(gameState);
       if(record){
         outputval.append(commands[0]->Serialize());
       }
+      if(network){
+        //jsonToSend.append(commands[0]->Serialize());
+        jsonToSend = commands[0]->Serialize();
+      }
       commands.erase(commands.begin());
     }
-    catch(std::invalid_argument){
-      std::cout << "wrong command" << std::endl;
+    catch(std::invalid_argument e){
+      std::cout << "wrong command: " << e.what() << std::endl;
       commands.erase(commands.begin());
     }
+    if (!jsonToSend.empty() && network){
+      NetworkManager* NM = NetworkManager::instance();
+      Json::Value jsonIn;
+      jsonIn["entityID"] = 2;
+      jsonIn["block"] = 10;
+      NM->Put ("/command", jsonIn);
+      //
+      // std::cout << "command " << jsonToSend.toStyledString() << " sent to server" << std::endl;
+      //
+      // sf::Http http ("http;//localhost", 8080);
+      // sf::Http::Request q ("command", sf::Http::Request::Method::Put, jsonToSend.toStyledString());
+      // q.setField("Content-Type", "application/x-www-form-urlencoded");
+      // http.sendRequest(q);
 
+    }
   } else{ // an ennemy is playing -> need to move to next entity
     int floorNb =  gameState -> GetMap() -> GetCurrentFloor();
     if (gameState->GetMap()->GetFloors()[floorNb]->GetCurrentRoom() -> GetEntityTurn() >=2){

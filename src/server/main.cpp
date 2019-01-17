@@ -18,20 +18,23 @@
 // Les lignes suivantes ne servent qu'à vérifier que la compilation avec SFML fonctionne
 
 
-#include "ai.h"
-#include "engine.h"
+//#include "ai.h"
+//#include "engine.h"
 #include "state.h"
 #include "server/ServicesManager.hpp"
 #include "server/UserService.hpp"
 #include "server/VersionService.hpp"
+#include "server/CommandService.hpp"
+//#include "networkManager.h"
 
-using namespace ai;
-using namespace engine;
+//using namespace ai;
+//using namespace engine;
 using namespace state;
 using namespace std;
+//using namespace networkManager;
 
 
-void testRecord(){
+/*void testRecord(){
   time_t seedtime = time(NULL);
   srand(seedtime);
   PlayerManager* PM = PlayerManager::instance();
@@ -71,7 +74,7 @@ void testRecord(){
   moteur->~Moteur();
   gameState->~GameState();
 }
-
+*/
 using namespace std;
 
 class Request {
@@ -186,6 +189,7 @@ int main(int argc,char* argv[])
   SkillManager::instance();
   CardManager::instance();
   PlayerManager::instance();
+
   time_t seedtime = time(NULL);
   srand(seedtime);
   //Exemple exemple;
@@ -193,8 +197,8 @@ int main(int argc,char* argv[])
 
   if (argc == 2 and std::string(argv[1]) == "hello")
     cout << "Bonjour le monde !" << endl;
-  if (argc == 2 and std::string(argv[1] )== "record")
-    testRecord();
+  // if (argc == 2 and std::string(argv[1] )== "record")
+  //   testRecord();
 
   if (argc == 2 and std::string(argv[1] )== "listen"){
     try {

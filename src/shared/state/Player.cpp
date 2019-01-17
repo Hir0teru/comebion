@@ -42,3 +42,11 @@ void Player::SetDeck (std::unique_ptr<Deck> newDeck){
     deck=std::move(newDeck);
   }
 }
+
+int Player::GetNetworkID(){
+  return networkID;
+}
+
+void Player::SetNetworkID(int networkID){
+  this->networkID = networkID;
+}

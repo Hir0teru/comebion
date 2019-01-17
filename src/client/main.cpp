@@ -31,6 +31,60 @@ using namespace state;
 using namespace std;
 using namespace networkManager;
 
+
+void testRun(std::string url, int port){
+  std::cout<<"Connection to server"<<std::endl;
+  NetworkManager* NM = NetworkManager::instance();
+  NM->SetUrl(url);
+  NM->SetPort(port);
+  NM->InitConnection();
+  Json::Value jsonplayers = NM->Get("/user/-1");
+  std::cout<<jsonplayers.toStyledString()<<std::endl;
+
+  int id = NM->GetId();
+  std::cout << "id is " << id <<std::endl;
+
+
+  mutex* mtx = new mutex;
+  bool* run = new bool;
+  bool* pause = new bool;
+  *run = true;
+  *pause = false;
+  int* next = new int;
+  *next = -1;
+
+  PlayerManager* PM = PlayerManager::instance();
+  std::shared_ptr<GameState> gameState = std::make_shared<state::GameState>();
+  std::vector<Player*> players;
+  players.push_back((*PM)[0]);
+  players.push_back((*PM)[1]);
+  gameState->SetPlayers(players);
+  std::shared_ptr<Moteur> moteur = make_shared<Moteur>(gameState, false, true);
+
+  moteur->AddCommand(std::make_shared<CommandEnterRoom>());
+  moteur->Update();
+
+  Json::Value test = NM->Get("/command/-1");
+  std::cout << test.toStyledString() << std::endl;
+  //need to do : send une seed pour le rand() s'il n'y en n'a pas/récuperer cette seed
+  // Json::Value val;
+  // std::ifstream file ("replay.txt");
+  // file >> val;
+  // file.close();
+  // std::cout << val[0]["seedtime"].asString() << std::endl;
+
+  //srand(std::stoi(val[0]["seedtime"].asString()));
+
+
+  std::cout << "Pressez <entrée> pour continuer" << std::endl;
+  (void) getc(stdin);
+  NM->Delete("/user/" + std::to_string(NM->GetId()));
+  jsonplayers = NM->Get("/user/-1");
+  std::cout<<jsonplayers.toStyledString()<<std::endl;
+  std::cout << "Pressez <entrée> pour terminer" << std::endl;
+  (void) getc(stdin);
+}
+
 void testIntro(){
 
   mutex* mtx = new mutex;
@@ -1610,6 +1664,16 @@ int main(int argc,char* argv[])
     } else {
       std::cout<<"Use bin/client network URL PORT. default: bin/client network http://localhost/ 8080"<<std::endl;
     }
+  }
+
+    if (std::string(argv[1])== "run"){
+      if (argc == 2){
+        testRun("http://localhost/", 8080);
+      } else if (argc == 4){
+        testRun(argv[2], std::stoi(argv[3]));
+      } else {
+        std::cout<<"Use bin/client network URL PORT. default: bin/client network http://localhost/ 8080"<<std::endl;
+      }
   }
   delete SkillManager::instance();
   delete CardManager::instance();
