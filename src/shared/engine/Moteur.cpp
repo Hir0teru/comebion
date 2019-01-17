@@ -28,16 +28,19 @@ Moteur::Moteur (){
 }
 Moteur::Moteur (std::shared_ptr<state::GameState>& gameState, bool record, bool network) : record(record), network(network){
   this -> gameState = gameState;
+  author = 0;
 }
 Moteur::Moteur (std::shared_ptr<state::GameState>& gameState, bool record) : record(record){
   this -> gameState = gameState;
+  author = 0;
 }
 Moteur::Moteur (std::shared_ptr<state::GameState>& gameState) : record(false){
   this -> gameState = gameState;
+  author = 0;
 }
 
 Moteur::~Moteur (){
-  std::cout << "destroy..." << std::endl;
+  //std::cout << "destroy..." << std::endl;
   if(record){
     std::cout << "record" << std::endl;
     std::ofstream out ("replay.txt", std::ofstream::out);
@@ -52,6 +55,8 @@ void Moteur::AddCommand (std::shared_ptr<Command> command){
 void Moteur::Update (){
   if(!commands.empty()){
     Json::Value jsonToSend;
+    int floorNb =  gameState -> GetMap() -> GetCurrentFloor();
+    int entityTurn = gameState->GetMap()->GetFloors()[floorNb]->GetCurrentRoom() -> GetEntityTurn();
     try{
       commands[0] -> Execute(gameState);
       if(record){
@@ -69,21 +74,10 @@ void Moteur::Update (){
     }
     if (!jsonToSend.empty() && network){
       NetworkManager* NM = NetworkManager::instance();
-      int floorNb =  gameState -> GetMap() -> GetCurrentFloor();
-      int entityTurn = gameState->GetMap()->GetFloors()[floorNb]->GetCurrentRoom() -> GetEntityTurn();
-      if(entityTurn < 2){
-        jsonToSend["author"] = entityTurn;
+      if(entityTurn == author){
+        jsonToSend["author"] = author;
         NM->Put ("/command", jsonToSend);
       }
-
-      //
-      // std::cout << "command " << jsonToSend.toStyledString() << " sent to server" << std::endl;
-      //
-      // sf::Http http ("http;//localhost", 8080);
-      // sf::Http::Request q ("command", sf::Http::Request::Method::Put, jsonToSend.toStyledString());
-      // q.setField("Content-Type", "application/x-www-form-urlencoded");
-      // http.sendRequest(q);
-
     }
   } else{ // an ennemy is playing -> need to move to next entity
     int floorNb =  gameState -> GetMap() -> GetCurrentFloor();
@@ -113,11 +107,12 @@ void Moteur::SetCommands (std::vector<std::shared_ptr<Command>> commands){
 
 
 void Moteur::ReadCommand (Json::Value jsonval){
-std::cout << "read commands" << std::endl;
+//std::cout << "read commands" << std::endl;
 // reading commands -> need to know the type of the command to deserialize first
-for(unsigned int i = 1; i < jsonval.size(); i++){
+for(unsigned int i = 0; i < jsonval.size(); i++){
   std::shared_ptr<Command> cmd;
   std::string typeCmd = jsonval[i]["typeCmd"].asString();
+  std::cout << "type is: " <<typeCmd << std::endl;
   if(typeCmd.compare("AddBlock") == 0){
     cmd = std::shared_ptr<CommandAddBlock>((new CommandAddBlock()) -> Deserialize(jsonval[i]));
   } else if(typeCmd.compare("AddBuff") == 0){
@@ -191,4 +186,12 @@ void Moteur::SetRecord(bool record){
 
 void Moteur::AddJsonValue(Json::Value val){
   outputval.append(val);
+}
+
+void Moteur::SetAuthor(int author){
+  this->author = author;
+}
+
+int Moteur::GetAuthor(){
+  return author;
 }

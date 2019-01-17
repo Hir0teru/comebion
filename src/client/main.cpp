@@ -32,6 +32,32 @@ using namespace std;
 using namespace networkManager;
 
 
+void engineThreadTest(std::shared_ptr<Moteur> moteur, std::shared_ptr<GameState> gameState, bool* run, bool* pause, mutex* mtx){
+  //mtx->lock();
+  //AI_Deep* ai1 = new AI_Deep(gameState, moteur,0);
+  //mtx->unlock();
+  while (*run){
+    if (!*pause){
+      mtx->lock();
+      if(moteur->GetCommands().size() <= 0){
+        // ai1->Play();
+        // if (moteur->GetCommands().size() <= 0){
+        //   moteur->Update();
+        // }
+      } else {
+        std::cout << "updating ..." << std::endl;
+        moteur->Update();
+
+      }
+      mtx->unlock();
+      // sleep(0.3);
+      std::this_thread::sleep_for(0.01s);
+    }
+  }
+}
+
+
+
 void testRun(std::string url, int port){
   std::cout<<"Connection to server"<<std::endl;
   NetworkManager* NM = NetworkManager::instance();
@@ -42,7 +68,7 @@ void testRun(std::string url, int port){
   std::cout<<jsonplayers.toStyledString()<<std::endl;
 
   int id = NM->GetId();
-  std::cout << "id is " << id <<std::endl;
+  //std::cout << "id is " << id <<std::endl;
 
   mutex* mtx = new mutex;
   bool* run = new bool;
@@ -67,12 +93,14 @@ void testRun(std::string url, int port){
   players.push_back((*PM)[1]);
   gameState->SetPlayers(players);
   std::shared_ptr<Moteur> moteur = make_shared<Moteur>(gameState, false, true);
+  moteur->SetAuthor(id-1);
 
-  moteur->AddCommand(std::make_shared<CommandEnterRoom>());
-  moteur->Update();
+  View* view = new View(gameState, moteur);
+  // moteur->AddCommand(std::make_shared<CommandEnterRoom>());
+  // moteur->Update();
 
-  Json::Value test = NM->Get("/command/1");
-  std::cout << test.toStyledString() << std::endl;
+  //Json::Value test = NM->Get("/command/1");
+  //std::cout << test.toStyledString() << std::endl;
   //need to do : send une seed pour le rand() s'il n'y en n'a pas/récuperer cette seed
   // Json::Value val;
   // std::ifstream file ("replay.txt");
@@ -81,11 +109,18 @@ void testRun(std::string url, int port){
   // std::cout << val[0]["seedtime"].asString() << std::endl;
 
   //srand(std::stoi(val[0]["seedtime"].asString()));
+  std::thread test(&engineThreadTest, moteur, gameState, run, pause, mtx);
+  view->Draw(mtx,pause,run);
 
+  test.join();
+  delete run;
+  delete pause;
+  delete mtx;
 
-  std::cout << "Pressez <entrée> pour continuer" << std::endl;
-  (void) getc(stdin);
   NM->Delete("/user/" + std::to_string(NM->GetId()));
+  if(id==1) {
+    NM->Delete("/command/1");
+  } else {NM->Delete("/command/0");}
   jsonplayers = NM->Get("/user/-1");
   std::cout<<jsonplayers.toStyledString()<<std::endl;
   std::cout << "Pressez <entrée> pour terminer" << std::endl;
@@ -692,29 +727,7 @@ void testRandomAI(){
   }
 }
 
-void engineThreadTest(std::shared_ptr<Moteur> moteur, std::shared_ptr<GameState> gameState, bool* run, bool* pause, mutex* mtx){
-  //mtx->lock();
-  //AI_Deep* ai1 = new AI_Deep(gameState, moteur,0);
-  //mtx->unlock();
-  while (*run){
-    if (!*pause){
-      mtx->lock();
-      if(moteur->GetCommands().size() <= 0){
-        // ai1->Play();
-        // if (moteur->GetCommands().size() <= 0){
-        //   moteur->Update();
-        // }
-      } else {
-        std::cout << "updating ..." << std::endl;
-        moteur->Update();
 
-      }
-      mtx->unlock();
-      // sleep(0.3);
-      std::this_thread::sleep_for(0.01s);
-    }
-  }
-}
 
 void test(){
   mutex* mtx = new mutex;

@@ -55,9 +55,9 @@ std::vector<unique_ptr<Cmd>>& CommandDB::getCommands (int id) {
 
 void CommandDB::removeCommands (int id) {
   if (id == 0){
-    commandsJ1.clear();
-  } else if(id == 1){
     commandsJ2.clear();
+  } else if(id == 1){
+    commandsJ1.clear();
   }
 
 }
