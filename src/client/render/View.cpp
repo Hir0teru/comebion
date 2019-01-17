@@ -124,6 +124,7 @@ void View::Draw (std::mutex* mtx, bool* pause, bool* run){
                         gameState -> GetMap() -> GetFloors()[gameState ->GetMap() ->  GetCurrentFloor()] -> GetCurrentRoom() -> GetIsFightWon()))&& cardSelected > -1){
 
                       int entityID = gameState ->GetMap() ->  GetFloors()[gameState -> GetMap() -> GetCurrentFloor()] -> GetCurrentRoom()->GetEntityTurn();
+                      cardSelected = -1;
                       moteur -> AddCommand(std::make_shared<CommandAddCard>(entityID, cardSelected, gameState->GetPlayers()[entityID]->GetDeck()->GetCards().size() == 15));
                       moteur -> AddCommand(std::make_shared<CommandNextEntity>());
                   } else if(gameState ->GetMap() ->  GetFloors()[gameState -> GetMap() -> GetCurrentFloor()] -> GetCurrentRoom() -> GetIsSleepRoom() &&
