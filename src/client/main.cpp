@@ -44,7 +44,6 @@ void testRun(std::string url, int port){
   int id = NM->GetId();
   std::cout << "id is " << id <<std::endl;
 
-
   mutex* mtx = new mutex;
   bool* run = new bool;
   bool* pause = new bool;
@@ -54,6 +53,14 @@ void testRun(std::string url, int port){
   *next = -1;
 
   PlayerManager* PM = PlayerManager::instance();
+  time_t seedtime = time(NULL);
+
+  Json::Value jsonIn;
+  jsonIn["seed"] = seedtime;
+  Json::Value jsonOut = NM->Put("/seed", jsonIn);
+  srand(jsonOut["seed"].asInt());
+  std::cout<<"seed : "<<jsonOut["seed"].asInt();
+
   std::shared_ptr<GameState> gameState = std::make_shared<state::GameState>();
   std::vector<Player*> players;
   players.push_back((*PM)[0]);

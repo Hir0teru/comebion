@@ -25,6 +25,7 @@
 #include "server/UserService.hpp"
 #include "server/VersionService.hpp"
 #include "server/CommandService.hpp"
+#include "server/SeedService.hpp"
 //#include "networkManager.h"
 
 //using namespace ai;
@@ -210,6 +211,7 @@ int main(int argc,char* argv[])
         // userDB.addUser(std::make_unique<User>(73));
        servicesManager.registerService(std::make_unique<UserService>(std::ref(userDB)));
        servicesManager.registerService(std::make_unique<CommandService>(std::ref(commandDB)));
+       servicesManager.registerService(std::make_unique<SeedService>());
 
         struct MHD_Daemon *d;
         d = MHD_start_daemon(// MHD_USE_SELECT_INTERNALLY | MHD_USE_DEBUG | MHD_USE_POLL,
