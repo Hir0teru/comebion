@@ -195,3 +195,7 @@ void Moteur::SetAuthor(int author){
 int Moteur::GetAuthor(){
   return author;
 }
+
+bool Moteur::GetNetwork(){
+  return network;
+}

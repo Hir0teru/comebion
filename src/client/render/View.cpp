@@ -218,7 +218,7 @@ void View::Draw (std::mutex* mtx, bool* pause, bool* run){
         }
       }
 
-     if(entityTurn < 2 && entityTurn != author && moteur->GetCommands().empty()){
+     if(entityTurn < 2 && entityTurn != author && moteur->GetCommands().empty() && moteur->GetNetwork()){
       NetworkManager* NM = NetworkManager::instance();
       Json::Value test = NM->Get("/command/" + std::to_string(author));
       if(!test.empty()){
@@ -393,7 +393,7 @@ void View::SetIntro(){
   text.move(-1, 1);
   introTexture.draw(text);
 
-  text.setString("Quitter");
+  text.setString("1 IA");
   text.setColor(sf::Color::Black);
   text.setCharacterSize(15 * scale);
   text.setStyle(sf::Text::Bold);

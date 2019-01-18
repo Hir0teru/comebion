@@ -47,6 +47,7 @@ void engineThreadIA(std::shared_ptr<Moteur> moteur, std::shared_ptr<GameState> g
       } else {
         std::cout << "updating ..." << std::endl;
         moteur->Update();
+        std::this_thread::sleep_for(0.3s);
 
       }
       mtx->unlock();
@@ -80,7 +81,7 @@ void engineThreadTest(std::shared_ptr<Moteur> moteur, std::shared_ptr<GameState>
   }
 }
 
-void testRunSolo(std::string url, int port){
+void testRunSolo(){
 
   //std::cout << "id is " << id <<std::endl;
 
@@ -105,7 +106,7 @@ void testRunSolo(std::string url, int port){
 
   View* view = new View(gameState, moteur);
   // moteur->AddCommand(std::make_shared<CommandEnterRoom>());
-  
+
   std::thread test(&engineThreadIA, moteur, gameState, run, pause, mtx);
   view->Draw(mtx,pause,run);
 
@@ -170,6 +171,64 @@ void testRun(std::string url, int port){
 
   //srand(std::stoi(val[0]["seedtime"].asString()));
   std::thread test(&engineThreadTest, moteur, gameState, run, pause, mtx);
+  view->Draw(mtx,pause,run);
+
+  test.join();
+  delete run;
+  delete pause;
+  delete mtx;
+
+  NM->Delete("/user/" + std::to_string(NM->GetId()));
+  if(id==1) {
+    NM->Delete("/command/1");
+  } else {NM->Delete("/command/0");}
+  jsonplayers = NM->Get("/user/-1");
+  std::cout<<jsonplayers.toStyledString()<<std::endl;
+  std::cout << "Pressez <entrée> pour terminer" << std::endl;
+  (void) getc(stdin);
+}
+
+
+void testRun(std::string url, int port){
+  std::cout<<"Connection to server"<<std::endl;
+  NetworkManager* NM = NetworkManager::instance();
+  NM->SetUrl(url);
+  NM->SetPort(port);
+  NM->InitConnection();
+  Json::Value jsonplayers = NM->Get("/user/-1");
+  std::cout<<jsonplayers.toStyledString()<<std::endl;
+
+  int id = NM->GetId();
+  //std::cout << "id is " << id <<std::endl;
+
+  mutex* mtx = new mutex;
+  bool* run = new bool;
+  bool* pause = new bool;
+  *run = true;
+  *pause = false;
+  int* next = new int;
+  *next = -1;
+
+  PlayerManager* PM = PlayerManager::instance();
+  time_t seedtime = time(NULL);
+
+  Json::Value jsonIn;
+  jsonIn["seed"] = seedtime;
+  Json::Value jsonOut = NM->Put("/seed", jsonIn);
+  srand(jsonOut["seed"].asInt());
+  std::cout<<"seed : "<<jsonOut["seed"].asInt();
+
+  std::shared_ptr<GameState> gameState = std::make_shared<state::GameState>();
+  std::vector<Player*> players;
+  players.push_back((*PM)[0]);
+  players.push_back((*PM)[1]);
+  gameState->SetPlayers(players);
+  std::shared_ptr<Moteur> moteur = make_shared<Moteur>(gameState, false, true);
+  moteur->SetAuthor(id-1);
+
+  View* view = new View(gameState, moteur);
+
+  std::thread test(&engineThread2, moteur, gameState, run, pause, mtx);
   view->Draw(mtx,pause,run);
 
   test.join();
@@ -287,7 +346,7 @@ void testMulti(){
   players.push_back((*PM)[1]);
   // players.push_back((*PM)[1]);
   gameState->SetPlayers(players);
-  std::shared_ptr<Moteur> moteur = make_shared<Moteur>(gameState, false);
+  std::shared_ptr<Moteur> moteur = make_shared<Moteur>(gameState, false, false);
 
   AI_Deep* ai1 = new AI_Deep(gameState, moteur,0);
   AI_Deep* ai2 = new AI_Deep(gameState, moteur, 1);
@@ -1635,12 +1694,14 @@ void testIntro(std::string url, int port){
   *next = -1;
 
   PlayerManager* PM = PlayerManager::instance();
-  std::shared_ptr<GameState> gameState = std::make_shared<state::GameState>();
-  std::vector<Player*> players;
-  players.push_back((*PM)[0]);
-  players.push_back((*PM)[1]);
-  gameState->SetPlayers(players);
-  std::shared_ptr<Moteur> moteur = make_shared<Moteur>(gameState, false);
+  std::shared_ptr<GameState> gameState;
+  // = std::make_shared<state::GameState>();
+  // std::vector<Player*> players;
+  // players.push_back((*PM)[0]);
+  // players.push_back((*PM)[1]);
+  // gameState->SetPlayers(players);
+  std::shared_ptr<Moteur> moteur;
+   // = make_shared<Moteur>(gameState, false, false);
 
   View* view = new View(gameState, moteur);
 
@@ -1651,7 +1712,7 @@ void testIntro(std::string url, int port){
   } else if (*next == 1){
     testRun(url, port);
   } else if (*next == 2){
-
+    testRunSolo();
   } else if (*next == 3){
     testMulti();
   }
@@ -1742,17 +1803,17 @@ int main(int argc,char* argv[])
     }
   }
 
-  if (std::string(argv[1])== "network"){
-    if (argc == 2){
-      testNetwork("http://localhost/", 8080);
-    } else if (argc == 4){
-      testNetwork(argv[2], std::stoi(argv[3]));
-    } else {
-      std::cout<<"Use bin/client network URL PORT. default: bin/client network http://localhost/ 8080"<<std::endl;
-    }
-  }
+  // if (std::string(argv[1])== "network"){
+  //   if (argc == 2){
+  //     testNetwork("http://localhost/", 8080);
+  //   } else if (argc == 4){
+  //     testNetwork(argv[2], std::stoi(argv[3]));
+  //   } else {
+  //     std::cout<<"Use bin/client network URL PORT. default: bin/client network http://localhost/ 8080"<<std::endl;
+  //   }
+  // }
 
-    if (std::string(argv[1])== "run"){
+    if (std::string(argv[1])== "network"){
       if (argc == 2){
         testRun("http://localhost/", 8080);
       } else if (argc == 4){
