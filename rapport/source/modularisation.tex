@@ -29,17 +29,38 @@ Afin de jouer à un jeu en réseau, il faut que les joueurs puissent se connecte
     \item \textbf{Requ\^ete DELETE}: /user/<id> supprime l'utilisateur correspondant
 \end{itemize}
 
-\clearpage
+\subsection{Répartition sur différentes machines : Jeu}
+    Afin de pouvoir jouer au jeu en réseau, le serveur servira de relais afin de transmettre les commandes effectuées par un joueur à l'autre, afin que les deux joueurs soient synchronisés.
+    
+    Les nouvelles requetes implémentées sont les suivantes:
+    
+    \begin{itemize}
+        \item \textbf{Requ\^ete GET}:
+            \begin{itemize}
+                \item /command/<id> : Renvoie au joueur <id> les commandes étant à sa destination
+                \item /seed : renvoie la seed du jeu.
+            \end{itemize}
+        \item \textbf{Requ\^ete PUT}:
+            \begin{itemize}
+                \item /command/<id> : Ajoute une commande à la liste des commandes effectuées par le joueur <id>
+                \item /seed : Envoie la seed générée par le joueur et la renvoie. Si une seed a été précedemment générée par un autre client, renvoie la seed de ce dernier.
+            \end{itemize}
+        \item \textbf{Requ\^ete DELETE}: /command/<id> supprime les commandes du joueur opposé.
+    \end{itemize}
+
+
 \subsection{Conception logiciel}
 Le diagramme des classes pour le serveur est présenté en \autoref{uml:server}
 
 Afin de rendre les communications client/serveur plus intuitives, nous avons choisi de créer une classe qui sera chargée de la communication du client: la classe networkManager (\autoref{uml:networkManager}). La méthode InitConnection permettant de put le nom du client vers le serveur et d'initialiser son ID. On peut mettre dans le destructeur du networkManager l'envoi d'une requete Delete avec son id afin de supprimer le joueur de la liste lors de sa déconnexion.
 
+\begin{landscape}
 \begin{figure}[p]
 \centering
-\includegraphics[width=0.6\paperheight]{images/server.png}
+\includegraphics[width=0.9\paperheight]{images/server.png}
 \caption{\label{uml:server}Diagramme des classes pour le serveur.} 
 \end{figure}
+\end{landscape}
 
 \begin{figure}[p]
 \centering
