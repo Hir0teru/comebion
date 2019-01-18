@@ -16,7 +16,7 @@ void CommandEndFight::Execute (std::shared_ptr<state::GameState>& gameState){
   int floorNb = gameState->GetMap()->GetCurrentFloor();
   Room* room = gameState->GetMap()->GetFloors()[floorNb]->GetCurrentRoom().get();
   bool res = false;
-  for(auto enemy : room->GetEnemies()){
+  for(auto& enemy : room->GetEnemies()){
     if enemy->GetIsEntityAlive() res = true;
   }
   if(!res){
