@@ -190,8 +190,7 @@ void testRun(std::string url, int port){
 
 void engineThread2(std::shared_ptr<Moteur> moteur, std::shared_ptr<GameState> gameState, bool* run, bool* pause, mutex* mtx, AI_Deep* ai1){
   mtx->lock();
-  AI_Deep* ai1 = new AI_Deep(gameState, moteur,0);
-  ai1->SetNetwork(true);
+
   mtx->unlock();
   while (*run){
     if (!*pause){
@@ -215,6 +214,7 @@ void engineThread2(std::shared_ptr<Moteur> moteur, std::shared_ptr<GameState> ga
 
 
 void testRun2(std::string url, int port){
+
   std::cout<<"Connection to server"<<std::endl;
   NetworkManager* NM = NetworkManager::instance();
   NM->SetUrl(url);
@@ -250,6 +250,8 @@ void testRun2(std::string url, int port){
   gameState->SetPlayers(players);
   std::shared_ptr<Moteur> moteur = make_shared<Moteur>(gameState, false, true);
   moteur->SetAuthor(id-1);
+  AI_Deep* ai1 = new AI_Deep(gameState, moteur,id);
+  ai1->SetNetwork(true);
 
   View* view = new View(gameState, moteur);
 
