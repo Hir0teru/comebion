@@ -3,12 +3,10 @@
 #include "state.h"
 #include <iostream>
 #include <limits>
-#include "networkManager.h"
 
 using namespace ai;
 using namespace state;
 using namespace engine;
-using namespace networkManager;
 
 
 
@@ -20,7 +18,6 @@ AI_Deep::AI_Deep (std::shared_ptr<state::GameState> gameState, std::shared_ptr<e
   if(entityID >=0 && entityID < 2){
     this -> entityID = entityID;
   } else entityID = 0;
-  network = false;
 
 }
 AI_Deep::~AI_Deep (){}
@@ -290,7 +287,6 @@ void AI_Deep::Play_Cards(std::shared_ptr<Node> tree, std::vector<int> cards_inde
   if(tree->GetCardIndex() == -1){
     std::cout << "next turn" << std::endl;
     moteur->AddCommand(std::make_shared<engine::CommandNextEntity>());
-    moteur->AddCommand(std::make_shared<engine::CommandEndFight>());
   } else{
       if(tree->GetCardIndex() != -2){
         moteur->AddCommand(std::make_shared<engine::CommandPlayCard>(entityID, tree->GetTarget(), cards_index[tree->GetCardIndex()]));
@@ -309,7 +305,6 @@ void AI_Deep::Play_Cards(std::shared_ptr<Node> tree, std::vector<int> cards_inde
     }
     if(!found){
       moteur->AddCommand(std::make_shared<engine::CommandNextEntity>());
-      moteur->AddCommand(std::make_shared<engine::CommandEndFight>());
     }
   }
 }
@@ -524,33 +519,12 @@ void AI_Deep::Play(){
         gameState->GetMap()->GetFloors()[floorNb]->GetCurrentRoom()->GetIsSpecialTrainingRoom()) ||
         (gameState->GetMap()->GetFloors()[floorNb]->GetCurrentRoom()->GetIsEnemyRoom() &&
         gameState->GetMap()->GetFloors()[floorNb]->GetCurrentRoom()->GetIsFightWon())))){
-          //moteur->AddCommand(std::make_shared<CommandExitRoom>());
-          moteur->AddCommand(std::make_shared<CommandNextEntity>());
+          moteur->AddCommand(std::make_shared<CommandExitRoom>());
     } else if (gameState->GetIsInsideRoom() && (( gameState->GetMap()->GetFloors()[floorNb]->GetCurrentRoom()->GetIsSleepRoom() ||
                gameState->GetMap()->GetFloors()[floorNb]->GetCurrentRoom()->GetIsSpecialTrainingRoom()) ||
                (gameState->GetMap()->GetFloors()[floorNb]->GetCurrentRoom()->GetIsEnemyRoom() &&
                gameState->GetMap()->GetFloors()[floorNb]->GetCurrentRoom()->GetIsFightWon()))){
                   moteur->AddCommand(std::make_shared<CommandNextEntity>());
     }
-  } else if(network){
-    int entityTurn = gameState->GetMap()->GetFloors()[floorNb]->GetCurrentRoom()->GetEntityTurn();
-    if(entityTurn < 2 && entityTurn != entityID-1 && moteur->GetCommands().empty() && moteur->GetNetwork()){
-     NetworkManager* NM = NetworkManager::instance();
-     Json::Value test = NM->Get("/command/" + std::to_string(entityID -1));
-     if(!test.empty()){
-       NM->Delete("/command/" + std::to_string(entityID -1));
-       std::cout << "received :" <<std::endl;
-       std::cout << test<< std::endl;
-       moteur->ReadCommand(test);
-     }
-   }
   }
-}
-
-void AI_Deep::SetNetwork(bool network){
-  this ->network = network;
-}
-
-bool AI_Deep::GetNetwork(){
-  return network;
 }

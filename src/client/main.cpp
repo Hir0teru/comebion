@@ -251,7 +251,7 @@ void testRun2(std::string url, int port){
   std::shared_ptr<Moteur> moteur = make_shared<Moteur>(gameState, false, true);
   moteur->SetAuthor(id-1);
   AI_Deep* ai1 = new AI_Deep(gameState, moteur,id);
-  ai1->SetNetwork(true);
+  //ai1->SetNetwork(true);
 
   View* view = new View(gameState, moteur);
 
@@ -1856,6 +1856,16 @@ int main(int argc,char* argv[])
       testIntro(argv[2], std::stoi(argv[3]));
     } else {
       std::cout<<"Use bin/client intro URL PORT. default: bin/client intro http://localhost/ 8080"<<std::endl;
+    }
+
+    if (std::string(argv[1])== "run2"){
+      if (argc == 2){
+        testRun2("http://localhost/", 8080);
+      } else if (argc == 4){
+        testRun2(argv[2], std::stoi(argv[3]));
+      } else {
+        std::cout<<"Use bin/client intro URL PORT. default: bin/client intro http://localhost/ 8080"<<std::endl;
+      }
     }
   }
   delete SkillManager::instance();
