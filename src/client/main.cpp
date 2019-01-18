@@ -1589,7 +1589,7 @@ void testIntro(std::string url, int port){
   if (*next == 0){
     test();
   } else if (*next == 1){
-    testNetwork(url, port);
+    testRun(url, port);
   } else if (*next == 2){
 
   } else if (*next == 3){
