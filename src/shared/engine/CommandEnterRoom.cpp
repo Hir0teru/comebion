@@ -37,6 +37,10 @@ void CommandEnterRoom::Execute (std::shared_ptr<state::GameState>& gameState){
     }
     CommandShuffle commandS(0);
     commandS.Execute(gameState);
+    if((int) gameState->GetPlayers().size() == 2 ){
+      CommandShuffle commandS(1);
+      commandS.Execute(gameState);
+    }
     for(int j = 0; j < 5; j++){
       CommandDraw command(0);
       command.Execute(gameState);

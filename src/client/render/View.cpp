@@ -205,14 +205,14 @@ void View::Draw (std::mutex* mtx, bool* pause, bool* run){
               // sleep(0.3);
               // //int currentFloor = gameState -> GetMap() ->  GetCurrentFloor();
               // //int entityTurn = gameState -> GetMap() ->  GetFloors()[currentFloor]->GetCurrentRoom()
-              // if(gameState->GetIsInsideRoom()){
-              //   rendu -> SetTextureRoom();
-              //   rendu -> DrawInsideRoom();
-              //   sprite.setTexture(rendu -> GetTexture().getTexture());
-              // } else{
-              //   rendu -> SetTextureMap(1);
-              //   sprite.setTexture(rendu -> GetTextureMap().getTexture());
-              // }
+              if(gameState->GetIsInsideRoom()){
+                rendu -> SetTextureRoom();
+                rendu -> DrawInsideRoom();
+                sprite.setTexture(rendu -> GetTexture().getTexture());
+              } else{
+                rendu -> SetTextureMap(1);
+                sprite.setTexture(rendu -> GetTextureMap().getTexture());
+              }
             }
           }
         }

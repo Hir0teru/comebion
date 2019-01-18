@@ -39,21 +39,21 @@ Floor::Floor (int floorNumber, int element){
       std::vector<std::unique_ptr<Enemy>> enemies;
       std::unique_ptr<Enemy> enemy= std::make_unique<Enemy>(element, 2);
       enemy->SetId(2);
-      enemy->SetLife(10);
+      // enemy->SetLife(10);
       enemies.push_back(std::move(enemy));
-      std::unique_ptr<Enemy> enemy11= std::make_unique<Enemy>(element, 2);
-      enemy11->SetId(3);
-      enemy11->SetLife(10);
-      enemies.push_back(std::move(enemy11));
-      std::unique_ptr<Enemy> enemy111= std::make_unique<Enemy>(element, 2);
-      enemy111->SetId(4);
-      enemy111->SetLife(10);
-      enemies.push_back(std::move(enemy111));
-      // if(rand()%100 > 40){
-      //   std::unique_ptr<Enemy> enemy1= std::make_unique<Enemy>(element, 2);
-      //   enemy1->SetId(3);
-      //   enemies.push_back(std::move(enemy1));
-      // }
+      // std::unique_ptr<Enemy> enemy11= std::make_unique<Enemy>(element, 2);
+      // enemy11->SetId(3);
+      // enemy11->SetLife(10);
+      // enemies.push_back(std::move(enemy11));
+      // std::unique_ptr<Enemy> enemy111= std::make_unique<Enemy>(element, 2);
+      // enemy111->SetId(4);
+      // enemy111->SetLife(10);
+      // enemies.push_back(std::move(enemy111));
+      if(rand()%100 > 40){
+        std::unique_ptr<Enemy> enemy1= std::make_unique<Enemy>(element, 2);
+        enemy1->SetId(3);
+        enemies.push_back(std::move(enemy1));
+      }
       std::shared_ptr<Room> room = std::make_shared<EnemyRoom>(element, std::move(enemies));
       this->firstRoom = room;
       this->currentRoom = room;
@@ -69,7 +69,7 @@ Floor::Floor (int floorNumber, int element){
           enemy2->SetStatAttack(enemyStrenght);
           enemy2->SetStatBlock(enemyStrenght);
           enemies.push_back(std::move(enemy2));
-          if(rand()%100 > 30){
+          if(rand()%100 > 40){
             std::unique_ptr<Enemy> enemy3= std::make_unique<Enemy>(element, 2);
             enemy3->SetId(3);
             enemy3->SetStatAttack(enemyStrenght);

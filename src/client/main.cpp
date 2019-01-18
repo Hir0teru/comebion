@@ -32,6 +32,30 @@ using namespace std;
 using namespace networkManager;
 
 
+void engineThreadIA(std::shared_ptr<Moteur> moteur, std::shared_ptr<GameState> gameState, bool* run, bool* pause, mutex* mtx){
+  mtx->lock();
+  AI_Deep* ai1 = new AI_Deep(gameState, moteur,1);
+  mtx->unlock();
+  while (*run){
+    if (!*pause){
+      mtx->lock();
+      if(moteur->GetCommands().size() <= 0){
+        ai1->Play();
+        if (moteur->GetCommands().size() <= 0){
+          moteur->Update();
+        }
+      } else {
+        std::cout << "updating ..." << std::endl;
+        moteur->Update();
+
+      }
+      mtx->unlock();
+      // sleep(0.3);
+      std::this_thread::sleep_for(0.01s);
+    }
+  }
+}
+
 void engineThreadTest(std::shared_ptr<Moteur> moteur, std::shared_ptr<GameState> gameState, bool* run, bool* pause, mutex* mtx){
   //mtx->lock();
   //AI_Deep* ai1 = new AI_Deep(gameState, moteur,0);
@@ -54,6 +78,42 @@ void engineThreadTest(std::shared_ptr<Moteur> moteur, std::shared_ptr<GameState>
       std::this_thread::sleep_for(0.01s);
     }
   }
+}
+
+void testRunSolo(std::string url, int port){
+
+  //std::cout << "id is " << id <<std::endl;
+
+  mutex* mtx = new mutex;
+  bool* run = new bool;
+  bool* pause = new bool;
+  *run = true;
+  *pause = false;
+  int* next = new int;
+  *next = -1;
+
+  PlayerManager* PM = PlayerManager::instance();
+  time_t seedtime = time(NULL);
+
+  std::shared_ptr<GameState> gameState = std::make_shared<state::GameState>();
+  std::vector<Player*> players;
+  players.push_back((*PM)[0]);
+  players.push_back((*PM)[1]);
+  gameState->SetPlayers(players);
+  std::shared_ptr<Moteur> moteur = make_shared<Moteur>(gameState, false, false);
+  moteur->SetAuthor(0);
+
+  View* view = new View(gameState, moteur);
+  // moteur->AddCommand(std::make_shared<CommandEnterRoom>());
+  
+  std::thread test(&engineThreadIA, moteur, gameState, run, pause, mtx);
+  view->Draw(mtx,pause,run);
+
+  test.join();
+  delete run;
+  delete pause;
+  delete mtx;
+
 }
 
 
