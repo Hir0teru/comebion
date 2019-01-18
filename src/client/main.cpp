@@ -255,7 +255,7 @@ void testRun2(std::string url, int port){
 
   View* view = new View(gameState, moteur);
 
-  std::thread test(&engineThread2, moteur, gameState, run, pause, mtx);
+  std::thread test(&engineThread2, moteur, gameState, run, pause, mtx, ai1);
   view->Draw(mtx,pause,run);
 
   test.join();
