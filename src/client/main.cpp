@@ -189,9 +189,9 @@ void testRun(std::string url, int port){
 }
 
 void engineThread2(std::shared_ptr<Moteur> moteur, std::shared_ptr<GameState> gameState, bool* run, bool* pause, mutex* mtx, AI_Deep* ai1){
-  mtx->lock();
-
-  mtx->unlock();
+  // mtx->lock();
+  //
+  // mtx->unlock();
   while (*run){
     if (!*pause){
       mtx->lock();
