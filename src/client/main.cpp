@@ -204,7 +204,7 @@ void engineThread2(std::shared_ptr<Moteur> moteur, std::shared_ptr<GameState> ga
       } else {
         std::cout << "updating ..." << std::endl;
         moteur->Update();
-        std::this_thread::sleep_for(1s)
+        std::this_thread::sleep_for(1s);
       }
       mtx->unlock();
       // sleep(0.3);
