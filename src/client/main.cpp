@@ -188,7 +188,7 @@ void testRun(std::string url, int port){
   (void) getc(stdin);
 }
 
-void engineThread2(std::shared_ptr<Moteur> moteur, std::shared_ptr<GameState> gameState, bool* run, bool* pause, mutex* mtx){
+void engineThread2(std::shared_ptr<Moteur> moteur, std::shared_ptr<GameState> gameState, bool* run, bool* pause, mutex* mtx, AI_Deep* ai1){
   mtx->lock();
   AI_Deep* ai1 = new AI_Deep(gameState, moteur,0);
   ai1->SetNetwork(true);

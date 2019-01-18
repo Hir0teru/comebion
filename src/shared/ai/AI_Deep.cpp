@@ -542,6 +542,8 @@ void AI_Deep::Play(){
        std::cout << "received :" <<std::endl;
        std::cout << test<< std::endl;
        moteur->ReadCommand(test);
+     }
+   }
   }
 }
 
