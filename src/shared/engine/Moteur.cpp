@@ -33,10 +33,12 @@ Moteur::Moteur (std::shared_ptr<state::GameState>& gameState, bool record, bool 
 Moteur::Moteur (std::shared_ptr<state::GameState>& gameState, bool record) : record(record){
   this -> gameState = gameState;
   author = 0;
+  network = false;
 }
 Moteur::Moteur (std::shared_ptr<state::GameState>& gameState) : record(false){
   this -> gameState = gameState;
   author = 0;
+  network = false;
 }
 
 Moteur::~Moteur (){
