@@ -3,10 +3,12 @@
 #include "state.h"
 #include <iostream>
 #include <limits>
+#include "networkManager.h"
 
 using namespace ai;
 using namespace state;
 using namespace engine;
+using namespace networkManager;
 
 
 
