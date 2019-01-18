@@ -18,7 +18,7 @@ AI_Deep::AI_Deep (std::shared_ptr<state::GameState> gameState, std::shared_ptr<e
   if(entityID >=0 && entityID < 2){
     this -> entityID = entityID;
   } else entityID = 0;
-network = false;
+
 }
 AI_Deep::~AI_Deep (){}
 
