@@ -538,7 +538,7 @@ void AI_Deep::Play(){
      NetworkManager* NM = NetworkManager::instance();
      Json::Value test = NM->Get("/command/" + std::to_string(entityID -1));
      if(!test.empty()){
-       NM->Delete("/command/" + std::to_string(author));
+       NM->Delete("/command/" + std::to_string(entityID -1));
        std::cout << "received :" <<std::endl;
        std::cout << test<< std::endl;
        moteur->ReadCommand(test);
