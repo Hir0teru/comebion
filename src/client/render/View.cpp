@@ -60,6 +60,7 @@ void View::Draw (std::mutex* mtx, bool* pause, bool* run){
           *run = false;
           window.close();
         }
+
         if(event.type == sf::Event::KeyReleased){
             if(!(*pause)){
               *pause = true;
